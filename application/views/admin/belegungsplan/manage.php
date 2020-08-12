@@ -149,7 +149,7 @@
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <?php
                                                 $mieters = $this->mieter_model->get_mieters();
                                                 ?>
@@ -178,19 +178,40 @@
                                             <style>.green {
                                                     color: green !important
                                                 }</style>
-                                            <div class="col-md-6">
 
-                                                <?php
-                                                echo render_select('wohnungen', array(), array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'AQ', '', array('required' => true)); ?>
-                                            </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-check">
                                                     <input type="checkbox" name="kein_m" class="form-check-input"
                                                            id="kein_m">
                                                     <label class="form-check-label" for="kein_m">Kein Mieter</label>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <?php echo render_select('wohnungen', array(), array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'AQ', '', array('required' => true)); ?>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <label for="Weitere Einstellungen" class="control-label" style="width: ;">
+                                                    Weitere Einstellungen
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <?php echo render_select('etage', $etage, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array(),'','efilter'); ?>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <?php echo render_select('schlaplatze', $schlaplatze, array('schlaplatze', 'schlaplatze'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Schlafplätze'), array(),'','sfilter'); ?>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <?php echo render_select('mobiliert', $mobiliert, array('mobiliert', 'mobiliert'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Möbliert'), array(),'','mfilter'); ?>
                                             </div>
                                         </div>
                                         <br>
@@ -248,6 +269,7 @@
 <?php
 foreach ($occupations as $occupation):
     $hisOccupations = $this->wohnungen_model->get_occupations($occupation['wohnungen']);
+
 
     ?>
     <div class="modal fade" id="calendarmx<?= $occupation['id'] ?>" tabindex="-1" role="dialog">

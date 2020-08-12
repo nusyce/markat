@@ -56,13 +56,17 @@ class Belegungsplan extends AdminController
     }
 
 
-    public function load_free_aq($start = null, $end = null)
+    public function load_free_aq($start = null, $end = null, $etage = null, $schlaplatze = null, $mobiliert = null)
     {
+        // Modified to Add Filter AQ Drop Down
         $aqs = $this->wohnungen_model->get_wohnungens();
         $belegungsplan = $this->belegungsplan_model->get_occupations();
-
+        $etage = urldecode($etage);
+        $schlaplatze = urldecode($schlaplatze);
+        $mobiliert = urldecode($mobiliert);
         foreach ($aqs as $k => $aq) {
             foreach ($belegungsplan as $b) {
+
                 if ($b['wohnungen'] === $aq['id']) {
                     $bv = date("Y-m-d", strtotime($b['belegt_v']));
                     $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
@@ -73,12 +77,31 @@ class Belegungsplan extends AdminController
                         unset($aqs[$k]);
                     }
                 }
+                // Optimized If and unset after logic get pass 
+                if ( ($etage == null) || ($etage == '') || ($etage == 'null') || ($aq['etage'] == $etage)){
+
+                }
+                else {
+                        unset($aqs[$k]);
+                }
+                if ( ($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)){
+
+                }
+                else {
+                        unset($aqs[$k]);
+                }
+                if ( ($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert)){
+
+                }
+                else {
+                        unset($aqs[$k]);
+                }
             }
         }
 
-        $options = '<option value=""></option>';
+        $options = '<option value="">Select</option>';
         foreach ($aqs as $d) {
-            $options .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] . ' </option>';
+            $options .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] .' ' . $d['schlaplatze'] .' ' . $d['mobiliert'] .  ' </option>';
         }
         echo json_encode($options);
         die();
@@ -87,7 +110,7 @@ class Belegungsplan extends AdminController
     public function load_aq($id)
     {
         $aq = $this->wohnungen_model->get($id);
-        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' </option>';
+        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert .' </option>';
         echo json_encode($options);
         die();
     }

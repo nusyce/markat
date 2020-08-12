@@ -4,7 +4,7 @@
     <div class="content">
         <div class="row">
             <div class="col-md-6">
-                <h4 class="customer-profile-group-heading" style="margin: 0"><?=get_menu_option('rb', _l('Räumung/Beräumung'))?></h4>
+                <h4 class="customer-profile-group-heading" style="margin: 0"><?=get_menu_option('rb', _l('Rï¿½umung/Berï¿½umung'))?></h4>
             </div>
         </div>
         <div class="row">
@@ -33,8 +33,11 @@
 
     var table_rb = $('.table-rb');
     var _table_api = initDataTable(table_rb, admin_url + 'rb/table', undefined, undefined, LeadsServerParams, [0, 'desc'], filterArray);
-
+    new $.fn.dataTable.FixedHeader( _table_api );
 
 </script>
+<link herf="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.dataTables.min.css"></link>
+<link herf="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css"></link>
+<link herf="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></link>
 </body>
 </html>
