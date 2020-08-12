@@ -166,8 +166,14 @@
                                                             $occuped = $this->mieter_model->hasOccupations($mieter['id']);
                                                             $classAdd = $occuped ? "<i class='fa fa-check green'></i>" : "";
                                                             ?>
-                                                            <option data-content="<?php echo $classAdd . ' ' .$mieter['fullname'] . ' ' . $mieter['nachname'] . ' ' . $mieter['vorname'] . ' ' . $mieter['strabe_m'] . ' ' . $mieter['hausnummer_m'] ?>"
-                                                                    value="<?= $mieter['id'] ?>"><?php echo  $mieter['fullname'] . ' ' . $mieter['nachname'] . ' ' . $mieter['vorname'] . ' ' . $mieter['strabe_m'] . ' ' . $mieter['hausnummer_m'] ?>
+                                                            <?php $projektnv = ''; 
+                                                                if(empty($mieter['projektname'])==false) { 
+                                                                    $projektnv = ' ('.$mieter['projektname'].')';
+                                                                } 
+                                                            ?>
+
+                                                            <option data-content="<?php echo $classAdd . ' ' .$mieter['fullname'] . ' ' . $mieter['nachname'] . ' ' . $mieter['vorname'] . ' ' . $mieter['strabe_m'] . ' ' . $mieter['hausnummer_m'].$projektnv ?>"
+                                                                    value="<?= $mieter['id'] ?>"><?php echo  $mieter['fullname'] . ' ' . $mieter['nachname'] . ' ' . $mieter['vorname'] . ' ' . $mieter['strabe_m'] . ' ' . $mieter['hausnummer_m'].$projektnv ?>
                                                             </option>
 
                                                         <?php endforeach; ?>
