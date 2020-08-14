@@ -64,40 +64,44 @@ class Belegungsplan extends AdminController
         $etage = urldecode($etage);
         $schlaplatze = urldecode($schlaplatze);
         $mobiliert = urldecode($mobiliert);
-        foreach ($aqs as $k => $aq) {
-            foreach ($belegungsplan as $b) {
+        $aqfilterflag = False;
+        
+        
+            foreach ($aqs as $k => $aq) {
+                foreach ($belegungsplan as $b) {
+                    $aqfilterflag = False;
+                    if ($b['wohnungen'] === $aq['id']) {
+                        $bv = date("Y-m-d", strtotime($b['belegt_v']));
+                        $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
+                        $vbv = date("Y-m-d", strtotime($start));
+                        $vbb = date("Y-m-d", strtotime($end));
+                        if (($vbv > $bb || $vbb < $bv) ){
+                        } else{
+                            unset($aqs[$k]);
+                        }
 
-                if ($b['wohnungen'] === $aq['id']) {
-                    $bv = date("Y-m-d", strtotime($b['belegt_v']));
-                    $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
-                    $vbv = date("Y-m-d", strtotime($start));
-                    $vbb = date("Y-m-d", strtotime($end));
-                    if ($vbv > $bb || $vbb < $bv) {
-                    } else {
-                        unset($aqs[$k]);
+                        // Do not select AQ if date is not selected -- By Amogh
+                        if((empty($start) && empty($end) || ((($start == null) || ($start == '')) && (($start == null) || ($start == ''))) ) == True) { $aqfilterflag = True; }
+
+                        // Condition is to filter the AQ based on passed Value -- by Amogh
+                        if ( ( ($aqfilterflag == False) 
+                        && ( ($etage == null) || ($etage == '') || ($etage == 'null') || ($aq['etage'] == $etage) )
+                        && ( ($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze) )
+                        && ( ($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert) ) 
+                        ) == False) {
+                            $aqfilterflag = True;
+                        }
+
+                        if($aqfilterflag == True){
+                            unset($aqs[$k]);
+                        }
+                        else {
+                            
+                        }
+    
                     }
                 }
-                // Optimized If and unset after logic get pass 
-                if ( ($etage == null) || ($etage == '') || ($etage == 'null') || ($aq['etage'] == $etage)){
-
-                }
-                else {
-                        unset($aqs[$k]);
-                }
-                if ( ($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)){
-
-                }
-                else {
-                        unset($aqs[$k]);
-                }
-                if ( ($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert)){
-
-                }
-                else {
-                        unset($aqs[$k]);
-                }
             }
-        }
 
         $options = '<option value="">Select</option>';
         foreach ($aqs as $d) {
