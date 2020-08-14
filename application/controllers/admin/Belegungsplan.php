@@ -95,21 +95,44 @@ class Belegungsplan extends AdminController
                         if($aqfilterflag == True){
                             unset($aqs[$k]);
                         }
-                        else {
-                            
-                        }
     
                     }
                 }
             }
 
-        $options = '<option value="">Select</option>';
+        $optionsAQ = '<option value=""></option>';
+        $optionsET = '<option value=""></option>';
+        $optionsSC = '<option value=""></option>';
+        $optionsMO = '<option value=""></option>';
         foreach ($aqs as $d) {
-            $options .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] .' ' . $d['schlaplatze'] .' ' . $d['mobiliert'] .  ' </option>';
+            $optionsAQ .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] .' ' . $d['schlaplatze'] .' ' . $d['mobiliert'] .  ' </option>';
+            // Comma is added to filter unique Value below
+            $optionsET .= ',<option value="'.$d['etage'].'">'.$d['etage'].'</option>';
+            $optionsSC .= ',<option value="'.$d['schlaplatze'].'">'.$d['schlaplatze'].'</option>';
+            $optionsMO .= ',<option value="'.$d['mobiliert'].'">'.$d['mobiliert'].'</option>';
         }
-        echo json_encode($options);
+
+        // Removing comma and making array with unique value 
+        $optionsET = implode('',array_unique(explode(',', $optionsET)));
+        $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
+        $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
+
+        $optionAry = array(
+            "optionsAQ"  => $optionsAQ,
+            "optionsET"  => $optionsET ,
+            "optionsSC"  => $optionsSC1 ,
+            "optionsMO"  => $optionsMO1 ,
+            "etage"      => $etage,
+            "schlaplatze"=> $schlaplatze,
+            "mobiliert"  => $mobiliert
+
+        );
+
+        echo json_encode($optionAry);
         die();
     }
+    
+
 
     public function load_aq($id)
     {
