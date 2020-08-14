@@ -104,6 +104,7 @@ class Belegungsplan extends AdminController
         $optionsET = '<option value=""></option>';
         $optionsSC = '<option value=""></option>';
         $optionsMO = '<option value=""></option>';
+        
         foreach ($aqs as $d) {
             $optionsAQ .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] .' ' . $d['schlaplatze'] .' ' . $d['mobiliert'] .  ' </option>';
             // Comma is added to filter unique Value below
@@ -119,9 +120,9 @@ class Belegungsplan extends AdminController
 
         $optionAry = array(
             "optionsAQ"  => $optionsAQ,
-            "optionsET"  => $optionsET ,
-            "optionsSC"  => $optionsSC1 ,
-            "optionsMO"  => $optionsMO1 ,
+            "optionsET"  => $optionsET,
+            "optionsSC"  => $optionsSC,
+            "optionsMO"  => $optionsMO,
             "etage"      => $etage,
             "schlaplatze"=> $schlaplatze,
             "mobiliert"  => $mobiliert
