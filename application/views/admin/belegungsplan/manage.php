@@ -1,5 +1,36 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url(); ?>assets/css/gantt.style.css" type="text/css" rel="stylesheet">
 <?php init_head(); ?>
+
+<style>
+            table th:first-child {
+                width: 150px;
+            }
+            .github-corner:hover .octo-arm {
+                animation: octocat-wave 560ms ease-in-out
+            }
+            @keyframes octocat-wave {
+                0%, 100% {
+                    transform: rotate(0)
+                }
+                20%, 60% {
+                    transform: rotate(-25deg)
+                }
+                40%, 80% {
+                    transform: rotate(10deg)
+                }
+            }
+            @media (max-width:500px) {
+                .github-corner:hover .octo-arm {
+                    animation: none
+                }
+                .github-corner .octo-arm {
+                    animation: octocat-wave 560ms ease-in-out
+                }
+            }
+
+</style>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -50,6 +81,20 @@
                                 </div>
                             </div>
                         </div>-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <?php // print_r($table); ?>
+
+                        <div class="selector"></div>
+
+
+                            </div>
+
+
+                        </div>
+
+<?php /* ?> 
+
 
                         <div class="row" id="mieter-table">
                             <div class="col-md-12">
@@ -70,7 +115,7 @@
                                     <!--                                    <div class="col-md-2 leads-filter-column">
                                         <?php
                                     /*                                        $belegt = array(array('id' => '0', 'value' => 'Nein'), array('id' => '1', 'value' => 'Ja'));
-                                                                            echo render_select('belegt', $belegt, array('value', 'value'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Frei?'), array()); */ ?>
+                                                                            echo render_select('belegt', $belegt, array('value', 'value'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Frei?'), array()); * ?>
                                     </div>
 -->
                                     <div class="col-md-2 leads-filter-column">
@@ -242,7 +287,7 @@
     </div>
 </div>
 
-<?php init_tail(); ?>
+<?php */ init_tail();  ?>
 
 <?php if (isset($_GET['ref_m'])) {
     ?>
@@ -256,6 +301,8 @@
     </script>
     <?php
 } ?>
+<script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 
 <script>
     $(function () {
@@ -268,6 +315,30 @@
                 $('#mieter').attr('required', true);
             }
         });
+
+        $(".selector").gantt({
+            source: "<?php echo base_url(); ?>/admin/belegungsplan/table1",
+            navigate: "scroll",
+            scale: "weeks",
+            maxScale: "months",
+            minScale: "hours",
+            itemsPerPage: 10,
+            scrollToToday: false,
+
+            // scale: "weeks",
+            // minScale: "weeks",
+            // maxScale: "months",
+            onItemClick: function(data) {
+                alert("Item clicked - show some details");
+            },
+            onAddClick: function(dt, rowId) {
+                alert("Empty space clicked - add an item!");
+            },
+            onRender: function() {
+                console.log("chart rendered");
+            }
+        });
+
 
     });
 </script>

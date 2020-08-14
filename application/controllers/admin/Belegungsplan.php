@@ -25,14 +25,47 @@ class Belegungsplan extends AdminController
         $data['hausnummer'] = $this->belegungsplan_model->get_grouped('hausnummer');
         $data['mobiliert'] = $this->belegungsplan_model->get_grouped('mobiliert');
         $data['etage'] = $this->belegungsplan_model->get_grouped('etage');
+
         add_calendar_book_assets();
         $this->load->view('admin/belegungsplan/manage', $data);
     }
 
-
     public function table($clientid = '')
     {
         $this->app->get_table_data('belegungsplan', []);
+    }
+
+    public function table1($clientid = '')
+    {
+        $data = $this->belegungsplan_model->get_my_occupations();
+        $demoSource = [];
+
+       foreach($data as $record){
+            $tmpdata = [];
+        $explodeFrom = explode('.',$record['belegt_v']);
+        $explodeTo = explode('.',$record['belegt_b']);
+
+            if($record['fullname'] ==""){
+                $record['fullname'] = "-";
+            }
+
+            $tmpdata['name'] = $record['strabe'];
+            $tmpdata['desc'] = $record['hausnummer'];
+            $tmpdata['etage'] = $record['etage'];
+            $tmpdata['fluge'] = $record['flugel'];
+
+            $values['from'] = strtotime($explodeFrom[2].'-'.$explodeFrom[1].'-'.$explodeFrom[0]) * 1000;
+            $values['to'] = strtotime($explodeTo[2].'-'.$explodeTo[1].'-'.$explodeTo[0]) * 1000;
+            $values['label'] = $record['fullname'];
+            $values['customClass'] = "ganttRed";
+
+            $tmpdata['values'][] = $values;
+
+            $demoSource[] =$tmpdata;
+
+        }
+        echo json_encode($demoSource);
+        die();
     }
 
 
