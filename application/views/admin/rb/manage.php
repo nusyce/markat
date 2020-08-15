@@ -45,6 +45,9 @@
                                         <?php echo render_select('stadt', $stadt, array('stadt', 'stadt'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Stadt'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
+                                        <?php echo render_select('project', $project, array('projektname', 'projektname'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                    </div>
+                                    <div class="col-md-2 leads-filter-column">
                                         <?php echo render_date_input('beraumung', '', '', array('data-width' => '100%', 'placeholder' => 'Beraumung'), array()); ?>
                                     </div>
 
@@ -76,7 +79,7 @@
         </div>
     </div>
 </div>
-<div id="contact_data"></div>
+<div id="data_data"></div>
 <?php init_tail(); ?>
 
 <script>
@@ -84,22 +87,36 @@
 
         $('.table').on('click', '.data-act', function (e) {
             e.preventDefault();
-            var $td = $(this);
-            if ($td.find('.datepicker').length < 1) {
-                var text = $(this).html();
-                var $input = $('<input class="form-control datepicker" value="' + text + '">');
-                $td.html('').append($input);
-                $input.datetimepicker({
-                    onChangeDateTime: exampleFunction
-                });
-                init_datepicker();
-            }
-        })
+            const mieter_id = $(this).data('id');
+            const column = $(this).data('ucolumn');
 
+            $.ajax({
+                type: 'get',
+                url: admin_url + 'rb/update_date/' + mieter_id + '/' + column ,
+                success: function (content) {
+                    content = JSON.parse(content);
+                    $("#data_data").html(content)
+                    $("#data_data #update_date").modal('show');
+                    init_datepicker();
+                }
+            });
+        });
 
-        function exampleFunction() {
-            console.log("Date Selected")
-        }
+        $("#data_data").on('click', '#changedate', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                data:$("#change-date").serialize(),
+                url: admin_url + 'rb/update_date',
+                success: function (content) {
+                    $("#data_data #update_date").modal('hide');
+                    table_rb.DataTable().ajax.reload()
+                        .columns.adjust()
+                        .responsive.recalc();
+                    init_datepicker();
+                }
+            });
+        });
 
         var table_rb = $('.table-rb');
         // Add additional server params $_POST

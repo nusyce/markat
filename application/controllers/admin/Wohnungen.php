@@ -57,7 +57,7 @@ class Wohnungen extends AdminController
                 $id = $this->wohnungen_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', 'Wohnungen'));
-                    redirect(admin_url('wohnungen/wohnungen/' . $id));
+                    redirect(admin_url('wohnungen'));
                 }
             } else {
                 $success = $this->wohnungen_model->update($this->input->post(), $id);
@@ -216,11 +216,11 @@ class Wohnungen extends AdminController
     {
         if (isset($_POST)) {
             if ($_POST['aq_from'] == $_POST['aq_to']) {
-                set_alert('warning', _l('problem_deleting', 'mieter'));
+                set_alert('warning', _l('problem_deleting', 'Inventar-Umzugsliste'));
             } else {
                 $success = $this->wohnungen_model->move($_POST);
                 if ($success) {
-                    set_alert('success', _l('deleted', ''));
+                    set_alert('success', _l('moved', ''));
                 } else {
 
                     redirect(admin_url('wohnungen/move_inventory'));
@@ -237,7 +237,18 @@ class Wohnungen extends AdminController
         $aq = $this->wohnungen_model->get($id, true);
         if (count($aq->inventer > 0)) {
             $inventory = $aq->inventer;
-            ob_start();
+            ob_start(); ?>
+            <div class="form-check">
+                <div class="col-md-12">
+                    <input type="checkbox" name="selectall"
+                           class="form-check-input checkinventar_all"
+                           value=""
+                           id="checkinventar_all">
+                    <label class="form-check-label"
+                           for="checkinventar">Select all</label>
+                </div>
+            </div>
+            <?php
             foreach ($inventory as $k => $inv) {
                 $inventoryy = $this->wohnungen_model->get_inventarliste($inv['inventar_id']);
                 ?>
@@ -255,6 +266,11 @@ class Wohnungen extends AdminController
                     <div class="row">
                         <div class="col-md-5">
                             <?php echo render_input('qty[' . $inventoryy->id . '][]', 'Qty', '', 'number', array('min' => 1, 'max' => $inv['qty']), [], '', 'qtyfiels'); ?>
+                        </div>
+                        <div class="col-md-3 relative">
+                            <div class="max-value">
+                                /<?= $inv['qty']; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

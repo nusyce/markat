@@ -5,6 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     'id',
     'fullname',
+    'projektname',
     'strabe_m as strabe',
     'hausnummer_m as hausnummer',
     'plz',
@@ -38,6 +39,11 @@ if ($this->ci->input->post('name')) {
 
 if ($this->ci->input->post('stadt')) {
     array_push($where, 'AND stadt ="' . $this->ci->db->escape_str($this->ci->input->post('stadt')) . ' " ');
+}
+
+
+if ($this->ci->input->post('project')) {
+    array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
 }
 
 
@@ -88,32 +94,40 @@ foreach ($rResult as $aRow) {
      }*/
 
     $row[] = $subjectOutput;
+    $row[] = $aRow['projektname'];
     $row[] = $aRow['strabe'];
     $row[] = $aRow['hausnummer'];
     $row[] = $aRow['plz'];
     $row[] = $aRow['stadt'];
     if (!empty($aRow['beraumung'])) {
-        $row[] = '<div class="data-act beraumung ' . is_before($aRow['beraumung']) . '" data-id="' . $aRow['id'] . '">' . de_date($aRow['beraumung']) . '</div>';
+        $beraumung =  de_date($aRow['beraumung']);
     } else {
-        $row[] = '<div class="data-act beraumung" data-id="' . $aRow['id'] . '"></div>';
-
+        $beraumung = '';
     }
+    $row[] = '<div class="data-act beraumung ' . is_before($aRow['beraumung']) . '" data-ucolumn="beraumung" data-id="' . $aRow['id'] . '">' . $beraumung . '</div>';
+
     if (!empty($aRow['baubeginn'])) {
-        $row[] = '<div class="data-act baubeginn" data-id="' . $aRow['id'] . '">' . de_full_date($aRow['baubeginn']) . '</div>';
+        $baubeginn = de_full_date($aRow['baubeginn']);
     } else {
-        $row[] = '<div class="data-act baubeginn" data-id="' . $aRow['id'] . '"></div>';
+        $baubeginn = '';
     }
-    if (!empty($aRow['ruckraumung'])) {
-        $row[] = '<div class="data-act ruckraumung ' . is_before($aRow['ruckraumung']) . '" data-id="' . $aRow['id'] . '">' . de_date($aRow['ruckraumung']) . '</div>';
-    } else {
-        $row[] = '<div class="data-act ruckraumung" data-id="' . $aRow['id'] . '"></div>';
+    $row[] = '<div class="data-act baubeginn" data-ucolumn="baubeginn" data-id="' . $aRow['id'] . '">' . $baubeginn . '</div>';
 
-    }
-    if (!empty($aRow['bauende'])) {
-        $row[] = '<div class="data-act bauende" data-id="' . $aRow['id'] . '">' . de_full_date($aRow['bauende']) . '</div>';
+    if (!empty($aRow['ruckraumung'])) {
+        $ruckraumung =  de_date($aRow['ruckraumung']);
     } else {
-        $row[] = '<div class="data-act bauende" data-id="' . $aRow['id'] . '"></div>';
+        $ruckraumung = '';
     }
+    $row[] = '<div data-ucolumn="ruckraumung" class="data-act ruckraumung  ' . is_before($aRow['ruckraumung']) . '" data-id="' . $aRow['id'] . '">' . $ruckraumung . '</div>';
+
+    if (!empty($aRow['bauende'])) {
+        $bauende = de_full_date($aRow['bauende']);
+    } else {
+
+        $bauende = '';
+    }
+
+    $row[] = '<div data-ucolumn="bauende" class="data-act bauende" data-id="' . $aRow['id'] . '">' . $bauende . '</div>';
 
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip"  >

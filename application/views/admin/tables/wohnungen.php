@@ -10,6 +10,7 @@ $aColumns = [
     'hausnummer',
     'etage',
     'flugel',
+    'wohnungsnumme',
     'zimmer',
     'schlaplatze',
     'mobiliert',
@@ -106,6 +107,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['hausnummer'];
     $row[] = $aRow['etage'];
     $row[] = $aRow['flugel'];
+    $row[] = $aRow['wohnungsnumme'];
     $row[] = $aRow['zimmer'];
     $row[] = $aRow['schlaplatze'];
     $row[] = $aRow['mobiliert'] == 1 ? 'Ja' : 'Nein';

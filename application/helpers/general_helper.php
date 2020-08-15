@@ -309,6 +309,7 @@ function blank_page($message = '', $alert = 'danger')
     redirect(admin_url('not_found'));
 }
 
+
 /**
  * Redirect to access danied page and log activity
  * @param string $permission If permission based to check where user tried to acces

@@ -98,6 +98,12 @@ class Belegungsplan_model extends App_Model
                 unset($data['belegungsplan_id']);
 
 
+            if (isset($data['belegt_b'])) {
+                $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
+                $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
+
+            }
+
             //custom changes
             if (isset($data['etage']))
             unset($data['etage']);
@@ -116,9 +122,6 @@ class Belegungsplan_model extends App_Model
             unset($data['kein_m']);
             $data['userid'] = get_staff_user_id();
             $data['active'] = 1;
-
-            $data = hooks()->apply_filters('before_occupations_added', $data);
-
             $this->db->insert(db_prefix() . 'occupations', $data);
             $insert_id = $this->db->insert_id();
 
@@ -181,8 +184,11 @@ class Belegungsplan_model extends App_Model
     {
         $affectedRows = 0;
 
-        $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
-        $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
+        if (isset($data['belegt_b'])) {
+            $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
+            $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
+        }
+
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
         if (isset($data['belegungsplan_id']))

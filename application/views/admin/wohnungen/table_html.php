@@ -8,6 +8,7 @@ $table_data = array(
     'Nr',
     'Etage',
     'Flügel',
+    'Wohnungs-Nr.',
     'Zimmer',
     'Schlafplätze',
     'Möbliert' ,

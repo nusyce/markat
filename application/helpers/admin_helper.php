@@ -34,7 +34,7 @@ function app_admin_footer()
 }
 
 
-function widget_status_stats($table, $title)
+function widget_status_stats($table, $title='')
 {
     $total = total_rows(db_prefix() . $table);
     $active = total_rows(db_prefix() . $table, 'active=1');
@@ -54,6 +54,43 @@ function widget_status_stats($table, $title)
         </div>
     </div>
     <h4><b><?= $not_active ?></b> Inaktiv</h4>
+    <div class="col-md-12 text-right progress-finance-status">
+        <?php echo $percentData[1]; ?>%
+        <div class="progress no-margin progress-bar-mini">
+            <div class="progress-bar progress-bar-danger no-percent-text not-dynamic"
+                 role="progressbar" aria-valuenow="<?php echo $percentData[1]; ?>"
+                 aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+                 data-percent="<?php echo $percentData[1]; ?>">
+            </div>
+        </div>
+    </div>
+    <?php
+    $content = ob_get_contents();
+    ob_end_clean();
+    return $content;
+}
+
+function widget_status_stats_projeckt($table, $title='')
+{
+    $total = total_rows(db_prefix() . $table);
+    $active = total_rows(db_prefix() . $table, 'status=5');
+    $not_active = total_rows(db_prefix() . $table, 'status=6');
+    $percentData = percentVal($active, $total);
+    ob_start()
+    ?>
+    <h4><b><?= $active ?></b> <?= _l('task_status_5')?></h4>
+    <div class="col-md-12 text-right progress-finance-status">
+        <?php echo $percentData[0]; ?>%
+        <div class="progress no-margin progress-bar-mini">
+            <div class="progress-bar progress-bar-success no-percent-text not-dynamic"
+                 role="progressbar" aria-valuenow="<?php echo $percentData[0]; ?>"
+                 aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+                 data-percent="<?php echo $percentData[0]; ?>">
+            </div>
+        </div>
+    </div>
+
+    <h4><b><?= $not_active ?></b> <?= _l('Abgerechnet')?></h4>
     <div class="col-md-12 text-right progress-finance-status">
         <?php echo $percentData[1]; ?>%
         <div class="progress no-margin progress-bar-mini">
@@ -114,6 +151,8 @@ function is_before($date)
 
 function de_full_date($date)
 {
+
+    setlocale(LC_TIME, "de_DE");
     return date('d. F Y', strtotime($date));
 }
 
@@ -250,8 +289,9 @@ function staff_can($capability, $feature = null, $staff_id = '')
     if (is_admin($staff_id)) {
         return true;
     }
+    //dd($GLOBALS['current_user']);
 
-    if (($GLOBALS['current_user']->role == 2 && $feature == 'firma') || ($GLOBALS['current_user']->role == 2 && $feature == 'roles') || $GLOBALS['current_user']->role == 2 && $feature == 'menu') {
+    if ((isset($GLOBALS['current_user']->role) &&( $GLOBALS['current_user']->role == 2 && $feature == 'firma') || ($GLOBALS['current_user']->role == 2 && $feature == 'roles') || $GLOBALS['current_user']->role == 2 && $feature == 'menu')) {
         return true;
     }
 

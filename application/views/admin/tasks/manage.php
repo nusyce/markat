@@ -58,7 +58,7 @@
                                             <?php echo render_date_input('end_date', '', '', array('placeholder' => 'Fälligkeitsdatum')) ?>
                                         </div>
                                         <div class="col-md-3 leads-filter-column">
-                                            <?php   echo render_select('member', $staff, array('assigneeid', 'full_name'), '', array(), array(), array(), '', '', true); ?>
+                                            <?php   echo render_select('member', $staff, array('assigneeid', 'full_name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Mitarbeiter'), array(), '', '', true); ?>
                                         </div>
                                         <div class="col-md-2 leads-filter-column">
                                             <?php echo render_select('priority', get_tasks_priorities(), array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Priorität'), array()); ?>

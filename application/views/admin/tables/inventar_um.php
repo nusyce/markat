@@ -87,26 +87,24 @@ foreach ($rResult as $aRow) {
 
       $subjectOutput .= '  <a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . _l('edit') . '</a>';
       $subjectOutput .= ' | <a href="' . admin_url('wohnungen/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-
-
       $subjectOutput .= '</div>';*/
-    $row[] = $aRow['f_id'];
-    $row[] = $aRow['f_strabe'];
+    $row[] = '<span class="text-danger">' . $aRow['f_id'] . '</span>';
+    $row[] = '<span class="text-danger">' . $aRow['f_strabe'] . '</span>';
     $row[] = $aRow['f_hausnummer'];
     $row[] = $aRow['f_etage'];
     $row[] = $aRow['f_flugel'];
     $row[] = $aRow['f_plz'];
     $row[] = $aRow['f_ort'];
-    $row[] = '<div class="text-center">' . $aRow['item_counts'] . '</div>';
-    $row[] = $aRow['t_id'];
-    $row[] = $aRow['t_strabe'];
+    $row[] = '<div class="text-center bold">' . $aRow['item_counts'] . '</div>';
+    $row[] = '<span class="text-success">' . $aRow['t_id'] . '</span>';
+    $row[] = '<span class="text-success">' . $aRow['t_strabe'] . '</span>';
     $row[] = $aRow['t_hausnummer'];
     $row[] = $aRow['t_etage'];
     $row[] = $aRow['t_flugel'];
     $row[] = $aRow['t_plz'];
     $row[] = $aRow['t_ort'];
     $row[] = '<div class="text-center">' . $aRow['items_rest'] . '</div>';
-    $row[] = '<div class="text-center">' . $aRow['items_move'] . '</div>';
+    $row[] = '<div class="text-center bold">' . $aRow['items_move'] . '</div>';
 
     //$row[] = $result = data_tables_init($aColumns, $sIndexColumn, 'mieters', array(), $where, [db_prefix() . 'wohnungen.id']);
 

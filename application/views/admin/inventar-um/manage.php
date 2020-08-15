@@ -126,6 +126,15 @@
         </div>
     </div>
 </div>
+<style>
+    .max-value {
+        font-size: 27px;
+        position: absolute;
+        right: 53px;
+        bottom: 0;
+        top: 24px;
+    }
+</style>
 <?php init_tail(); ?>
 
 <script>
@@ -138,16 +147,24 @@
             $('#mouvement').modal('show');
         })
 
+        $("#inventar-form").on("change", ".checkinventar_all", function (e) {
+            $val = this.checked;
+            $(this).parents('#inventars').find('.form-check').each(function () {
+                $(this).find(".qtyfiels").prop('required', $val);
+                $maxqty = $(this).find(".qtyfiels").attr('max');
+                $(this).find(".qtyfiels").val($maxqty);
+
+                $(this).find(".checkinventar").prop('checked', $val);
+            });
+        });
+
+
         $("#inventar-form").on("change", ".checkinventar", function (e) {
             var parents = $(this).parents('.form-check');
-            if (this.checked) {
-                parents.find(".qtyfiels").prop('required', true);
-            } else {
-                parents.find(".qtyfiels").prop('required', false);
-            }
+            parents.find(".qtyfiels").prop('required', this.checked);
         });
-        $('#aq_from').change(function () {
 
+        $('#aq_from').change(function () {
             $.ajax({
                 type: 'GET',
                 url: admin_url + 'wohnungen/list_invantories/' + this.value,

@@ -23,7 +23,9 @@ class Mieter extends AdminController
         $data['strabe'] = $this->mieter_model->get_grouped('strabe_m');
         $data['flugel'] = $this->mieter_model->get_grouped('flugel');
         $data['hausnummer'] = $this->mieter_model->get_grouped('hausnummer_m');
+        $data['wohnungsnummer'] = $this->mieter_model->get_grouped('wohnungsnummer');
         $data['etage'] = $this->mieter_model->get_grouped('etage');
+        $data['project'] = $this->mieter_model->get_grouped('projektname');
         $data['title'] = get_menu_option('mieter', 'Mieter');
         $this->load->view('admin/mieter/manage', $data);
     }

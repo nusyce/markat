@@ -17,12 +17,11 @@ $aColumns = [
     db_prefix() . 'occupations.belegt_v as belegt_v',
     db_prefix() . 'occupations.belegt_b as belegt_b',
     db_prefix() . 'wohnungen.belegt as belegt',
-    db_prefix() . 'occupations.mieter as mieter',
-    db_prefix() . 'wohnungen.active as active',
+    db_prefix() . 'occupations.mieter_name as mieter_name',
+    db_prefix() . 'occupations.active as active',
     db_prefix() . 'wohnungen.id as wohnungen',
-    db_prefix() . 'occupations.active'/*,
-    db_prefix() . 'mieters.fullname as mieters',
-    db_prefix() . 'mieters.id as mieter_id'*/
+    db_prefix() . 'occupations.mieter as mieter_id',
+
 ];
 
 $sIndexColumn = 'id';
@@ -92,13 +91,10 @@ foreach ($rResult as $a => $aRow) {
 
             }
         }*/
-    if ($belegt_ve) {
-        $bv = strtotime($aRow['belegt_v']);
-        $bv_ = strtotime($belegt_ve);
-        //  var_dump($bv , $bv_);
-        if ($bv < $bv_)
-            continue;
-    }
+/*    $bv = strtotime($aRow['belegt_v']);
+    //  var_dump($bv , $bv_);
+    if (time() < $bv)
+        continue;*/
 
     if ($belegt_be) {
         $bb = strtotime($aRow['belegt_b']);
@@ -133,15 +129,13 @@ foreach ($rResult as $a => $aRow) {
     $subjectOutput .= '<div class="row-options-calendar"><a href="#" data-toggle="modal" data-target="#calendarmx' . $aRow['id'] . '">';
     $subjectOutput .= '  <div class="selcet">Kalender</div></a>';
 
-
     $subjectOutput .= '</div>';
     $row[] = $subjectOutput;
 
     //$row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['company'] . '</a>';
-    if ($aRow['mieter'] != 0) {
-        $_mieter = $this->ci->mieter_model->get($aRow['mieter']);
-
-        $mieter = '<a href="' . admin_url('mieter/mieter/' . $_mieter->id) . '">' . $_mieter->fullname . '</a>';
+    if ($aRow['mieter_id'] != 0) {
+        $_mieter = $this->ci->mieter_model->get($aRow['mieter_id']);
+        $mieter = '<a href="' . admin_url('mieter/mieter/' . $aRow['mieter_id']) . '">' . $aRow['mieter_name'] . '</a>';
     } else {
         $mieter = '';
     }
@@ -161,7 +155,7 @@ foreach ($rResult as $a => $aRow) {
     $row[] = $mieter;
 
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip">
-    <input type="checkbox" data-switch-url="' . admin_url() . 'belegungsplan/change_status" name="onoffswitch" class="onoffswitch-checkbox" id="' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . ($aRow[db_prefix() . 'occupations.active'] == 1 ? 'checked' : '') . '>
+    <input type="checkbox" data-switch-url="' . admin_url() . 'belegungsplan/change_status" name="onoffswitch" class="onoffswitch-checkbox" id="' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . ($aRow['active'] == 1 ? 'checked' : '') . '>
     <label class="onoffswitch-label" for="' . $aRow['id'] . '"></label>
     </div> <a href="#" class="belegungsplan" data-id="' . $aRow['id'] . '">Bearbeiten</a>  <a href="' . admin_url('belegungsplan/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
 

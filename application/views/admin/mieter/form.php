@@ -145,15 +145,15 @@
             </div>
         </div>
 
-        <div class="panel-group">
+       <!-- <div class="panel-group">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" href="#collapse1">Dokumentation</a>
                     </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body">
+                </div>-->
+               <!-- <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">-->
                         <div class="row">
                             <?php
                             foreach ($mieter->attachments as $k=> $attachment) { ?>
@@ -244,12 +244,12 @@
                                 echo $attachments_data[$attachment['id']];
                             } ?>
                         </div>
-
+<!--
                     </div>
-                </div>
-            </div>
+                </div>-->
+        <!--    </div>
         </div>
-
+-->
         <h3>Projekt</h3>
         <div class="row">
             <div class="col-md-6">

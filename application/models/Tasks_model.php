@@ -14,6 +14,8 @@ class Tasks_model extends App_Model
 
     const STATUS_COMPLETE = 5;
 
+    const STATUS_ABGERECHNET = 6;
+
     public function __construct()
     {
         parent::__construct();
@@ -66,6 +68,12 @@ class Tasks_model extends App_Model
                 'id' => self::STATUS_COMPLETE,
                 'color' => '#84c529',
                 'name' => _l('task_status_5'),
+                'order' => 77,
+                'filter_default' => false,
+            ],  [
+                'id' => self::STATUS_ABGERECHNET,
+                'color' => 'red',
+                'name' => _l('Abgerechnet'),
                 'order' => 100,
                 'filter_default' => false,
             ],

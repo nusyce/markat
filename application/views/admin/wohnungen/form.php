@@ -12,7 +12,7 @@
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->plz : ''); ?>
-        <?php echo render_input('plz', 'Plz', $value); ?>
+        <?php echo render_input('plz', 'Postleitzahl', $value); ?>
     </div>
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->ort : ''); ?>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->wohnungsnumme : ''); ?>
-        <?php echo render_input('wohnungsnumme', 'Wohnungsnumme', $value); ?>
+        <?php echo render_input('wohnungsnumme', 'Wohnungsnummer', $value); ?>
     </div>
 
 </div>
@@ -107,7 +107,7 @@
 <div class="row">
     <div class="col-md-12">
         <h4 style="margin-top: 65px">Inventarliste:
-            <strong id="inventarCOunt"></strong>
+            <span class="bold" id="inventarCOunt"></span>
         </h4>
     </div>
 </div>

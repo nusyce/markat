@@ -10,6 +10,7 @@ $aColumns = [
     '1',
     db_prefix() . 'mieters.id as id',
     'fullname',
+    'projektname',
     'strabe_m',
     'hausnummer_m',
     'wohnungsnummer',
@@ -45,7 +46,7 @@ if ($this->ci->input->post('strabe')) {
 }
 
 if ($this->ci->input->post('project')) {
-    array_push($where, 'AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+    array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
 }
 
 
@@ -65,6 +66,9 @@ if ($this->ci->input->post('flugel')) {
 
 if ($this->ci->input->post('hausnummer')) {
     array_push($where, 'AND hausnummer_m ="' . $this->ci->db->escape_str($this->ci->input->post('hausnummer')) . ' " ');
+}
+if ($this->ci->input->post('wohnungsnummer')) {
+    array_push($where, 'AND wohnungsnummer ="' . $this->ci->db->escape_str($this->ci->input->post('wohnungsnummer')) . ' " ');
 }
 
 if ($this->ci->input->post('mobiliert')) {
@@ -122,6 +126,7 @@ foreach ($rResult as $aRow) {
         $betreur = '';
 
     $row[] = $subjectOutput;
+    $row[] = $aRow['projektname'];
 
     //$row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['company'] . '</a>';
 
