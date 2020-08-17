@@ -42,7 +42,7 @@ class Belegungsplan extends AdminController
         $demoSource = [];
 
         foreach ($data as $record) {
-            $tmpdata = []; 
+            $tmpdata = [];
 
             if ($record['fullname'] == "") {
                 $record['fullname'] = "-";
@@ -88,6 +88,7 @@ class Belegungsplan extends AdminController
     }
 
 
+
     public function load_free_aq($start = null, $end = null, $etage = null, $schlaplatze = null, $mobiliert = null)
     {
         // Modified to Add Filter AQ Drop Down
@@ -96,75 +97,88 @@ class Belegungsplan extends AdminController
         $etage = urldecode($etage);
         $schlaplatze = urldecode($schlaplatze);
         $mobiliert = urldecode($mobiliert);
+
+        // Select option for  Erstellen Belegungsplan
+        $optionsAQ = '<option value=""></option>';
+        $optionsET = '<option value=""></option>';
+        $optionsSC = '<option value=""></option>';
+        $optionsMO = '<option value=""></option>';
+
+        // Loop select all  AQ
         foreach ($aqs as $k => $aq) {
             foreach ($belegungsplan as $b) {
+                // Condition Remove all AQ if date is not selected
 
+                if( ( (empty($start) || empty($end) )|| (($start == null) || ($end == null)) ||( ($start == 'null') || ($end == 'null')) || ( ($start == 'null') || ($end == 'null')) ) == True)
+                { unset($aqs[$k]); }
+
+                // Condition Remove AQ based on ocupation dates
                 if ($b['wohnungen'] === $aq['id']) {
                     $bv = date("Y-m-d", strtotime($b['belegt_v']));
                     $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
                     $vbv = date("Y-m-d", strtotime($start));
                     $vbb = date("Y-m-d", strtotime($end));
-                    if ($vbv > $bb || $vbb < $bv) {
-                    } else {
+                    if (($vbv > $bb || $vbb < $bv) ){
+                        $aqfilterflag = True;
+                    } else{
                         unset($aqs[$k]);
                     }
                 }
-                // Optimized If and unset after logic get pass 
-                if (($etage == null) || ($etage == '') || ($etage == 'null') || ($aq['etage'] == $etage)) {
-
-                } else {
-                    unset($aqs[$k]);
-                }
-                if (($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) {
-
-                } else {
-                    unset($aqs[$k]);
-                }
-                if (($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') || ($aq['mobiliert'] == $mobiliert)) {
-
-                } else {
-                    unset($aqs[$k]);
-                }
             }
 
-            $optionsAQ = '<option value=""></option>';
-            $optionsET = '<option value=""></option>';
-            $optionsSC = '<option value=""></option>';
-            $optionsMO = '<option value=""></option>';
+            // Condition is to filter the AQ based on passed Value of Etage -- by Amogh
+            if ( ( ($etage == null) || ($etage == '') || ($etage == 'null') || (($aq['etage']) == $etage) ) == False )
+            {
+                unset($aqs[$k]);
+            }
 
-            foreach ($aqs as $d) {
-                $projektnv = '';
-                if (!empty($d['project'])) {
-                    $projektnv = ' (' . $d['project'] . ')';
-                }
-                $optionsAQ .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] . ' ' . $d['schlaplatze'] . ' ' . $d['mobiliert'] . $projektnv . ' </option>';
+            // Condition is to filter the AQ based on passed Value of schlaplatze -- by Amogh
+            if( (($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) == False )
+            {
+                unset($aqs[$k]);
+            }
+
+            // Condition is to filter the AQ based on passed Value of mobiliert -- by Amogh
+            if ( (($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert)) == False )
+            {
+                unset($aqs[$k]);
+            }
+
+            if(isset($aqs[$k])){
+                // condition for adding project in AQ drop down
+                $projektnv = (empty($aq['project']))? ' ' : ' ('.$aq['project'].')' ;
+
+                $optionsAQ .= '<option value="' . $aq['id'] . '">' . $aq['strabe'] . ' ' . $aq['hausnummer'] . ' ' . $aq['etage'] . ' ' . $k['flugel'] .' ' . $aq['schlaplatze'] .' ' . $aq['mobiliert'] .$projektnv.  ' </option>';
                 // Comma is added to filter unique Value below
-                $optionsET .= ',<option value="' . $d['etage'] . '">' . $d['etage'] . '</option>';
-                $optionsSC .= ',<option value="' . $d['schlaplatze'] . '">' . $d['schlaplatze'] . '</option>';
-                $optionsMO .= ',<option value="' . $d['mobiliert'] . '">' . $d['mobiliert'] . '</option>';
+                $optionsET .= ',<option value="'.$aq['etage'].'">'.$aq['etage'].'</option>';
+                $optionsSC .= ',<option value="'.$aq['schlaplatze'].'">'.$aq['schlaplatze'].'</option>';
+                $optionsMO .= ',<option value="'.$aq['mobiliert'].'">'.$aq['mobiliert'].'</option>';
+
             }
 
-            // Removing comma and making array with unique value
-            $optionsET = implode('', array_unique(explode(',', $optionsET)));
-            $optionsSC = implode('', array_unique(explode(',', $optionsSC)));
-            $optionsMO = implode('', array_unique(explode(',', $optionsMO)));
 
-            $optionAry = array(
-                "optionsAQ" => $optionsAQ,
-                "optionsET" => $optionsET,
-                "optionsSC" => $optionsSC,
-                "optionsMO" => $optionsMO,
-                "etage" => $etage,
-                "schlaplatze" => $schlaplatze,
-                "mobiliert" => $mobiliert
-
-            );
-
-            echo json_encode($optionAry);
-            die();
         }
-    }
 
+
+        // Removing comma and making array with unique value
+        $optionsET = implode('',array_unique(explode(',', $optionsET)));
+        $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
+        $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
+
+        $optionAry = array(
+            "optionsAQ"  => $optionsAQ,
+            "optionsET"  => $optionsET,
+            "optionsSC"  => $optionsSC,
+            "optionsMO"  => $optionsMO,
+            "etage"      => $etage,
+            "schlaplatze"=> $schlaplatze,
+            "mobiliert"  => $mobiliert
+
+        );
+
+        echo json_encode($optionAry);
+        die();
+    }
 
     public function load_aq($id)
     {

@@ -2633,6 +2633,10 @@ label:not(.control-label) {
     padding-left: 10px
 }
 
+.moved button.btn.dropdown-toggle.btn-default {
+    background: #ff6f00 !important;
+}
+
 .bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:active, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover {
     color: #a1b4cc
 }
@@ -5306,7 +5310,7 @@ textarea[name=checklist-description]:disabled {
 }
 
 .dd3-handle:before {
-    content: '≡';
+    content: 'â‰¡';
     display: block;
     position: absolute;
     left: 0;
@@ -7243,7 +7247,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     display: none
 }
 
-​.stage-wrap .form-field input[type=date] {
+â€‹.stage-wrap .form-field input[type=date] {
     color: #eee
 }
 

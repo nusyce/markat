@@ -160,7 +160,7 @@
                                    class="form-control a_qty" min="0"
                                    type="number" value="<?= $a['qty'] ?>">
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-7 <?= $allData ? ' moved' : '' ?>">
                             <?php
                             echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
                         </div>
@@ -181,7 +181,7 @@
                                 <?= $item['qty']; ?>
                             </div>
                             <div class="col-md-7">
-                                <?= $this->wohnungen_model->get($item['to'])->strabe;?>
+                                <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
                             </div>
                             <div class="col-md-2">
                             </div>
