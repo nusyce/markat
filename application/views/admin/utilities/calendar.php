@@ -15,10 +15,7 @@
 		</div>
 	</div>
 </div>
-<?php $this->load->view('admin/utilities/calendar_template');
-
-print_r($google_ids_calendars);
-?>
+<?php $this->load->view('admin/utilities/calendar_template'); ?>
 <script>
 	app.calendarIDs = '<?php echo json_encode($google_ids_calendars); ?>';
 </script>
