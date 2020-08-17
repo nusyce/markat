@@ -12,7 +12,7 @@
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->plz : ''); ?>
-        <?php echo render_input('plz', 'Plz', $value); ?>
+        <?php echo render_input('plz', 'Postleitzahl', $value); ?>
     </div>
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->ort : ''); ?>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->wohnungsnumme : ''); ?>
-        <?php echo render_input('wohnungsnumme', 'Wohnungsnumme', $value); ?>
+        <?php echo render_input('wohnungsnumme', 'Wohnungsnummer', $value); ?>
     </div>
 
 </div>
@@ -107,7 +107,7 @@
 <div class="row">
     <div class="col-md-12">
         <h4 style="margin-top: 65px">Inventarliste:
-            <strong id="inventarCOunt"></strong>
+            <span class="bold" id="inventarCOunt"></span>
         </h4>
     </div>
 </div>
@@ -121,7 +121,8 @@
                     <div class="count-k">1</div>
                 </div>
                 <div class="col-md-2" style="padding-right: 5px !important;">
-                    <input name="a_qty[]" style="margin-right: -10px;padding-right: 0 !important;" class="form-control a_qty"
+                    <input name="a_qty[]" style="margin-right: -10px;padding-right: 0 !important;"
+                           class="form-control a_qty"
                            min="0" value="0"
                            type="number">
                 </div>
@@ -143,7 +144,13 @@
             ?>
             <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                  data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
-                <?php if ($a['is_deleted'] == 0): ?>
+                <?php if ($a['is_deleted'] == 0):
+
+                    $allData = get_move($wohnungen, $a['inventar_id']);
+                    //  var_dump($allData);
+
+                    ?>
+
                     <div class="row firstroun">
                         <div class="col-md-1">
                             <div class="count-k"><?= $k + 1 ?></div>
@@ -164,7 +171,26 @@
                             </a>
                         </div>
                     </div>
+                    <?php
+                    foreach ($allData as $item) {
+                        ?>
+                        <div class="row ">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <?= $item['qty']; ?>
+                            </div>
+                            <div class="col-md-7">
+                                <?= $this->wohnungen_model->get($item['to'])->strabe;?>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                        <br>
 
+                        <?php
+                    }
+                    ?>
                     <div class="row hide" id="deleted-reason">
                         <input type="hidden" name="delete[]" value="0"
                                class="deleted">
@@ -194,7 +220,7 @@
                     <div class="row" id="deleted-reason">
                         <input type="hidden" name="delete[]" value="1"
                                class="deleted">
-                         <?php echo form_hidden('austattung[]', $a['inventar_id']) ?>
+                        <?php echo form_hidden('austattung[]', $a['inventar_id']) ?>
                         <div class="col-md-1">
                             <div class="count-k"><?= $k + 1 ?></div>
                         </div>
@@ -237,3 +263,20 @@
 <div class="text-right">
     <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
 </div>
+
+<?php
+
+function get_move($wohnungen, $inventar)
+{
+    $data = array();
+    $movelds = $wohnungen->moved_items;
+    foreach ($movelds as $moveld) {
+        $allResources = unserialize($moveld['inventory']);
+        foreach ($allResources as $item) {
+            if ($item['inventory'] != $inventar)
+                continue;
+            array_push($data, $item);
+        }
+    }
+    return $data;
+}

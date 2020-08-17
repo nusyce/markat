@@ -160,9 +160,9 @@ function wohnungen_pdf($wohnungen, $tag = '')
  * @return mixed object
  */
 
-function template_pdf($wohnungen='', $tag = '')
+function template_pdf($template='', $tag = '')
 {
-    return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $wohnungen, $tag);
+    return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $template, $template);
 }
 
 function task_pdf($tasks, $tag = '')

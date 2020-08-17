@@ -86,6 +86,7 @@ class Projekte extends AdminController
         $data['mieters'] = $this->mieter_model->get();
         $data['cars'] = $this->cars_model->get();
         $this->load->view('admin/projekte/projekte', $data);
+
     }
 
     public function delete_attach($id)

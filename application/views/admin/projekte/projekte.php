@@ -33,7 +33,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <?php $value = (isset($projekte) ? $projekte->mieter : ''); ?>
-                                        <?php echo render_select('mieter', $mieters, array('id', array('fullname','vorname', 'nachname', 'strabe_m', 'hausnummer_m')), 'Mieter'); ?>
+                                        <?php echo render_select('mieter', $mieters, array('id', array('fullname')), 'Mieter'); ?>
                                     </div>
                                 </div>
 
@@ -49,6 +49,7 @@
 
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <?php $value = (isset($projekte) ? $projekte->cars : ''); ?>

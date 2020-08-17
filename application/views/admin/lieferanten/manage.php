@@ -4,7 +4,7 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel_s my-container">
+                <div class="panel_s">
                     <div class="panel-body _buttons">
                         <h3><span><?php echo get_menu_option(c_menu(), 'Lieferanten') ?></span>
                             <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>

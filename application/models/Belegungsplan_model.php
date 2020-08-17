@@ -7,7 +7,7 @@ class Belegungsplan_model extends App_Model
     public function __construct()
     {
         parent::__construct();
-        // $this->load->model('contract_types_model');
+        $this->load->model('mieter_model');
     }
 
     /**
@@ -98,13 +98,19 @@ class Belegungsplan_model extends App_Model
                 unset($data['belegungsplan_id']);
 
 
+            if (isset($data['belegt_b'])) {
+                $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
+                $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
+
+            }
+
             //custom changes
             if (isset($data['etage']))
-            unset($data['etage']);
+                unset($data['etage']);
             if (isset($data['schlaplatze']))
-            unset($data['schlaplatze']);
+                unset($data['schlaplatze']);
             if (isset($data['mobiliert']))
-            unset($data['mobiliert']);
+                unset($data['mobiliert']);
 
 
             $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
@@ -114,11 +120,14 @@ class Belegungsplan_model extends App_Model
             if (isset($data['kein_m']))
                 $data['mieter'] = 0;
             unset($data['kein_m']);
+
+            if ($data['mieter'] == 0)
+                $data['mieter_name'] = '';
+            else
+                $data['mieter_name'] = $this->mieter_model->get($data['mieter'])->fullname;
+
             $data['userid'] = get_staff_user_id();
             $data['active'] = 1;
-
-            $data = hooks()->apply_filters('before_occupations_added', $data);
-
             $this->db->insert(db_prefix() . 'occupations', $data);
             $insert_id = $this->db->insert_id();
 
@@ -181,8 +190,11 @@ class Belegungsplan_model extends App_Model
     {
         $affectedRows = 0;
 
-        $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
-        $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
+        if (isset($data['belegt_b'])) {
+            $data['belegt_b'] = to_sql_datedv($data['belegt_b']);
+            $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
+        }
+
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
         if (isset($data['belegungsplan_id']))
@@ -190,6 +202,11 @@ class Belegungsplan_model extends App_Model
         if (isset($data['kein_m']))
             $data['mieter'] = 0;
         unset($data['kein_m']);
+        if ($data['mieter'] == 0)
+            $data['mieter_name'] = '';
+        else
+            $data['mieter_name'] = $this->mieter_model->get($data['mieter'])->fullname;
+
         $data['userid'] = get_staff_user_id();
 
         /*$date = str_replace('.', '-', $data['belegt_b']);
@@ -223,11 +240,11 @@ class Belegungsplan_model extends App_Model
     public
     function delete($id)
     {
-         $occupations = $this->get($id);
+        $occupations = $this->get($id);
         if ($occupations) {
             $this->db->where('id', $id);
             $this->db->delete(db_prefix() . 'occupations');
-             return true;
+            return true;
         }
 
         return false;

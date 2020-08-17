@@ -23,6 +23,7 @@ class Wohnungen_model extends App_Model
             $this->db->where(db_prefix() . 'wohnungen.id', $id);
             $aq = $this->db->get(db_prefix() . 'wohnungen')->row();
             $aq->inventer = $this->getInventer($aq->id, $acttt);
+            $aq->moved_items = $this->my_moved_items($aq->id);
             return $aq;
         } else {
             return $this->db->get(db_prefix() . 'wohnungen')->result_array();
@@ -168,51 +169,51 @@ class Wohnungen_model extends App_Model
 
         $from = $data['aq_from'];
         $to = $data['aq_to'];
-        $movables = $data['inventory'];
-        $qtys = $data['qty'];
-
+        $movables = $data['move'];
         if (count($movables) < 1)
             return false;
         $data = [];
+        $_movables = [];
         $allInventar = $this->countInventatAq($from);
         $movendInventar = 0;
-        foreach ($movables as $k => $movable) {
-            $movable = $movable[0];
-            $qty = $qtys[$k][0];
-            $inventars = $this->getSingleInventer($movable);
-            if ($qtys[$k] > 0 && $inventars->qty >= $qty) {
-                $fromData = [];
-                $fromData['qty'] = $inventars->qty - $qty;
-                $this->db->where('id', $movable);
-                $this->db->update(db_prefix() . 'wohnungen_inventar', $fromData);
-            }
+        foreach ($movables['inventory'] as $k => $movable) {
+            /*     $movable = $movable[0];
+             $qty = $qtys[$k][0];
+             $inventars = $this->getSingleInventer($movable);
+             if ($qtys[$k] > 0 && $inventars->qty >= $qty) {
+                 $fromData = [];
+                 $fromData['qty'] = $inventars->qty - $qty;
+                 $this->db->where('id', $movable);
+                 $this->db->update(db_prefix() . 'wohnungen_inventar', $fromData);
+             }
 
-            // check exist inventer in to aq
+             // check exist inventer in to aq
 
-            $this->db->where('aq_id', $to);
-            $this->db->where('inventar_id', $inventars->inventar_id);
-            $response = $this->db->get(db_prefix() . 'wohnungen_inventar')->row();
-            if ($response) {
-                $fromData['qty'] = $inventars->qty + $qty;
-                $this->db->where('id', $response->id);
-                $this->db->update(db_prefix() . 'wohnungen_inventar', $fromData);
-            } else {
-                $data = [];
-                $data['created_at'] = date('Y-m-d H:i:s');
-                $data['qty'] = $qty;
-                $data['inventar_id'] = $inventars->inventar_id;
-                $data['aq_id'] = $to;
-                $data['is_deleted'] = 0;
-                $this->db->insert(db_prefix() . 'wohnungen_inventar', $data);
-                $insert_idInventar = $this->db->insert_id();
-            }
+             $this->db->where('aq_id', $to);
+             $this->db->where('inventar_id', $inventars->inventar_id);
+             $response = $this->db->get(db_prefix() . 'wohnungen_inventar')->row();
+             if ($response) {
+                 $fromData['qty'] = $inventars->qty + $qty;
+                 $this->db->where('id', $response->id);
+                 $this->db->update(db_prefix() . 'wohnungen_inventar', $fromData);
+             } else {
+                 $data = [];
+                 $data['created_at'] = date('Y-m-d H:i:s');
+                 $data['qty'] = $qty;
+                 $data['inventar_id'] = $inventars->inventar_id;
+                 $data['aq_id'] = $to;
+                 $data['is_deleted'] = 0;
+                 $this->db->insert(db_prefix() . 'wohnungen_inventar', $data);
+                 $insert_idInventar = $this->db->insert_id();
+             }*/
+            $qty = (int)$movables['qty'][$k][0];
+            $_movables[] = array('inventory' =>(int) $k, 'qty' => $qty, 'from' => $from, 'to' => $to);
             $movendInventar += $qty;
-
         }
         $data = [];
         $data['aq_from'] = $from;
         $data['aq_to'] = $to;
-        $data['inventory'] = serialize($movables);
+        $data['inventory'] = serialize($_movables);
         $data['item_counts'] = $allInventar;
         $data['items_move'] = $movendInventar;
         $data['items_rest'] = $allInventar - $movendInventar;
@@ -233,6 +234,23 @@ class Wohnungen_model extends App_Model
             }
         }
         return $counter;
+    }
+
+
+    public function my_moved_mys_items($id)
+    {
+
+        $this->db->where('aq_from', $id);
+        $query = $this->db->get(db_prefix() . 'inventory_um');
+        return $query->result_array();
+    }
+
+    public function my_moved_items($id)
+    {
+
+        $this->db->where('aq_from', $id);
+        $query = $this->db->get(db_prefix() . 'inventory_um');
+        return $query->result_array();
     }
 
     public function is_occuped($id)
@@ -396,6 +414,14 @@ class Wohnungen_model extends App_Model
         } else {
             return false;
         }
+    }
+
+    public
+    function delete_um($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'inventory_um');
+        return true;
     }
 
 }

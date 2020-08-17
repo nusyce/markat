@@ -10,6 +10,7 @@ $aColumns = [
     'hausnummer',
     'etage',
     'flugel',
+    'wohnungsnumme',
     'zimmer',
     'schlaplatze',
     'mobiliert',
@@ -56,6 +57,10 @@ if ($this->ci->input->post('schlaplatze')) {
 
 if ($this->ci->input->post('mobiliert')) {
     array_push($where, 'AND mobiliert ="' . $this->ci->db->escape_str($this->ci->input->post('mobiliert')) . ' " ');
+}
+
+if ($this->ci->input->post('wohnungsnumme')) {
+    array_push($where, 'AND wohnungsnumme ="' . $this->ci->db->escape_str($this->ci->input->post('wohnungsnumme')) . ' " ');
 }
 
 //$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'wohnungen.mieter = ' . db_prefix() . 'mieters.id';
@@ -106,6 +111,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['hausnummer'];
     $row[] = $aRow['etage'];
     $row[] = $aRow['flugel'];
+    $row[] = $aRow['wohnungsnumme'];
     $row[] = $aRow['zimmer'];
     $row[] = $aRow['schlaplatze'];
     $row[] = $aRow['mobiliert'] == 1 ? 'Ja' : 'Nein';

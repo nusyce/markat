@@ -75,38 +75,35 @@ foreach ($rResult as $aRow) {
     $row = [];
     //  $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
-    $row[] = $aRow['id'];
     // $row[] = $aRow['wohnungen_id'];
     //  $row[] = $aRow['strabe'];
 
     // $row[] = $strabe;
 
-    /*  $subjectOutput = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . $aRow['strabe'] . '</a>';
+    $subjectOutput = $aRow['id'];
 
-      $subjectOutput .= '<div class="row-options">';
+    $subjectOutput .= '<div class="row-options">';
 
-      $subjectOutput .= '  <a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-      $subjectOutput .= ' | <a href="' . admin_url('wohnungen/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-
-
-      $subjectOutput .= '</div>';*/
-    $row[] = $aRow['f_id'];
-    $row[] = $aRow['f_strabe'];
+    $subjectOutput .= '<a href="' . admin_url('wohnungen/inventar_um_delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    $subjectOutput .= '</div>';
+    $row[] = $subjectOutput;
+    $row[] = '<span class="text-danger">' . $aRow['f_id'] . '</span>';
+    $row[] = '<span class="text-danger">' . $aRow['f_strabe'] . '</span>';
     $row[] = $aRow['f_hausnummer'];
     $row[] = $aRow['f_etage'];
     $row[] = $aRow['f_flugel'];
     $row[] = $aRow['f_plz'];
     $row[] = $aRow['f_ort'];
-    $row[] = '<div class="text-center">' . $aRow['item_counts'] . '</div>';
-    $row[] = $aRow['t_id'];
-    $row[] = $aRow['t_strabe'];
+    $row[] = '<div class="text-center bold">' . $aRow['item_counts'] . '</div>';
+    $row[] = '<span class="text-success">' . $aRow['t_id'] . '</span>';
+    $row[] = '<span class="text-success">' . $aRow['t_strabe'] . '</span>';
     $row[] = $aRow['t_hausnummer'];
     $row[] = $aRow['t_etage'];
     $row[] = $aRow['t_flugel'];
     $row[] = $aRow['t_plz'];
     $row[] = $aRow['t_ort'];
     $row[] = '<div class="text-center">' . $aRow['items_rest'] . '</div>';
-    $row[] = '<div class="text-center">' . $aRow['items_move'] . '</div>';
+    $row[] = '<div class="text-center bold">' . $aRow['items_move'] . '</div>';
 
     //$row[] = $result = data_tables_init($aColumns, $sIndexColumn, 'mieters', array(), $where, [db_prefix() . 'wohnungen.id']);
 

@@ -3,6 +3,7 @@
 $table_data = array(
     'ID',
     'Name',
+    'Projekt',
     'Straße ',
     'Nr. ',
     'PLZ ',

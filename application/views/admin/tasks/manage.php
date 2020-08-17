@@ -21,7 +21,7 @@
                         </div>
                     </div>
 
-                    <div class="panel-body my-container">
+                    <div class="panel-body ">
                         <?php
                         if ($this->session->has_userdata('tasks_kanban_view') && $this->session->userdata('tasks_kanban_view') == 'true') { ?>
                             <div class="kan-ban-tab" id="kan-ban-tab" style="overflow:auto;">
@@ -40,7 +40,7 @@
                            <!-- <a href="#" data-toggle="modal" data-target="#tasks_bulk_actions"
                                class="hide bulk-actions-btn table-btn"
                                data-table=".table-tasks"><?php /*echo _l('bulk_actions'); */?></a>-->
-                            <div class="row my-container" id="tasks-table">
+                            <div class="row " id="tasks-table">
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -58,7 +58,7 @@
                                             <?php echo render_date_input('end_date', '', '', array('placeholder' => 'Fälligkeitsdatum')) ?>
                                         </div>
                                         <div class="col-md-3 leads-filter-column">
-                                            <?php   echo render_select('member', $staff, array('assigneeid', 'full_name'), '', array(), array(), array(), '', '', true); ?>
+                                            <?php   echo render_select('member', $staff, array('assigneeid', 'full_name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Mitarbeiter'), array(), '', '', true); ?>
                                         </div>
                                         <div class="col-md-2 leads-filter-column">
                                             <?php echo render_select('priority', get_tasks_priorities(), array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Priorität'), array()); ?>

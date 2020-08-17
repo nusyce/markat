@@ -599,6 +599,7 @@
             <div class="tasks-comments-2 inline-block full-width simple-editor"<?php if (count($task->comments) == 0) {
                 echo ' style="display:none"';
             } ?>>
+
                 <?php echo form_open_multipart(admin_url('tasks/add_task_comment'), array('id' => 'task-comment-form-2', 'class' => 'dropzone dropzone-manual', 'style' => 'min-height:auto;background-color:#fff;')); ?>
                 <textarea name="comment" placeholder="<?php echo _l('task_single_add_new_comment'); ?>"
                           id="task_comment-2" rows="3" class="form-control ays-ignore"></textarea>
@@ -619,6 +620,7 @@
                 <?php if (count($task->comments) > 0) {
                     echo '<hr />';
                 } ?>
+                
                 <div id="task-comments-2" class="mtop10">
                     <?php
                     $comments = '';

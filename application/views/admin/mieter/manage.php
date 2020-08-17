@@ -42,10 +42,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2 leads-filter-column">
+                                        <?php echo render_select('project', $project, array('projektname', 'projektname'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 leads-filter-column">
                                         <?php echo render_select('strabe', $strabe, array('strabe_m', 'strabe_m'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('hausnummer', $hausnummer, array('hausnummer', 'hausnummer'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Nr.'), array()); ?>
+                                        <?php echo render_select('hausnummer', $hausnummer, array('hausnummer_m', 'hausnummer_m'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Nr.'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
                                         <?php echo render_select('etage', $etage, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array()); ?>
@@ -54,10 +59,13 @@
                                         <?php echo render_select('flugel', $flugel, array('flugel', 'flugel'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Flügel'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('plz', $flugel, array('plz', 'plz'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'PLZ'), array()); ?>
+                                        <?php echo render_select('wohnungsnummer', $wohnungsnummer, array('wohnungsnummer', 'wohnungsnummer'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Wohnungsnummer'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('stadt', $flugel, array('stadt', 'stadt'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Stadt'), array()); ?>
+                                        <?php echo render_select('plz', $plz, array('plz', 'plz'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'PLZ'), array()); ?>
+                                    </div>
+                                    <div class="col-md-2 leads-filter-column">
+                                        <?php echo render_select('stadt', $stadt, array('stadt', 'stadt'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Stadt'), array()); ?>
                                     </div>
                                 </div>
                             </div>

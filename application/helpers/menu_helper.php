@@ -71,12 +71,7 @@ function app_init_admin_sidebar_menu_items()
 
         if (1 == 2) {
 
-            $CI->app_menu->add_sidebar_menu_item('dokumente', [
-                'name' => get_menu_option('dokumente', _l('Dokumente')),
-                'href' => '#',
-                'position' => 80,
-                'icon' => 'fa fa-file',
-            ]);
+
             $CI->app_menu->add_sidebar_menu_item('leistungsverz', [
                 'name' => get_menu_option('leistungsverz', _l('Leistungsverz')),
                 'href' => '#',
@@ -128,6 +123,14 @@ function app_init_admin_sidebar_menu_items()
 
 
     }
+
+    $CI->app_menu->add_sidebar_menu_item('dokumente', [
+        'name' => get_menu_option('dokumente', _l('Dokumente')),
+        'href' => admin_url('dokumente'),
+        'position' => 84,
+        'icon' => 'fa fa-file',
+    ]);
+
     if ((has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own'))
         || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)) {
         $CI->app_menu->add_sidebar_menu_item('invoices', [

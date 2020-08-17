@@ -32,6 +32,8 @@ class Mieter_model extends App_Model
      */
     public function get($id = '', $where = [], $for_editor = false)
     {
+        $this->db->where($where);
+
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'mieters.id', $id);
             return $this->db->get(db_prefix() . 'mieters')->row();
@@ -62,7 +64,6 @@ class Mieter_model extends App_Model
 
     public function delete_attachment($id)
     {
-
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'files');
     }
@@ -113,8 +114,12 @@ class Mieter_model extends App_Model
     }
 
     public
-    function get_grouped($column)
+    function get_grouped($column, $isrb = false)
     {
+        if ($isrb) {
+            $this->db->where('beraumung !=', '');
+            $this->db->where('ruckraumung !=', '');
+        }
         $this->db->where($column . ' !=', '');
         $this->db->select($column);
         $this->db->group_by($column);
@@ -216,16 +221,21 @@ class Mieter_model extends App_Model
         $data['userid'] = get_staff_user_id();
         $data['raucher'] = $data['raucher'] == 'on' ? 1 : 0;
         $data['haustiere'] = $data['haustiere'] == 'on' ? 1 : 0;
-        $data['beraumung'] = to_sql_datedv($data['beraumung']);
-        $data['baubeginn'] = to_sql_datedv($data['baubeginn']);
-        $data['ruckraumung'] = to_sql_datedv($data['ruckraumung']);
-        $data['bauende'] = to_sql_datedv($data['bauende']);
-        $data['k_ruckraumung'] = to_sql_datedv($data['k_ruckraumung']);
-        $data['k_baubeginn'] = to_sql_datedv($data['k_baubeginn']);
-        $data['fenstereinbau'] = to_sql_datedv($data['fenstereinbau']);
-        $data['active'] = 1;
+        if (isset($data['beraumung']))
+            $data['beraumung'] = to_sql_datedv($data['beraumung']);
+        if (isset($data['baubeginn']))
+            $data['baubeginn'] = to_sql_datedv($data['baubeginn']);
+        if (isset($data['ruckraumung']))
+            $data['ruckraumung'] = to_sql_datedv($data['ruckraumung']);
+        if (isset($data['bauende']))
+            $data['bauende'] = to_sql_datedv($data['bauende']);
+        if (isset($data['k_ruckraumung']))
+            $data['k_ruckraumung'] = to_sql_datedv($data['k_ruckraumung']);
+        if (isset($data['k_baubeginn']))
+            $data['k_baubeginn'] = to_sql_datedv($data['k_baubeginn']);
+        if (isset($data['fenstereinbau']))
+            $data['fenstereinbau'] = to_sql_datedv($data['fenstereinbau']);
         //   $data = hooks()->apply_filters('before_mieters_updated', $data, $id);
-
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'mieters', $data);
 

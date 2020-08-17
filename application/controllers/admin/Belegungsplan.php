@@ -25,14 +25,46 @@ class Belegungsplan extends AdminController
         $data['hausnummer'] = $this->belegungsplan_model->get_grouped('hausnummer');
         $data['mobiliert'] = $this->belegungsplan_model->get_grouped('mobiliert');
         $data['etage'] = $this->belegungsplan_model->get_grouped('etage');
+
         add_calendar_book_assets();
         $this->load->view('admin/belegungsplan/manage', $data);
     }
 
-
     public function table($clientid = '')
     {
         $this->app->get_table_data('belegungsplan', []);
+    }
+
+
+    public function table1($clientid = '')
+    {
+        $data = $this->belegungsplan_model->get_my_occupations();
+        $demoSource = [];
+
+        foreach ($data as $record) {
+            $tmpdata = []; 
+
+            if ($record['fullname'] == "") {
+                $record['fullname'] = "-";
+            }
+
+            $tmpdata['name'] = $record['strabe'];
+            $tmpdata['desc'] = $record['hausnummer'];
+            $tmpdata['etage'] = $record['etage'];
+            $tmpdata['fluge'] = $record['flugel'];
+
+            $values['from'] = strtotime($record['belegt_v']) * 1000;
+            $values['to'] = strtotime($record['belegt_b']) * 1000;
+            $values['label'] = $record['fullname'];
+            $values['customClass'] = "ganttRed";
+
+            $tmpdata['values'][] = $values;
+
+            $demoSource[] = $tmpdata;
+
+        }
+        echo json_encode($demoSource);
+        die();
     }
 
 
@@ -64,81 +96,81 @@ class Belegungsplan extends AdminController
         $etage = urldecode($etage);
         $schlaplatze = urldecode($schlaplatze);
         $mobiliert = urldecode($mobiliert);
-        $aqfilterflag = False;
-        
-        
-            foreach ($aqs as $k => $aq) {
-                foreach ($belegungsplan as $b) {
-                    $aqfilterflag = False;
-                    if ($b['wohnungen'] === $aq['id']) {
-                        $bv = date("Y-m-d", strtotime($b['belegt_v']));
-                        $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
-                        $vbv = date("Y-m-d", strtotime($start));
-                        $vbb = date("Y-m-d", strtotime($end));
-                        if (($vbv > $bb || $vbb < $bv) ){
-                        } else{
-                            unset($aqs[$k]);
-                        }
+        $flag_aq_unset= False; 
 
-                        // Do not select AQ if date is not selected -- By Amogh
-                        if((empty($start) && empty($end) || ((($start == null) || ($start == '')) && (($start == null) || ($start == ''))) ) == True) { $aqfilterflag = True; }
+        foreach ($aqs as $k => $aq) {
+            foreach ($belegungsplan as $b) {
 
-                        // Condition is to filter the AQ based on passed Value -- by Amogh
-                        if ( ( ($aqfilterflag == False) 
-                        && ( ($etage == null) || ($etage == '') || ($etage == 'null') || ($aq['etage'] == $etage) )
-                        && ( ($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze) )
-                        && ( ($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert) ) 
-                        ) == False) {
-                            $aqfilterflag = True;
-                        }
+                if ($b['wohnungen'] === $aq['id']) {
+                    $bv = date("Y-m-d", strtotime($b['belegt_v']));
+                    $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
+                    $vbv = date("Y-m-d", strtotime($start));
+                    $vbb = date("Y-m-d", strtotime($end));
+                    if (($vbv > $bb || $vbb < $bv) == False) {
+                        $flag_aq_unset= True; 
+                    } 
+                }
+                // Optimized If and unset after logic get pass 
+                if (($etage == null) || ($etage == '') || ($etage == 'null') || ($aq['etage'] == $etage)) {
 
-                        if($aqfilterflag == True){
-                            unset($aqs[$k]);
-                        }
-    
-                    }
+                } else {
+                    unset($aqs[$k]);
+                }
+                if (($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) {
+
+                } else {
+                    unset($aqs[$k]);
+                }
+                if (($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') || ($aq['mobiliert'] == $mobiliert)) {
+
+                } else {
+                    unset($aqs[$k]);
                 }
             }
 
-        $optionsAQ = '<option value=""></option>';
-        $optionsET = '<option value=""></option>';
-        $optionsSC = '<option value=""></option>';
-        $optionsMO = '<option value=""></option>';
-        
-        foreach ($aqs as $d) {
-            $optionsAQ .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] .' ' . $d['schlaplatze'] .' ' . $d['mobiliert'] .  ' </option>';
-            // Comma is added to filter unique Value below
-            $optionsET .= ',<option value="'.$d['etage'].'">'.$d['etage'].'</option>';
-            $optionsSC .= ',<option value="'.$d['schlaplatze'].'">'.$d['schlaplatze'].'</option>';
-            $optionsMO .= ',<option value="'.$d['mobiliert'].'">'.$d['mobiliert'].'</option>';
+            $optionsAQ = '<option value=""></option>';
+            $optionsET = '<option value=""></option>';
+            $optionsSC = '<option value=""></option>';
+            $optionsMO = '<option value=""></option>';
+
+
+                $projektnv = '';
+                if (!empty($d['project'])) {
+                    $projektnv = ' (' . $d['project'] . ')';
+
+                $optionsAQ .= '<option value="' . $d['id'] . '">' . $d['strabe'] . ' ' . $d['hausnummer'] . ' ' . $d['etage'] . ' ' . $d['flugel'] . ' ' . $d['schlaplatze'] . ' ' . $d['mobiliert'] .'('. $d['project'] . ') </option>';
+                // Comma is added to filter unique Value below
+                $optionsET .= ',<option value="' . $d['etage'] . '">' . $d['etage'] . '</option>';
+                $optionsSC .= ',<option value="' . $d['schlaplatze'] . '">' . $d['schlaplatze'] . '</option>';
+                $optionsMO .= ',<option value="' . $d['mobiliert'] . '">' . $d['mobiliert'] . '</option>';
+            }
+
+            // Removing comma and making array with unique value
+            $optionsET = implode('', array_unique(explode(',', $optionsET)));
+            $optionsSC = implode('', array_unique(explode(',', $optionsSC)));
+            $optionsMO = implode('', array_unique(explode(',', $optionsMO)));
+
+            $optionAry = array(
+                "optionsAQ" => $optionsAQ,
+                "optionsET" => $optionsET,
+                "optionsSC" => $optionsSC,
+                "optionsMO" => $optionsMO,
+                "etage" => $etage,
+                "schlaplatze" => $schlaplatze,
+                "mobiliert" => $mobiliert
+
+            );
+
+            echo json_encode($optionAry);
+            die();
         }
-
-        // Removing comma and making array with unique value 
-        $optionsET = implode('',array_unique(explode(',', $optionsET)));
-        $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
-        $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
-
-        $optionAry = array(
-            "optionsAQ"  => $optionsAQ,
-            "optionsET"  => $optionsET,
-            "optionsSC"  => $optionsSC,
-            "optionsMO"  => $optionsMO,
-            "etage"      => $etage,
-            "schlaplatze"=> $schlaplatze,
-            "mobiliert"  => $mobiliert
-
-        );
-
-        echo json_encode($optionAry);
-        die();
     }
-    
 
 
     public function load_aq($id)
     {
         $aq = $this->wohnungen_model->get($id);
-        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert .' </option>';
+        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert . ' </option>';
         echo json_encode($options);
         die();
     }

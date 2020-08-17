@@ -126,12 +126,29 @@ class Dashboard extends AdminController
 
         $this->load->model('belegungsplan_model');
 
-        $mieters = $this->belegungsplan_model->get();
-        foreach ($mieters as $mieter) {
+        $occupations = $this->belegungsplan_model->get();
+        foreach ($occupations as $occupation) {
             $arrData = [];
-            $arrData['belegt_b'] = $mieter['belegt_b'];
-            $arrData['belegt_v'] = $mieter['belegt_v'];
-            $this->belegungsplan_model->update($arrData, $mieter['id']);
+            $arrData['belegt_b'] = to_sql_datedv($occupation['belegt_b']);
+            $arrData['belegt_v'] = to_sql_datedv($occupation['belegt_v']);
+            $this->db->where('id', $occupation['id']);
+            $this->db->update(db_prefix() . 'occupations', $arrData);
+        }
+
+        redirect(admin_url());
+    }
+
+    public function m_oc()
+    {
+        $this->load->model('belegungsplan_model');
+        $this->load->model('mieter_model');
+
+        $occupationsq = $this->belegungsplan_model->get();
+        foreach ($occupationsq as $occupation) {
+            $mieter_ob = $this->mieter_model->get($occupation['mieter']);
+            $arrData = ['mieter_name' => $mieter_ob->fullname];
+            $this->db->where('id', $occupation['id']);
+            $this->db->update(db_prefix() . 'occupations', $arrData);
         }
         redirect(admin_url());
     }
@@ -151,20 +168,10 @@ class Dashboard extends AdminController
         }
     }
 
-    public function pdf()
+    public function pdf($template='')
     {
 
-        try {
-            $pdf = template_pdf();
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-            echo $message;
-            if (strpos($message, 'Unable to get the size of the image') !== false) {
-                show_pdf_unable_to_get_image_size_error();
-            }
-            die;
-        }
-        $type = 'I';
-        $pdf->Output(mb_strtoupper(slug_it('$invoice_number')) . '.pdf', $type);
+
+        $pdf = template_pdf($template);
     }
 }

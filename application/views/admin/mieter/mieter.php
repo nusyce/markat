@@ -87,6 +87,7 @@
         },
         complete: function (file) {
             console.log(file);
+            $(this).prop('disabled', false);
             window.location.href = file.xhr.responseText;
         },
         drop: function (file) {
@@ -94,11 +95,18 @@
         }
     }));
 
+    appValidateForm('#mieter-form', {
+        projektname: 'required',
+    }, heandler_form);
 
-    $('#mieter-form #submit').on("click", function (e) {
+    $('#mieter-form').on("submit", function (e) {
         e.preventDefault();
         e.stopPropagation();
         $(window).unbind('beforeunload');
+    });
+
+    function heandler_form() {
+        $('#mieter-form #submit').prop('disabled', true);
         if (mieterDropzone.getQueuedFiles().length > 0) {
             mieterDropzone.processQueue();
         } else {
@@ -109,13 +117,15 @@
                 dataType: 'json',
                 success: function (e) {
                     window.location.href = e;
+                    $(this).prop('disabled', false);
                 },
                 error: function (e) {
                     window.location.href = e.responseText;
+                    $(this).prop('disabled', false);
                 }
             });
         }
-    });
+    }
 
 
     // Get file extension

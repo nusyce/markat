@@ -5,7 +5,11 @@
     margin-left: 225px;
     top: 17px;
 }
-.fc-calendarFilter-button{display: none !important}
+
+.fc-calendarFilter-button {
+    display: none !important
+}
+
 .proint {
     width: 15px;
     height: 15px;
@@ -27,8 +31,9 @@
 }
 
 .my-container .btn-default-dt-options:nth-child(2) {
- display: block !important;
+    display: block !important;
 }
+
 .row-options-calendar > a div {
     background: orange;
     color: white;
@@ -52,11 +57,11 @@
     font-size: 14px;
     margin-left: 5px;
 }
-.newlogoposition{
+
+.newlogoposition {
     padding: 0px 15px;
 }
-.menu-item-dokumente .fa,
-.menu-item-dokumente span,
+
 .menu-item-leistungsverz .fa,
 .menu-item-leistungsverz span,
 .menu-item-projects .fa,
@@ -75,7 +80,6 @@
     color: #939393 !important;
 }
 
-.menu-item-dokumente,
 .menu-item-leistungsverz,
 .menu-item-projects,
 .menu-item-lager,
@@ -1334,11 +1338,12 @@ a.notification-top {
     width: 210px;
     bottom: 0;
     float: left;
+    overflow: auto;
     left: 0;
     position: absolute;
     top: 63px;
     -webkit-transition: all .5s ease 0s;
-    transition: all .5s ease 0s
+    transition: all .5s ease 0s;
 }
 
 #side-menu {
@@ -2503,6 +2508,11 @@ body.rtl .no-padding-left {
 body.rtl .border-right {
     border-right: 0;
     border-left: 1px solid #f0f0f0
+}
+
+#switchbtn {
+    margin-bottom: 10px;
+    display: block
 }
 
 .bold {
@@ -8684,7 +8694,6 @@ body.gantt {
     -webkit-box-sizing: content-box !important;
     -moz-box-sizing: content-box !important
 }
-
 
 .info-block {
     background: #fbfdff;

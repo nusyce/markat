@@ -60,15 +60,12 @@ class AdminController extends App_Controller
         }
 
         $currentUser = $this->staff_model->get(get_staff_user_id());
-
         // Deleted or inactive but have session
         if (!$currentUser || $currentUser->active == 0) {
             $this->authentication_model->logout();
             redirect(admin_url('authentication'));
         }
-
         $GLOBALS['current_user'] = $currentUser;
-
         init_admin_assets();
 
         hooks()->do_action('admin_init');

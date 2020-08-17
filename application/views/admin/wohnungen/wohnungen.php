@@ -92,19 +92,22 @@
     <!-- init table tasks -->
     <script>
         var wohnungen_id = '<?php echo $wohnungen->id; ?>';
-        appValidateForm($('#wohnungen-form'), {
-            plz: 'required',
-            ort: 'required',
-            strabe: 'required',
-            etage: 'required',
-            flugel: 'required',
-            schlaplatze: 'required',
-            zimmer: 'required',
-            hausnummer: 'required',
-            wohnungsnumme: 'required'
-        });
-
     </script>
 <?php } ?>
+<script>
+    appValidateForm($('#wohnungen-form'), {
+        plz: 'required',
+        ort: 'required',
+        strabe: 'required',
+        project: 'required',
+        etage: 'required',
+        flugel: 'required',
+        schlaplatze: 'required',
+        zimmer: 'required',
+        hausnummer: 'required',
+        wohnungsnumme: 'required'
+    });
+
+</script>
 </body>
 </html>

@@ -28,7 +28,7 @@ if ($task_tag == 'full') {
 } else {
     $tblhtml = '<br><br><h2 style="text-align: center">Detail ' . get_menu_option('tasks', _l('Tasks')) . '</h2><br>';
 }
-$tblhtml .= '<table> 
+$tblhtml .= '<table cellspacing="2px"> 
 <tr><th colspan="3"><strong>Betreff</strong></th> </tr>  
 <tr><td colspan="3">' . $task->name . '</td></tr> 
 <tr><th colspan="3"><strong>Description</strong></th> </tr>  
@@ -41,7 +41,7 @@ if ($task_tag !== 'full') {
         $tblhtml .= '<tr><td colspan="3">' . $ac['description'] . '</td></tr>';
     endforeach;
 } else {
-    $tblhtml .= '<tr><th colspan="3"><strong>Dokumentation before:</strong></th></tr>';
+    $tblhtml .= '<tr><th colspan="3"><br><strong>Dokumentation before:</strong></th></tr>';
     $maxcols = 3;
     $i = 0;
     if (count($task->comments) > 0) {
@@ -58,7 +58,8 @@ if ($task_tag !== 'full') {
                     $fname = pathinfo($fullPath, PATHINFO_FILENAME);
                     $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
                     $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img src="' . $thumbPath . '"/> </td>';
+                    $tblhtml .= '<td style="padding: 20px; width: 33.33%">
+<img width="300" src="' . $thumbPath . '"/> </td>';
 
                     $i++;
                 }
@@ -71,11 +72,13 @@ if ($task_tag !== 'full') {
             $i++;
         }
         $tblhtml .= '</tr>';
-    }
-    $tblhtml .= '<tr><th colspan="3"><strong>Dokumentation after:</strong></th></tr>';
 
-    $i = 0;
-    if (count($task->comments) > 0) {
+
+        $pdf->writeHTML($tblhtml, true, false, false, false, '');
+
+        $pdf->AddPage();
+        $tblhtml = '<tr><th colspan="3"><strong>Dokumentation after:</strong></th></tr>';
+        $i = 0;
         $tblhtml .= '<tr>';
         foreach ($task->comments as $comment) {
             if ($comment['moment'] == 1 && count($comment['attachments']) > 0) {
@@ -89,8 +92,7 @@ if ($task_tag !== 'full') {
                     $fname = pathinfo($fullPath, PATHINFO_FILENAME);
                     $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
                     $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img src="' . $thumbPath . '"/> </td>';
-
+                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" src="' . $thumbPath . '"/> </td>';
                     $i++;
                 }
 
