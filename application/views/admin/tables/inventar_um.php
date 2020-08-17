@@ -75,19 +75,18 @@ foreach ($rResult as $aRow) {
     $row = [];
     //  $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
-    $row[] = $aRow['id'];
     // $row[] = $aRow['wohnungen_id'];
     //  $row[] = $aRow['strabe'];
 
     // $row[] = $strabe;
 
-    /*  $subjectOutput = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . $aRow['strabe'] . '</a>';
+    $subjectOutput = $aRow['id'];
 
-      $subjectOutput .= '<div class="row-options">';
+    $subjectOutput .= '<div class="row-options">';
 
-      $subjectOutput .= '  <a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-      $subjectOutput .= ' | <a href="' . admin_url('wohnungen/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-      $subjectOutput .= '</div>';*/
+    $subjectOutput .= '<a href="' . admin_url('wohnungen/inventar_um_delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    $subjectOutput .= '</div>';
+    $row[] = $subjectOutput;
     $row[] = '<span class="text-danger">' . $aRow['f_id'] . '</span>';
     $row[] = '<span class="text-danger">' . $aRow['f_strabe'] . '</span>';
     $row[] = $aRow['f_hausnummer'];

@@ -29,7 +29,7 @@
 
                     </div>
 
-                    <div class="panel-body my-container">
+                    <div class="panel-body ">
                         <div class="row" id="projekte-table">
                             <div class="col-md-12">
                                 <div class="row">

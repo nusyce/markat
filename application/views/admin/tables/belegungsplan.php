@@ -21,6 +21,7 @@ $aColumns = [
     db_prefix() . 'occupations.active as active',
     db_prefix() . 'wohnungen.id as wohnungen',
     db_prefix() . 'occupations.mieter as mieter_id',
+    db_prefix() . 'occupations.reason as reason',
 
 ];
 
@@ -91,10 +92,10 @@ foreach ($rResult as $a => $aRow) {
 
             }
         }*/
-/*    $bv = strtotime($aRow['belegt_v']);
-    //  var_dump($bv , $bv_);
-    if (time() < $bv)
-        continue;*/
+    /*    $bv = strtotime($aRow['belegt_v']);
+        //  var_dump($bv , $bv_);
+        if (time() < $bv)
+            continue;*/
 
     if ($belegt_be) {
         $bb = strtotime($aRow['belegt_b']);
@@ -137,7 +138,7 @@ foreach ($rResult as $a => $aRow) {
         $_mieter = $this->ci->mieter_model->get($aRow['mieter_id']);
         $mieter = '<a href="' . admin_url('mieter/mieter/' . $aRow['mieter_id']) . '">' . $aRow['mieter_name'] . '</a>';
     } else {
-        $mieter = '';
+        $mieter = '<i>' . $aRow['reason'] . '</i>';
     }
 
     $row[] = $aRow['hausnummer'];

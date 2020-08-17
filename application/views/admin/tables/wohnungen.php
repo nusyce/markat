@@ -59,6 +59,10 @@ if ($this->ci->input->post('mobiliert')) {
     array_push($where, 'AND mobiliert ="' . $this->ci->db->escape_str($this->ci->input->post('mobiliert')) . ' " ');
 }
 
+if ($this->ci->input->post('wohnungsnumme')) {
+    array_push($where, 'AND wohnungsnumme ="' . $this->ci->db->escape_str($this->ci->input->post('wohnungsnumme')) . ' " ');
+}
+
 //$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'wohnungen.mieter = ' . db_prefix() . 'mieters.id';
 
 

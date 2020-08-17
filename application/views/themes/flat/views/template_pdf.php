@@ -555,7 +555,7 @@
                                     <td style="width: 4%">
                                         <img src="assets/images/un-check.png" width="15"/>
                                     </td>
-                                    <td style="width: 8%">Nien</td>
+                                    <td style="width: 8%">Nein</td>
                                     <td style="width:68%" bgcolor="#CCFFFF"></td>
                                 </tr>
                                 <tr>
@@ -721,7 +721,7 @@
                                                      width="18"/> Ja
                         </span>
                 <span style="margin-left: 80px"><img src="assets/images/un-check.png" style="margin-right: 5px"
-                                                     width="18"/> Nien
+                                                     width="18"/> Nein
                         </span>
             </td>
         </tr>
@@ -755,7 +755,7 @@
                             width="18"/> Ja
                         </span>
                 <span style="margin-left: 80px"><img src="assets/images/un-check.png" style="margin-right: 5px"
-                                                     width="18"/> Nien
+                                                     width="18"/> Nein
                         </span>
             </td>
         </tr>
@@ -810,7 +810,7 @@
                             width="18"/> Ja
                         </span>
                 <span style="margin-left: 80px"><img src="assets/images/un-check.png" style="margin-right: 5px"
-                                                     width="18"/> Nien
+                                                     width="18"/> Nein
                         </span></td>
         </tr>
     </table>

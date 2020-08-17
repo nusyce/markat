@@ -62,8 +62,6 @@
     padding: 0px 15px;
 }
 
-.menu-item-dokumente .fa,
-.menu-item-dokumente span,
 .menu-item-leistungsverz .fa,
 .menu-item-leistungsverz span,
 .menu-item-projects .fa,
@@ -82,7 +80,6 @@
     color: #939393 !important;
 }
 
-.menu-item-dokumente,
 .menu-item-leistungsverz,
 .menu-item-projects,
 .menu-item-lager,

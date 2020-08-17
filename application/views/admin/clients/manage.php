@@ -73,7 +73,7 @@
                     </div>
 
 
-                    <div class="panel-body my-container"> <!--
+                    <div class="panel-body"> <!--
                             <div class="btn-group pull-right btn-with-tooltip-group _filter_data" data-toggle="tooltip"
                                  data-title="<?php /*echo _l('filter_by'); */ ?>">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"

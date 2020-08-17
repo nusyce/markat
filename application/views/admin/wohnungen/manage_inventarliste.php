@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
-                    <div class="panel-body my-container">
+                    <div class="panel-body ">
                         <div class="_buttons">
                             <h3><span><?php echo get_menu_option(c_menu(), 'Inventar') ?></span>
                                 <?php if (has_permission('menu', '', 'edit')):

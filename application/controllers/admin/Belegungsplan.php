@@ -42,9 +42,7 @@ class Belegungsplan extends AdminController
         $demoSource = [];
 
         foreach ($data as $record) {
-            $tmpdata = [];
-            $explodeFrom = explode('.', $record['belegt_v']);
-            $explodeTo = explode('.', $record['belegt_b']);
+            $tmpdata = []; 
 
             if ($record['fullname'] == "") {
                 $record['fullname'] = "-";
@@ -55,8 +53,8 @@ class Belegungsplan extends AdminController
             $tmpdata['etage'] = $record['etage'];
             $tmpdata['fluge'] = $record['flugel'];
 
-            $values['from'] = strtotime($explodeFrom[2] . '-' . $explodeFrom[1] . '-' . $explodeFrom[0]) * 1000;
-            $values['to'] = strtotime($explodeTo[2] . '-' . $explodeTo[1] . '-' . $explodeTo[0]) * 1000;
+            $values['from'] = strtotime($record['belegt_v']) * 1000;
+            $values['to'] = strtotime($record['belegt_b']) * 1000;
             $values['label'] = $record['fullname'];
             $values['customClass'] = "ganttRed";
 

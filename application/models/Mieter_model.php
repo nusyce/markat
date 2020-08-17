@@ -64,7 +64,6 @@ class Mieter_model extends App_Model
 
     public function delete_attachment($id)
     {
-
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'files');
     }
@@ -118,8 +117,8 @@ class Mieter_model extends App_Model
     function get_grouped($column, $isrb = false)
     {
         if ($isrb) {
-            $this->db->where('beraumung !=','');
-            $this->db->where('ruckraumung !=','');
+            $this->db->where('beraumung !=', '');
+            $this->db->where('ruckraumung !=', '');
         }
         $this->db->where($column . ' !=', '');
         $this->db->select($column);

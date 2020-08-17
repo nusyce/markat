@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="belegungsplan" class="panel-body my-container">
+                    <div id="belegungsplan" class="panel-body ">
                         <button id="switchbtn" class="btn btn-success list">Switch to gantt Chart</button>
                         <br>
                         <!--             <div class="row mbot15">
