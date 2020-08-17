@@ -25,14 +25,46 @@ class Belegungsplan extends AdminController
         $data['hausnummer'] = $this->belegungsplan_model->get_grouped('hausnummer');
         $data['mobiliert'] = $this->belegungsplan_model->get_grouped('mobiliert');
         $data['etage'] = $this->belegungsplan_model->get_grouped('etage');
+
         add_calendar_book_assets();
         $this->load->view('admin/belegungsplan/manage', $data);
     }
 
-
     public function table($clientid = '')
     {
         $this->app->get_table_data('belegungsplan', []);
+    }
+
+
+    public function table1($clientid = '')
+    {
+        $data = $this->belegungsplan_model->get_my_occupations();
+        $demoSource = [];
+
+        foreach ($data as $record) {
+            $tmpdata = []; 
+
+            if ($record['fullname'] == "") {
+                $record['fullname'] = "-";
+            }
+
+            $tmpdata['name'] = $record['strabe'];
+            $tmpdata['desc'] = $record['hausnummer'];
+            $tmpdata['etage'] = $record['etage'];
+            $tmpdata['fluge'] = $record['flugel'];
+
+            $values['from'] = strtotime($record['belegt_v']) * 1000;
+            $values['to'] = strtotime($record['belegt_b']) * 1000;
+            $values['label'] = $record['fullname'];
+            $values['customClass'] = "ganttRed";
+
+            $tmpdata['values'][] = $values;
+
+            $demoSource[] = $tmpdata;
+
+        }
+        echo json_encode($demoSource);
+        die();
     }
 
 
@@ -131,27 +163,32 @@ class Belegungsplan extends AdminController
         $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
         $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
 
-        $optionAry = array(
-            "optionsAQ"  => $optionsAQ,
-            "optionsET"  => $optionsET,
-            "optionsSC"  => $optionsSC,
-            "optionsMO"  => $optionsMO,
-            "etage"      => $etage,
-            "schlaplatze"=> $schlaplatze,
-            "mobiliert"  => $mobiliert
+            // Removing comma and making array with unique value
+            $optionsET = implode('', array_unique(explode(',', $optionsET)));
+            $optionsSC = implode('', array_unique(explode(',', $optionsSC)));
+            $optionsMO = implode('', array_unique(explode(',', $optionsMO)));
 
-        );
+            $optionAry = array(
+                "optionsAQ" => $optionsAQ,
+                "optionsET" => $optionsET,
+                "optionsSC" => $optionsSC,
+                "optionsMO" => $optionsMO,
+                "etage" => $etage,
+                "schlaplatze" => $schlaplatze,
+                "mobiliert" => $mobiliert
 
-        echo json_encode($optionAry);
-        die();
+            );
+
+            echo json_encode($optionAry);
+            die();
+        }
     }
-    
 
 
     public function load_aq($id)
     {
         $aq = $this->wohnungen_model->get($id);
-        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert .' </option>';
+        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert . ' </option>';
         echo json_encode($options);
         die();
     }
