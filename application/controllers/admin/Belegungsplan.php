@@ -25,10 +25,10 @@ class Belegungsplan extends AdminController
         $data['hausnummer'] = $this->belegungsplan_model->get_grouped('hausnummer');
         $data['mobiliert'] = $this->belegungsplan_model->get_grouped('mobiliert');
         $data['etage'] = $this->belegungsplan_model->get_grouped('etage');
-
         add_calendar_book_assets();
         $this->load->view('admin/belegungsplan/manage', $data);
     }
+
 
     public function table($clientid = '')
     {
@@ -36,6 +36,7 @@ class Belegungsplan extends AdminController
     }
 
 
+<<<<<<< HEAD
     public function table1($clientid = '')
     {
         $data = $this->belegungsplan_model->get_my_occupations();
@@ -68,6 +69,8 @@ class Belegungsplan extends AdminController
     }
 
 
+=======
+>>>>>>> 3b34b24... try merging code
     public function assign()
     {
         if ($this->input->post()) {
@@ -103,6 +106,7 @@ class Belegungsplan extends AdminController
         $optionsET = '<option value=""></option>';
         $optionsSC = '<option value=""></option>';
         $optionsMO = '<option value=""></option>';
+<<<<<<< HEAD
 
         // Loop select all  AQ
         foreach ($aqs as $k => $aq) {
@@ -113,6 +117,17 @@ class Belegungsplan extends AdminController
                 { unset($aqs[$k]); }
 
                 // Condition Remove AQ based on ocupation dates
+=======
+        
+        // Loop select all  AQ 
+        foreach ($aqs as $k => $aq) {
+            foreach ($belegungsplan as $b) {
+                 // Condition Remove all AQ if date is not selected
+                if( ( (empty($start) && empty($end) )|| ( (($start == null) || ($start == '')) && (($start == null) || ($start == '')) ) ) == True) 
+                {  unset($aqs[$k]);  }
+                
+                // Condition Remove AQ based on ocupation dates 
+>>>>>>> 3b34b24... try merging code
                 if ($b['wohnungen'] === $aq['id']) {
                     $bv = date("Y-m-d", strtotime($b['belegt_v']));
                     $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
@@ -121,6 +136,7 @@ class Belegungsplan extends AdminController
                     if (($vbv > $bb || $vbb < $bv) ){
                         $aqfilterflag = True;
                     } else{
+<<<<<<< HEAD
                         unset($aqs[$k]);
                     }
                 }
@@ -130,9 +146,21 @@ class Belegungsplan extends AdminController
             if ( ( ($etage == null) || ($etage == '') || ($etage == 'null') || (($aq['etage']) == $etage) ) == False )
             {
                 unset($aqs[$k]);
+=======
+                        unset($aqs[$k]); 
+                    }
+                }
+>>>>>>> 3b34b24... try merging code
+            }
+            
+            // Condition is to filter the AQ based on passed Value of Etage -- by Amogh
+            if ( ( ($etage == null) || ($etage == '') || ($etage == 'null') || (($aq['etage']) == $etage) ) == False )
+            { 
+                unset($aqs[$k]); 
             }
 
             // Condition is to filter the AQ based on passed Value of schlaplatze -- by Amogh
+<<<<<<< HEAD
             if( (($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) == False )
             {
                 unset($aqs[$k]);
@@ -148,11 +176,29 @@ class Belegungsplan extends AdminController
                 // condition for adding project in AQ drop down
                 $projektnv = (empty($aq['project']))? ' ' : ' ('.$aq['project'].')' ;
 
+=======
+            if( (($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) == False ) 
+            {
+                unset($aqs[$k]); 
+            }
+            
+            // Condition is to filter the AQ based on passed Value of mobiliert -- by Amogh
+            if ( (($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert)) == False ) 
+            {
+                unset($aqs[$k]); 
+            }
+            
+            if(isset($aqs[$k])){
+                // condition for adding project in AQ drop down 
+                $projektnv = (empty($aq['project']))? ' ' : ' ('.$aq['project'].')' ;
+                
+>>>>>>> 3b34b24... try merging code
                 $optionsAQ .= '<option value="' . $aq['id'] . '">' . $aq['strabe'] . ' ' . $aq['hausnummer'] . ' ' . $aq['etage'] . ' ' . $k['flugel'] .' ' . $aq['schlaplatze'] .' ' . $aq['mobiliert'] .$projektnv.  ' </option>';
                 // Comma is added to filter unique Value below
                 $optionsET .= ',<option value="'.$aq['etage'].'">'.$aq['etage'].'</option>';
                 $optionsSC .= ',<option value="'.$aq['schlaplatze'].'">'.$aq['schlaplatze'].'</option>';
                 $optionsMO .= ',<option value="'.$aq['mobiliert'].'">'.$aq['mobiliert'].'</option>';
+<<<<<<< HEAD
 
             }
 
@@ -175,18 +221,46 @@ class Belegungsplan extends AdminController
                 "etage" => $etage,
                 "schlaplatze" => $schlaplatze,
                 "mobiliert" => $mobiliert
+=======
+         
+            }
 
-            );
+            
+        }
 
+
+        // Removing comma and making array with unique value 
+        $optionsET = implode('',array_unique(explode(',', $optionsET)));
+        $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
+        $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
+>>>>>>> 3b34b24... try merging code
+
+        $optionAry = array(
+            "optionsAQ"  => $optionsAQ,
+            "optionsET"  => $optionsET,
+            "optionsSC"  => $optionsSC,
+            "optionsMO"  => $optionsMO,
+            "etage"      => $etage,
+            "schlaplatze"=> $schlaplatze,
+            "mobiliert"  => $mobiliert
+
+<<<<<<< HEAD
             echo json_encode($optionAry);
             die();
         
+=======
+        );
+
+        echo json_encode($optionAry);
+        die();
+>>>>>>> 3b34b24... try merging code
     }
+    
 
     public function load_aq($id)
     {
         $aq = $this->wohnungen_model->get($id);
-        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert . ' </option>';
+        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert .' </option>';
         echo json_encode($options);
         die();
     }
