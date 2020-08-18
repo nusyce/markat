@@ -1,4 +1,7 @@
 
 *.xml
+<<<<<<< HEAD
 *.iml
 app-config__backup.php
+=======
+>>>>>>> 4808686... revert

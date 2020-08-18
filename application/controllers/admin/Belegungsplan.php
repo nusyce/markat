@@ -161,23 +161,26 @@ class Belegungsplan extends AdminController
 
 
         // Removing comma and making array with unique value
-        $optionsET = implode('',array_unique(explode(',', $optionsET)));
-        $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
-        $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
+            $optionsET = implode('',array_unique(explode(',', $optionsET)));
+            $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
+            $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
 
-        $optionAry = array(
-            "optionsAQ"  => $optionsAQ,
-            "optionsET"  => $optionsET,
-            "optionsSC"  => $optionsSC,
-            "optionsMO"  => $optionsMO,
-            "etage"      => $etage,
-            "schlaplatze"=> $schlaplatze,
-            "mobiliert"  => $mobiliert
 
-        );
+            
+           $optionAry = array(
+                "optionsAQ" => $optionsAQ,
+                "optionsET" => $optionsET,
+                "optionsSC" => $optionsSC,
+                "optionsMO" => $optionsMO,
+                "etage" => $etage,
+                "schlaplatze" => $schlaplatze,
+                "mobiliert" => $mobiliert
 
-        echo json_encode($optionAry);
-        die();
+            );
+
+            echo json_encode($optionAry);
+            die();
+        
     }
 
     public function load_aq($id)
