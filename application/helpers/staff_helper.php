@@ -128,6 +128,12 @@ function get_available_staff_permissions($data = [])
             'name' => get_menu_option('inventarlistes', _l('Inventar')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
+        
+        'inventar-umzugsliste' => [
+            'name'         => get_menu_option('inventar-umzugsliste', _l('Inventar Umzugsliste')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+        
         'cars' => [
             'name' => get_menu_option('cars', _l('Fahrzeugliste')),
             'capabilities' => $withoutViewOwnPermissionsArray,
@@ -153,6 +159,16 @@ function get_available_staff_permissions($data = [])
         ],
         'belegungsplan' => [
             'name' => get_menu_option('belegungsplan', _l('Belegungsplan')),
+            'capabilities' => [
+                'view' => $viewGlobalName],
+        ],
+        'raumung'=> [
+            'name' => get_menu_option('raumung', _l('Raumung Beraumung')),
+            'capabilities' => [
+                'view' => $viewGlobalName],
+        ],
+        'personalplan'=> [
+            'name' => get_menu_option('personalplan', _l('personalplan')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
 
@@ -177,7 +193,13 @@ function get_available_staff_permissions($data = [])
                 'view' => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),
             ],
-        ],/*
+        ],
+        'chat'=> [
+            'name' => get_menu_option('chat', _l('chat')),
+            'capabilities' => [
+                'view' => $viewGlobalName],
+        ],
+        /*
         'subscriptions' => [
             'name'         => _l('subscriptions'),
             'capabilities' => $allPermissionsArray,
