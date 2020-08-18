@@ -478,7 +478,7 @@
                         <td style="width: 55%">WIE: 1120 - 0002
                             <br>Projekt-Nr.: B.1120000201
                         </td>
-                        <td>Auftrag: 3000012249</td>
+                        <td>Auftrag: 3000012249  <br> Zimmer:___</td>
                     </tr>
                     <tr>
                         <td colspan="2"><h1 style="padding-top: 8px; font-size: 22px; margin: 0; color: red">

@@ -34,7 +34,7 @@ function app_admin_footer()
 }
 
 
-function widget_status_stats($table, $title='')
+function widget_status_stats($table, $title = '')
 {
     $total = total_rows(db_prefix() . $table);
     $active = total_rows(db_prefix() . $table, 'active=1');
@@ -70,7 +70,7 @@ function widget_status_stats($table, $title='')
     return $content;
 }
 
-function widget_status_stats_projeckt($table, $title='')
+function widget_status_stats_projeckt($table, $title = '')
 {
     $total = total_rows(db_prefix() . $table);
     $active = total_rows(db_prefix() . $table, 'status=5');
@@ -78,7 +78,7 @@ function widget_status_stats_projeckt($table, $title='')
     $percentData = percentVal($active, $total);
     ob_start()
     ?>
-    <h4><b><?= $active ?></b> <?= _l('task_status_5')?></h4>
+    <h4><b><?= $active ?></b> <?= _l('task_status_5') ?></h4>
     <div class="col-md-12 text-right progress-finance-status">
         <?php echo $percentData[0]; ?>%
         <div class="progress no-margin progress-bar-mini">
@@ -90,7 +90,7 @@ function widget_status_stats_projeckt($table, $title='')
         </div>
     </div>
 
-    <h4><b><?= $not_active ?></b> <?= _l('Abgerechnet')?></h4>
+    <h4><b><?= $not_active ?></b> <?= _l('Abgerechnet') ?></h4>
     <div class="col-md-12 text-right progress-finance-status">
         <?php echo $percentData[1]; ?>%
         <div class="progress no-margin progress-bar-mini">
@@ -290,8 +290,10 @@ function staff_can($capability, $feature = null, $staff_id = '')
         return true;
     }
     //dd($GLOBALS['current_user']);
+    if (!isset($GLOBALS['current_user']))
+        return false;
 
-    if ((isset($GLOBALS['current_user']->role) &&( $GLOBALS['current_user']->role == 2 && $feature == 'firma') || ($GLOBALS['current_user']->role == 2 && $feature == 'roles') || $GLOBALS['current_user']->role == 2 && $feature == 'menu')) {
+    if ((isset($GLOBALS['current_user']) && ($GLOBALS['current_user']->role == 2 && $feature == 'firma') || ($GLOBALS['current_user']->role == 2 && $feature == 'roles') || $GLOBALS['current_user']->role == 2 && $feature == 'menu')) {
         return true;
     }
 

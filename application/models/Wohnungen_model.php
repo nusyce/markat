@@ -122,10 +122,8 @@ class Wohnungen_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'inventarliste', $data);
         if ($this->db->affected_rows() > 0) {
-
             return true;
         }
-
         return false;
     }
 
@@ -157,10 +155,8 @@ class Wohnungen_model extends App_Model
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'inventarliste');
         if ($this->db->affected_rows() > 0) {
-
             return true;
         }
-
         return false;
     }
 

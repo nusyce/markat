@@ -62,6 +62,32 @@ function is_rtl($client_area = false)
 
 
 /**
+ * Render lead status select field with ability to create inline statuses with + sign
+ * @param array $statuses current statuses
+ * @param string $selected selected status
+ * @param string $lang_key the label of the select
+ * @param string $name the name of the select
+ * @param array $select_attrs additional select attributes
+ * @param boolean $exclude_default whether to exclude default Client status
+ * @return string
+ */
+function render_project_select($statuses, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
+{
+    foreach ($statuses as $key => $status) {
+        if ($status['isdefault'] == 1) {
+            if ($exclude_default == false) {
+                $statuses[$key]['option_attributes'] = ['data-subtext' => _l('Projekt')];
+            } else {
+                unset($statuses[$key]);
+            }
+
+            break;
+        }
+    }
+    return render_select_with_input_group($name, $statuses, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>', $select_attrs);
+}
+
+/**
  * Check whether the data is intended to be shown for the customer
  * For example this function is used for custom fields, pdf language loading etc...
  * @return boolean

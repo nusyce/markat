@@ -38,30 +38,32 @@ class Belegungsplan extends AdminController
 
     public function table1($clientid = '')
     {
-        $data = $this->belegungsplan_model->get_my_occupations();
         $demoSource = [];
 
-        foreach ($data as $record) {
-            $tmpdata = [];
+        $aqs = $this->wohnungen_model->get_wohnungens();
+        $belegungsplan = $this->belegungsplan_model->get_occupations();
+        foreach ($aqs as $k => $aq) {
+            $tmpdata['name'] = $aq['strabe'];
+            $tmpdata['desc'] = $aq['hausnummer'];
+            $tmpdata['etage'] = $aq['etage'];
+            $tmpdata['fluge'] = $aq['flugel'];
+            foreach ($belegungsplan as $b) {
+            if ($b['wohnungen'] != $aq['id'])
+                continue;
+                $tmpdata = [];
+                if ($b['mieter_name'] == "") {
+                    $b['mieter_name'] = "-";
+                }
 
-            if ($record['fullname'] == "") {
-                $record['fullname'] = "-";
+                $values['label'] = $b['mieter_name'];
+                $values['from'] = strtotime($b['belegt_v']) * 1000;
+                $values['to'] = strtotime($b['belegt_b']) * 1000;
+                $values['customClass'] = "ganttRed";
+
+                $tmpdata['values'][] = $values;
+
             }
-
-            $tmpdata['name'] = $record['strabe'];
-            $tmpdata['desc'] = $record['hausnummer'];
-            $tmpdata['etage'] = $record['etage'];
-            $tmpdata['fluge'] = $record['flugel'];
-
-            $values['from'] = strtotime($record['belegt_v']) * 1000;
-            $values['to'] = strtotime($record['belegt_b']) * 1000;
-            $values['label'] = $record['fullname'];
-            $values['customClass'] = "ganttRed";
-
-            $tmpdata['values'][] = $values;
-
             $demoSource[] = $tmpdata;
-
         }
         echo json_encode($demoSource);
         die();
@@ -88,7 +90,6 @@ class Belegungsplan extends AdminController
     }
 
 
-
     public function load_free_aq($start = null, $end = null, $etage = null, $schlaplatze = null, $mobiliert = null)
     {
         // Modified to Add Filter AQ Drop Down
@@ -109,8 +110,9 @@ class Belegungsplan extends AdminController
             foreach ($belegungsplan as $b) {
                 // Condition Remove all AQ if date is not selected
 
-                if( ( (empty($start) || empty($end) )|| (($start == null) || ($end == null)) ||( ($start == 'null') || ($end == 'null')) || ( ($start == 'null') || ($end == 'null')) ) == True)
-                { unset($aqs[$k]); }
+                if (((empty($start) || empty($end)) || (($start == null) || ($end == null)) || (($start == 'null') || ($end == 'null')) || (($start == 'null') || ($end == 'null'))) == True) {
+                    unset($aqs[$k]);
+                }
 
                 // Condition Remove AQ based on ocupation dates
                 if ($b['wohnungen'] === $aq['id']) {
@@ -118,41 +120,38 @@ class Belegungsplan extends AdminController
                     $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
                     $vbv = date("Y-m-d", strtotime($start));
                     $vbb = date("Y-m-d", strtotime($end));
-                    if (($vbv > $bb || $vbb < $bv) ){
+                    if (($vbv > $bb || $vbb < $bv)) {
                         $aqfilterflag = True;
-                    } else{
+                    } else {
                         unset($aqs[$k]);
                     }
                 }
             }
 
             // Condition is to filter the AQ based on passed Value of Etage -- by Amogh
-            if ( ( ($etage == null) || ($etage == '') || ($etage == 'null') || (($aq['etage']) == $etage) ) == False )
-            {
+            if ((($etage == null) || ($etage == '') || ($etage == 'null') || (($aq['etage']) == $etage)) == False) {
                 unset($aqs[$k]);
             }
 
             // Condition is to filter the AQ based on passed Value of schlaplatze -- by Amogh
-            if( (($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) == False )
-            {
+            if ((($schlaplatze == null) || ($schlaplatze == '') || ($schlaplatze == 'null') || ($aq['schlaplatze'] == $schlaplatze)) == False) {
                 unset($aqs[$k]);
             }
 
             // Condition is to filter the AQ based on passed Value of mobiliert -- by Amogh
-            if ( (($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') ||  ($aq['mobiliert'] == $mobiliert)) == False )
-            {
+            if ((($mobiliert == null) || ($mobiliert == '') || ($mobiliert == 'null') || ($aq['mobiliert'] == $mobiliert)) == False) {
                 unset($aqs[$k]);
             }
 
-            if(isset($aqs[$k])){
+            if (isset($aqs[$k])) {
                 // condition for adding project in AQ drop down
-                $projektnv = (empty($aq['project']))? ' ' : ' ('.$aq['project'].')' ;
+                $projektnv = (empty($aq['project'])) ? ' ' : ' (' . $aq['project'] . ')';
 
-                $optionsAQ .= '<option value="' . $aq['id'] . '">' . $aq['strabe'] . ' ' . $aq['hausnummer'] . ' ' . $aq['etage'] . ' ' . $k['flugel'] .' ' . $aq['schlaplatze'] .' ' . $aq['mobiliert'] .$projektnv.  ' </option>';
+                $optionsAQ .= '<option value="' . $aq['id'] . '">' . $aq['strabe'] . ' ' . $aq['hausnummer'] . ' ' . $aq['etage'] . ' ' . $k['flugel'] . ' ' . $aq['schlaplatze'] . ' ' . $aq['mobiliert'] . $projektnv . ' </option>';
                 // Comma is added to filter unique Value below
-                $optionsET .= ',<option value="'.$aq['etage'].'">'.$aq['etage'].'</option>';
-                $optionsSC .= ',<option value="'.$aq['schlaplatze'].'">'.$aq['schlaplatze'].'</option>';
-                $optionsMO .= ',<option value="'.$aq['mobiliert'].'">'.$aq['mobiliert'].'</option>';
+                $optionsET .= ',<option value="' . $aq['etage'] . '">' . $aq['etage'] . '</option>';
+                $optionsSC .= ',<option value="' . $aq['schlaplatze'] . '">' . $aq['schlaplatze'] . '</option>';
+                $optionsMO .= ',<option value="' . $aq['mobiliert'] . '">' . $aq['mobiliert'] . '</option>';
 
             }
 
@@ -161,18 +160,18 @@ class Belegungsplan extends AdminController
 
 
         // Removing comma and making array with unique value
-        $optionsET = implode('',array_unique(explode(',', $optionsET)));
-        $optionsSC = implode('',array_unique(explode(',', $optionsSC)));
-        $optionsMO = implode('',array_unique(explode(',', $optionsMO)));
+        $optionsET = implode('', array_unique(explode(',', $optionsET)));
+        $optionsSC = implode('', array_unique(explode(',', $optionsSC)));
+        $optionsMO = implode('', array_unique(explode(',', $optionsMO)));
 
         $optionAry = array(
-            "optionsAQ"  => $optionsAQ,
-            "optionsET"  => $optionsET,
-            "optionsSC"  => $optionsSC,
-            "optionsMO"  => $optionsMO,
-            "etage"      => $etage,
-            "schlaplatze"=> $schlaplatze,
-            "mobiliert"  => $mobiliert
+            "optionsAQ" => $optionsAQ,
+            "optionsET" => $optionsET,
+            "optionsSC" => $optionsSC,
+            "optionsMO" => $optionsMO,
+            "etage" => $etage,
+            "schlaplatze" => $schlaplatze,
+            "mobiliert" => $mobiliert
 
         );
 

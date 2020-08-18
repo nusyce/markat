@@ -348,21 +348,20 @@
 
         $(".selector").gantt({
             source: "<?php echo base_url(); ?>/admin/belegungsplan/table1",
-            navigate: "scroll",
-            scale: "weeks",
+            scale: "days",
             maxScale: "months",
-            minScale: "hours",
+            minScale: "days",
             itemsPerPage: 10,
-            scrollToToday: false,
+            scrollToToday: true,
 
             // scale: "weeks",
             // minScale: "weeks",
             // maxScale: "months",
             onItemClick: function (data) {
-                alert("Item clicked - show some details");
+              //  alert("Item clicked - show some details");
             },
             onAddClick: function (dt, rowId) {
-                alert("Empty space clicked - add an item!");
+               // alert("Empty space clicked - add an item!");
             },
             onRender: function () {
                 console.log("chart rendered");

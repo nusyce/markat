@@ -1,13 +1,12 @@
 <div class="row">
     <div class="col-md-4">
         <?php
-        $data = array();
-        $select = (isset($wohnungen) ? $wohnungen->project : '');
-        $data[] = array('id' => 'BOR');
-        $data[] = array('id' => 'FER');
-        $data[] = array('id' => 'TOPS');
-        echo render_select('project', $data, array('id', 'id'), 'Projekt', $select); ?>
-
+        $selected = '';
+        if (isset($wohnungen) && $wohnungen->project) {
+            $selected = $wohnungen->project;
+        }
+        echo render_project_select($projects, $selected, 'Projekt');
+        ?>
     </div>
 
     <div class="col-md-4">
@@ -110,6 +109,26 @@
             <span class="bold" id="inventarCOunt"></span>
         </h4>
     </div>
+    <?php
+    if (isset($wohnungen->inventer)):
+        $resCount = count_items($wohnungen->inventer); ?>
+        <div class="col-md-6">
+            <div class="row bold">
+                <div class="col-md-2">
+                    Alle:<?= $resCount[0] ?>
+                </div>
+                <div class="col-md-3">
+                    Verf&#252;gbar:<?= $resCount[1] ?>
+                </div>
+                <div class="col-md-3">
+                    Defekt:<?= $resCount[2] ?>
+                </div>
+                <div class="col-md-3">
+                    Entsorgt:<?= $resCount[3] ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 <div class="row" id="tt-pop" style="margin-top: 25px; margin-bottom: 25px">
     <?php
@@ -140,6 +159,9 @@
         </div>
     <?php else:
         $wohnungenOj = new Wohnungen_model();
+        ?>
+
+        <?php
         foreach ($wohnungen->inventer as $k => $a):
             ?>
             <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
@@ -279,4 +301,26 @@ function get_move($wohnungen, $inventar)
         }
     }
     return $data;
+}
+
+
+function count_items($inventars)
+{
+    $allQty = 0;
+    $avQty = 0;
+    $dfQty = 0;
+    $enQty = 0;
+    foreach ($inventars as $inventar) {
+        $allQty += $inventar['qty'];
+        if ($inventar['is_deleted'] == 0)
+            $avQty += $inventar['qty'];
+        else {
+            if ($inventar['reason'] == 'Defekt') {
+                $dfQty += $inventar['qty'];
+            } else {
+                $enQty += $inventar['qty'];
+            }
+        }
+    }
+    return array($allQty, $avQty, $dfQty, $enQty);
 }

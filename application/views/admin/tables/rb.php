@@ -127,10 +127,10 @@ foreach ($rResult as $aRow) {
 
         $bauende = '';
     }
-    $row[] = '<a href="#" class="btn btn-warning">Create PDF</a>';
-
 
     $row[] = '<div data-ucolumn="bauende" class="data-act bauende" data-id="' . $aRow['id'] . '">' . $bauende . '</div>';
+    $row[] = '<a href="#" class="btn btn-warning">Create PDF</a>';
+
 
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip"  >
