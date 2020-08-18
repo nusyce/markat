@@ -86,9 +86,10 @@
     height: 24px;
     width: 40% !important;
     background-color: #f6f6f6;
+    clear: both;
 
 }
-.fn-gantt .leftPanel .desc,.fn-gantt .leftPanel .etage,.fn-gantt .leftPanel .flugel{
+.fn-gantt .leftPanel .desc,.fn-gantt .leftPanel .etage,.fn-gantt .leftPanel .fluge{
     float: left;
     height: 24px;
     width: 20% !important;

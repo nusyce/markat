@@ -44,10 +44,10 @@ class Belegungsplan extends AdminController
 
         foreach ($aqs as $k => $aq) {
 
-        $tmpdata['name'] = $aq['strabe'].' '.$aq['id'];
+        $tmpdata['name'] = $aq['strabe'];
         $tmpdata['desc'] = $aq['hausnummer'];
-        $tmpdata['etage'] = $aq['etage'] .'-';
-        $tmpdata['fluge'] = $aq['flugel'] .'|';
+        $tmpdata['etage'] = $aq['etage'];
+        $tmpdata['fluge'] = $aq['flugel'];
         $belegungsplan = $this->belegungsplan_model->get_occupations(array('wohnungen'=>$aq['id']));
         $tmpdata['values'] = [];
 
