@@ -323,6 +323,7 @@
                 $(this).addClass('ganttv').removeClass('list')
                 $('.list-view').addClass('hide');
                 $('.gant-view').removeClass('hide');
+                loadGantChart();
             } else {
                 $(this).text('Switch to gantt chart')
                 $(this).addClass('list').removeClass('ganttv')
@@ -345,6 +346,9 @@
                 $('#reason').prop('required', false);
             }
         });
+
+    });
+function loadGantChart(){
 
         $(".selector").gantt({
             source: "<?php echo base_url(); ?>/admin/belegungsplan/table1",
@@ -370,7 +374,8 @@
         });
 
 
-    });
+}
+
 </script>
 
 <?php

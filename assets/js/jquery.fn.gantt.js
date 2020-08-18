@@ -364,7 +364,7 @@
 
             // Create and return the data panel element
             dataPanel: function (element, width) {
-                var dataPanel = $('<div class="dataPanel" style="width: ' + width + 'px;"/>');
+                var dataPanel = $('<div class="dataPanel" style="width: ' + width + 1 + 'px;"/>');
 
                 // Handle mousewheel events for scrolling the data panel
                 var wheel = 'onwheel' in element ?

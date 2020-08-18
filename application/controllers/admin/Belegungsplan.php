@@ -38,31 +38,60 @@ class Belegungsplan extends AdminController
 
     public function table1($clientid = '')
     {
-        $data = $this->belegungsplan_model->get_my_occupations();
-        $demoSource = [];
+        $aqs = $this->wohnungen_model->get_wohnungens();
 
-        foreach ($data as $record) {
-            $tmpdata = [];
+//print_r($aqs);
 
-            if ($record['fullname'] == "") {
-                $record['fullname'] = "-";
-            }
+        foreach ($aqs as $k => $aq) {
 
-            $tmpdata['name'] = $record['strabe'];
-            $tmpdata['desc'] = $record['hausnummer'];
-            $tmpdata['etage'] = $record['etage'];
-            $tmpdata['fluge'] = $record['flugel'];
+        $tmpdata['name'] = $aq['strabe'].' '.$aq['id'];
+        $tmpdata['desc'] = $aq['hausnummer'];
+        $tmpdata['etage'] = $aq['etage'] .'-';
+        $tmpdata['fluge'] = $aq['flugel'] .'|';
+        $belegungsplan = $this->belegungsplan_model->get_occupations(array('wohnungen'=>$aq['id']));
+        $tmpdata['values'] = [];
 
-            $values['from'] = strtotime($record['belegt_v']) * 1000;
-            $values['to'] = strtotime($record['belegt_b']) * 1000;
-            $values['label'] = $record['fullname'];
+        if(!empty($belegungsplan)){
+        foreach ($belegungsplan as $b) {
+            $values['label'] = $b['mieter_name'];
+            $values['from'] = strtotime($b['belegt_v']) * 1000;
+            $values['to'] = strtotime($b['belegt_b']) * 1000;
             $values['customClass'] = "ganttRed";
 
-            $tmpdata['values'][] = $values;
+//        }
 
-            $demoSource[] = $tmpdata;
+        $tmpdata['values'][] = $values;
 
         }
+    }
+        $demoSource[] = $tmpdata;
+        }
+
+        // $data = $this->belegungsplan_model->get_my_occupations();
+        // $demoSource = [];
+
+        // foreach ($data as $record) {
+        //     $tmpdata = [];
+
+        //     if ($record['fullname'] == "") {
+        //         $record['fullname'] = "-";
+        //     }
+
+        //     $tmpdata['name'] = $record['strabe'];
+        //     $tmpdata['desc'] = $record['hausnummer'];
+        //     $tmpdata['etage'] = $record['etage'];
+        //     $tmpdata['fluge'] = $record['flugel'];
+
+        //     $values['from'] = strtotime($record['belegt_v']) * 1000;
+        //     $values['to'] = strtotime($record['belegt_b']) * 1000;
+        //     $values['label'] = $record['fullname'];
+        //     $values['customClass'] = "ganttRed";
+
+        //     $tmpdata['values'][] = $values;
+
+        //     $demoSource[] = $tmpdata;
+
+        // }
         echo json_encode($demoSource);
         die();
     }
