@@ -173,5 +173,6 @@ class Dashboard extends AdminController
 
 
         $pdf = template_pdf($template);
+
     }
 }
