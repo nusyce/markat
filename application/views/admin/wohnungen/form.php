@@ -181,7 +181,11 @@
                                 <?= $item['qty']; ?>
                             </div>
                             <div class="col-md-7">
+<<<<<<< HEAD
                                 <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
+=======
+                                <?= $this->wohnungen_model->get($item['to'])->strabe;?>
+>>>>>>> 4808686... revert
                             </div>
                             <div class="col-md-2">
                             </div>
