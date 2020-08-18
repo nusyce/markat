@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->strabe : ''); ?>
-        <?php echo render_input('strabe', 'Straße', $value); ?>
+        <?php echo render_input('strabe', 'Straï¿½e', $value); ?>
     </div>
 
     <div class="col-md-4">
@@ -64,7 +64,7 @@
         $data[] = array('value' => 'Mitte/Links');
         $data[] = array('value' => 'Mitte/Rechts');
         $value = (isset($wohnungen) ? $wohnungen->flugel : ''); ?>
-        <?php echo render_select('flugel', $data, array('value', 'value'), 'Flügel', $value); ?>
+        <?php echo render_select('flugel', $data, array('value', 'value'), 'Flï¿½gel', $value); ?>
     </div>
 
 </div>
@@ -77,7 +77,7 @@
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->schlaplatze : ''); ?>
-        <?php echo render_input('schlaplatze', 'Schlafplätze', $value); ?>
+        <?php echo render_input('schlaplatze', 'Schlafplï¿½tze', $value); ?>
     </div>
 </div>
 <div class="row">
@@ -85,7 +85,7 @@
         <?php
         $selected = isset($wohnungen) ? $wohnungen->mobiliert : '';
         $datas = array(array('id' => -1, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-        echo render_select('mobiliert', $datas, array('id', 'value'), 'Möbliert', $selected, array()); ?>
+        echo render_select('mobiliert', $datas, array('id', 'value'), 'Mï¿½bliert', $selected, array()); ?>
     </div>
 
     <div class="col-md-4">
@@ -181,7 +181,11 @@
                                 <?= $item['qty']; ?>
                             </div>
                             <div class="col-md-7">
+<<<<<<< HEAD
                                 <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
+=======
+                                <?= $this->wohnungen_model->get($item['to'])->strabe;?>
+>>>>>>> 4808686... revert
                             </div>
                             <div class="col-md-2">
                             </div>
