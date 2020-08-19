@@ -49,7 +49,7 @@ function get_available_staff_permissions($data = [])
         ],
 
         // Kuden
-        'customers' => [
+        'clients' => [
             'name' => _l('clients'),
             'capabilities' => $withoutViewOwnPermissionsArray,
            /* 'capabilities' => $withNotApplicableViewOwn,
@@ -84,8 +84,8 @@ function get_available_staff_permissions($data = [])
         ],       
 
         //Inventar Umzugsliste
-        'inventar-umzugsliste' => [
-            'name'         => get_menu_option('inventar-umzugsliste', _l('Inventar Umzugsliste')),
+        'move_inventory' => [
+            'name'         => get_menu_option('move_inventory', _l('Inventar Umzugsliste')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
 
@@ -96,14 +96,14 @@ function get_available_staff_permissions($data = [])
         ],
 
         //Raumung Beraumung
-        'raumung'=> [
-            'name' => get_menu_option('raumung', _l('Raumung/Beraumung')),
+        'rb'=> [
+            'name' => get_menu_option('rb', _l('Raumung/Beraumung')),
             'capabilities' => [
                 'view' => $viewGlobalName],
         ],
         //personalplan
-        'personalplan'=> [
-            'name' =>  _l('Personalplan'),
+        'calendar'=> [
+            'name' =>  get_menu_option('raumung', _l('Personalplan')),
             'capabilities' => [
                 'view' => $viewGlobalName],
         ],
@@ -139,7 +139,7 @@ function get_available_staff_permissions($data = [])
 
         //chat
         'chat'=> [
-            'name' => get_menu_option('chat', _l('chat')),
+            'name' => get_menu_option('chat_full_view', _l('chat')),
             'capabilities' => [
                 'view' => $viewGlobalName],
         ],
