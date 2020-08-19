@@ -5603,7 +5603,10 @@ body.rtl div.dataTables_wrapper {
 .fn-gantt .bottom, .fn-gantt .leftPanel .desc, .fn-gantt .rightPanel .month, .fn-gantt .rightPanel .year, .fn-gantt .spacer, .fn-gantt .wd {
     background-color: #fff
 }
-
+.fn-gantt .leftPanel .header-th {
+    font-weight:bold;
+    float:left;
+}
 .fn-gantt .leftPanel .fn-label {
     width: 100%
 }
@@ -5613,14 +5616,13 @@ body.rtl div.dataTables_wrapper {
     height: 23px
 }
 
-.fn-gantt .leftPanel .name {
-    width: 40%
+.fn-gantt .leftPanel .name,.fn-gantt .leftPanel .header-th.strabe {
+    width: 35%
 }
 
-.fn-gantt .leftPanel .desc {
-    width: 60%
+.fn-gantt .leftPanel .desc ,.fn-gantt .leftPanel .etage,.fn-gantt .leftPanel .fluge,.fn-gantt .leftPanel .header-th.nr,.fn-gantt .leftPanel .header-th.etgag,.fn-gantt .leftPanel .header-th.flugel{
+    width: 20%
 }
-
 #gantt .gantt_project_name {
     font-weight: 500;
     text-align: center;

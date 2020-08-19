@@ -66,35 +66,14 @@
     overflow: hidden;
 }
 
-.fn-gantt .leftPanel .row.last {
+.fn-gantt .leftPanel .row {
     border-bottom: 1px solid #DDD;
 }
-.fn-gantt .leftPanel .row .header-th {
-    width:25%;
-    font-weight: bold;    
-    float :left;
-}
-.fn-gantt .leftPanel .row .header-th.strabe {
-    width:40%;
-}
-.fn-gantt .leftPanel .row .header-th.nr,.fn-gantt .leftPanel .row .header-th.etgag,.fn-gantt .leftPanel .row .header-th.flugel{
-    width:20%;
-}
-
-.fn-gantt .leftPanel .name{
+.fn-gantt .leftPanel .name, .fn-gantt .leftPanel .desc {
     float: left;
     height: 24px;
-    width: 40% !important;
+    width: 50%;
     background-color: #f6f6f6;
-    clear: both;
-
-}
-.fn-gantt .leftPanel .desc,.fn-gantt .leftPanel .etage,.fn-gantt .leftPanel .fluge{
-    float: left;
-    height: 24px;
-    width: 20% !important;
-    background-color: #f6f6f6;
-
 }
 
 .fn-gantt .leftPanel .name {

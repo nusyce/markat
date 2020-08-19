@@ -304,9 +304,11 @@
             // Create and return the left panel with labels
             leftPanel: function (element) {
                 /* Left panel */
+                var paddingTop = tools.getCellSize() * element.headerRows - 20;
+                console.log(paddingTop);
                 var ganttLeftPanel = $('<div class="leftPanel"/>')
-                    .append($('<div class="row spacer"/><div class="row spacer"/><div class="row spacer last"><div class="header-th strabe">Straße</div><div class="header-th nr">Nr</div><div class="header-th etgag">Etage</div><div class="header-th flugel">Flügel</div></div>'));
-//                    .css("height", tools.getCellSize() * element.headerRows));
+                    .append($('<div class="row spacer"><div class="header-th strabe" style="padding-top:'+paddingTop+'">Straße</div> <div class="header-th nr" style="padding-top:'+paddingTop+'">Nr</div><div class="header-th etgag" style="padding-top:'+paddingTop+'">Etage</div><div class="header-th flugel" style="padding-top:'+paddingTop+'">Flügel</div></div>')
+                    .css("height", tools.getCellSize() * element.headerRows));
 
                 var entries = [];
                 $.each(element.data, function (i, entry) {
@@ -334,7 +336,6 @@
                                 '</span>' +
                                 '</div>');
                         }
-
                         if (entry.etage) {
                             entries.push(
                                 '<div class="row etage row' + i +
@@ -356,7 +357,6 @@
                                 '</div>');
                         }
 
-
                     }
                 });
                 return ganttLeftPanel.append(entries.join(""));
@@ -364,7 +364,8 @@
 
             // Create and return the data panel element
             dataPanel: function (element, width) {
-                var dataPanel = $('<div class="dataPanel" style="width: ' + width + 1 + 'px;"/>');
+                console.log(width);
+                var dataPanel = $('<div class="dataPanel" style="width: ' + (width + parseInt(100)) + 'px;"/>');
 
                 // Handle mousewheel events for scrolling the data panel
                 var wheel = 'onwheel' in element ?
