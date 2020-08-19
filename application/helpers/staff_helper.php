@@ -51,10 +51,11 @@ function get_available_staff_permissions($data = [])
         // Kuden
         'customers' => [
             'name' => _l('clients'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => $withoutViewOwnPermissionsArray,
+           /* 'capabilities' => $withNotApplicableViewOwn,
             'help' => [
                 'view_own' => _l('permission_customers_based_on_admins'),
-            ],
+            ],*/
         ],
 
         //Mieter
@@ -110,7 +111,8 @@ function get_available_staff_permissions($data = [])
         //Aufgabenplaner
         'tasks' => [
             'name' => get_menu_option('tasks', _l('Task-Planer')),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => $withoutViewOwnPermissionsArray,
+            //'capabilities' => $withNotApplicableViewOwn,
             'help' => [
                 'view' => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),
