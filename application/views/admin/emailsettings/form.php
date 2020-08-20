@@ -5,11 +5,11 @@
         <div class="panel_s">
             <div class="panel-body">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#email_config" aria-controls="email_config" role="tab" data-toggle="tab" aria-expanded="true">SMTP Settings</a>
+                    <li role="presentation" class="active" id="navtab">
+                        <a href="#email_config" aria-controls="email_config" role="tab" data-toggle="tab" aria-expanded="true">SMTP Einstellungen</a>
                     </li>
-                    <li role="presentation" class="">
-                        <a href="#email_queue" aria-controls="email_queue" role="tab" data-toggle="tab" aria-expanded="false">Email Queue</a>
+                    <li role="presentation" class="" id="navtab">
+                        <a href="#email_queue" aria-controls="email_queue" role="tab" data-toggle="tab" aria-expanded="false">Email Warteschlange</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -17,11 +17,11 @@
                         <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
                         <input type="text" class="fake-autofill-field" name="fakeusernameremembered" value="" tabindex="-1">
                         <input type="password" class="fake-autofill-field" name="fakepasswordremembered" value="" tabindex="-1">
-                        <h4 style="margin-top:-20px;">SMTP Settings <small>Setup main email</small></h4>
+                        <h4 style="margin-top:-20px;">SMTP Einstellungen <small>haupt Email einrichten</small></h4>
                         <hr>
                         <div class="form-group">
 
-                            <label for="mail_engine">Mail Engine</label><br>
+                            <label for="mail_engine">Mail Motor</label><br>
                             <div class="radio radio-inline radio-primary">
                                 <input type="radio" name="settings[mail_engine]" id="phpmailer" value="phpmailer" checked="">
                                 <label for="phpmailer">PHPMailer</label>
@@ -32,7 +32,7 @@
                                 <label for="codeigniter">CodeIgniter</label>
                             </div>
                             <hr>
-                                        <label for="email_protocol">Email Protocol</label><br>
+                                        <label for="email_protocol">Email Protokoll</label><br>
                             <div class="radio radio-inline radio-primary">
                                 <input type="radio" name="settings[email_protocol]" id="smtp" value="smtp" checked="">
                                 <label for="smtp">SMTP</label>
@@ -40,7 +40,7 @@
 
                             <div class="radio radio-inline radio-primary">
                                 <input type="radio" name="settings[email_protocol]" id="sendmail" value="sendmail">
-                                <label for="sendmail">Sendmail</label>
+                                <label for="sendmail">Mail senden</label>
                             </div>
 
                             <div class="radio radio-inline radio-primary">
@@ -50,19 +50,19 @@
                         </div>
                         <div class="smtp-fields">
                         <div class="form-group mtop15">
-                                <label for="smtp_encryption">Email Encryption</label><br>
+                                <label for="smtp_encryption">Email Verschlüsselung</label><br>
                                 <div class="dropdown bootstrap-select bs3" style="width: 100%;"><select name="settings[smtp_encryption]" class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option value="" selected="">None</option>
+                                    <option value="" selected="">Keiner</option>
                                     <option value="ssl">SSL</option>
                                     <option value="tls">TLS</option>
                                 </select><button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="combobox" aria-owns="bs-select-1" aria-haspopup="listbox" aria-expanded="false" title="None"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">None</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open"><div class="inner open" role="listbox" id="bs-select-1" tabindex="-1"><ul class="dropdown-menu inner " role="presentation"></ul></div></div></div>
                             </div>
-                        <div class="form-group" app-field-wrapper="settings[smtp_host]"><label for="settings[smtp_host]" class="control-label">SMTP Host</label><input type="text" id="settings[smtp_host]" name="settings[smtp_host]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[smtp_port]"><label for="settings[smtp_port]" class="control-label">SMTP Port</label><input type="text" id="settings[smtp_port]" name="settings[smtp_port]" class="form-control" value=""></div>		</div>
+                        <div class="form-group" app-field-wrapper="settings[smtp_host]"><label for="settings[smtp_host]" class="control-label">SMTP Gastgeber</label><input type="text" id="settings[smtp_host]" name="settings[smtp_host]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[smtp_port]"><label for="settings[smtp_port]" class="control-label">SMTP Port</label><input type="text" id="settings[smtp_port]" name="settings[smtp_port]" class="form-control" value=""></div>		</div>
                         <div class="form-group" app-field-wrapper="settings[smtp_email]"><label for="settings[smtp_email]" class="control-label">Email</label><input type="text" id="settings[smtp_email]" name="settings[smtp_email]" class="form-control" value=""></div>		<div class="smtp-fields">
                         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="Fill only if your email client use username for SMTP login."></i>
-                        <div class="form-group" app-field-wrapper="settings[smtp_username]"><label for="settings[smtp_username]" class="control-label">SMTP Username</label><input type="text" id="settings[smtp_username]" name="settings[smtp_username]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[smtp_password]"><label for="settings[smtp_password]" class="control-label">SMTP Password</label><input type="password" id="settings[smtp_password]" name="settings[smtp_password]" class="form-control" autocomplete="off" value=""></div>		</div>
-                        <div class="form-group" app-field-wrapper="settings[smtp_email_charset]"><label for="settings[smtp_email_charset]" class="control-label">Email Charset</label><input type="text" id="settings[smtp_email_charset]" name="settings[smtp_email_charset]" class="form-control" value="utf-8"></div>		<div class="form-group" app-field-wrapper="settings[bcc_emails]"><label for="settings[bcc_emails]" class="control-label">BCC All Emails To</label><input type="text" id="settings[bcc_emails]" name="settings[bcc_emails]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[email_signature]"><label for="settings[email_signature]" class="control-label">Email Signature</label><textarea id="settings[email_signature]" name="settings[email_signature]" class="form-control" data-entities-encode="true" rows="4"></textarea></div>		<hr>
-                        <div class="form-group" app-field-wrapper="settings[email_header]"><label for="settings[email_header]" class="control-label">Predefined Header</label><textarea id="settings[email_header]" name="settings[email_header]" class="form-control" rows="15" data-entities-encode="true"><!doctype html>
+                        <div class="form-group" app-field-wrapper="settings[smtp_username]"><label for="settings[smtp_username]" class="control-label">SMTP Nutzername</label><input type="text" id="settings[smtp_username]" name="settings[smtp_username]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[smtp_password]"><label for="settings[smtp_password]" class="control-label">SMTP Passwort</label><input type="password" id="settings[smtp_password]" name="settings[smtp_password]" class="form-control" autocomplete="off" value=""></div>		</div>
+                        <div class="form-group" app-field-wrapper="settings[smtp_email_charset]"><label for="settings[smtp_email_charset]" class="control-label">Email Zeichensatz</label><input type="text" id="settings[smtp_email_charset]" name="settings[smtp_email_charset]" class="form-control" value="utf-8"></div>		<div class="form-group" app-field-wrapper="settings[bcc_emails]"><label for="settings[bcc_emails]" class="control-label">BCC Alle Emails an</label><input type="text" id="settings[bcc_emails]" name="settings[bcc_emails]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[email_signature]"><label for="settings[email_signature]" class="control-label">Email Unterschrift</label><textarea id="settings[email_signature]" name="settings[email_signature]" class="form-control" data-entities-encode="true" rows="4"></textarea></div>		<hr>
+                        <div class="form-group" app-field-wrapper="settings[email_header]"><label for="settings[email_header]" class="control-label">Vordefinierter Header</label><textarea id="settings[email_header]" name="settings[email_header]" class="form-control" rows="15" data-entities-encode="true"><!doctype html>
                                             <html>
                                             <head>
                                             <meta name="viewport" content="width=device-width" />
@@ -209,8 +209,8 @@
                             </html></textarea>
                         </div>		
                         <hr>
-                        <h4>Send Test Email</h4>
-                        <p class="text-muted">Send test email to make sure that your SMTP settings is set correctly.</p>
+                        <h4>Test Email Senden</h4>
+                        <p class="text-muted">Senden Sie eine Test-E-Mail, um sicherzustellen, dass Ihre SMTP-Einstellungen korrekt eingestellt sind.</p>
                         <div class="form-group">
                             <div class="input-group">
                                 <input type="email" class="form-control" name="test_email" data-ays-ignore="true" placeholder="Email Address">
@@ -224,31 +224,31 @@
                     <div role="tabpanel" class="tab-pane" id="email_queue">
                                     <div class="form-group">
                         <label for="email_queue_enabled" class="control-label clearfix">
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature."></i> Enable Email Queue        </label>
+                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature."></i> Email Warteschlange Aktivieren       </label>
                         <div class="radio radio-primary radio-inline">
                             <input type="radio" id="y_opt_1_email_queue_enabled" name="settings[email_queue_enabled]" value="1">
                             <label for="y_opt_1_email_queue_enabled">
-                                Yes            </label>
+                            Ja          </label>
                         </div>
                         <div class="radio radio-primary radio-inline">
                                 <input type="radio" id="y_opt_2_email_queue_enabled" name="settings[email_queue_enabled]" value="0" checked="">
                                 <label for="y_opt_2_email_queue_enabled">
-                                    No                </label>
+                                Nein                </label>
                         </div>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label for="email_queue_skip_with_attachments" class="control-label clearfix">
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="Most likely you will encounter problems with the email queue if the system needs to add big files to the queue. If you plan to use this option consult with your server administrator/hosting provider to increase the max_allowed_packet and&nbsp;wait_timeout&nbsp;options in your server config, otherwise when this option is set to yes the system won't add emails with attachments in the queue and will be sent immediately."></i> Do not add emails with attachments in the queue?        </label>
+                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="Most likely you will encounter problems with the email queue if the system needs to add big files to the queue. If you plan to use this option consult with your server administrator/hosting provider to increase the max_allowed_packet and&nbsp;wait_timeout&nbsp;options in your server config, otherwise when this option is set to yes the system won't add emails with attachments in the queue and will be sent immediately."></i> Fügen Sie keine E-Mails mit Anhängen in die Warteschlange ein?      </label>
                         <div class="radio radio-primary radio-inline">
                             <input type="radio" id="y_opt_1_email_queue_skip_attachments" name="settings[email_queue_skip_with_attachments]" value="1" checked="">
                             <label for="y_opt_1_email_queue_skip_attachments">
-                                Yes            </label>
+                                Ja           </label>
                         </div>
                         <div class="radio radio-primary radio-inline">
                                 <input type="radio" id="y_opt_2_email_queue_skip_attachments" name="settings[email_queue_skip_with_attachments]" value="0">
                                 <label for="y_opt_2_email_queue_skip_attachments">
-                                    No                </label>
+                                Nein              </label>
                         </div>
                     </div>
                 </div>
@@ -258,7 +258,7 @@
     </div>
 </div>
 <div class=" btn-bottom-toolbar text-right ">
-                    <button type="submit" class="btn btn-info">   Save Settings          </button>
-                </div>
+    <button type="submit" class="btn btn-info">   Save Settings          </button>
+</div>
 
 
