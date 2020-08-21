@@ -8,7 +8,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
-class Template_pdf
+class Template_pdf 
 {
     protected $templates;
     private $tag = '';
@@ -17,6 +17,7 @@ class Template_pdf
     {
         $this->tag = $template;
         $GLOBALS['template_pdf'] = $template;
+        //echo $this->file_path();
         try {
             ob_start();
             include $this->file_path();
@@ -36,6 +37,8 @@ class Template_pdf
             $formatter = new ExceptionFormatter($e);
             echo $formatter->getHtmlMessage();
         }
+
+
 
     }
 

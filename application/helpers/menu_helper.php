@@ -131,6 +131,14 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-file',
     ]);
 
+    
+    $CI->app_menu->add_sidebar_menu_item('emailsettings', [
+        'name' => get_menu_option('emailsettings', _l('Email Einstellungen')),
+        'href' => admin_url('emailsettings'),
+        'position' => 84,
+        'icon' => 'fa fa-file',
+    ]);
+
     if ((has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own'))
         || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)) {
         $CI->app_menu->add_sidebar_menu_item('invoices', [
