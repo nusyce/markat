@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <!-- these css important proerty need to be merge if desing is accepted else comment themS --> 
-<?if(True){
+<?if(true){
 echo'<link rel="stylesheet" type="text/css" id="vendor-css" href="https://perfexcrm.com/demo/assets/builds/vendor-admin.css?v=2.7.0">
 <link rel="stylesheet" type="text/css" id="app-css" href="https://perfexcrm.com/demo/assets/css/style.min.css?v=2.7.0">
 ';
@@ -37,7 +37,7 @@ echo'<link rel="stylesheet" type="text/css" id="vendor-css" href="https://perfex
   // Get all elements with class="tab-pane" and hide them
         tabpanel = document.getElementsByClassName("tab-pane");
         for (i = 0; i < tabpanel.length; i++) {
-            tabpanel[i].className.replace("active", "");
+            tabpanel[i].className = tabpanel[i].className.replace("active", "");
         }
 
   // Get all elements with class="tablinks" and remove the class "active"
@@ -52,10 +52,10 @@ echo'<link rel="stylesheet" type="text/css" id="vendor-css" href="https://perfex
     panelconf = document.getElementById("email_config");
     tabconf   = document.getElementById("email_config_tab");
 
-    tabque.className.replace("active", " ");
-    panelque.className.replace("active", " ");
-    panelconf.className.replace("active", " ");
-    tabconf.className.replace("active", " ");
+    tabque.className = tabque.className.replace("active", "");
+    panelque.className = panelque.className.replace("active", "");
+    panelconf.className = panelconf.className.replace("active", "");
+    tabconf.className = tabconf.className.replace("active", "");
 
         if(optName == "email_queue"){
        
