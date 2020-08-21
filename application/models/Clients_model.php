@@ -92,7 +92,6 @@ class Clients_model extends App_Model
 
     /**
      * @param array $_POST data
-     * @param client_request is this request from the customer area
      * @return integer Insert ID
      * Add new client to database
      */
@@ -169,9 +168,7 @@ class Clients_model extends App_Model
                     ]);
                 }
             }
-
             $log = 'ID: ' . $userid;
-
             if ($log == '' && isset($contact_id)) {
                 $log = get_contact_full_name($contact_id);
             }

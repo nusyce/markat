@@ -335,7 +335,6 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
         $task = $this->tasks_model->get($id);
-
         try {
             $tag = isset($_GET['full']) ? 'full' : '';
             $pdf = task_pdf($task, $tag);
@@ -502,7 +501,7 @@ class Tasks extends AdminController
                 ];
             }
         }
-        $this->load->model(['lieferanten_model','misc_model', 'mieter_model']);
+        $this->load->model(['lieferanten_model', 'misc_model', 'mieter_model']);
         $data['id'] = $id;
         $data['title'] = $title;
         $data['mieters'] = $this->mieter_model->get();
@@ -916,7 +915,7 @@ class Tasks extends AdminController
         if ($this->input->post('no_editor')) {
             $data['content'] = nl2br($this->input->post('content'));
         }
-        $data['moment'] = nl2br($this->input->post('moment'));
+        $data['moment'] = $this->input->post('moment');
         $comment_id = false;
         if ($data['content'] != ''
             || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {

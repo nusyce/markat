@@ -145,10 +145,15 @@
                            min="0" value="0"
                            type="number">
                 </div>
-                <div class="col-md-7">
-                    <?php echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $selected); ?>
+                <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
+                    <?php
+                    echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', array(), array()); ?>
                 </div>
-
+                <div class="col-md-1" style="padding: 0;">
+                    <input  style="margin-right: -10px;padding-right: 0px !important;"
+                            class="form-control a_qty" min="0" name="sqr[]"
+                            type="number" >
+                </div>
                 <div class="col-md-2">
                     <a href="#"
                        class="btn remove-aq btn-danger disabled display-block  text-center">
@@ -159,20 +164,13 @@
         </div>
     <?php else:
         $wohnungenOj = new Wohnungen_model();
-        ?>
-
-        <?php
         foreach ($wohnungen->inventer as $k => $a):
             ?>
             <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                  data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
                 <?php if ($a['is_deleted'] == 0):
-
                     $allData = get_move($wohnungen, $a['inventar_id']);
-                    //  var_dump($allData);
-
                     ?>
-
                     <div class="row firstroun">
                         <div class="col-md-1">
                             <div class="count-k"><?= $k + 1 ?></div>
@@ -182,9 +180,13 @@
                                    class="form-control a_qty" min="0"
                                    type="number" value="<?= $a['qty'] ?>">
                         </div>
-                        <div class="col-md-7 <?= $allData ? ' moved' : '' ?>">
-                            <?php
-                            echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
+                        <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
+                            <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
+                        </div>
+                        <div class="col-md-1" style="padding: 0;">
+                            <input name="sqr[]" style="margin-right: -10px; padding-right: 0px !important;"
+                                   class="form-control " min="0"  value="<?= $a['sqr'] ?>"
+                                   type="number" >
                         </div>
                         <div class="col-md-2">
                             <a href="#"

@@ -10,6 +10,7 @@ class Belegungsplan extends AdminController
         $this->load->model('wohnungen_model');
         $this->load->model('mieter_model');
         $this->load->model('belegungsplan_model');
+
     }
 
 
@@ -30,6 +31,7 @@ class Belegungsplan extends AdminController
         $this->load->view('admin/belegungsplan/manage', $data);
     }
 
+
     public function table($clientid = '')
     {
         $this->app->get_table_data('belegungsplan', []);
@@ -38,33 +40,63 @@ class Belegungsplan extends AdminController
 
     public function table1($clientid = '')
     {
-        $demoSource = [];
-
         $aqs = $this->wohnungen_model->get_wohnungens();
-        $belegungsplan = $this->belegungsplan_model->get_occupations();
+
+//print_r($aqs);
+
         foreach ($aqs as $k => $aq) {
+
             $tmpdata['name'] = $aq['strabe'];
             $tmpdata['desc'] = $aq['hausnummer'];
             $tmpdata['etage'] = $aq['etage'];
             $tmpdata['fluge'] = $aq['flugel'];
-            foreach ($belegungsplan as $b) {
-            if ($b['wohnungen'] != $aq['id'])
-                continue;
-                $tmpdata = [];
-                if ($b['mieter_name'] == "") {
-                    $b['mieter_name'] = "-";
+            $belegungsplan = $this->belegungsplan_model->get_occupations(array('wohnungen' => $aq['id']));
+            $tmpdata['values'] = [];
+            if (!empty($belegungsplan)) {
+                foreach ($belegungsplan as $b) {
+                    $mieter = $this->mieter_model->get($b['mieter']);
+                    $projektnv = (empty($mieter->projektname)) ? ' ' : ' (' . $mieter->projektname . ')';
+                    $values['label'] = $b['mieter_name'] . $projektnv;
+                    $values['id_mieter'] = (int)$b['mieter'];
+                    $values['id'] = (int)$b['id'];
+                    $values['from'] = strtotime($b['belegt_v']) * 1000;
+                    $values['to'] = strtotime($b['belegt_b']) * 1000;
+                    $values['customClass'] = "ganttRed";
+
+//        }
+
+                    $tmpdata['values'][] = $values;
+
                 }
-
-                $values['label'] = $b['mieter_name'];
-                $values['from'] = strtotime($b['belegt_v']) * 1000;
-                $values['to'] = strtotime($b['belegt_b']) * 1000;
-                $values['customClass'] = "ganttRed";
-
-                $tmpdata['values'][] = $values;
-
             }
             $demoSource[] = $tmpdata;
         }
+
+        // $data = $this->belegungsplan_model->get_my_occupations();
+        // $demoSource = [];
+
+        // foreach ($data as $record) {
+        //     $tmpdata = [];
+
+        //     if ($record['fullname'] == "") {
+        //         $record['fullname'] = "-";
+        //     }
+
+        //     $tmpdata['name'] = $record['strabe'];
+        //     $tmpdata['desc'] = $record['hausnummer'];
+        //     $tmpdata['etage'] = $record['etage'];
+        //     $tmpdata['fluge'] = $record['flugel'];
+
+        //     $values['from'] = strtotime($record['belegt_v']) * 1000;
+        //     $values['to'] = strtotime($record['belegt_b']) * 1000;
+        //     $values['label'] = $record['fullname'];
+        //     $values['customClass'] = "ganttRed";
+
+        //     $tmpdata['values'][] = $values;
+
+        //     $demoSource[] = $tmpdata;
+
+        // }
         echo json_encode($demoSource);
         die();
     }
@@ -90,11 +122,31 @@ class Belegungsplan extends AdminController
     }
 
 
-    public function load_free_aq($start = null, $end = null, $etage = null, $schlaplatze = null, $mobiliert = null)
+    public function ajax_assign()
+    {
+        $response = ['msg' => '', 'status' => true];
+        if ($this->input->post()) {
+            if ($_POST['belegungsplan_id'] == '0') {
+                $id = $this->belegungsplan_model->add($this->input->post());
+                if ($id) {
+                    $response['msg'] = _l('added_successfully', 'Belegungsplan');
+                }
+            } else {
+                $success = $this->belegungsplan_model->update($this->input->post(), $_POST['belegungsplan_id']);
+                if ($success) {
+                    $response['msg'] = _l('updated_successfully', 'Belegungsplan');
+                }
+            }
+        }
+        echo json_encode($response);
+        die();
+    }
+
+
+    public function load_free_aq($start = null, $end = null, $etage = null, $schlaplatze = null, $mobiliert = null, $occupation_id = 0)
     {
         // Modified to Add Filter AQ Drop Down
         $aqs = $this->wohnungen_model->get_wohnungens();
-        $belegungsplan = $this->belegungsplan_model->get_occupations();
         $etage = urldecode($etage);
         $schlaplatze = urldecode($schlaplatze);
         $mobiliert = urldecode($mobiliert);
@@ -104,9 +156,10 @@ class Belegungsplan extends AdminController
         $optionsET = '<option value=""></option>';
         $optionsSC = '<option value=""></option>';
         $optionsMO = '<option value=""></option>';
-
+        $availlableAq = [];
         // Loop select all  AQ
         foreach ($aqs as $k => $aq) {
+            $belegungsplan = $this->belegungsplan_model->get_occupations(array('wohnungen' => $aq['id']));
             foreach ($belegungsplan as $b) {
                 // Condition Remove all AQ if date is not selected
 
@@ -115,16 +168,15 @@ class Belegungsplan extends AdminController
                 }
 
                 // Condition Remove AQ based on ocupation dates
-                if ($b['wohnungen'] === $aq['id']) {
-                    $bv = date("Y-m-d", strtotime($b['belegt_v']));
-                    $bb = date("Y-m-d", strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b'])));
-                    $vbv = date("Y-m-d", strtotime($start));
-                    $vbb = date("Y-m-d", strtotime($end));
-                    if (($vbv > $bb || $vbb < $bv)) {
-                        $aqfilterflag = True;
-                    } else {
+                $bv = strtotime($b['belegt_v']);
+                $bb = strtotime('+' . $b['break_days'] . ' day', strtotime($b['belegt_b']));
+                $vbv = strtotime($start);
+                $vbb = strtotime($end);
+                if (($vbv > $bb || $vbb < $bv)) {
+                    $aqfilterflag = True;
+                } else {
+                    if ($occupation_id != $b['id'])
                         unset($aqs[$k]);
-                    }
                 }
             }
 
@@ -152,7 +204,7 @@ class Belegungsplan extends AdminController
                 $optionsET .= ',<option value="' . $aq['etage'] . '">' . $aq['etage'] . '</option>';
                 $optionsSC .= ',<option value="' . $aq['schlaplatze'] . '">' . $aq['schlaplatze'] . '</option>';
                 $optionsMO .= ',<option value="' . $aq['mobiliert'] . '">' . $aq['mobiliert'] . '</option>';
-
+                $availlableAq[] = (int)$aq['id'];
             }
 
 
@@ -165,6 +217,7 @@ class Belegungsplan extends AdminController
         $optionsMO = implode('', array_unique(explode(',', $optionsMO)));
 
         $optionAry = array(
+            "aqIds" => $availlableAq,
             "optionsAQ" => $optionsAQ,
             "optionsET" => $optionsET,
             "optionsSC" => $optionsSC,

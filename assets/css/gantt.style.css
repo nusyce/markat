@@ -66,14 +66,35 @@
     overflow: hidden;
 }
 
-.fn-gantt .leftPanel .row {
+.fn-gantt .leftPanel .row.last {
     border-bottom: 1px solid #DDD;
 }
-.fn-gantt .leftPanel .name, .fn-gantt .leftPanel .desc {
+.fn-gantt .leftPanel .row .header-th {
+    width:25%;
+    font-weight: bold;
+    float :left;
+}
+.fn-gantt .leftPanel .row .header-th.strabe {
+    width:40%;
+}
+.fn-gantt .leftPanel .row .header-th.nr,.fn-gantt .leftPanel .row .header-th.etgag,.fn-gantt .leftPanel .row .header-th.flugel{
+    width:20%;
+}
+
+.fn-gantt .leftPanel .name{
     float: left;
     height: 24px;
-    width: 50%;
+    width: 40% !important;
     background-color: #f6f6f6;
+    clear: both;
+
+}
+.fn-gantt .leftPanel .desc,.fn-gantt .leftPanel .etage,.fn-gantt .leftPanel .fluge{
+    float: left;
+    height: 24px;
+    width: 20% !important;
+    background-color: #f6f6f6;
+
 }
 
 .fn-gantt .leftPanel .name {
@@ -241,11 +262,14 @@
 }
 .fn-gantt .navigate {
     border-top: 1px solid #DDD;
-    padding: 10px 0 10px 225px;
+    text-align: center;
+    /* margin: 0 auto; */
+    padding: 10px 0 10px 0;
 }
 
 .fn-gantt .navigate .nav-slider {
     height: 20px;
+    margin: 0 auto;
     display: inline-block;
 }
 

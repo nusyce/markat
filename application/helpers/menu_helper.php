@@ -41,11 +41,11 @@ function app_init_admin_sidebar_menu_items()
 
         $CI->app_menu->add_sidebar_menu_item('calendar', [
             'slug' => 'calendar',
+            'new' => true,
             'name' => _l('Personalplan'),
             'href' => admin_url('utilities/calendar'),
             'position' => 15,
         ]);
-
     }
 
     $CI->app_menu->add_sidebar_menu_item('rb', [
@@ -61,6 +61,7 @@ function app_init_admin_sidebar_menu_items()
         'position' => 52,
         'icon' => 'fa fa-th-large',
     ]);
+
     if ($GLOBALS['current_user']->role == 2) {
         /*        $CI->app_menu->add_sidebar_menu_item('staff', [
                     'name' => get_menu_option('staff',_l('als_staff')),
@@ -200,6 +201,7 @@ function app_init_admin_sidebar_menu_items()
             'name' => get_menu_option('inventarlistes_un', _l('Inventar-Umzugsliste')),
             'href' => admin_url('wohnungen/move_inventory'),
             'position' => 19,
+            'new' => true,
             'icon' => '',
         ]);
 
@@ -258,6 +260,13 @@ function app_init_admin_sidebar_menu_items()
             'icon' => 'fa fa-address-card',
         ]);
     }
+
+    $CI->app_menu->add_sidebar_menu_item('solution-box', [
+        'name' => get_menu_option('solution-box', _l('Solution-Box')),
+        'href' => admin_url('solutionbox'),
+        'position' => 107,
+        'icon' => 'fa fa-save',
+    ]);
 
     if (has_permission('cars', '', 'view')
         || has_permission('cars', '', 'create')) {

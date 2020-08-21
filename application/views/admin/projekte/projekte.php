@@ -18,6 +18,17 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <?php $value = (isset($projekte) ? $projekte->wie : ''); ?>
+                                        <?php echo render_input('wie', 'WIE', $value); ?>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php $value = (isset($projekte) ? $projekte->auftrag : ''); ?>
+                                        <?php echo render_input('auftrag', 'Auftrag', $value); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <?php $value = (isset($projekte) ? $projekte->datum : ''); ?>
                                         <?php echo render_date_input('datum', 'Datum', $value); ?>
                                     </div>
@@ -26,26 +37,27 @@
                                         <?php echo render_input('nummer', 'Projektnummer', $value); ?>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <?php $value = (isset($projekte) ? $projekte->kunde : ''); ?>
-                                        <?php echo render_select('kunde', $clients, array('userid', array( 'company')), 'Kunde'); ?>
+                                        <?php echo render_select('kunde', $clients, array('userid', array('company')), 'Kunde', $value); ?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php $value = (isset($projekte) ? $projekte->mieter : ''); ?>
-                                        <?php echo render_select('mieter', $mieters, array('id', array('fullname')), 'Mieter'); ?>
+                                        <?php echo render_select('mieter', $mieters, array('id', array('fullname')), 'Mieter', $value); ?>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <?php $value = (isset($projekte) ? $projekte->aq : ''); ?>
-                                         <?php echo render_select('aq', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'AQ'); ?>
+                                        <?php echo render_select('aq', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'AQ', $value); ?>
 
                                     </div>
                                     <div class="col-md-6">
                                         <?php $value = (isset($projekte) ? $projekte->user : ''); ?>
-                                         <?php echo render_select('user', $staffs, array('staffid', array('firstname', 'lastname')), 'Mitabeiter'); ?>
+                                        <?php echo render_select('user', $staffs, array('staffid', array('firstname', 'lastname')), 'Mitabeiter', $value); ?>
 
                                     </div>
                                 </div>
@@ -53,7 +65,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <?php $value = (isset($projekte) ? $projekte->cars : ''); ?>
-                                         <?php echo render_select('cars', $cars, array('id', array('marke', 'modell')), 'Fahzeuglist' ); ?>
+                                        <?php echo render_select('cars', $cars, array('id', array('marke', 'modell')), 'Fahzeuglist', $value); ?>
                                     </div>
                                 </div>
                             </div>
@@ -88,110 +100,5 @@
     </div>
 </div>
 <?php init_tail(); ?>
-<!-- init table tasks -->
-<script>
-
-    appValidateForm($('#projekte-form'), {datum: 'required'});
-
-    // Add additional server params $_POST
-    var LeadsServerParams = {
-        /*       "belegt": "[name='belegt']",
-               "strabe": "[name='strabe']",
-               "schlaplatze": "[name='schlaplatze']",
-               "mobiliert": "[name='mobiliert']",
-               "etage": "[name='etage']",
-               "flugel": "[name='flugel']",*/
-    };
-
-    leadsTableNotSearchable = leadsTableNotSortable = [];
-    var filterArray = [];
-    var ContractsServerParams = {};
-    $.each($('._hidden_inputs._filters input'), function () {
-        ContractsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
-    });
-
-    var table_wohnungen = $('.table-wohnungen');
-    var _table_api = initDataTable(table_wohnungen, admin_url + 'wohnungen/table', undefined, undefined, LeadsServerParams, [0, 'desc'], filterArray);
-
-    $.each(LeadsServerParams, function (i, obj) {
-        $('select' + obj).on('change', function () {
-            table_wohnungen.DataTable().ajax.reload()
-                .columns.adjust()
-                .responsive.recalc();
-        });
-    });
-    projekteDropzone = new Dropzone("#projekte-form-drop-zone", appCreateDropzoneOptions({
-        clickable: '.add-post-attachments',
-        url: admin_url + "projekte/ajax_save", paramName: "files",
-        autoProcessQueue: false,
-        addRemoveLinks: true,
-        uploadMultiple: true,
-        parallelUploads: app.options.newsfeed_maximum_files_upload,
-        maxFiles:40,
-        init: function () {
-            projekteDropzone = this;
-
-            this.on('sending', function (file, xhr, formData) {
-                // Append all form inputs to the formData Dropzone will POST
-                var data = $('#projekte-form').serializeArray();
-                $.each(data, function (key, el) {
-                    formData.append(el.name, el.value);
-                });
-            });
-
-            this.on("success", function (file) {
-            });
-        },
-        removedfile: function (file) {
-
-            x = confirm('Do you want to delete?');
-            if (!x) return false;
-            if (projekte_id != 0) {
-                file.previewElement.remove();
-            }
-        },
-        dragover: function (file) {
-            $('#projekte-form-drop-zone').addClass('dropzone-active');
-        },
-        complete: function (file) {
-            console.log(file);
-            window.location.href = file.xhr.responseText;
-        },
-        drop: function (file) {
-            $('#projekte-form-drop-zone').removeClass('dropzone-active');
-        }
-    }));
-
-
-    $('#projekte-form #submit').on("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $(window).unbind('beforeunload');
-        if (projekteDropzone.getQueuedFiles().length > 0) {
-            projekteDropzone.processQueue();
-        } else {
-            $.ajax({
-                url: admin_url + "projekte/ajax_save",
-                data: $("#projekte-form").serialize(),
-                type: "POST",
-                dataType: 'json',
-                success: function (e) {
-                    window.location.href = e;
-                },
-                error: function (e) {
-                    window.location.href = e.responseText;
-                }
-            });
-        }
-    });
-
-
-    // Get file extension
-    function checkFileExt(filename) {
-        filename = filename.toLowerCase();
-        return filename.split('.').pop();
-    }
-
-</script>
 </body>
 </html>

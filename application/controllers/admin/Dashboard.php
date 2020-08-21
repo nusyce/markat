@@ -203,8 +203,6 @@ class Dashboard extends AdminController
 
     public function pdf($template = '')
     {
-
-
         $pdf = template_pdf($template);
     }
 }

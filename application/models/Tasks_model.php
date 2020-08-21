@@ -21,6 +21,7 @@ class Tasks_model extends App_Model
         parent::__construct();
         $this->load->model('projects_model');
         $this->load->model('staff_model');
+        $this->load->model('mieter_model');
     }
 
     // Not used?
@@ -70,7 +71,7 @@ class Tasks_model extends App_Model
                 'name' => _l('task_status_5'),
                 'order' => 77,
                 'filter_default' => false,
-            ],  [
+            ], [
                 'id' => self::STATUS_ABGERECHNET,
                 'color' => 'red',
                 'name' => _l('Abgerechnet'),
@@ -99,6 +100,11 @@ class Tasks_model extends App_Model
         $task = $this->db->get(db_prefix() . 'tasks')->row();
         if ($task) {
             $task->comments = $this->get_task_comments($id);
+            $mieter = $this->mieter_model->get($task->mieters);
+            if ($mieter)
+                $task->mieter = $mieter->fullname;
+            else
+                $task->mieter = '';
             $task->assignees = $this->get_task_assignees($id);
             $task->assignees_ids = [];
 
