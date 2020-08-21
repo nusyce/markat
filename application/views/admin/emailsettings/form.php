@@ -5,10 +5,10 @@
         <div class="panel_s">
             <div class="panel-body">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active" id="navtab">
+                    <li role="presentation" class=" navtab active" id='email_config_tab' onclick='openOption(event,"email_config")'>
                         <a href="#email_config" aria-controls="email_config" role="tab" data-toggle="tab" aria-expanded="true">SMTP Einstellungen</a>
                     </li>
-                    <li role="presentation" class="" id="navtab">
+                    <li role="presentation" class="navtab " id='email_queue_tab' onclick="openOption(event, 'email_queue')">
                         <a href="#email_queue" aria-controls="email_queue" role="tab" data-toggle="tab" aria-expanded="false">Email Warteschlange</a>
                     </li>
                 </ul>
@@ -256,9 +256,11 @@
             </div>
         </div>
     </div>
+
 </div>
-<div class=" btn-bottom-toolbar text-right ">
+<div class=" btn-bottom-toolbar text-right " style="margin-left:-5px">
     <button type="submit" class="btn btn-info">   Save Settings          </button>
 </div>
+
 
 
