@@ -70,7 +70,6 @@ class Gdpr_model extends App_Model
         $this->db->order_by('name', 'desc');
 
         $purposes = $this->db->get(db_prefix() . 'consent_purposes')->result_array();
-
         return $purposes;
     }
 
