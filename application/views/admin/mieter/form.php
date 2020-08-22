@@ -273,12 +273,12 @@
         <div class="row">
             <div class="col-md-6">
                 <?php
-                $data = array();
-                $select = (isset($mieter) ? $mieter->projektname : '');
-                $data[] = array('id' => 'BOR');
-                $data[] = array('id' => 'FER');
-                $data[] = array('id' => 'TOPS');
-                echo render_select('projektname', $data, array('id', 'id'), 'Projektname', $select); ?>
+                $selected = '';
+                if (isset($wohnungen) && $wohnungen->project) {
+                    $selected = $wohnungen->project;
+                }
+                echo render_project_select($projects, $selected, 'Projekt');
+                ?>
             </div>
         </div>
         <div class="row">

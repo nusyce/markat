@@ -30,6 +30,13 @@ function get_available_staff_permissions($data = [])
     $withNotApplicableViewOwn = array_merge(['view_own' => ['not_applicable' => true, 'name' => _l('permission_view_own')]], $withoutViewOwnPermissionsArray);
 
     $corePermissions = [
+        //Dashbord
+        'dashboard' => [
+            'name' => get_menu_option('dashboard', _l('DASHBOARD')),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+            ],
+        ],
         //Meine Firma
         'firma' => [
             'name' => get_menu_option('firma', _l('MEINE FIRMA')),

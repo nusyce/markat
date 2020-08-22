@@ -598,6 +598,12 @@ function to_sql_datedv($date)
         return '';
     return date('Y-m-d', strtotime($date));
 }
+function time_to_sql_datedv($time)
+{
+    if (empty($time))
+        return '';
+    return date('Y-m-d', $time);
+}
 
 /**
  * Function that will check the date before formatting and replace the date places

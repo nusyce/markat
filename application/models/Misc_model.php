@@ -50,7 +50,7 @@ class Misc_model extends App_Model
         // First get all system taxes
         $this->load->model('taxes_model');
         $taxes = $this->taxes_model->get();
-        $i     = 0;
+        $i = 0;
         foreach ($taxes as $tax) {
             unset($taxes[$i]['id']);
             $taxes[$i]['name'] = $tax['name'] . '|' . $tax['taxrate'];
@@ -66,10 +66,10 @@ class Misc_model extends App_Model
             }
 
             foreach ($item_taxes as $item_tax) {
-                $new_tax            = [];
-                $new_tax['name']    = $item_tax['taxname'];
+                $new_tax = [];
+                $new_tax['name'] = $item_tax['taxname'];
                 $new_tax['taxrate'] = $item_tax['taxrate'];
-                $taxes[]            = $new_tax;
+                $taxes[] = $new_tax;
             }
         }
 
@@ -85,9 +85,9 @@ class Misc_model extends App_Model
                 if (!value_exists_in_array_by_key($taxes, 'name', $tax)) {
                     if (!is_array($tax)) {
                         $tmp_taxname = $tax;
-                        $tax_array   = explode('|', $tax);
+                        $tax_array = explode('|', $tax);
                     } else {
-                        $tax_array   = explode('|', $tax['taxname']);
+                        $tax_array = explode('|', $tax['taxname']);
                         $tmp_taxname = $tax['taxname'];
                         if ($tmp_taxname == '') {
                             continue;
@@ -198,10 +198,11 @@ class Misc_model extends App_Model
 
         return false;
     }
+
     public function add_attachment_to_database($rel_id, $rel_type, $attachment, $external = false)
     {
         $data['dateadded'] = date('Y-m-d H:i:s');
-        $data['rel_id']    = $rel_id;
+        $data['rel_id'] = $rel_id;
         if (!isset($attachment[0]['staffid'])) {
             $data['staffid'] = get_staff_user_id();
         } else {
@@ -215,7 +216,7 @@ class Misc_model extends App_Model
         $data['rel_type'] = $rel_type;
 
         if (isset($attachment[0]['contact_id'])) {
-            $data['contact_id']          = $attachment[0]['contact_id'];
+            $data['contact_id'] = $attachment[0]['contact_id'];
             $data['visible_to_customer'] = 1;
             if (isset($data['staffid'])) {
                 unset($data['staffid']);
@@ -226,13 +227,13 @@ class Misc_model extends App_Model
 
         if ($external == false) {
             $data['file_name'] = $attachment[0]['file_name'];
-            $data['filetype']  = $attachment[0]['filetype'];
+            $data['filetype'] = $attachment[0]['filetype'];
         } else {
-            $path_parts            = pathinfo($attachment[0]['name']);
-            $data['file_name']     = $attachment[0]['name'];
+            $path_parts = pathinfo($attachment[0]['name']);
+            $data['file_name'] = $attachment[0]['name'];
             $data['external_link'] = $attachment[0]['link'];
-            $data['filetype']      = !isset($attachment[0]['mime']) ? get_mime_by_extension('.' . $path_parts['extension']) : $attachment[0]['mime'];
-            $data['external']      = $external;
+            $data['filetype'] = !isset($attachment[0]['mime']) ? get_mime_by_extension('.' . $path_parts['extension']) : $attachment[0]['mime'];
+            $data['external'] = $external;
             if (isset($attachment[0]['thumbnailLink'])) {
                 $data['thumbnail_link'] = $attachment[0]['thumbnailLink'];
             }
@@ -244,7 +245,7 @@ class Misc_model extends App_Model
         if ($data['rel_type'] == 'customer' && isset($data['contact_id'])) {
             if (get_option('only_own_files_contacts') == 1) {
                 $this->db->insert(db_prefix() . 'shared_customer_files', [
-                    'file_id'    => $insert_id,
+                    'file_id' => $insert_id,
                     'contact_id' => $data['contact_id'],
                 ]);
             } else {
@@ -253,7 +254,7 @@ class Misc_model extends App_Model
                 $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
                 foreach ($contacts as $contact) {
                     $this->db->insert(db_prefix() . 'shared_customer_files', [
-                        'file_id'    => $insert_id,
+                        'file_id' => $insert_id,
                         'contact_id' => $contact['id'],
                     ]);
                 }
@@ -283,10 +284,10 @@ class Misc_model extends App_Model
 
     /**
      * Add reminder
-     * @since  Version 1.0.2
      * @param mixed $data All $_POST data for the reminder
-     * @param mixed $id   relid id
+     * @param mixed $id relid id
      * @return boolean
+     * @since  Version 1.0.2
      */
     public function add_reminder($data, $id)
     {
@@ -296,9 +297,9 @@ class Misc_model extends App_Model
         else {
             $data['notify_by_email'] = 0;
         }
-        $data['date']        = to_sql_date($data['date'], true);
+        $data['date'] = to_sql_date($data['date'], true);
         $data['description'] = nl2br($data['description']);
-        $data['creator']     = get_staff_user_id();
+        $data['creator'] = get_staff_user_id();
         $this->db->insert(db_prefix() . 'reminders', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -307,7 +308,7 @@ class Misc_model extends App_Model
                 $this->leads_model->log_lead_activity($data['rel_id'], 'not_activity_new_reminder_created', false, serialize([
                     get_staff_full_name($data['staff']),
                     _dt($data['date']),
-                    ]));
+                ]));
             }
             log_activity('New Reminder Added [' . ucfirst($data['rel_type']) . 'ID: ' . $data['rel_id'] . ' Description: ' . $data['description'] . ']');
 
@@ -324,7 +325,7 @@ class Misc_model extends App_Model
             $data['notify_by_email'] = 0;
         }
 
-        $data['date']        = to_sql_date($data['date'], true);
+        $data['date'] = to_sql_date($data['date'], true);
         $data['description'] = nl2br($data['description']);
 
         $this->db->where('id', $id);
@@ -351,10 +352,10 @@ class Misc_model extends App_Model
 
     public function add_note($data, $rel_type, $rel_id)
     {
-        $data['dateadded']   = date('Y-m-d H:i:s');
-        $data['addedfrom']   = get_staff_user_id();
-        $data['rel_type']    = $rel_type;
-        $data['rel_id']      = $rel_id;
+        $data['dateadded'] = date('Y-m-d H:i:s');
+        $data['addedfrom'] = get_staff_user_id();
+        $data['rel_type'] = $rel_type;
+        $data['rel_id'] = $rel_id;
         $data['description'] = nl2br($data['description']);
 
         $data = hooks()->apply_filters('create_note_data', $data, $rel_type, $rel_id);
@@ -375,7 +376,7 @@ class Misc_model extends App_Model
     {
         hooks()->do_action('before_update_note', [
             'data' => $data,
-            'id'   => $id,
+            'id' => $id,
         ]);
 
         $this->db->where('id', $id);
@@ -424,9 +425,9 @@ class Misc_model extends App_Model
 
     /**
      * Get all reminders or 1 reminder if id is passed
-     * @since Version 1.0.2
-     * @param  mixed $id reminder id OPTIONAL
+     * @param mixed $id reminder id OPTIONAL
      * @return array or object
+     * @since Version 1.0.2
      */
     public function get_reminders($id = '')
     {
@@ -443,9 +444,9 @@ class Misc_model extends App_Model
 
     /**
      * Remove client reminder from database
-     * @since Version 1.0.2
-     * @param  mixed $id reminder id
+     * @param mixed $id reminder id
      * @return boolean
+     * @since Version 1.0.2
      */
     public function delete_reminder($id)
     {
@@ -465,16 +466,30 @@ class Misc_model extends App_Model
 
     public function get_tasks_distinct_assignees()
     {
-        return $this->db->query('SELECT DISTINCT(' . db_prefix() . "task_assigned.staffid) as assigneeid, CONCAT(firstname,' ',lastname) as full_name FROM " . db_prefix() . 'task_assigned JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid=' . db_prefix() . 'task_assigned.staffid')->result_array();
+        $results = [];
+        $res = $this->db->query('SELECT DISTINCT(' . db_prefix() . "task_assigned.staffid) as assigneeid,taskid, CONCAT(firstname,' ',lastname) as full_name FROM " . db_prefix() . 'task_assigned INNER JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid=' . db_prefix() . 'task_assigned.staffid where  ' . db_prefix() . 'staff.role !=9999')->result_array();
+        if ($res) {
+            foreach ($res as $r) {
+                $this->db->where(db_prefix() . 'tasks.id', $r['taskid']);
+                $data = $this->db->get(db_prefix() . 'tasks')->result_array();
+                if ($data) {
+                    $ddd = ['assigneeid' => $r['assigneeid'], 'full_name' => $r['full_name']];
+                    if (!in_array($r, $results)) {
+                        array_push($results, $ddd);
+                    }
+                }
+            }
+        }
+        return $results;
     }
 
     public function get_google_calendar_ids()
     {
         $is_admin = is_admin();
         $this->load->model('departments_model');
-        $departments       = $this->departments_model->get();
+        $departments = $this->departments_model->get();
         $staff_departments = $this->departments_model->get_staff_departments(false, true);
-        $ids               = [];
+        $ids = [];
 
         // Check departments google calendar ids
         foreach ($departments as $department) {
@@ -501,13 +516,13 @@ class Misc_model extends App_Model
 
     /**
      * Get current user notifications
-     * @param  boolean $read include and readed notifications
+     * @param boolean $read include and readed notifications
      * @return array
      */
     public function get_user_notifications($read = false)
     {
-        $read     = $read == false ? 0 : 1;
-        $total    = $this->notifications_limit;
+        $read = $read == false ? 0 : 1;
+        $total = $this->notifications_limit;
         $staff_id = get_staff_user_id();
 
         $sql = 'SELECT COUNT(*) as total FROM ' . db_prefix() . 'notifications WHERE isread=' . $read . ' AND touserid=' . $staff_id;
@@ -516,7 +531,7 @@ class Misc_model extends App_Model
 
         $res = $this->db->query($sql)->result();
 
-        $total_unread        = $res[0]->total;
+        $total_unread = $res[0]->total;
         $total_unread_inline = $res[1]->total;
 
         if ($total_unread > $total) {
@@ -567,7 +582,7 @@ class Misc_model extends App_Model
         $this->db->where('touserid', get_staff_user_id());
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'notifications', [
-            'isread'        => 1,
+            'isread' => 1,
             'isread_inline' => 1,
         ]);
     }
@@ -577,14 +592,14 @@ class Misc_model extends App_Model
         $this->db->where('touserid', get_staff_user_id());
         $this->db->update(db_prefix() . 'notifications', [
             'isread_inline' => 1,
-            'isread'        => 1,
+            'isread' => 1,
         ]);
     }
 
     /**
      * Dismiss announcement
-     * @param  array  $data  announcement data
-     * @param  boolean $staff is staff or client
+     * @param array $data announcement data
+     * @param boolean $staff is staff or client
      * @return boolean
      */
     public function dismiss_announcement($id, $staff = true)
@@ -596,8 +611,8 @@ class Misc_model extends App_Model
             $userid = get_staff_user_id();
         }
         $data['announcementid'] = $id;
-        $data['userid']         = $userid;
-        $data['staff']          = $staff;
+        $data['userid'] = $userid;
+        $data['staff'] = $staff;
         $this->db->insert(db_prefix() . 'dismissed_announcements', $data);
 
         return true;
@@ -605,18 +620,18 @@ class Misc_model extends App_Model
 
     /**
      * Perform search on top header
-     * @since  Version 1.0.1
-     * @param  string $q search
+     * @param string $q search
      * @return array    search results
+     * @since  Version 1.0.1
      */
     public function perform_search($q)
     {
         $q = trim($q);
         $this->load->model('staff_model');
-        $is_admin                       = is_admin();
-        $result                         = [];
-        $limit                          = get_option('limit_top_search_bar_results_to');
-        $have_assigned_customers        = have_assigned_customers();
+        $is_admin = is_admin();
+        $result = [];
+        $limit = get_option('limit_top_search_bar_results_to');
+        $have_assigned_customers = have_assigned_customers();
         $have_permission_customers_view = has_permission('customers', '', 'view');
         if ($have_assigned_customers || $have_permission_customers_view) {
 
@@ -648,8 +663,8 @@ class Misc_model extends App_Model
 
             $this->db->limit($limit);
             $result[] = [
-                'result'         => $this->db->get()->result_array(),
-                'type'           => 'clients',
+                'result' => $this->db->get()->result_array(),
+                'type' => 'clients',
                 'search_heading' => _l('clients'),
             ];
         }
@@ -725,8 +740,8 @@ class Misc_model extends App_Model
             $this->db->order_by('subject', 'ASC');
 
             $result[] = [
-                'result'         => $this->db->get()->result_array(),
-                'type'           => 'knowledge_base_articles',
+                'result' => $this->db->get()->result_array(),
+                'type' => 'knowledge_base_articles',
                 'search_heading' => _l('kb_string'),
             ];
         }
@@ -760,14 +775,14 @@ class Misc_model extends App_Model
         $this->db->order_by('name', 'ASC');
 
         $result[] = [
-            'result'         => $this->db->get()->result_array(),
-            'type'           => 'tasks',
+            'result' => $this->db->get()->result_array(),
+            'type' => 'tasks',
             'search_heading' => _l('tasks'),
         ];
 
 
         // Payments search
-        $has_permission_view_payments     = has_permission('payments', '', 'view');
+        $has_permission_view_payments = has_permission('payments', '', 'view');
         $has_permission_view_invoices_own = has_permission('invoices', '', 'view_own');
 
         if (has_permission('payments', '', 'view') || $has_permission_view_invoices_own || get_option('allow_staff_view_invoices_assigned') == '1') {
@@ -800,8 +815,8 @@ class Misc_model extends App_Model
             $this->db->order_by(db_prefix() . 'invoicepaymentrecords.date', 'ASC');
 
             $result[] = [
-                'result'         => $this->db->get()->result_array(),
-                'type'           => 'invoice_payment_records',
+                'result' => $this->db->get()->result_array(),
+                'type' => 'invoice_payment_records',
                 'search_heading' => _l('payments'),
             ];
         }
@@ -810,15 +825,15 @@ class Misc_model extends App_Model
         if ($is_admin) {
             $this->db->select()->from(db_prefix() . 'customfieldsvalues')->like('value', $q)->limit($limit);
             $result[] = [
-                'result'         => $this->db->get()->result_array(),
-                'type'           => 'custom_fields',
+                'result' => $this->db->get()->result_array(),
+                'type' => 'custom_fields',
                 'search_heading' => _l('custom_fields'),
             ];
         }
 
         // Invoice Items Search
-        $has_permission_view_invoices       = has_permission('invoices', '', 'view');
-        $has_permission_view_invoices_own   = has_permission('invoices', '', 'view_own');
+        $has_permission_view_invoices = has_permission('invoices', '', 'view');
+        $has_permission_view_invoices_own = has_permission('invoices', '', 'view_own');
         $allow_staff_view_invoices_assigned = get_option('allow_staff_view_invoices_assigned');
 
         if ($has_permission_view_invoices || $has_permission_view_invoices_own || $allow_staff_view_invoices_assigned == '1') {
@@ -833,15 +848,15 @@ class Misc_model extends App_Model
 
             $this->db->order_by('description', 'ASC');
             $result[] = [
-                'result'         => $this->db->get()->result_array(),
-                'type'           => 'invoice_items',
+                'result' => $this->db->get()->result_array(),
+                'type' => 'invoice_items',
                 'search_heading' => _l('invoice_items'),
             ];
         }
 
         // Estimate Items Search
-        $has_permission_view_estimates       = has_permission('estimates', '', 'view');
-        $has_permission_view_estimates_own   = has_permission('estimates', '', 'view_own');
+        $has_permission_view_estimates = has_permission('estimates', '', 'view');
+        $has_permission_view_estimates_own = has_permission('estimates', '', 'view_own');
         $allow_staff_view_estimates_assigned = get_option('allow_staff_view_estimates_assigned');
         if ($has_permission_view_estimates || $has_permission_view_estimates_own || $allow_staff_view_estimates_assigned) {
             $noPermissionQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
@@ -855,8 +870,8 @@ class Misc_model extends App_Model
             $this->db->where('(description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR long_description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
             $this->db->order_by('description', 'ASC');
             $result[] = [
-                'result'         => $this->db->get()->result_array(),
-                'type'           => 'estimate_items',
+                'result' => $this->db->get()->result_array(),
+                'type' => 'estimate_items',
                 'search_heading' => _l('estimate_items'),
             ];
         }
@@ -869,12 +884,12 @@ class Misc_model extends App_Model
     public function _search_proposals($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'proposals',
+            'result' => [],
+            'type' => 'proposals',
             'search_heading' => _l('proposals'),
         ];
 
-        $has_permission_view_proposals     = has_permission('proposals', '', 'view');
+        $has_permission_view_proposals = has_permission('proposals', '', 'view');
         $has_permission_view_proposals_own = has_permission('proposals', '', 'view_own');
 
         if ($has_permission_view_proposals || $has_permission_view_proposals_own || get_option('allow_staff_view_proposals_assigned') == '1') {
@@ -924,8 +939,8 @@ class Misc_model extends App_Model
     public function _search_leads($q, $limit = 0, $where = [])
     {
         $result = [
-            'result'         => [],
-            'type'           => 'leads',
+            'result' => [],
+            'type' => 'leads',
             'search_heading' => _l('leads'),
         ];
 
@@ -975,8 +990,8 @@ class Misc_model extends App_Model
     public function _search_tickets($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'tickets',
+            'result' => [],
+            'type' => 'tickets',
             'search_heading' => _l('support_tickets'),
         ];
 
@@ -987,7 +1002,7 @@ class Misc_model extends App_Model
             if (!$is_admin && get_option('staff_access_only_assigned_departments') == 1) {
                 $this->load->model('departments_model');
                 $staff_deparments_ids = $this->departments_model->get_staff_departments(get_staff_user_id(), true);
-                $departments_ids      = [];
+                $departments_ids = [];
                 if (count($staff_deparments_ids) == 0) {
                     $departments = $this->departments_model->get();
                     foreach ($departments as $department) {
@@ -1049,12 +1064,12 @@ class Misc_model extends App_Model
     public function _search_contacts($q, $limit = 0, $where = '')
     {
         $result = [
-            'result'         => [],
-            'type'           => 'contacts',
+            'result' => [],
+            'type' => 'contacts',
             'search_heading' => _l('customer_contacts'),
         ];
 
-        $have_assigned_customers        = have_assigned_customers();
+        $have_assigned_customers = have_assigned_customers();
         $have_permission_customers_view = has_permission('customers', '', 'view');
 
         if ($have_assigned_customers || $have_permission_customers_view) {
@@ -1090,8 +1105,8 @@ class Misc_model extends App_Model
     public function _search_staff($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'staff',
+            'result' => [],
+            'type' => 'staff',
             'search_heading' => _l('staff_members'),
         ];
 
@@ -1121,8 +1136,8 @@ class Misc_model extends App_Model
     public function _search_contracts($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'contracts',
+            'result' => [],
+            'type' => 'contracts',
             'search_heading' => _l('contracts'),
         ];
 
@@ -1150,8 +1165,8 @@ class Misc_model extends App_Model
     public function _search_projects($q, $limit = 0, $where = false)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'projects',
+            'result' => [],
+            'type' => 'projects',
             'search_heading' => _l('projects'),
         ];
 
@@ -1199,11 +1214,11 @@ class Misc_model extends App_Model
     public function _search_invoices($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'invoices',
+            'result' => [],
+            'type' => 'invoices',
             'search_heading' => _l('invoices'),
         ];
-        $has_permission_view_invoices     = has_permission('invoices', '', 'view');
+        $has_permission_view_invoices = has_permission('invoices', '', 'view');
         $has_permission_view_invoices_own = has_permission('invoices', '', 'view_own');
 
         if ($has_permission_view_invoices || $has_permission_view_invoices_own || get_option('allow_staff_view_invoices_assigned') == '1') {
@@ -1215,8 +1230,8 @@ class Misc_model extends App_Model
                 $q = trim($q);
                 $q = ltrim($q, '0');
             }
-            $invoice_fields    = prefixed_table_fields_array(db_prefix() . 'invoices');
-            $clients_fields    = prefixed_table_fields_array(db_prefix() . 'clients');
+            $invoice_fields = prefixed_table_fields_array(db_prefix() . 'invoices');
+            $clients_fields = prefixed_table_fields_array(db_prefix() . 'clients');
             $noPermissionQuery = get_invoices_where_sql_for_staff(get_staff_user_id());
             // Invoices
             $this->db->select(implode(',', $invoice_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'invoices.id as invoiceid,' . get_sql_select_client_company());
@@ -1307,12 +1322,12 @@ class Misc_model extends App_Model
     public function _search_credit_notes($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'credit_note',
+            'result' => [],
+            'type' => 'credit_note',
             'search_heading' => _l('credit_notes'),
         ];
 
-        $has_permission_view_credit_notes     = has_permission('credit_notes', '', 'view');
+        $has_permission_view_credit_notes = has_permission('credit_notes', '', 'view');
         $has_permission_view_credit_notes_own = has_permission('credit_notes', '', 'view_own');
 
         if ($has_permission_view_credit_notes || $has_permission_view_credit_notes_own) {
@@ -1325,7 +1340,7 @@ class Misc_model extends App_Model
                 $q = ltrim($q, '0');
             }
             $credit_note_fields = prefixed_table_fields_array(db_prefix() . 'creditnotes');
-            $clients_fields     = prefixed_table_fields_array(db_prefix() . 'clients');
+            $clients_fields = prefixed_table_fields_array(db_prefix() . 'clients');
             // Invoices
             $this->db->select(implode(',', $credit_note_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'creditnotes.id as credit_note_id,' . get_sql_select_client_company());
             $this->db->from(db_prefix() . 'creditnotes');
@@ -1408,12 +1423,12 @@ class Misc_model extends App_Model
     public function _search_estimates($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'estimates',
+            'result' => [],
+            'type' => 'estimates',
             'search_heading' => _l('estimates'),
         ];
 
-        $has_permission_view_estimates     = has_permission('estimates', '', 'view');
+        $has_permission_view_estimates = has_permission('estimates', '', 'view');
         $has_permission_view_estimates_own = has_permission('estimates', '', 'view_own');
 
         if ($has_permission_view_estimates || $has_permission_view_estimates_own || get_option('allow_staff_view_estimates_assigned') == '1') {
@@ -1426,8 +1441,8 @@ class Misc_model extends App_Model
                 $q = ltrim($q, '0');
             }
             // Estimates
-            $estimates_fields  = prefixed_table_fields_array(db_prefix() . 'estimates');
-            $clients_fields    = prefixed_table_fields_array(db_prefix() . 'clients');
+            $estimates_fields = prefixed_table_fields_array(db_prefix() . 'estimates');
+            $clients_fields = prefixed_table_fields_array(db_prefix() . 'clients');
             $noPermissionQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
 
             $this->db->select(implode(',', $estimates_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'estimates.id as estimateid,' . get_sql_select_client_company());
@@ -1507,12 +1522,12 @@ class Misc_model extends App_Model
     public function _search_expenses($q, $limit = 0)
     {
         $result = [
-            'result'         => [],
-            'type'           => 'expenses',
+            'result' => [],
+            'type' => 'expenses',
             'search_heading' => _l('expenses'),
         ];
 
-        $has_permission_expenses_view     = has_permission('expenses', '', 'view');
+        $has_permission_expenses_view = has_permission('expenses', '', 'view');
         $has_permission_expenses_view_own = has_permission('expenses', '', 'view_own');
 
         if ($has_permission_expenses_view || $has_permission_expenses_view_own) {

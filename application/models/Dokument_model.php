@@ -58,7 +58,6 @@ class Dokument_model extends App_Model
             $response = $this->can_make_dok($mieter);
             if (!$response)
                 return false;
-
             $data['client'] = $response['kunde'];
             $data['mieter'] = $response['mieter'];
             $data['strabe'] = $response['strabe'];
@@ -79,6 +78,8 @@ class Dokument_model extends App_Model
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
             $this->db->insert(db_prefix() . 'dokumente', $data);
+            update_option('standar_modal_doc', $data['json_data']);
+
             return $this->db->insert_id();
         }
 

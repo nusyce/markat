@@ -1,7 +1,6 @@
     
 <div class='row'>
-    <div class="col-md-3"></div>
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel_s">
             <div class="panel-body">
                 <ul class="nav nav-tabs" role="tablist">

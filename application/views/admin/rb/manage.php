@@ -133,46 +133,47 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
                         </div>
                     </div>
                     <br>
-                    <div class="row itemRow">
-                        <div class="col-md-2">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <?= render_select('x[opt][]', $datas, array('id', 'value')); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-2">
-                                        <?= render_input('x[x1][]', '', '', 'number', array('min' => 1)) ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= render_input('x[x2][]', '', '', 'number', array('min' => 1)) ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= render_input('x[x3][]', '', '', 'number', array('min' => 1)) ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= render_input('x[x4][]', '', '', 'number', array('min' => 1)) ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= render_input('x[x5][]', '', '', 'number', array('min' => 1)) ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= render_input('x[x6][]', '', '', 'number', array('min' => 1)) ?>
+                    <?php
+                    $standards = get_option('standar_modal_doc');
+                    if ($standards) {
+                        $standards = unserialize($standards);
+                    }
+                    foreach ($datas as $k => $d):?>
+                        <div class="row itemRow">
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label><?= $d['value'] ?></label>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <?= render_input('x[x1][]', '', $standards ? $standards['x1'][$k] : '', 'number', array('min' => 1)) ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <?= render_input('x[x2][]', '', $standards ? $standards['x2'][$k] : '', 'number', array('min' => 1)) ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <?= render_input('x[x3][]', '', $standards ? $standards['x3'][$k] : '', 'number', array('min' => 1)) ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <?= render_input('x[x4][]', '', $standards ? $standards['x4'][$k] : '', 'number', array('min' => 1)) ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <?= render_input('x[x5][]', '', $standards ? $standards['x5'][$k] : '', 'number', array('min' => 1)) ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <?= render_input('x[x6][]', '', $standards ? $standards['x6'][$k] : '', 'number', array('min' => 1)) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" id="add-divb">
-                        <div class="col-md-12 text-right">
-                            <a href="#">Add row</a>
-                            <br>
-                            <br>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -189,7 +190,16 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
 </div>
 
 <?php init_tail(); ?>
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        opacity: 1;
+    }
 
+    input[type=number] {
+        text-align: center
+    }
+</style>
 <script>
     $(function () {
 

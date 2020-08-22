@@ -26,6 +26,7 @@ $sTable = db_prefix() . 'tasks';
 $where = [];
 $join = [];
 $join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'tasks.project';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'task_assigned ON ' . db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id';
 
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
@@ -58,10 +59,10 @@ if ($this->ci->input->post('start_date')) {
 if ($this->ci->input->post('end_date')) {
     array_push($where, 'AND duedate ="' . date('Y-m-d', strtotime($this->ci->input->post('end_date'))) . ' " ');
 }
-/*
+
 if ($this->ci->input->post('member')) {
-    array_push($where, 'AND flugel ="' . $this->ci->db->escape_str($this->ci->input->post('member')) . ' " ');
-}*/
+    array_push($where, 'AND ' . db_prefix() . 'task_assigned.staffid ="' . $this->ci->db->escape_str($this->ci->input->post('member')) . ' " ');
+}
 
 if ($this->ci->input->post('priority')) {
     array_push($where, 'AND priority ="' . $this->ci->db->escape_str($this->ci->input->post('priority')) . ' " ');

@@ -295,7 +295,11 @@
         </div>
     </div>
 </div>
-
+<style>
+    .ganttbreack {
+        background-color: red !important;
+    }
+</style>
 <?php init_tail(); ?>
 
 <?php if (isset($_GET['ref_m'])) {
@@ -310,6 +314,121 @@
     </script>
     <?php
 } ?>
+<?php
+foreach ($occupations as $occupation):
+    $hisOccupations = $this->wohnungen_model->get_occupations($occupation['wohnungen']);
+    ?>
+    <div class="modal fade" id="calendarmx<?= $occupation['id'] ?>" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php echo _l('Kalender'); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel_s">
+                                <div class="panel-body" style="overflow-x: auto;">
+                                    <div class="dt-loader hide"></div>
+                                    <div id="calendar_dd<?= $occupation['id'] ?>"></div>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        var dd =  <?php echo json_encode($hisOccupations);?>;
+                                        var data = [];
+                                        var breackDay = [];
+                                        for (let d of dd) {
+                                            var stdate = moment(d.belegt_v).toDate();
+                                            var b_mi = parseInt(d.break_days);
+                                            var enddate = moment(d.belegt_b).toDate();
+
+                                            var i = 0;
+                                            var $progress_day = enddate;
+                                            if (b_mi > 0) {
+                                                while (i < b_mi) {
+                                                    $progress_day = moment($progress_day).add(1, 'days').toDate();
+
+                                                    if ($progress_day.getDay() == 0 || $progress_day.getDay() == 6) {
+                                                    } else {
+                                                        breackDay.push($progress_day.getTime());
+                                                        i++;
+                                                    }
+
+                                                }
+
+                                            }
+
+                                            let ds = {name: d.fullname, startDate: stdate, endDate: enddate};
+                                            data.push(ds);
+                                        }
+
+                                        $("#calendar_dd<?= $occupation['id'] ?>").calendar({
+                                            enableContextMenu: true,
+                                            language: 'de',
+                                            enableRangeSelection: false,
+                                            contextMenuItems: [/*
+                                        {
+                                            text: 'Update',
+                                            click: editEvent
+                                        },
+                                        {
+                                            text: 'Delete',
+                                            click: deleteEvent
+                                        }
+                                    */],
+                                            customDayRenderer: function (element, date) {
+                                                if (breackDay.indexOf(date.getTime()) != -1) {
+                                                    $(element).css('background-color', 'red');
+                                                    $(element).css('color', 'white');
+                                                    $(element).css('border-radius', '15px');
+                                                }
+                                            },
+                                            mouseOnDay: function (e) {
+                                                if (e.events.length > 0) {
+                                                    var content = '';
+                                                    content += '<div class="event-tooltip-content">'
+                                                        + '<div class="event-name text-center"> <strong>Mieter</strong></div>'
+                                                        + '<div class="event-name" style="color:' + e.events[0].color + '">  ' + e.events[0].name + '</div>'
+                                                        + '</div>';
+
+                                                    $(e.element).popover({
+                                                        trigger: 'manual',
+                                                        container: 'body',
+                                                        html: true,
+                                                        content: content
+                                                    });
+
+                                                    $(e.element).popover('show');
+                                                }
+                                            },
+                                            mouseOutDay: function (e) {
+                                                if (e.events.length > 0) {
+                                                    $(e.element).popover('hide');
+                                                }
+                                            },
+                                            dayContextMenu: function (e) {
+                                                $(e.element).popover('hide');
+                                            },
+                                            dataSource: data
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php
+endforeach;
+?>
+
 <script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 
@@ -351,7 +470,8 @@
         $('#belegungsplan').on('click', '.belegungsplan', function (event) {
             event.preventDefault();
             var dd = $(this).data('id');
-            startd_edition(dd);
+            if (dd > 0)
+                startd_edition(dd);
         });
 
         function startd_edition(dd) {
@@ -468,6 +588,7 @@
             }
         });
 
+
         var table_belegun = $('.table-belegungsplan');
         // Add additional server params $_POST
         var belegunServerParams = {
@@ -478,7 +599,6 @@
             "etage": "[name='etage']",
             "flugel": "[name='flugel']",
         };
-
         var filterArray = [];
         var ContractsServerParams = {};
         $.each($('._hidden_inputs._filters input'), function () {
@@ -511,8 +631,8 @@
                 // minScale: "weeks",
                 // maxScale: "months",
                 onItemClick: function (data) {
-                    console.log(data);
-                    startd_edition(data.id);
+                    if (data.id > 0)
+                        startd_edition(data.id);
                 },
                 onAddClick: function (dt, rowId) {
                 },
@@ -527,121 +647,6 @@
     })
     ;
 </script>
-
-<?php
-foreach ($occupations as $occupation):
-    $hisOccupations = $this->wohnungen_model->get_occupations($occupation['wohnungen']);
-    ?>
-    <div class="modal fade" id="calendarmx<?= $occupation['id'] ?>" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><?php echo _l('Kalender'); ?></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel_s">
-                                <div class="panel-body" style="overflow-x: auto;">
-                                    <div class="dt-loader hide"></div>
-                                    <div id="calendar_dd<?= $occupation['id'] ?>"></div>
-                                </div>
-                                <script>
-                                    $(function () {
-                                        var dd =  <?php echo json_encode($hisOccupations);?>;
-                                        var data = [];
-                                        var breackDay = [];
-                                        for (let d of dd) {
-                                            var stdate = moment(d.belegt_v).toDate();
-                                            var b_mi = parseInt(d.break_days);
-                                            var enddate = moment(d.belegt_b).toDate();
-
-                                            var i = 0;
-                                            var $progress_day = enddate;
-                                            if (b_mi > 0) {
-                                                while (i < b_mi) {
-                                                    $progress_day = moment($progress_day).add(1, 'days').toDate();
-
-                                                    if ($progress_day.getDay() == 0 || $progress_day.getDay() == 6) {
-                                                    } else {
-                                                        breackDay.push($progress_day.getTime());
-                                                        i++;
-                                                    }
-
-                                                }
-
-                                            }
-
-                                            let ds = {name: d.fullname, startDate: stdate, endDate: enddate};
-                                            data.push(ds);
-                                        }
-
-                                        $("#calendar_dd<?= $occupation['id'] ?>").calendar({
-                                            enableContextMenu: true,
-                                            language: 'de',
-                                            enableRangeSelection: false,
-                                            contextMenuItems: [/*
-                                        {
-                                            text: 'Update',
-                                            click: editEvent
-                                        },
-                                        {
-                                            text: 'Delete',
-                                            click: deleteEvent
-                                        }
-                                    */],
-                                            customDayRenderer: function (element, date) {
-                                                if (breackDay.indexOf(date.getTime()) != -1) {
-                                                    $(element).css('background-color', 'red');
-                                                    $(element).css('color', 'white');
-                                                    $(element).css('border-radius', '15px');
-                                                }
-                                            },
-                                            mouseOnDay: function (e) {
-                                                if (e.events.length > 0) {
-                                                    var content = '';
-                                                    content += '<div class="event-tooltip-content">'
-                                                        + '<div class="event-name text-center"> <strong>Mieter</strong></div>'
-                                                        + '<div class="event-name" style="color:' + e.events[0].color + '">  ' + e.events[0].name + '</div>'
-                                                        + '</div>';
-
-                                                    $(e.element).popover({
-                                                        trigger: 'manual',
-                                                        container: 'body',
-                                                        html: true,
-                                                        content: content
-                                                    });
-
-                                                    $(e.element).popover('show');
-                                                }
-                                            },
-                                            mouseOutDay: function (e) {
-                                                if (e.events.length > 0) {
-                                                    $(e.element).popover('hide');
-                                                }
-                                            },
-                                            dayContextMenu: function (e) {
-                                                $(e.element).popover('hide');
-                                            },
-                                            dataSource: data
-                                        });
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<?php
-endforeach;
-?>
 
 
 </body>
