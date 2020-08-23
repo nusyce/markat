@@ -88,7 +88,7 @@
   <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
     <?php if(($event->userid == get_staff_user_id() && has_permission('calendar','','edit')) || is_admin()){ ?>
-      <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
+      <!--button type="button" class="btn btn-danger" onclick="delete_event(< ?php echo $event->eventid; ?>); return false">< ?php echo _l('delete_event'); ?></button-->
       <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
     <?php } ?>
     <!-- out of php if loop till permission functionality start working properly -->

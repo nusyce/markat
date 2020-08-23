@@ -289,11 +289,13 @@ function staff_can($capability, $feature = null, $staff_id = '')
     if (is_admin($staff_id)) {
         return true;
     }
-    //dd($GLOBALS['current_user']);
+    //print_r($GLOBALS['current_user']);
 
+    /* Comment to remove unintialize error in Development mode : Amo (code clean)
     if ((isset($GLOBALS['current_user']->role) &&( $GLOBALS['current_user']->role == 2 && $feature == 'firma') || ($GLOBALS['current_user']->role == 2 && $feature == 'roles') || $GLOBALS['current_user']->role == 2 && $feature == 'menu')) {
         return true;
     }
+    */
 
     $CI = &get_instance();
 

@@ -32,25 +32,57 @@ define('APP_BASE_URL', 'http://localhost/markat/');
 *
 * Auto added on install
 */
-define('APP_ENC_KEY', '336655f82c70247cff2e31a9108ff1bc');
 
+define('APP_ENC_KEY', '336655f82c70247cff2e31a9108ff1bc');
+//$server_type="remote";
+$server_type="local";
 /**
  * Database Credentials
  * The hostname of your database server
  */
-define('APP_DB_HOSTNAME', 'localhost');
+if($server_type =="local"){
+    define('APP_DB_HOSTNAME', 'localhost');
+}
+if($server_type =="remote"){
+    define('APP_DB_HOSTNAME', 'db-mysql-markat-34121-do-user-7900236-0.a.db.ondigitalocean.com');
+}
+
 /**
  * The username used to connect to the database
  */
-define('APP_DB_USERNAME', 'root');
+if($server_type =="local"){
+    define('APP_DB_USERNAME', 'root');
+}
+if($server_type =="remote"){
+    define('APP_DB_USERNAME', 'doadmin');
+}
+
 /**
  * The password used to connect to the database
  */
-define('APP_DB_PASSWORD', '');
+if($server_type =="local"){
+    define('APP_DB_PASSWORD', '');
+}
+if($server_type =="remote"){
+    define('APP_DB_PASSWORD', 'l3vkbo6badmmokg0');
+}
+
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'vbgenius_markat');
+if($server_type =="local"){
+    define('APP_DB_NAME', 'vbgenius_markat');
+}
+if($server_type =="remote"){
+    define('APP_DB_NAME', 'markat_db');
+}
+
+if($server_type =="local"){
+    define('APP_DB_PORT', '5432');
+}
+if($server_type =="remote"){
+    define('APP_DB_PORT', '25060');
+}
 
 /**
  * @since  2.3.0

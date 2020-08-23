@@ -264,6 +264,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <?php $etage1 = $schlaplatze1 = $mobiliert1 = [  ] // Added to remove warning in developement : Amo (code clean)?>
                                             <div class="col-md-4 ">
                                                 <?php echo render_select('etage', $etage1, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array(), '', 'efilter'); ?>
                                             </div>
