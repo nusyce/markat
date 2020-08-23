@@ -103,4 +103,5 @@ $db['default'] = [
     'stricton'     => false,
     'failover'     => [],
     'save_queries' => true,
+    //'port'         => APP_DB_PORT,
 ];
