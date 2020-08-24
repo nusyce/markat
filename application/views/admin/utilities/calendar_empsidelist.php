@@ -9,7 +9,7 @@
         <?php  
             
             foreach($staffs as $employee){
-                echo "<div class='fc-toolbar menu-text' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' draggable='true' ondragstart='dragStart(event)' > <span> ".$employee['full_name']."</span></div>";
+                echo "<div class='fc-toolbar menu-text'  id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' draggable='true' ondragstart='dragStart(event)' > <span> ".$employee['full_name']."</span></div>";
                 //print_r($employes);
             }
 
