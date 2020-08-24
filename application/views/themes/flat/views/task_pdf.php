@@ -28,6 +28,12 @@ if ($task_tag == 'full') {
 } else {
     $tblhtml = '<br><br><h2 style="text-align: center">Detail ' . get_menu_option('tasks', _l('Tasks')) . '</h2><br>';
 }
+$tblhtml .= '<table cellspacing="2px">
+ <tr>
+ <th style="width: 50%"><strong>Mieter :</strong> '.$task->mieter.'</th>
+ <th style="text-align: right"><strong>Datum:</strong>  ' . date("d.m.Y") . '</th>
+</tr>
+ </table>';
 $tblhtml .= '<table cellspacing="2px"> 
 <tr><th colspan="3"><strong>Betreff</strong></th> </tr>  
 <tr><td colspan="3">' . $task->name . '</td></tr> 
@@ -58,9 +64,7 @@ if ($task_tag !== 'full') {
                     $fname = pathinfo($fullPath, PATHINFO_FILENAME);
                     $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
                     $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-                    $tblhtml .= '<td style="padding: 20px; width: 33.33%">
-<img width="300" src="' . $thumbPath . '"/> </td>';
-
+                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
                     $i++;
                 }
 
@@ -92,7 +96,7 @@ if ($task_tag !== 'full') {
                     $fname = pathinfo($fullPath, PATHINFO_FILENAME);
                     $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
                     $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" src="' . $thumbPath . '"/> </td>';
+                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
                     $i++;
                 }
 

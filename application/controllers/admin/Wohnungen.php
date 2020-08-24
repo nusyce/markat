@@ -48,6 +48,7 @@ class Wohnungen extends AdminController
     /* Edit wohnungen or add new wohnungen */
     public function wohnungen($id = '')
     {
+        $this->load->model('misc_model');
 
         $data = array();
         $data['mieters'] = $this->wohnungen_model->get_mieters();
@@ -79,6 +80,7 @@ class Wohnungen extends AdminController
         $data['title'] = $title;
         $data['bodyclass'] = 'wohnungen';
         $data['mieters'] = $this->mieter_model->get_mieters(['active' => 1]);
+        $data['projects'] = $this->misc_model->get_project();
         $data['inventarlistes'] = $this->wohnungen_model->get_inventarliste();
         $this->load->view('admin/wohnungen/wohnungen', $data);
     }
@@ -248,10 +250,23 @@ class Wohnungen extends AdminController
     {
         if (!$id)
             return;
+        $aqs = $this->wohnungen_model->get_wohnungens();
         $aq = $this->wohnungen_model->get($id, true);
         if (count($aq->inventer > 0)) {
             $inventory = $aq->inventer;
             ob_start(); ?>
+            <div class="col-md-12 bold">
+                <div class="col-md-4">
+                    Now available: <span id="availSelected">0</span>
+                </div>
+                <div class="col-md-5">
+                    Selected to Move: <span id="moveledSelected">0</span>
+                </div>
+                <div class="col-md-3">
+                    Rest: <span id="restItem">0</span>
+                </div>
+            </div>
+            <br>
             <div class="form-check">
                 <div class="col-md-12">
                     <input type="checkbox" name="selectall"
@@ -266,10 +281,10 @@ class Wohnungen extends AdminController
             foreach ($inventory as $k => $inv) {
                 $inventoryy = $this->wohnungen_model->get_inventarliste($inv['inventar_id']);
                 ?>
-                <div class="form-check col-md-6">
+                <div class="form-check dieldkf col-md-4">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="checkbox" name="move[inventory][<?= $inventoryy->id ?>][]"
+                            <input type="hidden" name="move[inventory][<?= $inventoryy->id ?>][]"
                                    class="form-check-input checkinventar"
                                    value="<?= $inv['id'] ?>"
                                    id="inventory-<?= $inv['id'] ?>">
@@ -278,10 +293,10 @@ class Wohnungen extends AdminController
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <?php echo render_input('move[qty][' . $inventoryy->id . '][]', 'Qty', '', 'number', array('min' => 1, 'max' => $inv['qty']), [], '', 'qtyfiels'); ?>
+                        <div class="col-md-8" style="padding-right: 8px !important;">
+                            <?php echo render_input('move[qty][' . $inventoryy->id . '][]', '', '', 'number', array('min' => 1, 'max' => $inv['qty']), [], '', 'qtyfiels'); ?>
                         </div>
-                        <div class="col-md-3 relative">
+                        <div class="col-md-4 relative" style="padding-left: 0 !important;">
                             <div class="max-value">
                                 /<?= $inv['qty']; ?>
                             </div>
@@ -292,10 +307,18 @@ class Wohnungen extends AdminController
             }
             $content = ob_get_clean();
             ob_end_clean();
-            echo json_encode($content);
         }
+        $options = '<option></option>';
+        foreach ($aqs as $q) {
+            if ($q['id'] == $id)
+                continue;
+            $options .= '<option value="' . $q['id'] . '">' . $q['strabe'] . ' ' . $q['hausnummer'] . ' ' . $q['etage'] . ' ' . $q['flugel'] . '</option>';
+        }
+        $adata = array('items' => $content, 'aqs' => $options);
+        echo json_encode($adata);
         die();
     }
+
 
     public function bulk_delete()
     {

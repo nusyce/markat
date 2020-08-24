@@ -129,37 +129,6 @@ class Tasks extends AdminController
         }
     }
 
-    /* Add or update leads sources */
-    public function project()
-    {
-        if ($this->input->post()) {
-            $data = $this->input->post();
-            if (!$this->input->post('id')) {
-                $inline = isset($data['inline']);
-                if (isset($data['inline'])) {
-                    unset($data['inline']);
-                }
-
-                $id = $this->tasks_model->add_project($data);
-
-                if (!$inline) {
-                    if ($id) {
-                        set_alert('success', _l('added_successfully', _l('lead_source')));
-                    }
-                } else {
-                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
-                }
-            } else {
-                $id = $data['id'];
-                unset($data['id']);
-                $success = $this->tasks_model->update_project($data, $id);
-                if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('lead_source')));
-                }
-            }
-        }
-    }
-
 
     // Used in invoice add/edit
     public function get_billable_tasks_by_customer_id($customer_id)
@@ -366,7 +335,6 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
         $task = $this->tasks_model->get($id);
-
         try {
             $tag = isset($_GET['full']) ? 'full' : '';
             $pdf = task_pdf($task, $tag);
@@ -533,12 +501,11 @@ class Tasks extends AdminController
                 ];
             }
         }
-        $this->load->model(['lieferanten_model', 'mieter_model']);
+        $this->load->model(['lieferanten_model', 'misc_model', 'mieter_model']);
         $data['id'] = $id;
         $data['title'] = $title;
         $data['mieters'] = $this->mieter_model->get();
         $dStaff = $this->staff_model->get('', ['active' => 1], true);
-
         $staffs = array();
         foreach ($dStaff as $d) {
             if ($d['role'] == 9999) {
@@ -547,7 +514,7 @@ class Tasks extends AdminController
             array_push($staffs, $d);
         }
         $data['staff'] = $staffs;
-        $data['projects'] = $this->tasks_model->get_project();
+        $data['projects'] = $this->misc_model->get_project();
         $this->load->view('admin/tasks/task', $data);
     }
 
@@ -948,7 +915,7 @@ class Tasks extends AdminController
         if ($this->input->post('no_editor')) {
             $data['content'] = nl2br($this->input->post('content'));
         }
-        $data['moment'] = nl2br($this->input->post('moment'));
+        $data['moment'] = $this->input->post('moment');
         $comment_id = false;
         if ($data['content'] != ''
             || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {

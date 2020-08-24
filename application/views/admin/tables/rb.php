@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+$this->ci->load->model('dokument_model');
 $aColumns = [
     'id',
     'fullname',
@@ -12,6 +12,7 @@ $aColumns = [
     'stadt',
     'beraumung', 'baubeginn',
     'ruckraumung', 'bauende',
+    1,
     'active'
 ];
 
@@ -88,11 +89,6 @@ foreach ($rResult as $aRow) {
     //  $row[] = $aRow['strabe'];
     $subjectOutput = $aRow['fullname'];
     $subjectOutput = '<a href="' . admin_url('mieter/mieter/' . $aRow['id']) . '">' . $aRow['fullname'] . '</a>';
-
-    /* if ($aRow['trash'] == 1) {
-         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('rb_trash') . '</span>';
-     }*/
-
     $row[] = $subjectOutput;
     $row[] = $aRow['projektname'];
     $row[] = $aRow['strabe'];
@@ -123,11 +119,20 @@ foreach ($rResult as $aRow) {
     if (!empty($aRow['bauende'])) {
         $bauende = de_full_date($aRow['bauende']);
     } else {
-
         $bauende = '';
     }
 
     $row[] = '<div data-ucolumn="bauende" class="data-act bauende" data-id="' . $aRow['id'] . '">' . $bauende . '</div>';
+
+    $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
+    if ($checker) {
+        $row[] = '<a data-id="'.$aRow['id'].'" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+    } else {
+        // $row[] = '<a href="#" disabled class="btn btn-warning">See Pdf</a>';
+        $row[] = '';
+
+    }
+
 
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip"  >

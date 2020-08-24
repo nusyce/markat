@@ -138,6 +138,39 @@ class Dashboard extends AdminController
         redirect(admin_url());
     }
 
+    public function m_project()
+    {
+
+        $data[] = array('id' => 'BOR');
+        $data[] = array('id' => 'FER');
+        $data[] = array('id' => 'TOPS');
+
+        $this->load->model('misc_model');
+        $this->load->model('wohnungen_model');
+        foreach ($data as $d) {
+            $this->db->where('name', $d['id']);
+            $project = $this->db->get(db_prefix() . 'tsk_project')->row();
+            if (!$project) {
+                $arrData = [];
+                $arrData['name'] = $d;
+                $this->db->insert(db_prefix() . 'tsk_project', $arrData);
+            }
+        }
+
+        $aqs = $this->wohnungen_model->get();
+        foreach ($aqs as $aq) {
+            $this->db->where('name', $aq['project']);
+            $project = $this->db->get(db_prefix() . 'tsk_project')->row();
+            if ($project) {
+                $arrData = ['project' => $project->id];
+                $this->db->where('id', $aq['id']);
+                $this->db->update(db_prefix() . 'wohnungen', $arrData);
+            }
+        }
+        redirect(admin_url());
+
+    }
+
     public function m_oc()
     {
         $this->load->model('belegungsplan_model');
@@ -168,11 +201,8 @@ class Dashboard extends AdminController
         }
     }
 
-    public function pdf($template='')
+    public function pdf($template = '')
     {
-
-
         $pdf = template_pdf($template);
-
     }
 }

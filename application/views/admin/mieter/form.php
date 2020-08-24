@@ -61,12 +61,35 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <?php $value = (isset($mieter) ? $mieter->etage : ''); ?>
-                <?php echo render_input('etage', 'Etage', $value); ?>
+                <?php $data = [];
+                $data[] = array('value' => 'UG');
+                $data[] = array('value' => 'EG');
+                $data[] = array('value' => '1. OG');
+                $data[] = array('value' => '2. OG');
+                $data[] = array('value' => '3. OG');
+                $data[] = array('value' => '4. OG');
+                $data[] = array('value' => '5. OG');
+                $data[] = array('value' => '6. OG');
+                $data[] = array('value' => '7. OG');
+                $data[] = array('value' => '8. OG');
+                $data[] = array('value' => '9. OG');
+                $data[] = array('value' => '10. OG');
+                $value = (isset($wohnungen) ? $wohnungen->etage : ''); ?>
+                <?php echo render_select('etage', $data, array('value', 'value'), 'Etage', $value); ?>
+
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
+                <?php
+                $data = [];
+                $data[] = array('value' => 'Links');
+                $data[] = array('value' => 'Rechts');
+                $data[] = array('value' => 'Mitte');
+                $data[] = array('value' => 'Mitte/Links');
+                $data[] = array('value' => 'Mitte/Rechts');
+                $value = (isset($wohnungen) ? $wohnungen->flugel : ''); ?>
+                <?php echo render_select('flugel', $data, array('value', 'value'), 'Fl�gel', $value); ?>
                 <?php $value = (isset($mieter) ? $mieter->flugel : ''); ?>
                 <?php echo render_input('flugel', 'Fl�gel', $value); ?>
             </div>
@@ -128,7 +151,7 @@
                 </div>
             </div>
         </div>
-<!-- Added By Amogh Branch for moving upload positin -->
+        <!-- Added By Amogh Branch for moving upload positin -->
         <div class="row">
             <div class="col-md-12">
                 <h3>Datien/Anh&auml;nge hochladen </h3>
@@ -136,7 +159,7 @@
                     <div class="col-md-12">
                         <a href="#" class="btn btn-default add-post-attachments">
                             <i data-toggle="tooltip" title="<?php echo _l('newsfeed_upload_tooltip'); ?>"
-                            class="fa fa-files-o"></i></a>
+                               class="fa fa-files-o"></i></a>
                     </div>
                 </div>
                 <div class="row">
@@ -149,11 +172,11 @@
 
                 <div class="row">
                     <?php
-                    foreach ($mieter->attachments as $k=> $attachment) { ?>
+                    foreach ($mieter->attachments as $k => $attachment) { ?>
                         <?php ob_start(); ?>
                         <div data-num="<?php echo $k; ?>"
-                                data-mieter-attachment-id="<?php echo $attachment['id']; ?>"
-                                class="task-attachment-col col-md-4">
+                             data-mieter-attachment-id="<?php echo $attachment['id']; ?>"
+                             class="task-attachment-col col-md-4">
                             <ul class="list-unstyled task-attachment-wrapper" data-placement="right"
                                 data-toggle="tooltip" data-title="<?php echo $attachment['file_name']; ?>">
                                 <li class="mbot10 task-attachment<?php if (strtotime($attachment['dateadded']) >= strtotime('-16 hours')) {
@@ -161,7 +184,7 @@
                                 } ?>">
                                     <div class="mbot10 pull-right task-attachment-user">
                                         <a href="#" class="pull-right"
-                                            onclick="remove_mieter_attachment(this,<?php echo $attachment['id']; ?>); return false;">
+                                           onclick="remove_mieter_attachment(this,<?php echo $attachment['id']; ?>); return false;">
                                             <i class="fa fa fa-times"></i>
                                         </a>
                                         <?php
@@ -184,13 +207,13 @@
                                         }
                                         if (!empty($attachment['external']) && $attachment['external'] == 'dropbox' && $is_image) { ?>
                                             <a href="<?php echo $href_url; ?>" target="_blank" class=""
-                                                data-toggle="tooltip"
-                                                data-title="<?php echo _l('open_in_dropbox'); ?>"><i
+                                               data-toggle="tooltip"
+                                               data-title="<?php echo _l('open_in_dropbox'); ?>"><i
                                                         class="fa fa-dropbox" aria-hidden="true"></i></a>
                                         <?php } else if (!empty($attachment['external']) && $attachment['external'] == 'gdrive') { ?>
                                             <a href="<?php echo $href_url; ?>" target="_blank" class=""
-                                                data-toggle="tooltip"
-                                                data-title="<?php echo _l('open_in_google'); ?>"><i
+                                               data-toggle="tooltip"
+                                               data-title="<?php echo _l('open_in_google'); ?>"><i
                                                         class="fa fa-google" aria-hidden="true"></i></a>
                                         <?php }
                                         echo $attachment['file_name'];
@@ -206,17 +229,17 @@
                                         // Not link on video previews because on click on the video is opening new tab
                                         if (!$isHtml5Video){ ?>
                                         <a href="<?php echo(!$externalPreview ? $href_url : $externalPreview); ?>"
-                                            target="_blank"<?php if ($is_image) { ?> data-lightbox="mieter-attachment"<?php } ?>
-                                            class="<?php if ($isHtml5Video) {
-                                                echo 'video-preview';
-                                            } ?>">
+                                           target="_blank"<?php if ($is_image) { ?> data-lightbox="mieter-attachment"<?php } ?>
+                                           class="<?php if ($isHtml5Video) {
+                                               echo 'video-preview';
+                                           } ?>">
                                             <?php } ?>
                                             <?php if ($is_image) { ?>
                                                 <img src="<?php echo $img_url; ?>" class="img img-responsive">
                                             <?php } else if ($isHtml5Video) { ?>
                                                 <video width="100%" height="100%"
-                                                        src="<?php echo site_url('download/preview_video?path=' . protected_file_url_by_path($path) . '&type=' . $attachment['filetype']); ?>"
-                                                        controls>
+                                                       src="<?php echo site_url('download/preview_video?path=' . protected_file_url_by_path($path) . '&type=' . $attachment['filetype']); ?>"
+                                                       controls>
                                                     Your browser does not support the video tag.
                                                 </video>
                                             <?php } else { ?>
@@ -236,28 +259,26 @@
                         ob_end_clean();
                         echo $attachments_data[$attachment['id']];
                     } ?>
-                </div> 
+                </div>
             </div>
         </div>
-
-
 
 
     </div>
 
     <div class="col-md-6">
-    
-                    
+
+
         <h3>Projekt</h3>
         <div class="row">
             <div class="col-md-6">
                 <?php
-                $data = array();
-                $select = (isset($mieter) ? $mieter->projektname : '');
-                $data[] = array('id' => 'BOR');
-                $data[] = array('id' => 'FER');
-                $data[] = array('id' => 'TOPS');
-                echo render_select('projektname', $data, array('id', 'id'), 'Projektname', $select); ?>
+                $selected = '';
+                if (isset($wohnungen) && $wohnungen->project) {
+                    $selected = $wohnungen->project;
+                }
+                echo render_project_select($projects, $selected, 'Projekt');
+                ?>
             </div>
         </div>
         <div class="row">

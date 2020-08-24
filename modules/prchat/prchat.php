@@ -54,9 +54,10 @@ register_language_files(PR_CHAT_MODULE_NAME, ['chat']);
 if (get_option('pusher_chat_enabled') == '1') {
 	$CI->app_menu->add_sidebar_menu_item('prchat', [
 		'name'     => 'Chat',
+        'new' => true,
 		'href'     => admin_url('prchat/Prchat_Controller/chat_full_view'),
 		'icon'     => 'fa fa-comments',
-		'position' => 6,
+		'position' => 126,
 	]);
 }
 /**

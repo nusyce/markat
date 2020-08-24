@@ -195,6 +195,13 @@ class Belegungsplan_model extends App_Model
             $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
         }
 
+        //custom changes
+        if (isset($data['etage']))
+            unset($data['etage']);
+        if (isset($data['schlaplatze']))
+            unset($data['schlaplatze']);
+        if (isset($data['mobiliert']))
+            unset($data['mobiliert']);
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
         if (isset($data['belegungsplan_id']))
