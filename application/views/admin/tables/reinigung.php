@@ -160,7 +160,6 @@ foreach ($rResult as $a => $aRow) {
 //    $reinigungstermin .= render_date_input('belegt_v', '', );
 //    $reinigungstermin .= '</div>';
     $reinigung_dt = (!empty($aRow['reinigung_dt']) ? $aRow['reinigung_dt'] : '' );
-    log_message("error","formatted dt::" . $aRow['reinigung_dt'] . " " . $reinigung_dt);
     $reinigungstermin = "<input data-id='" . $aRow['id'] . "' type='date' id='reinigungstermin_". $aRow['id'] .
                 "' onchange='javascript:reinigungDateChange(" . $aRow['id'] . ",this);' value='". $reinigung_dt . "' >";
 //    $reinigungstermin .= '<div class="input-group-addon"><i class="fa fa-calendar calendar-icon"></i></div>';
