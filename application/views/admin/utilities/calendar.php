@@ -66,7 +66,7 @@
 			var fmt = new DateFormatter();
 			var d1 = fmt.formatDate(new Date(tar_date), vformat);
 			$("input[name='start'].datetimepicker").val(d1);
-			$('#user').val(elemid).trigger('change');
+			$('select[name="user[]"]').val(elemid).trigger('change');
 			
 		}, 100);
 		
@@ -100,11 +100,19 @@
 		$('#newEventModal').modal('show');
 		
 		setTimeout(() => {
-			var vformat = app.options.date_format ;
-			var fmt = new DateFormatter();
-			var d1 = fmt.formatDate(new Date(tar_date), vformat);
+			
+                if (!$.fullCalendar.moment(tar_date).hasTime()) {
+                    tar_date += ' 00:00';
+                }
+                var vformat = (app.options.time_format == 24 ? app.options.date_format + ' H:i' : app.options.date_format + ' g:i A');
+                var fmt = new DateFormatter();
+                var d1 = fmt.formatDate(new Date(tar_date), vformat);
+                
+			//var vformat = app.options.date_format ;
+			//var fmt = new DateFormatter();
+			//var d1 = fmt.formatDate(new Date(tar_date), vformat);
 			$("input[name='start'].datetimepicker").val(d1);
-			$('#user').val(elemid).trigger('change');
+			$('select[name="user[]"]').val(elemid).trigger('change');
 			
 		}, 100);
 
