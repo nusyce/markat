@@ -274,10 +274,10 @@
             <div class="col-md-6">
                 <?php
                 $selected = '';
-                if (isset($wohnungen) && $wohnungen->project) {
-                    $selected = $wohnungen->project;
+                if (isset($mieter) && $mieter->projektname) {
+                    $selected = $mieter->projektname;
                 }
-                echo render_project_select($projects, $selected, 'Projekt');
+                echo render_project_select($projects, $selected, 'Projekt','projektname');
                 ?>
             </div>
         </div>
@@ -442,7 +442,6 @@
         </div>
     </div>
 </div>
-
 <?php
 if (isset($mieter)): ?>
     <script>

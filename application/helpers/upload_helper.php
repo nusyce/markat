@@ -1030,7 +1030,6 @@ function get_upload_path_by_type($type)
             break;
         case 'estimate':
             $path = ESTIMATE_ATTACHMENTS_FOLDER;
-
             break;
         case 'invoice':
             $path = INVOICE_ATTACHMENTS_FOLDER;
@@ -1053,6 +1052,10 @@ function get_upload_path_by_type($type)
             break;
         case 'customer':
             $path = CLIENT_ATTACHMENTS_FOLDER;
+
+            break;
+        case 'cars':
+            $path = CARS_ATTACHMENTS_FOLDER;
 
             break;
         case 'staff':

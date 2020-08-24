@@ -38,7 +38,6 @@ define('APP_ENC_KEY', '336655f82c70247cff2e31a9108ff1bc');
  * Database Credentials
  * The hostname of your database server
  */
-
 define('APP_DB_HOSTNAME', 'db-mysql-markat-34121-do-user-7900236-0.a.db.ondigitalocean.com');
 /**
  * The username used to connect to the database

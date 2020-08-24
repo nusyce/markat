@@ -3357,13 +3357,13 @@ table.dataTable thead .sorting:after {
 }
 
 .table thead tr th:first-child {
-    border-left: 1px solid #dcdcdc
+    border-left: 1px solid #dcdcdc;
+    width: 35px;
 }
 
 .table thead tr th:last-child {
     border-right: 1px solid #dcdcdc
 }
-
 .table > thead > tr > th {
     border-bottom: 0;
     vertical-align: middle;
@@ -8800,4 +8800,9 @@ Char list random
 
 .aze16 {
     background-color: #FFFF00 !important;
+}
+
+
+.ganttbreack {
+    background-color: red !important;
 }

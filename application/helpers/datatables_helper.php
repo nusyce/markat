@@ -327,7 +327,7 @@ function render_datatable($headings = [], $class = '', $additional_classes = [''
     }
     $table .= '</tr>';
     $table .= '</thead>';
-    $table .= '<tbody></tbody>';
+//    $table .= '<tbody></tbody>';
     $table .= '</table></div>';
     echo $table;
 }

@@ -83,12 +83,13 @@ foreach ($rResult as $aRow) {
     $subjectOutput .= '</div>';
     $row[] = $subjectOutput;
     $row[] = '<span class="text-danger">' . $aRow['f_id'] . '</span>';
-    $row[] = '<span class="text-danger">' . $aRow['f_strabe'] . '</span>';
+    $row[] = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['f_id']) . '"><span class="text-danger">' . $aRow['f_strabe'] . '</span></a>';
+
     $row[] = $aRow['f_hausnummer'];
     $row[] = $aRow['f_etage'];
     $row[] = $aRow['f_flugel'];
     $row[] = '<span class="text-success">' . $aRow['t_id'] . '</span>';
-    $row[] = '<span class="text-success">' . $aRow['t_strabe'] . '</span>';
+    $row[] = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['t_id']) . '"><span class="text-success">' . $aRow['t_strabe'] . '</span></a>';
     $row[] = $aRow['t_hausnummer'];
     $row[] = $aRow['t_etage'];
     $row[] = $aRow['t_flugel'];

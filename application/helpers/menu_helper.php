@@ -106,7 +106,6 @@ function app_init_admin_sidebar_menu_items()
                 'position' => 86,
                 'icon' => 'fa fa-linode',
             ]);
-
         }
         /*        $CI->app_menu->add_sidebar_menu_item('docx', [
                     'name' => _l('Projekt'),
@@ -166,7 +165,9 @@ function app_init_admin_sidebar_menu_items()
     if (has_permission('wohnungen', '', 'view')
         || has_permission('wohnungen', '', 'create') ||
         has_permission('inventar', '', 'view') ||
-        has_permission('inventar', '', 'create')) {
+        has_permission('inventar', '', 'create')||
+        has_permission('visualisierung', '', 'view') ||
+        has_permission('visualisierung', '', 'create')) {
         $CI->app_menu->add_sidebar_menu_item('wohnungen', [
             'name' => get_menu_option('wohnungen', _l('AQ ')),
             'collapse' => true,
@@ -183,6 +184,15 @@ function app_init_admin_sidebar_menu_items()
                 'position' => 8,
             ]);
         }
+        if (has_permission('visualisierung', '', 'view')
+            || has_permission('visualisierung', '', 'create')) {
+            $CI->app_menu->add_sidebar_children_item('wohnungen', [
+                'slug' => 'wohnungen',
+                'name' => get_menu_option('visualisierung', _l('Visualisierung')),
+                'href' => admin_url('visualisierung'),
+                'position' => 9,
+            ]);
+        }
         if (has_permission('inventar', '', 'view')
             || has_permission('inventar', '', 'create')) {
 
@@ -190,7 +200,7 @@ function app_init_admin_sidebar_menu_items()
                 'slug' => 'wohnungen',
                 'name' => get_menu_option('inventarlistes', _l('Inventar')),
                 'href' => admin_url('wohnungen/inventarlistes'),
-                'position' => 9,
+                'position' => 10,
                 'icon' => '',
             ]);
 
@@ -234,7 +244,17 @@ function app_init_admin_sidebar_menu_items()
             'icon' => 'fa fa-calendar',
         ]);
     }
+    if (has_permission('belegungsplan', '', 'view')
+        || has_permission('belegungsplan', '', 'create')) {
 
+        $CI->app_menu->add_sidebar_menu_item('Reinigung', [
+            'name' => get_menu_option('reinigung', _l('Reinigung')),
+            'href' => admin_url('reinigung'),
+            'position' => 11,
+            'icon' => 'fa fa-calendar-check-o',
+            'new' => true,
+        ]);
+    }
     if (has_permission('staff', '', 'view')
         || has_permission('staff', '', 'create')) {
         $CI->app_menu->add_sidebar_menu_item('staff', [

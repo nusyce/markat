@@ -43,7 +43,13 @@ class Wohnungen_model extends App_Model
         return $this->db->get(db_prefix() . 'wohnungen')->result_array();
     }
 
+    public function visualisierungGet($id = '')
+    {
+        $this->db->where_in(db_prefix() . 'wohnungen.id', $id);
+        return $this->db->get(db_prefix() . 'wohnungen')->result_array();
 
+
+    }
     public function get_grouped($column)
     {
         $this->db->where($column . ' !=', '');
