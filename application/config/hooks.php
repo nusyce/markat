@@ -60,3 +60,4 @@ $hook['pre_controller_constructor'][] = [
 if ( file_exists (APPPATH . 'config/my_hooks.php')) {
     include_once(APPPATH . 'config/my_hooks.php');
 }
+ 

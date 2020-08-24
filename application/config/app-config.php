@@ -17,18 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-
-//$server_type="remote";
-$server_type="local";
-
-if($server_type =="local"){
-    define('APP_BASE_URL', 'http://localhost/markat/');
-}
-if($server_type =="remote"){
-    define('APP_BASE_URL', 'https://itfreakz.bplaced.net/');
-}
-
-
+define('APP_BASE_URL', 'http://localhost/markat/');
 
 /*
 * --------------------------------------------------------------------------
@@ -45,9 +34,8 @@ if($server_type =="remote"){
 */
 
 define('APP_ENC_KEY', '336655f82c70247cff2e31a9108ff1bc');
-
-
-
+//$server_type="remote";
+$server_type="local";
 /**
  * Database Credentials
  * The hostname of your database server
@@ -66,11 +54,7 @@ if($server_type =="local"){
     define('APP_DB_USERNAME', 'root');
 }
 if($server_type =="remote"){
-    /**
-    * The username used to connect to the database
-    */
-   define('APP_DB_USERNAME', 'doadmin');
-   
+    define('APP_DB_USERNAME', 'doadmin');
 }
 
 /**
@@ -97,7 +81,7 @@ if($server_type =="local"){
     define('APP_DB_PORT', '5432');
 }
 if($server_type =="remote"){
-    define('APP_DB_PORT', 25060);
+    define('APP_DB_PORT', '25060');
 }
 
 /**

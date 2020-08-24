@@ -72,7 +72,7 @@ include_once(APPPATH . 'config/app-config.php');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group  = 'default';
 $query_builder = true;
 
 global $app_db_encrypt;
@@ -84,24 +84,24 @@ if (defined('APP_DB_ENCRYPT')) {
     $db_encrypt = $app_db_encrypt;
 }
 $db['default'] = [
-    'dsn' => '', // Not Supported
-    'hostname' => APP_DB_HOSTNAME,
-    'username' => APP_DB_USERNAME,
-    'password' => APP_DB_PASSWORD,
-    'database' => APP_DB_NAME,
-     'port' => APP_DB_PORT,
-    'dbdriver' => defined('APP_DB_DRIVER') ? APP_DB_DRIVER : 'mysqli',
-    'dbprefix' => db_prefix(),
-    'pconnect' => false,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => false,
-    'cachedir' => '',
-    'char_set' => defined('APP_DB_CHARSET') ? APP_DB_CHARSET : 'utf8',
-    'dbcollat' => defined('APP_DB_COLLATION') ? APP_DB_COLLATION : 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => $db_encrypt,
-    'compress' => false,
-    //'stricton'     => false,
-    'failover' => [],
+    'dsn'          => '', // Not Supported
+    'hostname'     => APP_DB_HOSTNAME,
+    'username'     => APP_DB_USERNAME,
+    'password'     => APP_DB_PASSWORD,
+    'database'     => APP_DB_NAME,
+    'dbdriver'     => defined('APP_DB_DRIVER') ? APP_DB_DRIVER : 'mysqli',
+    'dbprefix'     => db_prefix(),
+    'pconnect'     => false,
+    'db_debug'     => (ENVIRONMENT !== 'production'),
+    'cache_on'     => false,
+    'cachedir'     => '',
+    'char_set'     => defined('APP_DB_CHARSET') ? APP_DB_CHARSET : 'utf8',
+    'dbcollat'     => defined('APP_DB_COLLATION') ? APP_DB_COLLATION : 'utf8_general_ci',
+    'swap_pre'     => '',
+    'encrypt'      => $db_encrypt,
+    'compress'     => false,
+    'stricton'     => false,
+    'failover'     => [],
     'save_queries' => true,
+    //'port'         => APP_DB_PORT,
 ];
