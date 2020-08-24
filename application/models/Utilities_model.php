@@ -45,7 +45,7 @@ class Utilities_model extends App_Model
             }
             $this->db->where('eventid', $data['eventid']);
             $this->db->update(db_prefix() . 'events', $data);
-            $this->assignusertoevent($users, $data['eventid']);
+        //    $this->assignusertoevent($users, $data['eventid']); // commented By Amogh : As Event_rel_staff Table wont exist in DB
             if ($this->db->affected_rows() > 0) {
                 return true;
             }
@@ -59,7 +59,7 @@ class Utilities_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
-            $this->assignusertoevent($users, $insert_id);
+           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB 
             return true;
         }
 

@@ -91,6 +91,7 @@
       <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
       <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
     <?php } ?>
+    <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
   </div>
   <?php echo form_close(); ?>
 </div><!-- /.modal-content -->
