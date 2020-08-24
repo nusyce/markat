@@ -1,7 +1,10 @@
 
 *.xml
-<<<<<<< HEAD
 *.iml
 app-config__backup.php
-=======
->>>>>>> 4808686... revert
+./.idea/*
+node_modules
+
+.DS_Store
+node_modules/applause/node_modules/lodash/array/drop.js
+node_modules/applause/node_modules/lodash/array/drop.js

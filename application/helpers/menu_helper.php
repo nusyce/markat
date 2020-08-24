@@ -232,7 +232,17 @@ function app_init_admin_sidebar_menu_items()
             'icon' => 'fa fa-calendar',
         ]);
     }
+    if (has_permission('belegungsplan', '', 'view')
+        || has_permission('belegungsplan', '', 'create')) {
 
+        $CI->app_menu->add_sidebar_menu_item('Reinigung', [
+            'name' => get_menu_option('reinigung', _l('Reinigung')),
+            'href' => admin_url('reinigung'),
+            'position' => 11,
+            'icon' => 'fa fa-calendar-check-o',
+            'new' => true,
+        ]);
+    }
     if (has_permission('staff', '', 'view')
         || has_permission('staff', '', 'create')) {
         $CI->app_menu->add_sidebar_menu_item('staff', [
