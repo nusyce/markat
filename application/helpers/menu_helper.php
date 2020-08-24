@@ -41,11 +41,11 @@ function app_init_admin_sidebar_menu_items()
 
         $CI->app_menu->add_sidebar_menu_item('calendar', [
             'slug' => 'calendar',
+            'new' => true,
             'name' => _l('Personalplan'),
             'href' => admin_url('utilities/calendar'),
             'position' => 15,
         ]);
-
     }
 
     $CI->app_menu->add_sidebar_menu_item('rb', [
@@ -131,14 +131,6 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-file',
     ]);
 
-    
-    $CI->app_menu->add_sidebar_menu_item('emailsettings', [
-        'name' => get_menu_option('emailsettings', _l('Email Einstellungen')),
-        'href' => admin_url('emailsettings'),
-        'position' => 84,
-        'icon' => 'fa fa-file',
-    ]);
-
     if ((has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own'))
         || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)) {
         $CI->app_menu->add_sidebar_menu_item('invoices', [
@@ -203,11 +195,19 @@ function app_init_admin_sidebar_menu_items()
         }
     }
 
+    $CI->app_menu->add_sidebar_menu_item('emailsettings', [
+        'name' => get_menu_option('emailsettings', _l('Email Einstellungen')),
+        'href' => admin_url('emailsettings'),
+        'position' => 84,
+        'icon' => 'fa fa-file',
+    ]);
+
     if (!LIVE_VERSION)
         $CI->app_menu->add_sidebar_menu_item('inventarlistes_un', [
             'name' => get_menu_option('inventarlistes_un', _l('Inventar-Umzugsliste')),
             'href' => admin_url('wohnungen/move_inventory'),
             'position' => 19,
+            'new' => true,
             'icon' => '',
         ]);
 
@@ -266,6 +266,13 @@ function app_init_admin_sidebar_menu_items()
             'icon' => 'fa fa-address-card',
         ]);
     }
+
+    $CI->app_menu->add_sidebar_menu_item('solution-box', [
+        'name' => get_menu_option('solution-box', _l('Solution-Box')),
+        'href' => admin_url('solutionbox'),
+        'position' => 107,
+        'icon' => 'fa fa-save',
+    ]);
 
     if (has_permission('cars', '', 'view')
         || has_permission('cars', '', 'create')) {

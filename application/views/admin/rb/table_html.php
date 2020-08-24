@@ -5,16 +5,16 @@ $table_data = array(
     'Name',
     'Projekt',
     'Straße ',
-    'Nr. ',
-    'PLZ ',
-    'Stadt ',
-    'Beräumung ',
-    'Baubeginn ',
-    'Rückräumung ',
+    'Nr.',
+    'PLZ',
+    'Stadt',
+    'Beräumung',
+    'Baubeginn',
+    'Rückräumung',
     'Bauende',
+    'Arbeitsschein',
     'Aktiviert'
 );
-
 render_datatable($table_data, (isset($class) ? $class : 'rb'), [], [
     'data-last-order-identifier' => 'rb',
     'data-default-order' => get_table_last_order('rb'),

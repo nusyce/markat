@@ -31,9 +31,7 @@
                <?php echo render_input('name','role_add_edit_name',$value,'text',$attrs); ?>
                 <?php
                   $permissionsData = [ 'funcData' => ['role'=> isset($role) ? $role : null ] ];
-                  
                   $this->load->view('admin/staff/permissions', $permissionsData);
-                  
                ?>
                <hr />
                   <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>

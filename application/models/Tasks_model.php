@@ -21,6 +21,7 @@ class Tasks_model extends App_Model
         parent::__construct();
         $this->load->model('projects_model');
         $this->load->model('staff_model');
+        $this->load->model('mieter_model');
     }
 
     // Not used?
@@ -70,7 +71,7 @@ class Tasks_model extends App_Model
                 'name' => _l('task_status_5'),
                 'order' => 77,
                 'filter_default' => false,
-            ],  [
+            ], [
                 'id' => self::STATUS_ABGERECHNET,
                 'color' => 'red',
                 'name' => _l('Abgerechnet'),
@@ -99,6 +100,11 @@ class Tasks_model extends App_Model
         $task = $this->db->get(db_prefix() . 'tasks')->row();
         if ($task) {
             $task->comments = $this->get_task_comments($id);
+            $mieter = $this->mieter_model->get($task->mieters);
+            if ($mieter)
+                $task->mieter = $mieter->fullname;
+            else
+                $task->mieter = '';
             $task->assignees = $this->get_task_assignees($id);
             $task->assignees_ids = [];
 
@@ -2468,72 +2474,4 @@ class Tasks_model extends App_Model
     }
 
 
-
-    // Sources
-
-    /**
-     * Get leads projects
-     * @param mixed $id Optional - Source ID
-     * @return mixed object if id passed else array
-     */
-    public function get_project($id = false)
-    {
-        if (is_numeric($id)) {
-            $this->db->where('id', $id);
-
-            return $this->db->get(db_prefix() . 'tsk_project')->row();
-        }
-
-        $this->db->order_by('name', 'asc');
-
-        return $this->db->get(db_prefix() . 'tsk_project')->result_array();
-    }
-
-    /**
-     * Add new lead project
-     * @param mixed $data project data
-     */
-    public function add_project($data)
-    {
-        $this->db->insert(db_prefix() . 'tsk_project', $data);
-        $insert_id = $this->db->insert_id();
-
-
-        return $insert_id;
-    }
-
-    /**
-     * Update lead project
-     * @param mixed $data project data
-     * @param mixed $id project id
-     * @return boolean
-     */
-    public function update_project($data, $id)
-    {
-        $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'tsk_project', $data);
-        if ($this->db->affected_rows() > 0) {
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Delete lead project from database
-     * @param mixed $id project id
-     * @return mixed
-     */
-    public function delete_project($id)
-    {
-        $current = $this->get_project($id);
-        $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'tsk_project');
-        if ($this->db->affected_rows() > 0) {
-            return true;
-        }
-
-        return false;
-    }
 }

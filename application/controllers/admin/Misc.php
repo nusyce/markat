@@ -108,6 +108,38 @@ class Misc extends AdminController
         }
     }
 
+    /* Add or update leads sources */
+    public function project()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if (!$this->input->post('id')) {
+                $inline = isset($data['inline']);
+                if (isset($data['inline'])) {
+                    unset($data['inline']);
+                }
+
+                $id = $this->misc_model->add_project($data);
+
+                if (!$inline) {
+                    if ($id) {
+                        set_alert('success', _l('added_successfully', _l('projekt')));
+                    }
+                } else {
+                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                }
+            } else {
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->misc_model->update_project($data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('projekt')));
+                }
+            }
+        }
+    }
+
+
     public function delete_sale_activity($id)
     {
         if (is_admin()) {

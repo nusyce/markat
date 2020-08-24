@@ -181,6 +181,12 @@ function invoice_pdf($invoice, $tag = '')
 {
     return app_pdf('invoice', LIBSPATH . 'pdf/Invoice_pdf', $invoice, $tag);
 }
+function mieter_pdf($id, $tag = '',$attachments)
+{
+   // echo 'mieter', LIBSPATH . 'pdf/Miter_pdf';
+   // exit;
+    return app_pdf('mieter', LIBSPATH . 'pdf/Mieter_pdf', $id, $tag, $attachments);
+}
 
 /**
  * Prepare general credit note pdf
@@ -263,7 +269,6 @@ function app_pdf($type, $path, ...$params)
     }
     
     $path = hooks()->apply_filters("{$type}_pdf_class_path", $path, ...$params);
-    
     include_once($path);
 
     return (new $basename(...$params))->prepare();
