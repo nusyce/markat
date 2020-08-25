@@ -1345,10 +1345,13 @@ a.notification-top {
     transition: all .5s ease 0s;
 }
 
+<<<<<<< HEAD
+=======
 .overflo {
     overflow: auto;
 }
 
+>>>>>>> 9ead8b56c76641c0636eaa85b14ace024c0e640e
 #side-menu {
     background: #626f80
 }

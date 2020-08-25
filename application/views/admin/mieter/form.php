@@ -19,7 +19,7 @@
 
             <div class="col-md-12">
                 <?php $fullname = (isset($mieter) ? $mieter->fullname : ''); ?>
-                <?php echo render_input('fullname', 'Vollständiger Name', $fullname); ?>
+                <?php echo render_input('fullname', 'Vollstï¿½ndiger Name', $fullname); ?>
             </div>
         </div>
         <div class="row">
@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-md-12">
                 <?php $value = (isset($mieter) ? $mieter->strabe_m : ''); ?>
-                <?php echo render_input('strabe_m', 'Straße', $value); ?>
+                <?php echo render_input('strabe_m', 'Straï¿½e', $value); ?>
             </div>
         </div>
         <div class="row">
@@ -89,9 +89,9 @@
                 $data[] = array('value' => 'Mitte/Links');
                 $data[] = array('value' => 'Mitte/Rechts');
                 $value = (isset($wohnungen) ? $wohnungen->flugel : ''); ?>
-                <?php echo render_select('flugel', $data, array('value', 'value'), 'Flügel', $value); ?>
+                <?php echo render_select('flugel', $data, array('value', 'value'), 'Flï¿½gel', $value); ?>
                 <?php $value = (isset($mieter) ? $mieter->flugel : ''); ?>
-                <?php echo render_input('flugel', 'Flügel', $value); ?>
+                <?php echo render_input('flugel', 'Flï¿½gel', $value); ?>
             </div>
         </div>
         <div class="row">
@@ -295,11 +295,11 @@
         <div class="row">
             <div class="col-md-6">
                 <?php $beraumung = (isset($mieter) ? _d($mieter->beraumung) : ''); ?>
-                <?php echo render_date_input('beraumung', 'Beräumung', $beraumung); ?>
+                <?php echo render_date_input('beraumung', 'Berï¿½umung', $beraumung); ?>
             </div>
             <div class="col-md-6">
                 <?php $ruckraumung = (isset($mieter) ? _d($mieter->ruckraumung) : ''); ?>
-                <?php echo render_date_input('ruckraumung', 'Rückräumung', $ruckraumung); ?>
+                <?php echo render_date_input('ruckraumung', 'Rï¿½ckrï¿½umung', $ruckraumung); ?>
             </div>
         </div>
         <div class="row">
@@ -331,12 +331,12 @@
 
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? _d($mieter->k_baubeginn) : ''); ?>
-                        <?php echo render_date_input('k_baubeginn', 'Keller Beräumung', $value); ?>
+                        <?php echo render_date_input('k_baubeginn', 'Keller Berï¿½umung', $value); ?>
                     </div>
 
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? _d($mieter->k_ruckraumung) : ''); ?>
-                        <?php echo render_date_input('k_ruckraumung', 'Keller Rückräumung', $value); ?>
+                        <?php echo render_date_input('k_ruckraumung', 'Keller Rï¿½ckrï¿½umung', $value); ?>
                     </div>
                 </div>
             </div>
@@ -348,7 +348,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? $mieter->strabe_a : ''); ?>
-                        <?php echo render_input('strabe_a', 'Straße', $value); ?>
+                        <?php echo render_input('strabe_a', 'Straï¿½e', $value); ?>
                     </div>
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? $mieter->hausnummer_a : ''); ?>
@@ -412,7 +412,7 @@
         <div class="row">
             <div class="col-md-6">
                 <?php $value = (isset($mieter) ? $mieter->strabe_p : ''); ?>
-                <?php echo render_input('strabe_p', 'Straße', $value); ?>
+                <?php echo render_input('strabe_p', 'Straï¿½e', $value); ?>
 
             </div>
             <div class="col-md-6">
@@ -429,7 +429,7 @@
 
             <div class="col-md-6">
                 <?php $value = (isset($mieter) ? $mieter->fulger_p : ''); ?>
-                <?php echo render_input('fulger_p', 'Flügel', $value); ?>
+                <?php echo render_input('fulger_p', 'Flï¿½gel', $value); ?>
 
             </div>
         </div>

@@ -72,7 +72,7 @@ include_once(APPPATH . 'config/app-config.php');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group  = 'default';
 $query_builder = true;
 
 global $app_db_encrypt;
@@ -104,4 +104,5 @@ $db['default'] = [
     //'stricton'     => false,
     'failover' => [],
     'save_queries' => true,
+    //'port'         => APP_DB_PORT,
 ];

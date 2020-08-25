@@ -10,7 +10,6 @@ class Belegungsplan extends AdminController
         $this->load->model('wohnungen_model');
         $this->load->model('mieter_model');
         $this->load->model('belegungsplan_model');
-
     }
 
 
@@ -26,7 +25,6 @@ class Belegungsplan extends AdminController
         $data['hausnummer'] = $this->belegungsplan_model->get_grouped('hausnummer');
         $data['mobiliert'] = $this->belegungsplan_model->get_grouped('mobiliert');
         $data['etage'] = $this->belegungsplan_model->get_grouped('etage');
-
         add_calendar_book_assets();
         $this->load->view('admin/belegungsplan/manage', $data);
     }

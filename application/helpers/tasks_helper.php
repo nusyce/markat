@@ -483,7 +483,6 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
 
 
 
-
 function hisMember($member, $task_id)
 {
     $CI = &get_instance();

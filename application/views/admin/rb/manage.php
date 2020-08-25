@@ -291,7 +291,6 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
         belegunTableServer = leadsTableNotSortable = [];
         var filterArray = [];
         var ContractsServerParams = {};
-
         $.each($('._hidden_inputs._filters input'), function () {
             ContractsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
         });
@@ -306,7 +305,6 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
             });
         });
         //new $.fn.dataTable.FixedHeader( _table_api );
-
 
     });
 

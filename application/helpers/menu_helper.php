@@ -6,13 +6,12 @@ function app_init_admin_sidebar_menu_items()
 {
     $CI = &get_instance();
     //  if ($GLOBALS['current_user']->role != 2) {
-        $CI->app_menu->add_sidebar_menu_item('dashboard', [
-            'name' => _l('als_dashboard'),
-            'href' => admin_url(),
-            'position' => 1,
-            'icon' => 'fa fa-home',
-        ]);
-
+    $CI->app_menu->add_sidebar_menu_item('dashboard', [
+        'name' => _l('als_dashboard'),
+        'href' => admin_url(),
+        'position' => 1,
+        'icon' => 'fa fa-home',
+    ]);
 
     if (has_permission('firma', '', 'edit')) {
         $CI->app_menu->add_sidebar_menu_item('firma', [
@@ -62,7 +61,6 @@ function app_init_admin_sidebar_menu_items()
         'position' => 52,
         'icon' => 'fa fa-th-large',
     ]);
-
     if ($GLOBALS['current_user']->role == 2) {
         /*        $CI->app_menu->add_sidebar_menu_item('staff', [
                     'name' => get_menu_option('staff',_l('als_staff')),

@@ -65,7 +65,6 @@ foreach ($quickActions as $key => $item) {
         ?>
         <?php
         foreach ($sidebar_menu as $key => $item) {
-
             if (isset($item['collapse']) && count($item['children']) === 0) {
                 continue;
             }

@@ -59,7 +59,7 @@ class Utilities_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
-           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB 
             return true;
         }
 
@@ -233,7 +233,6 @@ class Utilities_model extends App_Model
                 array_push($data, $invoice);
             }
         }
-
         if (get_option('show_estimates_on_calendar') == 1 && !$ff || $ff && array_key_exists('estimates', $filters)) {
             $noPermissionsQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
 
@@ -369,7 +368,6 @@ class Utilities_model extends App_Model
                         $task['url'] = site_url('clients/project/' . $task['rel_id'] . '?group=project_tasks&taskid=' . $task['id']);
                     }
                     array_push($data, $task);
-
                 }
             }
         }
@@ -481,7 +479,6 @@ class Utilities_model extends App_Model
                 array_push($data, $_contract);
             }
         }
-
         //calendar_project
         if (get_option('show_projects_on_calendar') == 1 && !$ff || $ff && array_key_exists('projects', $filters)) {
             $this->load->model('projects_model');
