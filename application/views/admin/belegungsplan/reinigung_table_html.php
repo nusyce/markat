@@ -11,17 +11,18 @@ $table_data = array(
     'Zimmer',
     'Schlafplätze',
     'Möbliert' ,
-    'Belegt von',
-    'Belegt bis',
+//    'Belegt von',
+//    'Belegt bis',
+   // 'Resttage',
     'Mieter',
-    'Projekt',
-    'Aktiv'
+    'Reinigungstermin',
+    'Aktiveeee'
 );
 
 $table_data = hooks()->apply_filters('belegungsplan_table_columns', $table_data);
 
-render_datatable($table_data, (isset($class) ? $class : 'belegungsplan'), [], [
-    'data-last-order-identifier' => 'belegungsplan',
-    'data-default-order' => get_table_last_order('belegungsplan'),
+render_datatable($table_data, (isset($class) ? $class : 'reinigung'), [], [
+    'data-last-order-identifier' => 'reinigung',
+    'data-default-order' => get_table_last_order('reinigung'),
 ]);
 

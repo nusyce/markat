@@ -7,8 +7,8 @@ class Cars extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('cars_model');
-        $this->load->model('staff_model');
+        $this->load->model(['staff_model','cars_model']);
+
     }
 
 
@@ -165,10 +165,10 @@ class Cars extends AdminController
         }
         echo admin_url('cars');
     }
-    
+
+
       public function delete_attach($id)
     {
-
         $this->cars_model->delete_attachment($id);
         echo 1;
     }

@@ -25,33 +25,6 @@
 <?php init_tail(); ?>
 <!-- init table tasks -->
 <script>
-    // Add additional server params $_POST
-    var LeadsServerParams = {
-        "belegt": "[name='belegt']",
-        "strabe": "[name='strabe']",
-        "schlaplatze": "[name='schlaplatze']",
-        "mobiliert": "[name='mobiliert']",
-        "etage": "[name='etage']",
-        "flugel": "[name='flugel']",
-    };
-
-    leadsTableNotSearchable = leadsTableNotSortable = [];
-    var filterArray = [];
-    var ContractsServerParams = {};
-    $.each($('._hidden_inputs._filters input'), function () {
-        ContractsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
-    });
-
-    var table_wohnungen = $('.table-wohnungen');
-    var _table_api = initDataTable(table_wohnungen, admin_url + 'wohnungen/table', undefined, undefined, LeadsServerParams, [0, 'desc'], filterArray);
-
-    $.each(LeadsServerParams, function (i, obj) {
-        $('select' + obj).on('change', function () {
-            table_wohnungen.DataTable().ajax.reload()
-                .columns.adjust()
-                .responsive.recalc();
-        });
-    });
     mieterDropzone = new Dropzone("#mieter-form-drop-zone", appCreateDropzoneOptions({
         clickable: '.add-post-attachments',
         url: admin_url + "mieter/ajax_save", paramName: "files",
@@ -86,9 +59,9 @@
             $('#mieter-form-drop-zone').addClass('dropzone-active');
         },
         complete: function (file) {
-            console.log(file);
+          ///  console.log(file);
             $(this).prop('disabled', false);
-            window.location.href = file.xhr.responseText;
+        //    window.location.href = file.xhr.responseText;
         },
         drop: function (file) {
             $('#mieter-form-drop-zone').removeClass('dropzone-active');
@@ -116,11 +89,11 @@
                 type: "POST",
                 dataType: 'json',
                 success: function (e) {
-                    window.location.href = e;
+                  //  window.location.href = e;
                     $(this).prop('disabled', false);
                 },
                 error: function (e) {
-                    window.location.href = e.responseText;
+                   // window.location.href = e.responseText;
                     $(this).prop('disabled', false);
                 }
             });

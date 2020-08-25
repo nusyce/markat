@@ -12,6 +12,7 @@ $table_data = [
         'name'     => _l('task_duedate'),
         'th_attrs' => ['class' => 'duedate'],
     ],
+    _l('Mieter'),
     _l('task_assigned'),
     _l('Aufgaben'),
     _l('Erledigt'),
@@ -30,6 +31,6 @@ foreach ($custom_fields as $field) {
 $table_data = hooks()->apply_filters('tasks_table_columns', $table_data);
 
 render_datatable($table_data, 'tasks', [], [
-        'data-last-order-identifier' => 'tasks',
-        'data-default-order'         => get_table_last_order('tasks'),
+    'data-last-order-identifier' => 'tasks',
+    'data-default-order'         => get_table_last_order('tasks'),
 ]);

@@ -17,13 +17,12 @@ $aColumns = [
     db_prefix() . 'occupations.belegt_v as belegt_v',
     db_prefix() . 'occupations.belegt_b as belegt_b',
     db_prefix() . 'wohnungen.belegt as belegt',
-    db_prefix() . 'mieters.fullname as mieter_name',
-    db_prefix() . 'mieters.projektname as projekt',
+    db_prefix() . 'occupations.mieter_name as mieter_name',
     db_prefix() . 'occupations.active as active',
     db_prefix() . 'wohnungen.id as wohnungen',
     db_prefix() . 'occupations.mieter as mieter_id',
     db_prefix() . 'occupations.reason as reason',
-
+    db_prefix() . 'occupations.reinigung_dt as reinigung_dt',
 ];
 
 $sIndexColumn = 'id';
@@ -65,7 +64,7 @@ if (!empty($this->ci->input->post('belegt_v'))) {
 }
 
 $join[] = 'LEFT JOIN ' . db_prefix() . 'wohnungen ON ' . db_prefix() . 'wohnungen.id = ' . db_prefix() . 'occupations.wohnungen';
-$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'occupations.mieter';
+//$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'occupations.mieter';
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'occupations.id']);
 
@@ -148,15 +147,25 @@ foreach ($rResult as $a => $aRow) {
     $row[] = $aRow['zimmer'];
     $row[] = $aRow['schlaplatze'];
     $row[] = $aRow['mobiliert'] == 1 ? 'Ja' : 'Nein';
-    $row[] = $belegt_v;
-    $row[] = $belegt_b;
+//    $row[] = $belegt_v;
+//    $row[] = $belegt_b;
     $datediff = strtotime($belegt_b) - strtotime($belegt_v);
     $restage = round($datediff / (60 * 60 * 24));
 
     // $row[] = $restage.'  Tage';
     $row[] = $mieter;
 
-    $row[] = $aRow['projekt'];
+//    $reinigungstermin = '<div class="col-md-12">';
+//
+//    $reinigungstermin .= render_date_input('belegt_v', '', );
+//    $reinigungstermin .= '</div>';
+    $reinigung_dt = (!empty($aRow['reinigung_dt']) ? $aRow['reinigung_dt'] : '' );
+    log_message("error","formatted dt::" . $aRow['reinigung_dt'] . " " . $reinigung_dt);
+    $reinigungstermin = "<input data-id='" . $aRow['id'] . "' type='date' id='reinigungstermin_". $aRow['id'] .
+                "' onchange='javascript:reinigungDateChange(" . $aRow['id'] . ",this);' value='". $reinigung_dt . "' >";
+//    $reinigungstermin .= '<div class="input-group-addon"><i class="fa fa-calendar calendar-icon"></i></div>';
+    $row[] = $reinigungstermin;
+
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip">
     <input type="checkbox" data-switch-url="' . admin_url() . 'belegungsplan/change_status" name="onoffswitch" class="onoffswitch-checkbox" id="' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . ($aRow['active'] == 1 ? 'checked' : '') . '>
     <label class="onoffswitch-label" for="' . $aRow['id'] . '"></label>

@@ -30,42 +30,112 @@ function get_available_staff_permissions($data = [])
     $withNotApplicableViewOwn = array_merge(['view_own' => ['not_applicable' => true, 'name' => _l('permission_view_own')]], $withoutViewOwnPermissionsArray);
 
     $corePermissions = [
-        //Dashbord
-        'dashboard' => [
-            'name' => get_menu_option('dashboard', _l('DASHBOARD')),
+        /*'bulk_pdf_exporter' => [
+            'name'         => _l('bulk_pdf_exporter'),
             'capabilities' => [
                 'view' => $viewGlobalName,
             ],
         ],
-        //Meine Firma
-        'firma' => [
-            'name' => get_menu_option('firma', _l('MEINE FIRMA')),
-            'capabilities' => [
-                'view' => $viewGlobalName,
+        'contracts' => [
+            'name'         => _l('contracts'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'credit_notes' => [
+            'name'         => _l('credit_notes'),
+            'capabilities' => $allPermissionsArray,
+        ],*/
+        'customers' => [
+            'name' => _l('clients'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help' => [
+                'view_own' => _l('permission_customers_based_on_admins'),
             ],
         ],
-        // Mitrabeiter
-        'staff' => [
-            'name' => _l('staff'),
+        'invoices' => [
+            'name' => _l('invoices'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'items' => [
+            'name' => _l('items'),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],/*
+        'email_templates' => [
+            'name'         => _l('email_templates'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+                'edit' => _l('permission_edit'),
+            ],
+        ],
+        'estimates' => [
+            'name'         => _l('estimates'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'expenses' => [
+            'name'         => _l('expenses'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'knowledge_base' => [
+            'name'         => _l('knowledge_base'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
-        // Mitarbeier Roles 
+        'payments' => [
+            'name'         => _l('payments'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'         => [
+                'view_own' => _l('permission_payments_based_on_invoices'),
+            ],
+        ],
+        'projects' => [
+            'name'         => _l('projects'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'         => [
+                'view'     => _l('help_project_permissions'),
+                'view_own' => _l('permission_projects_based_on_assignee'),
+            ],
+        ],
+        'proposals' => [
+            'name'         => _l('proposals'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'reports' => [
+            'name'         => _l('reports'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+            ],
+        ],*/
         'roles' => [
             'name' => _l('roles'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
-
-        // Kuden
-        'customers' => [
-            'name' => _l('clients'),
+        'settings' => [
+            'name' => _l('settings'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+                'edit' => _l('permission_edit'),
+            ],
+        ],
+        'staff' => [
+            'name' => _l('staff'),
             'capabilities' => $withoutViewOwnPermissionsArray,
-           /* 'capabilities' => $withNotApplicableViewOwn,
-            'help' => [
-                'view_own' => _l('permission_customers_based_on_admins'),
-            ],*/
         ],
 
-        //Mieter
+        'factoring' => [
+            'name' => get_menu_option('factoring', _l('Factoring')),
+            'capabilities' => [
+                'view' => $viewGlobalName],
+        ],
+        'inventar' => [
+            'name' => get_menu_option('inventarlistes', _l('Inventar')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+        'cars' => [
+            'name' => get_menu_option('cars', _l('Fahrzeugliste')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+        'lieferanten' => [
+            'name' => get_menu_option('lieferanten', _l('Lieferanten')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
         'mieter' => [
             'name' => get_menu_option('mieter', _l('Mieter')),
             'capabilities' => [
@@ -77,184 +147,42 @@ function get_available_staff_permissions($data = [])
                 'delete' => _l('permission_delete'),
             ],
         ],
-
-        //AQ
         'wohnungen' => [
             'name' => get_menu_option('wohnungen', _l('AQ')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
-
-         // inventarliste erstellen
-         'inventory_list' => [
-            'name' => get_menu_option('inventory_list', _l('Inventarliste Erstellen')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],       
-
-        //Inventar Umzugsliste
-        'move_inventory' => [
-            'name'         => get_menu_option('move_inventory', _l('Inventar Umzugsliste')),
+        'visualisierung' => [
+            'name' => get_menu_option('visualisierung', _l('Visualisierung')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
 
-        //Belegungsplan
-        'aq_belegungsplan' => [
-            'name' => get_menu_option('aq_belegungsplan', _l('AQ - Belegungsplan')),
+        'belegungsplan' => [
+            'name' => get_menu_option('belegungsplan', _l('Belegungsplan')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
 
-        //Raumung Beraumung
-        'rb'=> [
-            'name' => get_menu_option('rb', _l('Raumung/Beraumung')),
-            'capabilities' => [
-                'view' => $viewGlobalName],
+        'firma' => [
+            'name' => get_menu_option('firma', _l('MEINE FIRMA')),
+            'capabilities' => ['edit' => 'Ja'],
         ],
-        //personalplan
-        'calendar'=> [
-            'name' =>  get_menu_option('raumung', _l('Personalplan')),
-            'capabilities' => [
-                'view' => $viewGlobalName],
-        ],
-
-        //Aufgabenplaner
-        'tasks' => [
-            'name' => get_menu_option('tasks', _l('Task-Planer')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-            //'capabilities' => $withNotApplicableViewOwn,
-            'help' => [
-                'view' => _l('help_tasks_permissions'),
-                'view_own' => _l('permission_tasks_based_on_assignee'),
-            ],
-        ],
-
-        // Fahrzeuge
-        'vehicles' => [
-            'name' => get_menu_option('vehicles', _l('Fahrzeuge')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-
-        // Fermdfirmen
-        'contract_firm' => [
-            'name' => get_menu_option('contract_firm', _l('Fermdfirmen')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-
-        //Rechnungen
-        'invoices' => [
-            'name' => _l('invoices'),
-            'capabilities' => $allPermissionsArray,
-        ],
-
-        //chat
-        'chat'=> [
-            'name' => get_menu_option('chat', _l('chat')),
-            'capabilities' => [
-                'view' => $viewGlobalName],
-        ],
-    
-    /*   
-        //Below is old tag commented kept for some purpose as found few tag get change with function 
-        // Eintellungen
-        'settings' => [
-            'name' => _l('settings'),
-            'capabilities' => [
-                'view' => $viewGlobalName,
-                'edit' => _l('permission_edit'),
-            ],
-        ], 
-
-        //Vorlagen
-        'items' => [
-            'name' => _l('items'),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-
-        //Email Vorlagen
-        'email_templates' => [
-            'name'         => _l('email_templates'),
-            'capabilities' => [
-                'view' => $viewGlobalName,
-                'edit' => _l('permission_edit'),
-            ],
-        ],
-        
-        //Angebote
-        'estimates' => [
-            'name'         => _l('estimates'),
-            'capabilities' => $allPermissionsArray,
-        ],
-        //Ausgaben
-        'expenses' => [
-            'name'         => _l('expenses'),
-            'capabilities' => $allPermissionsArray,
-        ],
-        //Knowledgebase
-        'knowledge_base' => [
-            'name'         => _l('knowledge_base'),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-        //Zahlungen
-        'payments' => [
-            'name'         => _l('payments'),
-            'capabilities' => $withNotApplicableViewOwn,
-            'help'         => [
-                'view_own' => _l('permission_payments_based_on_invoices'),
-            ],
-        ],
-        //Projekte
-        'projects' => [
-            'name'         => _l('projects'),
-            'capabilities' => $withNotApplicableViewOwn,
-            'help'         => [
-                'view'     => _l('help_project_permissions'),
-                'view_own' => _l('permission_projects_based_on_assignee'),
-            ],
-        ],
-        //Vorschlag
-        'proposals' => [
-            'name'         => _l('proposals'),
-            'capabilities' => $allPermissionsArray,
-        ],
-        //Berichte
-        'reports' => [
-            'name'         => _l('reports'),
-            'capabilities' => [
-                'view' => $viewGlobalName,
-            ],
-        ],
-
-        // Factoring
-        'factoring' => [
-            'name' => get_menu_option('factoring', _l('Factoring')),
-            'capabilities' => [
-                'view' => $viewGlobalName],
-        ],
-        // Inventar s
-        'inventar' => [
-            'name' => get_menu_option('inventarlistes', _l('Inventar')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-
-        // Fahrzeugliste
-        'cars' => [
-            'name' => get_menu_option('cars', _l('Fahrzeugliste')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-        //Lieferanten
-        'lieferanten' => [
-            'name' => get_menu_option('lieferanten', _l('Lieferanten')),
-            'capabilities' => $withoutViewOwnPermissionsArray,
-        ],
-       /* //Can edit title
         'menu' => [
             'name' => 'Can edit title',
             'capabilities' => ['edit' => 'Ja'],
         ],
-        //Can edit calender
+
         'calendar' => [
             'name' => 'Can edit calender',
             'capabilities' => ['edit' => 'Ja']
         ],
 
+        'tasks' => [
+            'name' => get_menu_option('tasks', _l('Task-Planer')),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help' => [
+                'view' => _l('help_tasks_permissions'),
+                'view_own' => _l('permission_tasks_based_on_assignee'),
+            ],
+        ],/*
         'subscriptions' => [
             'name'         => _l('subscriptions'),
             'capabilities' => $allPermissionsArray,
@@ -268,7 +196,7 @@ function get_available_staff_permissions($data = [])
         ],*/
     ];
 
-    $addLeadsPermission = False;  // Falg for Interessenten Set to false - by Amogh to match with given screen on 19-08-20
+    $addLeadsPermission = true;
     if (isset($data['staff_id']) && $data['staff_id']) {
         $is_staff_member = is_staff_member($data['staff_id']);
         if (!$is_staff_member) {

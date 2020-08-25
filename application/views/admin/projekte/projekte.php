@@ -48,6 +48,20 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-6"> <?php
+                                    $selected = '';
+                                    if (isset($wohnungen) && $wohnungen->project) {
+                                        $selected = $wohnungen->project;
+                                    }
+                                    echo render_project_select($projects, $selected, 'Projekt');
+                                    ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?php $value = (isset($projekte) ? $projekte->projectname : ''); ?>
+                                    <?php echo render_input('projectname', 'Projektname', $value); ?>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <?php $value = (isset($projekte) ? $projekte->aq : ''); ?>
                                     <?php echo render_select('aq', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'AQ', $value); ?>

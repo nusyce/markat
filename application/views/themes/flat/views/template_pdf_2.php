@@ -231,7 +231,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="line">
+                        <td class="line" style="border-top: none; border-collapse: unset">
                             <strong><u>Demontagen:</u><?= date('d/m/Y', strtotime($template->beraumung)) ?></strong>
                         </td>
                     </tr>

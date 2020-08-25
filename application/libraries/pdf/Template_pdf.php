@@ -36,7 +36,6 @@ class Template_pdf
             $formatter = new ExceptionFormatter($e);
             echo $formatter->getHtmlMessage();
         }
-
     }
 
     function preparetable($jsqon)

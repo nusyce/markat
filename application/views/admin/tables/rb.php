@@ -96,7 +96,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['plz'];
     $row[] = $aRow['stadt'];
     if (!empty($aRow['beraumung'])) {
-        $beraumung =  de_date($aRow['beraumung']);
+        $beraumung = de_date($aRow['beraumung']);
     } else {
         $beraumung = '';
     }
@@ -110,7 +110,7 @@ foreach ($rResult as $aRow) {
     $row[] = '<div class="data-act baubeginn" data-ucolumn="baubeginn" data-id="' . $aRow['id'] . '">' . $baubeginn . '</div>';
 
     if (!empty($aRow['ruckraumung'])) {
-        $ruckraumung =  de_date($aRow['ruckraumung']);
+        $ruckraumung = de_date($aRow['ruckraumung']);
     } else {
         $ruckraumung = '';
     }
@@ -126,11 +126,9 @@ foreach ($rResult as $aRow) {
 
     $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
     if ($checker) {
-        $row[] = '<a data-id="'.$aRow['id'].'" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+        $row[] = '<a data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
     } else {
-        // $row[] = '<a href="#" disabled class="btn btn-warning">See Pdf</a>';
-        $row[] = '';
-
+        $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
     }
 
 

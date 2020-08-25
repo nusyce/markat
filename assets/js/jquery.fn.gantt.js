@@ -974,8 +974,8 @@
             // Return an element representing a progress of position within the entire chart
             createProgressBar: function (label, desc, classNames, dataObj) {
                 label = label || "";
-                var bar = $('<div class="bar"><div class="fn-label">' + label + '</div></div>')
-                    .data("dataObj", dataObj);
+                var bar = $('<div class="bar"><div class="fn-label" data-dataObj="'+dataObj+'">' + label + '</div></div>')
+                        .data("dataObj", dataObj);
                 if (desc) {
                     bar
                         .mouseenter(function (e) {
@@ -1152,7 +1152,7 @@
                                     dl = Math.round((dTo - dFrom) / UTC_DAY_IN_MS) + 1;
                                     dp = 100 * (cellWidth * dl - 1) / dataPanelWidth;
 
-                                    _bar = core.createProgressBar(day.label, day.desc, day.customClass, day.dataObj);
+                                    _bar = core.createProgressBar(day.label, day.desc, day.customClass, day);
 
                                     // find row
                                     topEl = $(element).find("#rowheader" + i);
