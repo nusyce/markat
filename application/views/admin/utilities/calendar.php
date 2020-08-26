@@ -49,7 +49,7 @@
     function dragDrop(ev) { 
       ev.preventDefault(); 
       var data1 = ev.dataTransfer.getData("text"); 
-      ev.target.appendChild(document.getElementById(data1)); 
+      ev.target.appendChild(document.getElementById(data1).cloneNode(true)); 
       var tar_date = $(ev.target).attr('data-date');
       var elemid = [];
       for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
@@ -79,7 +79,7 @@
         alert(" Vorbeikommen Ereignisfunktionalität ist erwartete Funktionalität");
       }
 		  else{
-        ev.target.appendChild(document.getElementById(data1)); 
+        ev.target.appendChild(document.getElementById(data1).cloneNode(true)); 
         var th  = $(ev.target).parent().parent().parent().find('thead td').eq($(ev.target).index());
         var tar_date = $(th).attr('data-date');
         var elemid = [];
