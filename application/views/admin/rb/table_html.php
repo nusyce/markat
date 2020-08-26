@@ -9,10 +9,11 @@ $table_data = array(
     'PLZ',
     'Stadt',
     'Beräumung',
+    'Arbeitsschein',
     'Baubeginn',
     'Rückräumung',
-    'Bauende',
     'Arbeitsschein',
+    'Bauende',
     'Aktiviert'
 );
 render_datatable($table_data, (isset($class) ? $class : 'rb'), [], [

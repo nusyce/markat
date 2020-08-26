@@ -11,12 +11,12 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 class Template_pdf
 {
     protected $templates;
-    private $tag = '';
+    protected $table;
 
     public function __construct($template, $tag = '')
     {
-        $this->tag = $template;
-        $GLOBALS['template_pdf'] = $template;
+        $this->templates = $template;
+        $this->preparetable($template->json_data);
         try {
             ob_start();
             include $this->file_path();
@@ -29,20 +29,31 @@ class Template_pdf
             $html2pdf->setDefaultFont('Arial');
             // $html2pdf->setModeDebug();
             $html2pdf->writeHTML($content);
-            $html2pdf->output('example00.pdf');
+            $html2pdf->output('dokumente.pdf');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
 
             $formatter = new ExceptionFormatter($e);
             echo $formatter->getHtmlMessage();
         }
-
     }
 
+    function preparetable($jsqon)
+    {
+        if ($jsqon)
+            $this->table = unserialize($jsqon);
+    }
+
+    function srapdata($x, $y)
+    {
+        if (!$this->table)
+            return '';
+        $x = $this->table['x' . $x][$y];
+        return $x;
+    }
 
     public function prepare()
     {
-
     }
 
     protected function type()
@@ -52,18 +63,7 @@ class Template_pdf
 
     protected function file_path()
     {
-        $template_pdf = 'template_pdf';
-        if ($this->tag == 1 || $this->tag == '') {
-            $template_pdf = 'template_pdf';
-        } elseif ($this->tag == 2) {
-            $template_pdf = 'template_pdf_1';
-        } elseif ($this->tag == 3) {
-            $template_pdf = 'template_pdf_2';
-        } elseif ($this->tag == 4) {
-            $template_pdf = 'template_pdf_3';
-        } elseif ($this->tag == 4) {
-            $template_pdf = 'template_pdf_3';
-        }
+        $template_pdf = 'template_pdf_2';
         return APPPATH . 'views/themes/' . active_clients_theme() . '/views/' . $template_pdf . '.php';
     }
 }

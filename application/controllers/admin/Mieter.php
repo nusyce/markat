@@ -25,7 +25,7 @@ class Mieter extends AdminController
         $data['hausnummer'] = $this->mieter_model->get_grouped('hausnummer_m');
         $data['wohnungsnummer'] = $this->mieter_model->get_grouped('wohnungsnummer');
         $data['etage'] = $this->mieter_model->get_grouped('etage');
-        $data['project'] = $this->mieter_model->get_grouped('projektname');
+        $data['project'] = $this->mieter_model->get_projekte();
         $data['title'] = get_menu_option('mieter', 'Mieter');
         $this->load->view('admin/mieter/manage', $data);
     }
@@ -55,6 +55,7 @@ class Mieter extends AdminController
     public function mieter($id = '')
     {
 
+        $this->load->model('misc_model');
         if ($this->input->post()) {
             if ($id == '') {
                 $id = $this->mieter_model->add($this->input->post());
@@ -87,6 +88,7 @@ class Mieter extends AdminController
         $data['mobiliert'] = $this->wohnungen_model->get_grouped('mobiliert');
         $data['etage'] = $this->wohnungen_model->get_grouped('etage');
 
+        $data['projects'] = $this->misc_model->get_project();
         $data['betreuers'] = $this->clients_model->get_contacts();
         //$data['bodyclass'] = 'contract';
         $this->load->view('admin/mieter/mieter', $data);
@@ -247,5 +249,21 @@ class Mieter extends AdminController
             echo false;
         }
     }
+     function makePdf($id){
+        $attachments = $this->mieter_model->get_attachments($id);
+            try {
+                $pdf = mieter_pdf($id,'',$attachments);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+                die;
+            }
 
+            $pdf_name = 'mieter-attachment';
+            
+            // echo 'jjj';
+            // exit;
+            $pdf->Output(mb_strtoupper(slug_it($pdf_name), 'UTF-8') . '.pdf', 'D');
+            die();
+        //}
+    }
 }

@@ -55,9 +55,6 @@
                                        class="btn bg-orange btn-info pull-left display-block mright5 hidden-xs">
                                         <?php echo _l('Importieren'); ?></a>
                                 <?php } ?>
-                                <a href="<?php echo admin_url('clients/all_contacts'); ?>"
-                                   class="btn btn-success pull-left display-block mright5">
-                                    Alle Mitarbeiter</a>
                             </div>
                         </div>
                         <hr class="hr-panel-heading"/>

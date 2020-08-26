@@ -7,8 +7,8 @@ class Cars extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('cars_model');
-        $this->load->model('staff_model');
+        $this->load->model(['staff_model','cars_model']);
+
     }
 
 
@@ -55,6 +55,8 @@ class Cars extends AdminController
             $title = 'Fahrzeugliste erstellen';
         } else {
             $data['cars'] = $this->cars_model->get($id, [], true);
+            $data['cars']->attachments = $this->cars_model->get_attachments($id);
+
             $title = 'Fahrzeugliste ' . $data['cars']->id;
         }
         $data['title'] = $title;
@@ -110,5 +112,66 @@ class Cars extends AdminController
             $this->cars_model->change_cars_status($id, $status);
         }
     }
+    
+    public function ajax_save()
+    {
+        $a_data = $_POST;
+
+        if (!isset($a_data['id'])) {
+            $id = $this->cars_model->add($a_data);
+            if ($id) {
+                set_alert('success', _l('added_successfully', get_menu_option('mieter', 'Mieter')));
+            }
+        } else {
+            $id = $a_data['id'];
+            $success = $this->cars_model->update($a_data, $id);
+            if ($success) {
+                set_alert('success', _l('updated_successfully', get_menu_option('mieter', 'Mieter')));
+            }
+        }
+        
+         
+        // Count total files
+        if($_FILES){
+            $countfiles = count($_FILES['files']['name']);
+            for ($i = 0; $i < $countfiles; $i++) {
+
+                if (!empty($_FILES['files']['name'][$i])) {
+                    // Define new $_FILES array - $_FILES['file']
+                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+                    // Set preference
+                    if (!file_exists('uploads/cars/' . $id)) {
+                        mkdir('uploads/cars/' . $id, 0777, true);
+                    }
+                    $config['upload_path'] = 'uploads/cars/' . $id;
+                    $config['allowed_types'] = '*';
+                    $config['max_size'] = '500000'; // max_size in kb
+                    $config['file_name'] = $_FILES['files']['name'][$i];
+
+                    //Load upload library
+                    $this->load->library('upload', $config);
+                    // File upload
+                    if ($this->upload->do_upload('file')) {
+                        // Get data about the file
+                        $uploadData = $this->upload->data();
+                        $this->cars_model->add_attachment($id, $uploadData);
+                    }
+                }
+            }
+        }
+        echo admin_url('cars');
+    }
+
+
+      public function delete_attach($id)
+    {
+        $this->cars_model->delete_attachment($id);
+        echo 1;
+    }
+
 
 }

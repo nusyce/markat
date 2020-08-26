@@ -38,7 +38,7 @@
                                 <div class="row">
 
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('project', $project, array('project', 'project'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                        <?php echo render_select('project', $project, array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
                                     </div>
                                 </div>
                                 <div class="row"><!--

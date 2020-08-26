@@ -5,8 +5,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 if (!function_exists('startsWith')) {
     /**
      * String starts with
-     * @param  string $haystack
-     * @param  string $needle
+     * @param string $haystack
+     * @param string $needle
      * @return boolean
      */
     function startsWith($haystack, $needle)
@@ -17,11 +17,11 @@ if (!function_exists('startsWith')) {
 
 if (!function_exists('endsWith')) {
     /**
-    * String ends with
-    * @param  string $haystack
-    * @param  string $needle
-    * @return boolean
-    */
+     * String ends with
+     * @param string $haystack
+     * @param string $needle
+     * @return boolean
+     */
     function endsWith($haystack, $needle)
     {
         return \app\services\utilities\Str::endsWith($haystack, $needle);
@@ -42,8 +42,8 @@ if (!function_exists('is_html')) {
 if (!function_exists('strafter')) {
     /**
      * Get string after specific charcter/word
-     * @param  string $string    string from where to get
-     * @param  substring $substring search for
+     * @param string $string string from where to get
+     * @param substring $substring search for
      * @return string
      */
     function strafter($string, $substring)
@@ -55,8 +55,8 @@ if (!function_exists('strafter')) {
 if (!function_exists('strbefore')) {
     /**
      * Get string before specific charcter/word
-     * @param  string $string    string from where to get
-     * @param  substring $substring search for
+     * @param string $string string from where to get
+     * @param substring $substring search for
      * @return string
      */
     function strbefore($string, $substring)
@@ -68,7 +68,7 @@ if (!function_exists('strbefore')) {
 if (!function_exists('is_connected')) {
     /**
      * Is internet connection open
-     * @param  string  $domain
+     * @param string $domain
      * @return boolean
      */
     function is_connected($domain = 'www.google.com')
@@ -80,11 +80,11 @@ if (!function_exists('is_connected')) {
 if (!function_exists('str_lreplace')) {
     /**
      * Replace Last Occurence of a String in a String
-     * @since  Version 1.0.1
-     * @param  string $search  string to be replaced
-     * @param  string $replace replace with
-     * @param  string $subject [the string to search
+     * @param string $search string to be replaced
+     * @param string $replace replace with
+     * @param string $subject [the string to search
      * @return string
+     * @since  Version 1.0.1
      */
     function str_lreplace($search, $replace, $subject)
     {
@@ -95,9 +95,9 @@ if (!function_exists('str_lreplace')) {
 if (!function_exists('get_string_between')) {
     /**
      * Get string bettween words
-     * @param  string $string the string to get from
-     * @param  string $start  where to start
-     * @param  string $end    where to end
+     * @param string $string the string to get from
+     * @param string $start where to start
+     * @param string $end where to end
      * @return string formatted string
      */
     function get_string_between($string, $start, $end)
@@ -109,8 +109,8 @@ if (!function_exists('get_string_between')) {
 if (!function_exists('time_ago_specific')) {
     /**
      * Format datetime to time ago with specific hours mins and seconds
-     * @param  datetime $lastreply
-     * @param  string $from      Optional
+     * @param datetime $lastreply
+     * @param string $from Optional
      * @return mixed
      */
     function time_ago_specific($date, $from = 'now')
@@ -122,7 +122,7 @@ if (!function_exists('time_ago_specific')) {
 if (!function_exists('sec2qty')) {
     /**
      * Format seconds to quantity
-     * @param  mixed  $sec      total seconds
+     * @param mixed $sec total seconds
      * @return [integer]
      */
     function sec2qty($sec)
@@ -136,8 +136,8 @@ if (!function_exists('sec2qty')) {
 if (!function_exists('seconds_to_time_format')) {
     /**
      * Format seconds to H:I:S
-     * @param  integer $seconds         mixed
-     * @param  boolean $include_seconds
+     * @param integer $seconds mixed
+     * @param boolean $include_seconds
      * @return string
      */
     function seconds_to_time_format($seconds = 0, $include_seconds = false)
@@ -149,7 +149,7 @@ if (!function_exists('seconds_to_time_format')) {
 if (!function_exists('hours_to_seconds_format')) {
     /**
      * Converts hours to minutes timestamp
-     * @param  mixed $hours     total hours in format HH:MM or HH.MMM
+     * @param mixed $hours total hours in format HH:MM or HH.MMM
      * @return int
      */
     function hours_to_seconds_format($hours)
@@ -161,8 +161,8 @@ if (!function_exists('hours_to_seconds_format')) {
 if (!function_exists('ip_in_range')) {
     /**
      * Check whether ip is in range
-     * @param  string $ip    ip address to check
-     * @param  string $range range
+     * @param string $ip ip address to check
+     * @param string $range range
      * @return boolean
      */
     function ip_in_range($ip, $range)
@@ -173,13 +173,13 @@ if (!function_exists('ip_in_range')) {
 
 if (!function_exists('array_merge_recursive_distinct')) {
     /**
+     * @param array  &$array1
+     * @param array  &$array2
+     * @return array
      * @since  2.3.4
      *
      * Array merge recursive distinct
      *
-     * @param  array  &$array1
-     * @param  array  &$array2
-     * @return array
      */
     function array_merge_recursive_distinct(array &$array1, array &$array2)
     {
@@ -190,7 +190,7 @@ if (!function_exists('array_merge_recursive_distinct')) {
 if (!function_exists('array_to_object')) {
     /**
      * Convert array to oobject
-     * @param  array $array array to convert
+     * @param array $array array to convert
      * @return object
      */
     function array_to_object($array)
@@ -202,7 +202,7 @@ if (!function_exists('array_to_object')) {
 if (!function_exists('array_flatten')) {
     /**
      * Flatten multidimensional array
-     * @param  array  $array
+     * @param array $array
      * @return array
      */
     function array_flatten(array $array)
@@ -214,9 +214,9 @@ if (!function_exists('array_flatten')) {
 if (!function_exists('value_exists_in_array_by_key')) {
     /**
      * Check if value exist in array by key
-     * @param  array $array
-     * @param  string $key   key to check
-     * @param  mixed $val   value
+     * @param array $array
+     * @param string $key key to check
+     * @param mixed $val value
      * @return boolean
      */
     function value_exists_in_array_by_key($array, $key, $val)
@@ -228,9 +228,9 @@ if (!function_exists('value_exists_in_array_by_key')) {
 if (!function_exists('in_array_multidimensional')) {
     /**
      * Check if in array multidimensional
-     * @param  array $array  array to perform the checks
-     * @param  mixed $key    array key
-     * @param  mixed $val    the value to check
+     * @param array $array array to perform the checks
+     * @param mixed $key array key
+     * @param mixed $val the value to check
      * @return boolean
      */
     function in_array_multidimensional($array, $key, $val)
@@ -242,9 +242,9 @@ if (!function_exists('in_array_multidimensional')) {
 if (!function_exists('in_object_multidimensional')) {
     /**
      * Check if in object multidimensional
-     * @param  object $object  object to perform the checks
-     * @param  mixed $key      object key
-     * @param  mixed $val      the value to check
+     * @param object $object object to perform the checks
+     * @param mixed $key object key
+     * @param mixed $val the value to check
      * @return boolean
      */
     function in_object_multidimensional($object, $key, $val)
@@ -276,8 +276,8 @@ if (!function_exists('array_pluck')) {
 if (!function_exists('adjust_color_brightness')) {
     /**
      * Adjust color brightness
-     * @param  string $hex   hex color to adjust from
-     * @param  mixed $steps eq -20 or 20
+     * @param string $hex hex color to adjust from
+     * @param mixed $steps eq -20 or 20
      * @return string
      */
     function adjust_color_brightness($hex, $steps)
@@ -289,7 +289,7 @@ if (!function_exists('adjust_color_brightness')) {
 if (!function_exists('hex2rgb')) {
     /**
      * Convert hex color to rgb
-     * @param  string $color color hex code
+     * @param string $color color hex code
      * @return string
      */
     function hex2rgb($color)
@@ -301,7 +301,7 @@ if (!function_exists('hex2rgb')) {
 if (!function_exists('check_for_links')) {
     /**
      * Check for links/emails/ftp in string to wrap in href
-     * @param  string $ret
+     * @param string $ret
      * @return string      formatted string with href in any found
      */
     function check_for_links($ret)
@@ -313,7 +313,7 @@ if (!function_exists('check_for_links')) {
 if (!function_exists('time_ago')) {
     /**
      * Short Time ago function
-     * @param  datetime $date
+     * @param datetime $date
      * @return mixed
      */
     function time_ago($date)
@@ -335,8 +335,8 @@ if (!function_exists('time_ago')) {
 if (!function_exists('slug_it')) {
     /**
      * Slug function
-     * @param  string $str
-     * @param  array  $options Additional Options
+     * @param string $str
+     * @param array $options Additional Options
      * @return mixed
      */
     function slug_it($str, $options = [])
@@ -351,8 +351,8 @@ if (!function_exists('slug_it')) {
 if (!function_exists('similarity')) {
     /**
      * Check 2 string similarity
-     * @param  string $str1
-     * @param  string $str2
+     * @param string $str1
+     * @param string $str2
      * @return float
      */
     function similarity($str1, $str2)
@@ -362,11 +362,11 @@ if (!function_exists('similarity')) {
 }
 
 /**
+ * @param array $array the arry to sort
+ * @param boolean $keepIndex whether to keep the indexes
+ * @return array
  * @since  2.3.0
  * Sort array by position
- * @param  array  $array     the arry to sort
- * @param  boolean $keepIndex whether to keep the indexes
- * @return array
  */
 function app_sort_by_position($array, $keepIndex = false)
 {
@@ -377,7 +377,7 @@ function app_sort_by_position($array, $keepIndex = false)
  * Fill common empty attributes used for various function e.q. menu, tabs etc...
  * This is used e.q. if user didn't added icon array attribute but there are no checks performed if(iseet($item['icon'])) to prevent
  * throwing errors.
- * @param  array $array
+ * @param array $array
  * @return array
  */
 function app_fill_empty_common_attributes($array)
@@ -386,6 +386,8 @@ function app_fill_empty_common_attributes($array)
 
     $array['href'] = isset($array['href']) && $array['href'] != '' ? $array['href'] : '#';
 
+    $array['new'] = isset($array['new']) && $array['new'] === true;
+
     $array['position'] = isset($array['position']) ? $array['position'] : null;
 
     return $array;
@@ -393,8 +395,8 @@ function app_fill_empty_common_attributes($array)
 
 /**
  * Function that strip all html tags from string/text/html
- * @param  string $str
- * @param  string $allowed prevent specific tags to be stripped
+ * @param string $str
+ * @param string $allowed prevent specific tags to be stripped
  * @return string
  */
 function strip_html_tags($str, $allowed = '')
@@ -442,7 +444,7 @@ function strip_html_tags($str, $allowed = '')
     $str = strip_tags($str, $allowed);
 
     // Remove on events from attributes
-    $re  = '/\bon[a-z]+\s*=\s*(?:([\'"]).+?\1|(?:\S+?\(.*?\)(?=[\s>])))/i';
+    $re = '/\bon[a-z]+\s*=\s*(?:([\'"]).+?\1|(?:\S+?\(.*?\)(?=[\s>])))/i';
     $str = preg_replace($re, '', $str);
 
     $str = trim($str);

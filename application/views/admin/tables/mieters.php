@@ -10,7 +10,7 @@ $aColumns = [
     '1',
     db_prefix() . 'mieters.id as id',
     'fullname',
-    'projektname',
+    db_prefix() . 'tsk_project.name as project',
     'strabe_m',
     'hausnummer_m',
     'wohnungsnummer',
@@ -38,13 +38,14 @@ $sTable = db_prefix() . 'mieters';
 
 $where = [];
 $join = [];
+$join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.projektname';
+
 //$join = ['LEFT JOIN ' . db_prefix() . 'contacts ON ' . db_prefix() . 'contacts.id = ' . db_prefix() . 'mieters.betreuer'];
 $filter = [];
 
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
 }
-
 if ($this->ci->input->post('project')) {
     array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
 }
@@ -67,9 +68,6 @@ if ($this->ci->input->post('flugel')) {
 if ($this->ci->input->post('hausnummer')) {
     array_push($where, 'AND hausnummer_m ="' . $this->ci->db->escape_str($this->ci->input->post('hausnummer')) . ' " ');
 }
-if ($this->ci->input->post('wohnungsnummer')) {
-    array_push($where, 'AND wohnungsnummer ="' . $this->ci->db->escape_str($this->ci->input->post('wohnungsnummer')) . ' " ');
-}
 
 if ($this->ci->input->post('mobiliert')) {
     array_push($where, 'AND mobiliert ="' . $this->ci->db->escape_str($this->ci->input->post('mobiliert')) . ' " ');
@@ -81,7 +79,7 @@ $output = $result['output'];
 $rResult1 = $result['rResult'];
 
 
-foreach ($rResult1 as $rR) {
+/*foreach ($rResult1 as $rR) {
     if ($rR['projektname'] == 'BOR' && has_permission('mieter', '', 'view_bor')) {
         array_push($rResult, $rR);
     } elseif ($rR['projektname'] == 'FER' && has_permission('mieter', '', 'view_fer')) {
@@ -91,9 +89,9 @@ foreach ($rResult1 as $rR) {
     } elseif ($rR['projektname'] == '') {
         array_push($rResult, $rR);
     }
-}
+}*/
 
-foreach ($rResult as $aRow) {
+foreach ($rResult1 as $aRow) {
     $row = [];
     $row[] = '<div class="multiple_action checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
     $row[] = $aRow['id'];
@@ -126,8 +124,8 @@ foreach ($rResult as $aRow) {
         $betreur = '';
 
     $row[] = $subjectOutput;
-    $row[] = $aRow['projektname'];
 
+    $row[] = $aRow['project'];
     //$row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['company'] . '</a>';
 
 

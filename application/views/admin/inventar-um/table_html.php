@@ -8,18 +8,12 @@ $table_data = array(
     'Nr',
     'Etage',
     'Flügel',
-    'PLZ',
-    'ORT',
-    'Inv.-Start',
     'AQ-ID',
     'Straße',
     'Nr',
     'Etage',
     'Flügel',
-    'PLZ',
-    'ORT',
-    'Inv.-Ende',
-    'Inv.-Rest'
+    'Inventar moved'
 );
 
 render_datatable($table_data, (isset($class) ? $class : 'inventar-um'), [], [

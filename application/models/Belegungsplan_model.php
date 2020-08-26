@@ -57,6 +57,33 @@ class Belegungsplan_model extends App_Model
     }
 
     /**
+     * @param integer ID
+     * @param date Reinigung_Dt
+     * @return boolean
+     * Update reinigung_dt with selected date
+     */
+    public function change_reinigung_date($id, $reinigung_dt)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'occupations', [
+            'reinigung_dt' => $reinigung_dt,
+        ]);
+
+        if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('occupations_appointment_changed', [
+                'id' => $id,
+                'reinigung_dt' => $reinigung_dt,
+            ]);
+
+            log_activity('Occupations Appointment Date Changed [ID: ' . $id . ' AppointmentDate: ' . $reinigung_dt . ']');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Get occupations/s
      * @param array $where perform where
      * @param boolean $for_editor if for editor is false will replace the field if not will not replace
@@ -195,6 +222,13 @@ class Belegungsplan_model extends App_Model
             $data['belegt_v'] = to_sql_datedv($data['belegt_v']);
         }
 
+        //custom changes
+        if (isset($data['etage']))
+            unset($data['etage']);
+        if (isset($data['schlaplatze']))
+            unset($data['schlaplatze']);
+        if (isset($data['mobiliert']))
+            unset($data['mobiliert']);
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
         if (isset($data['belegungsplan_id']))

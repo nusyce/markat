@@ -22,6 +22,7 @@ function add_option($name, $value = '', $autoload = 1)
             'value' => $value,
         ];
 
+
         if ($CI->db->field_exists('autoload', db_prefix() . 'options')) {
             $newData['autoload'] = $autoload;
         }
@@ -29,6 +30,29 @@ function add_option($name, $value = '', $autoload = 1)
         $CI->db->insert(db_prefix() . 'options', $newData);
 
         $insert_id = $CI->db->insert_id();
+
+        if($CI->session->userdata('staff_user_id')){
+            $array = array('name' => $name, 'user_id' => $CI->session->userdata('staff_user_id'));
+            $res_data = $CI->db->select('value')
+            ->where($array)->get(db_prefix() . 'menu_mapping')->row();
+            if(!empty($res_data)){
+                $CI->db->where('name', $name);
+                $CI->db->where('user_id', $CI->session->userdata('staff_user_id'));
+                $newdata = ['value' => $value];
+
+                $CI->db->update(db_prefix() . 'menu_mapping', $newdata);
+
+            }else{
+                $newDataCheck = [
+                    'name' => $name,
+                    'value' => $value,
+                    'user_id' => $CI->session->userdata('staff_user_id')
+                ];
+                $CI->db->insert(db_prefix() . 'menu_mapping', $newDataCheck);
+
+            }
+
+        }
 
         if ($insert_id) {
             return true;
@@ -87,13 +111,40 @@ function update_option($name, $value, $autoload = null)
     $CI = &get_instance();
 
     $CI->db->where('name', $name);
-    $data = ['value' => $value];
+   // $data = ['value' => $value];
+
+
 
     if ($autoload) {
         $data['autoload'] = $autoload;
     }
 
     $CI->db->update(db_prefix() . 'options', $data);
+
+    if($CI->session->userdata('staff_user_id')){
+        $array = array('name' => $name, 'user_id' => $CI->session->userdata('staff_user_id'));
+        $res_data = $CI->db->select('value')
+            ->where($array)->get(db_prefix() . 'menu_mapping')->row();
+        if(!empty($res_data)){
+            $CI->db->where('name', $name);
+            $CI->db->where('user_id', $CI->session->userdata('staff_user_id'));
+            $newdata = ['value' => $value];
+
+            $CI->db->update(db_prefix() . 'menu_mapping', $newdata);
+
+        }else{
+            $newDataCheck = [
+                'name' => $name,
+                'value' => $value,
+                'user_id' => $CI->session->userdata('staff_user_id')
+            ];
+            $CI->db->insert(db_prefix() . 'menu_mapping', $newDataCheck);
+
+        }
+
+
+    }
+
 
     if ($CI->db->affected_rows() > 0) {
         return true;

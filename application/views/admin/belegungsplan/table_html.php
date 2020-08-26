@@ -13,8 +13,8 @@ $table_data = array(
     'Möbliert' ,
     'Belegt von',
     'Belegt bis',
-   // 'Resttage',
     'Mieter',
+    'Projekt',
     'Aktiv'
 );
 

@@ -10,17 +10,17 @@ foreach ($quickActions as $key => $item) {
 }
 ?>
 
-<aside id="menu" class="sidebar">
+<aside id="menu" class="sidebar <?= c_menu() == 'Prchat_Controller' ? 'overflo' : ''; ?>">
     <ul class="nav metis-menu" id="side-menu">
- <!--       <li class="dashboard_user<?php /*if ($totalQuickActionsRemoved == count($quickActions)) {
+        <!--       <li class="dashboard_user<?php /*if ($totalQuickActionsRemoved == count($quickActions)) {
             echo ' dashboard-user-no-qa';
-        } */?>">
-            <?php /*echo _l('welcome_top', $current_user->firstname); */?> <i
+        } */ ?>">
+            <?php /*echo _l('welcome_top', $current_user->firstname); */ ?> <i
                     class="fa fa-power-off top-left-logout pull-right" data-toggle="tooltip"
-                    data-title="<?php /*echo _l('nav_logout'); */?>" data-placement="right"
+                    data-title="<?php /*echo _l('nav_logout'); */ ?>" data-placement="right"
                     onclick="logout(); return false;"></i>
         </li>-->
-    <!--    <?php /*if ($totalQuickActionsRemoved != count($quickActions)) { */?>
+        <!--    <?php /*if ($totalQuickActionsRemoved != count($quickActions)) { */ ?>
             <li class="quick-links">
                 <div class="dropdown dropdown-quick-links">
                     <a href="#" class="dropdown-toggle" id="dropdownQuickLinks" data-toggle="dropdown"
@@ -29,49 +29,50 @@ foreach ($quickActions as $key => $item) {
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownQuickLinks">
                         <?php
-/*                        foreach ($quickActions as $key => $item) {
+        /*                        foreach ($quickActions as $key => $item) {
 
-                            $url = '';
-                            if (isset($item['permission'])) {
-                                if (!has_permission($item['permission'], '', 'create')) {
-                                    continue;
-                                }
-                            }
-                            if (isset($item['custom_url'])) {
-                                $url = $item['url'];
-                            } else {
-                                $url = admin_url('' . $item['url']);
-                            }
-                            $href_attributes = '';
-                            if (isset($item['href_attributes'])) {
-                                foreach ($item['href_attributes'] as $key => $val) {
-                                    $href_attributes .= $key . '=' . '"' . $val . '"';
-                                }
-                            }
-                            */?>
+                                    $url = '';
+                                    if (isset($item['permission'])) {
+                                        if (!has_permission($item['permission'], '', 'create')) {
+                                            continue;
+                                        }
+                                    }
+                                    if (isset($item['custom_url'])) {
+                                        $url = $item['url'];
+                                    } else {
+                                        $url = admin_url('' . $item['url']);
+                                    }
+                                    $href_attributes = '';
+                                    if (isset($item['href_attributes'])) {
+                                        foreach ($item['href_attributes'] as $key => $val) {
+                                            $href_attributes .= $key . '=' . '"' . $val . '"';
+                                        }
+                                    }
+                                    */ ?>
                             <li>
-                                <a href="<?php /*echo $url; */?>" <?php /*echo $href_attributes; */?>>
+                                <a href="<?php /*echo $url; */ ?>" <?php /*echo $href_attributes; */ ?>>
                                     <i class="fa fa-plus-square-o"></i>
-                                    <?php /*echo $item['name']; */?>
+                                    <?php /*echo $item['name']; */ ?>
                                 </a>
                             </li>
-                        <?php /*} */?>
+                        <?php /*} */ ?>
                     </ul>
                 </div>
             </li>
-        <?php /*} */?>
+        <?php /*} */ ?>
         --><?php
         hooks()->do_action('before_render_aside_menu');
         ?>
         <?php
         foreach ($sidebar_menu as $key => $item) {
+
             if (isset($item['collapse']) && count($item['children']) === 0) {
                 continue;
             }
 
-          /*  if ($item['slug'] == 'projects' || $item['slug'] == 'tasks' || $item['slug'] == 'support' || $item['slug'] == 'leads' || $item['slug'] == 'utilities') {
-                continue;
-            }*/
+            /*  if ($item['slug'] == 'projects' || $item['slug'] == 'tasks' || $item['slug'] == 'support' || $item['slug'] == 'leads' || $item['slug'] == 'utilities') {
+                  continue;
+              }*/
             ?>
             <li class="menu-item-<?php echo $item['slug']; ?>"
                 <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
@@ -84,6 +85,9 @@ foreach ($quickActions as $key => $item) {
              </span>
                     <?php if (count($item['children']) > 0) { ?>
                         <span class="fa arrow"></span>
+                    <?php } ?>
+                    <?php if ($item['new'] == true) { ?>
+                        <i style="color: #ACD68F; position:absolute; right: 4px">NEW </i>
                     <?php } ?>
                 </a>
                 <?php if (count($item['children']) > 0) { ?>
@@ -120,7 +124,9 @@ foreach ($quickActions as $key => $item) {
             <?php } ?>
         </li>
         <li>
-            <div class="newlogoposition"><?php get_company_logo(get_admin_uri() . '/') ?></div>jj</li>
+            <div class="newlogoposition"><?php get_company_logo(get_admin_uri() . '/') ?></div>
+            jj
+        </li>
         <?php hooks()->do_action('after_render_aside_menu'); ?>
         <?php $this->load->view('admin/projects/pinned'); ?>
     </ul>

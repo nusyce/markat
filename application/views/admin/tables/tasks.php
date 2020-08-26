@@ -13,11 +13,13 @@ $aColumns = [
     'status',
     'startdate',
     'duedate',
+    db_prefix() . 'mieters.fullname as fullname',
     get_sql_select_task_asignees_full_names() . ' as assignees',
     '(SELECT count(' . db_prefix() . 'task_checklist_items.taskid) FROM ' . db_prefix() . 'task_checklist_items WHERE ' . db_prefix() . 'task_checklist_items.taskid=' . db_prefix() . 'tasks.id) as checkpoint',
     'datefinished',
     db_prefix() . 'tsk_project.name as project',
     'priority',
+    db_prefix() . 'mieters.id as idm',
 ];
 
 $sIndexColumn = 'id';
@@ -26,6 +28,8 @@ $sTable = db_prefix() . 'tasks';
 $where = [];
 $join = [];
 $join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'tasks.project';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'tasks.mieters';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'task_assigned ON ' . db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id';
 
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
@@ -58,10 +62,10 @@ if ($this->ci->input->post('start_date')) {
 if ($this->ci->input->post('end_date')) {
     array_push($where, 'AND duedate ="' . date('Y-m-d', strtotime($this->ci->input->post('end_date'))) . ' " ');
 }
-/*
 if ($this->ci->input->post('member')) {
-    array_push($where, 'AND flugel ="' . $this->ci->db->escape_str($this->ci->input->post('member')) . ' " ');
-}*/
+    array_push($where, 'AND ' . db_prefix() . 'task_assigned.staffid ="' . $this->ci->db->escape_str($this->ci->input->post('member')) . ' " ');
+}
+
 
 if ($this->ci->input->post('priority')) {
     array_push($where, 'AND priority ="' . $this->ci->db->escape_str($this->ci->input->post('priority')) . ' " ');
@@ -90,6 +94,7 @@ $result = data_tables_init(
 $output = $result['output'];
 $rResult = $result['rResult'];
 
+$rResult = unique_multidim_array($rResult, 'id');
 foreach ($rResult as $aRow) {
     if ($this->ci->input->post('member') && !hisMember($this->ci->input->post('member'), $aRow['id']))
         continue;
@@ -192,6 +197,7 @@ foreach ($rResult as $aRow) {
     $row[] = _d($aRow['startdate']);
 
     $row[] = _d($aRow['duedate']);
+    $row[]= '  <a href="' . admin_url('mieter/mieter/' . $aRow['idm']) . '">' .  $aRow['fullname']. '</a>';
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
     $row[] = '<div class="text-center">' . $aRow['checkpoint'] . '</div>';
 

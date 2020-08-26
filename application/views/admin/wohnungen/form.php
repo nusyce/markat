@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-4">
         <?php
-        $data = array();
-        $select = (isset($wohnungen) ? $wohnungen->project : '');
-        $data[] = array('id' => 'BOR');
-        $data[] = array('id' => 'FER');
-        $data[] = array('id' => 'TOPS');
-        echo render_select('project', $data, array('id', 'id'), 'Projekt', $select); ?>
+        $selected = '';
+        if (isset($wohnungen) && $wohnungen->project) {
+            $selected = $wohnungen->project;
+        }
+        echo render_project_select($projects, $selected, 'Projekt');
+        ?>
 
     </div>
 
@@ -110,6 +110,26 @@
             <span class="bold" id="inventarCOunt"></span>
         </h4>
     </div>
+    <?php
+    if (isset($wohnungen->inventer)):
+        $resCount = count_items($wohnungen->inventer); ?>
+        <div class="col-md-6">
+            <div class="row bold">
+                <div class="col-md-2">
+                    Alle:<?= $resCount[0] ?>
+                </div>
+                <div class="col-md-3">
+                    Verf&#252;gbar:<?= $resCount[1] ?>
+                </div>
+                <div class="col-md-3">
+                    Defekt:<?= $resCount[2] ?>
+                </div>
+                <div class="col-md-3">
+                    Entsorgt:<?= $resCount[3] ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 <div class="row" id="tt-pop" style="margin-top: 25px; margin-bottom: 25px">
     <?php
@@ -126,10 +146,15 @@
                            min="0" value="0"
                            type="number">
                 </div>
-                <div class="col-md-7">
-                    <?php echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $selected); ?>
+                <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
+                    <?php
+                    echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', array(), array()); ?>
                 </div>
-
+                <div class="col-md-1" style="padding: 0;">
+                    <input  style="margin-right: -10px;padding-right: 0px !important;"
+                            class="form-control a_qty" min="0" name="sqr[]"
+                            type="number" >
+                </div>
                 <div class="col-md-2">
                     <a href="#"
                        class="btn remove-aq btn-danger disabled display-block  text-center">
@@ -145,12 +170,8 @@
             <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                  data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
                 <?php if ($a['is_deleted'] == 0):
-
                     $allData = get_move($wohnungen, $a['inventar_id']);
-                    //  var_dump($allData);
-
                     ?>
-
                     <div class="row firstroun">
                         <div class="col-md-1">
                             <div class="count-k"><?= $k + 1 ?></div>
@@ -160,9 +181,13 @@
                                    class="form-control a_qty" min="0"
                                    type="number" value="<?= $a['qty'] ?>">
                         </div>
-                        <div class="col-md-7 <?= $allData ? ' moved' : '' ?>">
-                            <?php
-                            echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
+                        <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
+                            <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
+                        </div>
+                        <div class="col-md-1" style="padding: 0;">
+                            <input name="sqr[]" style="margin-right: -10px; padding-right: 0px !important;"
+                                   class="form-control " min="0"  value="<?= $a['sqr'] ?>"
+                                   type="number" >
                         </div>
                         <div class="col-md-2">
                             <a href="#"
@@ -172,6 +197,7 @@
                         </div>
                     </div>
                     <?php
+                    if (isset($allData))
                     foreach ($allData as $item) {
                         ?>
                         <div class="row ">
@@ -279,4 +305,26 @@ function get_move($wohnungen, $inventar)
         }
     }
     return $data;
+}
+
+
+function count_items($inventars)
+{
+    $allQty = 0;
+    $avQty = 0;
+    $dfQty = 0;
+    $enQty = 0;
+    foreach ($inventars as $inventar) {
+        $allQty += $inventar['qty'];
+        if ($inventar['is_deleted'] == 0)
+            $avQty += $inventar['qty'];
+        else {
+            if ($inventar['reason'] == 'Defekt') {
+                $dfQty += $inventar['qty'];
+            } else {
+                $enQty += $inventar['qty'];
+            }
+        }
+    }
+    return array($allQty, $avQty, $dfQty, $enQty);
 }

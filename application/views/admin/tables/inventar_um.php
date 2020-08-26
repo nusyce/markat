@@ -9,16 +9,12 @@ $aColumns = [
     'f.hausnummer as f_hausnummer',
     'f.etage as f_etage',
     'f.flugel as f_flugel',
-    'f.plz as f_plz',
-    'f.ort as f_ort',
     'item_counts',
     't.id as t_id',
     't.strabe as t_strabe',
     't.hausnummer as t_hausnummer',
     't.etage as t_etage',
     't.flugel as t_flugel',
-    't.plz as t_plz',
-    't.ort as t_ort',
     'items_rest',
     'items_move',
 ];
@@ -83,26 +79,20 @@ foreach ($rResult as $aRow) {
     $subjectOutput = $aRow['id'];
 
     $subjectOutput .= '<div class="row-options">';
-
     $subjectOutput .= '<a href="' . admin_url('wohnungen/inventar_um_delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $subjectOutput .= '</div>';
     $row[] = $subjectOutput;
     $row[] = '<span class="text-danger">' . $aRow['f_id'] . '</span>';
-    $row[] = '<span class="text-danger">' . $aRow['f_strabe'] . '</span>';
+    $row[] = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['f_id']) . '"><span class="text-danger">' . $aRow['f_strabe'] . '</span></a>';
+
     $row[] = $aRow['f_hausnummer'];
     $row[] = $aRow['f_etage'];
     $row[] = $aRow['f_flugel'];
-    $row[] = $aRow['f_plz'];
-    $row[] = $aRow['f_ort'];
-    $row[] = '<div class="text-center bold">' . $aRow['item_counts'] . '</div>';
     $row[] = '<span class="text-success">' . $aRow['t_id'] . '</span>';
-    $row[] = '<span class="text-success">' . $aRow['t_strabe'] . '</span>';
+    $row[] = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['t_id']) . '"><span class="text-success">' . $aRow['t_strabe'] . '</span></a>';
     $row[] = $aRow['t_hausnummer'];
     $row[] = $aRow['t_etage'];
     $row[] = $aRow['t_flugel'];
-    $row[] = $aRow['t_plz'];
-    $row[] = $aRow['t_ort'];
-    $row[] = '<div class="text-center">' . $aRow['items_rest'] . '</div>';
     $row[] = '<div class="text-center bold">' . $aRow['items_move'] . '</div>';
 
     //$row[] = $result = data_tables_init($aColumns, $sIndexColumn, 'mieters', array(), $where, [db_prefix() . 'wohnungen.id']);

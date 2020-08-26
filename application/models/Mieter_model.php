@@ -49,6 +49,19 @@ class Mieter_model extends App_Model
         return $this->db->get(db_prefix() . 'files')->result_array();
     }
 
+
+    public function get_projekte()
+    {
+        $project = $this->get_grouped('projektname');
+        if (!$project) return array();
+        $project_ids = array();
+        foreach ($project as $p) {
+            array_push($project_ids, $p['projektname']);
+        }
+        $this->db->where_in('id', $project_ids);
+        return $this->db->get(db_prefix() . 'tsk_project')->result_array();
+    }
+
     public function add_attachment($insert_id, $data)
     {
         $this->db->insert(db_prefix() . 'files', [

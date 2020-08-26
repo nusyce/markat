@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div id="belegungsplan" class="panel-body ">
-                        <button id="switchbtn" class="btn btn-success list">Switch to gantt Chart</button>
+                        <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
                         <br>
                         <!--             <div class="row mbot15">
                             <div class="col-md-8 col-md-offset-2">
@@ -163,7 +163,7 @@
                                         </h4>
                                     </div>
                                     <div class="modal-body">
-                                        <?php echo form_open(admin_url('belegungsplan/assign'), array('id' => 'dsds')); ?>
+                                        <?php echo form_open(admin_url('belegungsplan/assign'), array('id' => 'bledsds')); ?>
                                         <input type="hidden" value="0" name="belegungsplan_id" id="belegungsplan_id">
                                         <div class="row field-cloneb">
                                             <div class="col-md-6">
@@ -265,13 +265,13 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4 ">
-                                                <?php echo render_select('etage', $etage1, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array(),'','efilter'); ?>
+                                                <?php echo render_select('etage', $etage1, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array(), '', 'efilter'); ?>
                                             </div>
                                             <div class="col-md-4 ">
-                                                <?php echo render_select('schlaplatze', $schlaplatze1, array('schlaplatze', 'schlaplatze'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Schlafplätze'), array(),'','sfilter'); ?>
+                                                <?php echo render_select('schlaplatze', $schlaplatze1, array('schlaplatze', 'schlaplatze'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Schlafplätze'), array(), '', 'sfilter'); ?>
                                             </div>
                                             <div class="col-md-4 ">
-                                                <?php echo render_select('mobiliert', $mobiliert1, array('mobiliert', 'mobiliert'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Möbliert'), array(),'','mfilter'); ?>
+                                                <?php echo render_select('mobiliert', $mobiliert1, array('mobiliert', 'mobiliert'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Möbliert'), array(), '', 'mfilter'); ?>
                                             </div>
                                         </div>
                                         <br>
@@ -279,7 +279,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="text-right">
-                                                    <button type="submit"
+                                                    <button type="submit" id="blu_save"
                                                             class="btn btn-info"><?php echo _l('submit'); ?></button>
                                                 </div>
                                             </div>
@@ -295,14 +295,12 @@
         </div>
     </div>
 </div>
-
 <?php init_tail(); ?>
 
 <?php if (isset($_GET['ref_m'])) {
     ?>
     <script>
         $(function () {
-
             $('#newoccupation #mieter').val('<?= $_GET['ref_m'];?>');
             $('#newoccupation #mieter').selectpicker('refresh');
             $('#newoccupation').modal('show');
@@ -310,74 +308,9 @@
     </script>
     <?php
 } ?>
-<script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
-
-<script>
-    $(function () {
-
-        $('#switchbtn').click(function (e) {
-            e.preventDefault();
-            if ($(this).hasClass('list')) {
-                $(this).text('Switch to table')
-                $(this).addClass('ganttv').removeClass('list')
-                $('.list-view').addClass('hide');
-                $('.gant-view').removeClass('hide');
-            } else {
-                $(this).text('Switch to gantt chart')
-                $(this).addClass('list').removeClass('ganttv')
-                $('.gant-view').addClass('hide');
-                $('.list-view').removeClass('hide');
-            }
-        })
-
-
-        appValidateForm($('#dsds'), {belegt_v: 'required', belegt_b: 'required'});
-        $("#kein_m").change(function () {
-            if (this.checked) {
-                $('#mieter').prop('required', false);
-                $('#reason').prop('required', true);
-                $('#reason-blc').removeClass('hide');
-
-            } else {
-                $('#mieter').prop('required', true);
-                $('#reason-blc').addClass('hide');
-                $('#reason').prop('required', false);
-            }
-        });
-
-        $(".selector").gantt({
-            source: "<?php echo base_url(); ?>/admin/belegungsplan/table1",
-            navigate: "scroll",
-            scale: "weeks",
-            maxScale: "months",
-            minScale: "hours",
-            itemsPerPage: 10,
-            scrollToToday: false,
-
-            // scale: "weeks",
-            // minScale: "weeks",
-            // maxScale: "months",
-            onItemClick: function (data) {
-                alert("Item clicked - show some details");
-            },
-            onAddClick: function (dt, rowId) {
-                alert("Empty space clicked - add an item!");
-            },
-            onRender: function () {
-                console.log("chart rendered");
-            }
-        });
-
-
-    });
-</script>
-
 <?php
 foreach ($occupations as $occupation):
     $hisOccupations = $this->wohnungen_model->get_occupations($occupation['wohnungen']);
-
-
     ?>
     <div class="modal fade" id="calendarmx<?= $occupation['id'] ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -489,6 +422,225 @@ foreach ($occupations as $occupation):
 <?php
 endforeach;
 ?>
+
+<script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+
+<script>
+    $(function () {
+
+        $("#newoccupation").on("hidden.bs.modal", function () {
+            $('#newoccupation form').trigger("reset");
+            $('#newoccupation #belegungsplan_id').val(0);
+            $('#newoccupation #mieter').val('');
+            $('#newoccupation #mieter').selectpicker('refresh');
+            $('#newoccupation #wohnungen').empty();
+            $('#newoccupation #wohnungen').selectpicker('refresh');
+            $('#newoccupation #etage').empty();
+            $('#newoccupation #etage').selectpicker('refresh');
+            $('#newoccupation #schlaplatze').empty();
+            $('#newoccupation #schlaplatze').selectpicker('refresh');
+            $('#newoccupation #mobiliert').empty();
+            $('#newoccupation #mobiliert').selectpicker('refresh');
+            $('#newoccupation h4 span').html('Erstellen ');
+        });
+
+        $('#blu_save').click(function (e) {
+            e.preventDefault();
+
+            $data = $("#bledsds").serialize();
+            $.post(admin_url + 'belegungsplan/ajax_assign', $data).done(function (response) {
+                response = JSON.parse(response);
+                $("#newoccupation").modal('hide');
+                alert_float('success', response.msg);
+                loadGantChart();
+
+                table_belegun.DataTable().ajax.reload()
+                    .columns.adjust()
+                    .responsive.recalc();
+            });
+        });
+
+        $('#belegungsplan').on('click', '.belegungsplan', function (event) {
+            event.preventDefault();
+            var dd = $(this).data('id');
+            if (dd > 0)
+                startd_edition(dd);
+        });
+
+        function startd_edition(dd) {
+            $('#newoccupation h4 span').html('Bearbeiten ');
+            requestGet('belegungsplan/get/' + dd).done(function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                $('#newoccupation #belegungsplan_id').val(response.id);
+                $('#newoccupation .startdate').val(moment(response.belegt_v).format('DD.MM.YYYY'));
+                $('#newoccupation .enddate').val(moment(response.belegt_b).format('DD.MM.YYYY'));
+                $('#newoccupation #break_days').val(response.break_days);
+                $('#newoccupation #mieter').val(response.mieter);
+
+                if (response.mieter == 0) {
+                    $('#kein_m').prop('checked', true);
+                }
+                faq_init(response.belegt_v, response.belegt_b)
+
+                requestGet('belegungsplan/load_aq/' + response.wohnungen).done(function (response_2) {
+                    response_2 = JSON.parse(response_2);
+                    $('#newoccupation #wohnungen').empty();
+                    $('#newoccupation #wohnungen').html(response_2);
+                    $('#newoccupation #wohnungen').selectpicker('refresh');
+
+                });
+
+                // $('.startdate').trigger("change");
+                $('#newoccupation #mieter').selectpicker('refresh');
+                $('#newoccupation').modal('show');
+
+            });
+        }
+
+
+        $('#newoccupation').on('change', '.startdate, .enddate, .efilter, .sfilter, .mfilter ', function (event) {
+            // Condition added to check if value is set in url
+            var a = ($(this).parents('#newoccupation').find('.startdate').val() == "") ? null : $(this).parents('#newoccupation').find('.startdate').val(),
+                b = ($(this).parents('#newoccupation').find('.enddate').val() == "") ? null : $(this).parents('#newoccupation').find('.enddate').val(),
+                //Added to filter AQ pass null as string in url if empty
+                c = ($('#newoccupation').find('#etage').val() == "") ? null : $('#newoccupation').find('#etage').val(),
+                d = ($('#newoccupation').find('#schlaplatze').val() == "") ? null : $('#newoccupation').find('#schlaplatze').val(),
+                e = ($('#newoccupation').find('#mobiliert').val() == "") ? null : $('#newoccupation').find('#mobiliert').val(),
+                f = ($('#newoccupation').find('#belegungsplan_id').val() == "") ? 0 : $('#newoccupation').find('#belegungsplan_id').val(),
+                select_beleg = ($('#newoccupation').find('#wohnungen').val() == "") ? 0 : parseInt($('#newoccupation').find('#wohnungen').val());
+
+            requestGet('belegungsplan/load_free_aq/' + a + '/' + b + '/' + c + '/' + d + '/' + e + '/' + f
+            ).done(function (response) {
+                response = JSON.parse(response);
+                let index = response.aqIds.indexOf(select_beleg);
+                if (select_beleg == 0 || index == -1) {
+                    faq_filter_aq('#newoccupation #wohnungen', response.optionsAQ, 'null');
+                }
+                faq_filter_aq('#newoccupation #etage', response.optionsET, response.etage);
+                faq_filter_aq('#newoccupation #schlaplatze', response.optionsSC, response.schlaplatze);
+                faq_filter_aq('#newoccupation #mobiliert', response.optionsMO, response.mobiliert);
+
+            });
+            faq_init(a, b);
+
+        });
+
+        // Function to reset filter value as well as AQ value in Erstellen Belegungsplan Form can be use for other purpose
+        function faq_filter_aq($id, $options, $setValue) {
+            $($id).empty();
+            $($id).html($options);
+            $($id).val($setValue);
+            $($id).selectpicker('refresh');
+        }
+
+
+        function faq_init(a, b) {
+            if (a != '' && b != '') {
+                a = moment(a);
+                b = moment(b);
+                zze = b.diff(a, 'days');
+                ausstehend = b.diff(moment(), 'days');
+                !isNaN(zze) && zze > 0 ? zze : 0
+                $('#newoccupation').find('.ausstehend').val(ausstehend);
+                $('#newoccupation').find('.resttage').val(zze);
+            } else {
+                $('#newoccupation').find('.resttage').val(0);
+                $('#newoccupation').find('.ausstehend').val(0);
+            }
+        }
+
+        var loader = false;
+        $('#switchbtn').click(function (e) {
+            e.preventDefault();
+            if ($(this).hasClass('list')) {
+                $(this).text('Switch to table')
+                $(this).prop('disabled', true)
+                $(this).addClass('ganttv').removeClass('list')
+                $('.list-view,.dataTable').addClass('hide');
+                $('.gant-view').removeClass('hide');
+                if (loader){
+                    $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
+                }
+                loadGantChart();
+            } else {
+                $(this).text('Visualisierung')
+                $(this).addClass('list').removeClass('ganttv')
+                $('.gant-view').addClass('hide');
+                $('.list-view,.dataTable').removeClass('hide');
+                $('.app').addClass('show-sidebar').removeClass('hide-sidebar');
+            }
+        })
+
+
+        appValidateForm($('#bledsds'), {belegt_v: 'required', belegt_b: 'required'});
+        $("#kein_m").change(function () {
+            if (this.checked) {
+                $('#mieter').prop('required', false);
+                $('#reason').prop('required', true);
+                $('#reason-blc').removeClass('hide');
+            } else {
+                $('#mieter').prop('required', true);
+                $('#reason-blc').addClass('hide');
+                $('#reason').prop('required', false);
+            }
+        });
+
+        var table_belegun = $('.table-belegungsplan');
+        // Add additional server params $_POST
+        var belegunServerParams = {
+            "hausnummer": "[name='hausnummer']",
+            "strabe": "[name='strabe']",
+            "schlaplatze": "[name='schlaplatze']",
+            "mobiliert": "[name='mobiliert']",
+            "etage": "[name='etage']",
+            "flugel": "[name='flugel']",
+        };
+        var filterArray = [];
+        var ContractsServerParams = {};
+        $.each($('._hidden_inputs._filters input'), function () {
+            ContractsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        var _table_api = initDataTable(table_belegun, admin_url + 'belegungsplan/table', [0], [0], belegunServerParams, [1, 'desc'], filterArray);
+
+        $.each(belegunServerParams, function (i, obj) {
+            $('#' + i).on('change', function () {
+                table_belegun.DataTable().ajax.reload()
+                    .columns.adjust()
+                    .responsive.recalc();
+            });
+        });
+
+        function loadGantChart() {
+            $(".selector").gantt({
+                source: "<?php echo base_url(); ?>/admin/belegungsplan/table1",
+                navigate: "scroll",
+                scale: "days",
+                maxScale: "months",
+                minScale: "days",
+                itemsPerPage: 500,
+                scrollToToday: true,
+                onItemClick: function (data) {
+                    if (data.id > 0)
+                        startd_edition(data.id);
+                },
+                onAddClick: function (dt, rowId) {
+                },
+                onRender: function () {
+                    loader = true;
+                    $('#switchbtn').prop('disabled', false);
+                    $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
+                }
+            });
+
+
+        }
+
+    })
+    ;
+</script>
 
 
 </body>

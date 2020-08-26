@@ -103,7 +103,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <?php
-                                                echo render_select('aq_to', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'Ende AQ', '', array('required' => true)); ?>
+                                                echo render_select('aq_to', array(), array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'Ende AQ', '', array('required' => true)); ?>
                                             </div>
                                         </div>
                                         <br>
@@ -126,13 +126,13 @@
         </div>
     </div>
 </div>
+
 <style>
     .max-value {
         font-size: 27px;
-        position: absolute;
-        right: 53px;
+        right: 48px;
         bottom: 0;
-        top: 24px;
+        top: 0;
     }
 </style>
 <?php init_tail(); ?>
@@ -149,13 +149,43 @@
 
         $("#inventar-form").on("change", ".checkinventar_all", function (e) {
             $val = this.checked;
-            $(this).parents('#inventars').find('.form-check').each(function () {
-                $(this).find(".qtyfiels").prop('required', $val);
+            var avaibleQty = 0, movedQty = 0;
+            $(this).parents('#inventars').find('.dieldkf').each(function () {
+                //$(this).find(".qtyfiels").prop('required', $val);
                 $maxqty = $(this).find(".qtyfiels").attr('max');
                 $(this).find(".qtyfiels").val($maxqty);
-
-                $(this).find(".checkinventar").prop('checked', $val);
+                /* $(this).find(".checkinventar").prop('checked', $val);*/
+                avaibleQty += parseInt($maxqty);
+                movedQty += parseInt($(this).find(".qtyfiels").val());
+                if (avaibleQty) {
+                    $('#availSelected').html(avaibleQty);
+                    $('#restItem').html(avaibleQty);
+                }
+                if (movedQty) {
+                    $('#moveledSelected').html(movedQty);
+                    $('#restItem').html(avaibleQty - movedQty);
+                }
             });
+
+        });
+
+        $("#inventar-form").on("change", ".qtyfiels", function (e) {
+            $val = this.checked;
+            var avaibleQty = 0, movedQty = 0;
+            $(this).parents('#inventars').find('.dieldkf').each(function () {
+                $maxqty = $(this).find(".qtyfiels").attr('max');
+                avaibleQty += parseInt($maxqty);
+                movedQty += parseInt($(this).find(".qtyfiels").val());
+                if (avaibleQty) {
+                    $('#availSelected').html(avaibleQty);
+                    $('#restItem').html(avaibleQty);
+                }
+                if (movedQty) {
+                    $('#moveledSelected').html(movedQty);
+                    $('#restItem').html(avaibleQty - movedQty);
+                }
+            });
+
         });
 
 
@@ -170,9 +200,13 @@
                 url: admin_url + 'wohnungen/list_invantories/' + this.value,
                 success: function (inventars) {
                     inventars = JSON.parse(inventars);
-                    $('#inventars').html(inventars);
+                    $('#inventars').html(inventars.items);
+                    $('#aq_to').html(inventars.aqs);
+                    $(".qtyfiels").trigger('change');
+                    $('#aq_to').selectpicker('refresh');
                 }
             });
+
         })
 
         appValidateForm($('#inventar-form'), {aq_from: 'required', aq_to: 'required'});

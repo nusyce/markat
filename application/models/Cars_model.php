@@ -50,10 +50,10 @@ class Cars_model extends App_Model
 
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['tuv'] = to_sql_datedv($data['tuv']);
+            $data['asu'] = to_sql_datedv($data['asu']);
+            $data['inspektion'] = to_sql_datedv($data['inspektion']);
             $data['active'] = 1;
-
-            $data = hooks()->apply_filters('before_cars_added', $data);
-
             $this->db->insert(db_prefix() . 'cars', $data);
             $insert_id = $this->db->insert_id();
 
@@ -97,8 +97,9 @@ class Cars_model extends App_Model
     {
         $affectedRows = 0;
         $data['updated_at'] = date('Y-m-d H:i:s');
-
-        $data = hooks()->apply_filters('before_cars_updated', $data, $id);
+        $data['tuv'] = to_sql_datedv($data['tuv']);
+        $data['asu'] = to_sql_datedv($data['asu']);
+        $data['inspektion'] = to_sql_datedv($data['inspektion']);
 
 
         $this->db->where('id', $id);
@@ -114,6 +115,30 @@ class Cars_model extends App_Model
         return $affectedRows > 0;
     }
 
+    public function add_attachment($insert_id, $data)
+
+    {
+
+        $this->db->insert(db_prefix() . 'files', [
+
+            'rel_id' => $insert_id,
+
+            'rel_type' => 'cars',
+
+            'file_name' => $data['file_name'],
+
+            'filetype' => $data['file_type'],
+
+            'staffid' => get_staff_user_id(),
+
+            'dateadded' => date('Y-m-d H:i:s'),
+
+            'attachment_key' => app_generate_hash(),
+
+        ]);
+
+    }
+
     public function delete($id)
     {
         $cars = $this->get($id);
@@ -124,6 +149,25 @@ class Cars_model extends App_Model
         }
 
         return false;
+    }
+
+    public function delete_attachment($id)
+
+    {
+
+        $this->db->where('id', $id);
+
+        $this->db->delete(db_prefix() . 'files');
+
+    }
+    public function get_attachments($id)
+
+    {
+
+        $this->db->where(['rel_id' => $id, 'rel_type' => 'cars']);
+
+        return $this->db->get(db_prefix() . 'files')->result_array();
+
     }
 
 }
