@@ -162,8 +162,8 @@
             // paging
             itemsPerPage: 7,
             // localisation
-            dow: ["S", "M", "T", "W", "T", "F", "S"],
-            months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            dow: ["S", "M", "D", "M", "D", "F", "S"],
+            months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
             waitText: "Please wait...",
             // navigation
             navigate: "buttons",
