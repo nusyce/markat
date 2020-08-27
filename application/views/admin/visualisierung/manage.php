@@ -4,7 +4,6 @@
     .linksBox{
         border: 2px solid #ddd;
         float: left;
-        width: 40%;
         margin: 1% 5%;
         padding: 2%;
         min-height: 60px;
@@ -147,6 +146,7 @@
             e.preventDefault();
             $id = $(this).data('id');
             $links = ['UG','EG','1. OG','2. OG','3. OG','4. OG','5. OG','6. OG','7. OG','8. OG','9. OG','10. OG'];
+            $tablheader = ['Links','Mitte/Links','Mitte','Mitte/Rechts','Rechts'];
             $tableData = "";
 
              $.ajax({url: "<?php echo admin_url('Visualisierung/getVisualById') ?>?id="+$id, 
@@ -154,21 +154,30 @@
                 $jsonParse = jQuery.parseJSON(result).data;
                $("#visualDetail .modal-title").html($jsonParse[0]['strabe']+' '+$jsonParse[0]['hausnummer'])
 //                console.log($jsonParse.data.length);
-                for($i=0;$i<$links.length;$i++){
+                for($i=$links.length - 1;$i>=0;$i--){
 
 
                     $tableInner = "";
-                   for($j=0;$j<$jsonParse.length;$j++){
-                    if($jsonParse[$j]['etage'] == $links[$i]){
-                        $tableInner+="<div class='linksBox'> Whg.-Nr. "+$jsonParse[$j]['wohnungsnumme']+"</div>";
+//                    console.log($links[$i]);
+
+                    // find match data  - links - column
+                    for($k=0; $k<=5;$k++){
+                        $tmpdata = "";
+                       $.each($jsonParse, function(i, v) {
+                            if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. "+v.wohnungsnumme+"</div>";
+                            }
+                        });
+                       if($tmpdata){
+
+                        $tableInner += "<td>"+$tmpdata+"</td>";
+                       }else{
+                        $tableInner += "<td></td>";
+                       }
+
                     }
-
-                   }
-
                     $tableData+="<tr><td>"+$links[$i]+"</td>";
-                    $tableData+="<td>"+$tableInner+"</td>";
-                    $tableData+="<td></td>";
-                    $tableData+="<td></td><td></td><td></td><td></td>";
+                    $tableData+=$tableInner;
                     $tableData+="</tr>";
 
 
