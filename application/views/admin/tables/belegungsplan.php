@@ -61,7 +61,9 @@ if (!empty($this->ci->input->post('belegt_b'))) {
     $belegt_be = $this->ci->input->post('belegt_b');
 }
 if (!empty($this->ci->input->post('belegt_v'))) {
-    $belegt_ve = $this->ci->input->post('belegt_v');
+    array_push($where, 'AND '. db_prefix() . 'occupations.belegt_v ="' . to_sql_datedv($this->ci->input->post('belegt_v')) . ' " ');
+
+//    $belegt_ve = $this->ci->input->post('belegt_v');
 }
 
 $join[] = 'LEFT JOIN ' . db_prefix() . 'wohnungen ON ' . db_prefix() . 'wohnungen.id = ' . db_prefix() . 'occupations.wohnungen';

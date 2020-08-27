@@ -38,12 +38,18 @@ class Belegungsplan extends AdminController
     }
 
 
-    public function table1($clientid = '')
+    public function table1()
     {
-        $aqs = $this->wohnungen_model->get_wohnungens();
+///            print_r($this->input->get());
+        $filters = [];
+        $demoSource = [];
+        if($this->input->get('strabe')){ $filters['strabe'] = $this->input->get('strabe'); }
+        if($this->input->get('hausnummer')){ $filters['hausnummer'] = $this->input->get('hausnummer'); }
+        if($this->input->get('etage')){ $filters['etage'] = $this->input->get('etage'); }
+        if($this->input->get('flugel')){ $filters['flugel'] = $this->input->get('flugel'); }
 
-//print_r($aqs);
-
+        $aqs = $this->wohnungen_model->get_wohnungens($filters);
+        if($aqs){
         foreach ($aqs as $k => $aq) {
 
             $tmpdata['name'] = $aq['strabe'];
@@ -101,6 +107,7 @@ class Belegungsplan extends AdminController
                 }
             }
             $demoSource[] = $tmpdata;
+        }
         }
 
         // $data = $this->belegungsplan_model->get_my_occupations();
