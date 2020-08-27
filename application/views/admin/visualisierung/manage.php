@@ -161,6 +161,7 @@
 //                    console.log($links[$i]);
 
                     // find match data  - links - column
+                    $ishide = 1;
                     for($k=0; $k<=5;$k++){
                         $tmpdata = "";
                        $.each($jsonParse, function(i, v) {
@@ -169,16 +170,19 @@
                             }
                         });
                        if($tmpdata){
-
+                        $ishide = 0;
                         $tableInner += "<td>"+$tmpdata+"</td>";
                        }else{
                         $tableInner += "<td></td>";
                        }
 
                     }
+                    if($ishide == 0){
                     $tableData+="<tr><td>"+$links[$i]+"</td>";
                     $tableData+=$tableInner;
                     $tableData+="</tr>";
+
+                    }
 
 
                 }
