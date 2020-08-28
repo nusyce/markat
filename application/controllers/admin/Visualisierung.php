@@ -43,7 +43,8 @@ class Visualisierung extends AdminController
     public function getVisualById()
     {
        $getdata = $this->input->get();
-       $data['data'] = $this->wohnungen_model->visualisierungGet(explode(',',$getdata['id']));
+       $data['even'] = $this->wohnungen_model->visualisierungGet(explode(',',$getdata['id']),'even');
+       $data['odd'] = $this->wohnungen_model->visualisierungGet(explode(',',$getdata['id']),'odd');
       echo json_encode($data);
 
     }

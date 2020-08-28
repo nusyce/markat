@@ -8,6 +8,17 @@
         padding: 2%;
         min-height: 60px;
         font-size: 18px;
+        text-align:center;
+    }
+    .linksBox:nth-of-type(1n+1) {
+        clear: both;
+    }
+    #visualTable .hideRow{
+        display:none;
+    }
+    .oddData, .evenData{
+        float:left;
+        width:50%;
     }
 </style>
 <div id="wrapper">
@@ -111,8 +122,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h4 class="modal-title"></h4>
+
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                                <input type="checkbox" name="chkRows"  id="chkRows"> Show Rows
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
@@ -151,25 +168,46 @@
 
              $.ajax({url: "<?php echo admin_url('Visualisierung/getVisualById') ?>?id="+$id, 
                 success: function(result){
-                $jsonParse = jQuery.parseJSON(result).data;
-               $("#visualDetail .modal-title").html($jsonParse[0]['strabe']+' '+$jsonParse[0]['hausnummer'])
+                $jsonEven = jQuery.parseJSON(result).even;
+                $jsonOdd = jQuery.parseJSON(result).odd;
+                if($jsonEven.length!=0){
+                  $("#visualDetail .modal-title").html($jsonEven[0]['strabe']+' '+$jsonEven[0]['hausnummer'])
+                }
+                if($jsonOdd.length!=0){
+                  $("#visualDetail .modal-title").html($jsonOdd[0]['strabe']+' '+$jsonOdd[0]['hausnummer'])
+                }
 //                console.log($jsonParse.data.length);
                 for($i=$links.length - 1;$i>=0;$i--){
 
-
                     $tableInner = "";
-//                    console.log($links[$i]);
-
                     // find match data  - links - column
                     $ishide = 1;
                     for($k=0; $k<=5;$k++){
-                        $tmpdata = "";
-                       $.each($jsonParse, function(i, v) {
+
+
+
+                        $tmpdata = "<div class='oddData'>";
+                        $isData = false;
+                       $.each($jsonOdd, function(i, v) {
                             if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
-                                $tmpdata+="<div class='linksBox'> Whg.-Nr. "+v.wohnungsnumme+"</div>";
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"</div>";
+                                $isData = true;
                             }
                         });
-                       if($tmpdata){
+                        $tmpdata+= "</div><div class='evenData'>";
+
+
+
+                       $.each($jsonEven, function(i, v) {
+                            if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"</div>";
+                                $isData = true;
+                            }
+                        });
+                        $tmpdata+= "</div>";
+
+
+                       if($isData){
                         $ishide = 0;
                         $tableInner += "<td>"+$tmpdata+"</td>";
                        }else{
@@ -177,12 +215,15 @@
                        }
 
                     }
-                    if($ishide == 0){
-                    $tableData+="<tr><td>"+$links[$i]+"</td>";
-                    $tableData+=$tableInner;
-                    $tableData+="</tr>";
+                    $classname= "";
+                    if($ishide ==1){
+                    $classname= "hideRow";
 
                     }
+
+                    $tableData+="<tr class='"+$classname+"'><td style='vertical-align:bottom'>"+$links[$i]+"</td>";
+                    $tableData+=$tableInner;
+                    $tableData+="</tr>";
 
 
                 }
@@ -191,9 +232,17 @@
                 $('#visualDetail').modal('toggle');    
 
               }});
+             $("#chkRows").change(function(){
+                console.log();
+
+                    $("#visualTable .hideRow").css('display','none');
+                   if($(this).is(":checked")){
+                    $("#visualTable .hideRow").css('display','table-row');
+                   }
+
+             });
 
         });      
-
 </script>
 </body>
 </html>
