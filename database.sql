@@ -806,11 +806,11 @@ INSERT INTO `tblansprechpartner` VALUES (2, ' Clement', 1, 12, 'fsdfds', '', 'ds
 DROP TABLE IF EXISTS `tblcars`;
 CREATE TABLE `tblcars`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `marke` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `modell` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `kennzeichen` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `baujahr` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `kilometer` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `marke` varchar(200) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `modell` varchar(200) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `kennzeichen` varchar(200) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `baujahr` varchar(200) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `kilometer` varchar(200) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
   `asu` date NULL DEFAULT NULL,
   `tuv` date NULL DEFAULT NULL,
   `inspektion` date NULL DEFAULT NULL,
@@ -819,7 +819,7 @@ CREATE TABLE `tblcars`  (
   `updated_at` datetime(0) NOT NULL,
   `active` int(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE =  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tblcars
@@ -1972,7 +1972,7 @@ CREATE TABLE `tblevent_rel_staff`  (
   `event_id` int(0) NULL DEFAULT NULL,
   `user_id` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE =  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tblevent_rel_staff
@@ -2316,16 +2316,16 @@ INSERT INTO `tblinventarliste` VALUES (13, 'Schreibtisch', '0000-00-00 00:00:00'
 DROP TABLE IF EXISTS `tblinventory_um`;
 CREATE TABLE `tblinventory_um`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `aq_from` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `aq_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `aq_from` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `aq_to` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
   `item_counts` int(0) NULL DEFAULT NULL,
-  `inventory` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `inventory` text CHARACTER SET utf8mb4 COLLATE  NULL,
   `items_move` int(0) NULL DEFAULT NULL,
   `items_rest` int(0) NULL DEFAULT NULL,
   `active` int(0) NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE =  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tblinventory_um
@@ -3828,21 +3828,21 @@ INSERT INTO `tblprojects` VALUES (2, 'efsfewe', '', 2, 12, 1, '2020-08-26', '202
 DROP TABLE IF EXISTS `tblprojekte`;
 CREATE TABLE `tblprojekte`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `datum` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `nummer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `kunde` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `auftrag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `wie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `mieter` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `aq` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `datum` varchar(100) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `nummer` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `kunde` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `auftrag` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `wie` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `mieter` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
+  `aq` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
   `userid` int(0) NULL DEFAULT NULL,
-  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
   `active` int(0) NULL DEFAULT NULL,
-  `cars` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `cars` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE =  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tblprojekte
@@ -3926,19 +3926,19 @@ CREATE TABLE `tblproposals`  (
 DROP TABLE IF EXISTS `tblrb`;
 CREATE TABLE `tblrb`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `strabe` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `beraumung` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ruckraumung` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `hausnummer` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `plz` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `stadt` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `fullname` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `strabe` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `beraumung` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `ruckraumung` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `hausnummer` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `plz` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
+  `stadt` varchar(240) CHARACTER SET utf8mb4 COLLATE  NOT NULL,
   `active` int(0) NOT NULL,
   `userid` int(0) NOT NULL,
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE =  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tblrb
@@ -5304,9 +5304,9 @@ CREATE TABLE `tblwohnungen_inventar`  (
   `sqr` int(0) NULL DEFAULT NULL,
   `is_deleted` int(0) NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
-  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE =  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tblwohnungen_inventar
@@ -5354,5 +5354,10 @@ INSERT INTO `tblwohnungen_inventar` VALUES (40, 39, 12, 8, NULL, 1, '2020-08-19 
 INSERT INTO `tblwohnungen_inventar` VALUES (41, 42, 0, 0, NULL, 0, '2020-08-19 14:33:18', NULL);
 INSERT INTO `tblwohnungen_inventar` VALUES (42, 43, 0, 0, 2, 0, '2020-08-19 23:07:35', NULL);
 INSERT INTO `tblwohnungen_inventar` VALUES (43, 43, 12, 2, 3, 0, '2020-08-20 21:57:38', NULL);
+
+
+ALTER TABLE `tblprojects`
+ADD COLUMN `mieters` INT(11) NULL AFTER `addedfrom`,
+ADD COLUMN `projekte` INT(11) NULL AFTER `mieters`;
 
 SET FOREIGN_KEY_CHECKS = 1;

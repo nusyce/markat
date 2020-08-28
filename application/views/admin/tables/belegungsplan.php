@@ -61,7 +61,9 @@ if (!empty($this->ci->input->post('belegt_b'))) {
     $belegt_be = $this->ci->input->post('belegt_b');
 }
 if (!empty($this->ci->input->post('belegt_v'))) {
-    $belegt_ve = $this->ci->input->post('belegt_v');
+    array_push($where, 'AND '. db_prefix() . 'occupations.belegt_v ="' . to_sql_datedv($this->ci->input->post('belegt_v')) . ' " ');
+
+//    $belegt_ve = $this->ci->input->post('belegt_v');
 }
 
 $join[] = 'LEFT JOIN ' . db_prefix() . 'wohnungen ON ' . db_prefix() . 'wohnungen.id = ' . db_prefix() . 'occupations.wohnungen';
@@ -98,12 +100,12 @@ foreach ($rResult as $a => $aRow) {
         if (time() < $bv)
             continue;*/
 
-    if ($belegt_be) {
+ /*   if ($belegt_be) {
         $bb = strtotime($aRow['belegt_b']);
         $bb_ = strtotime($belegt_be);
         if ($bb > $bb_)
             continue;
-    }
+    }*/
 
     $row[] = $a + 1;
 
@@ -111,7 +113,7 @@ foreach ($rResult as $a => $aRow) {
     //  $row[] = $aRow['strabe'];
 
 
-    $date = date_create($aRow['belegt_v']);
+/*    $date = date_create($aRow['belegt_v']);
     $belegt_v = date_format($date, 'd.m.Y');
     $date = date_create($aRow['belegt_b']);
     $belegt_b = date_format($date, 'd.m.Y');
@@ -122,7 +124,7 @@ foreach ($rResult as $a => $aRow) {
         $strabe = '<i class="green-dd proint"></i>';
     } else {
         $strabe = '<i class="red-dd proint"></i>';
-    }
+    }*/
 
     // $row[] = $strabe;
 

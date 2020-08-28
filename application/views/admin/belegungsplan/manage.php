@@ -4,6 +4,9 @@
 <?php init_head(); ?>
 
 <style>
+    #switchbtn {
+        display: inline-block;
+    }
     table th:first-child {
         width: 150px;
     }
@@ -65,6 +68,7 @@
                     </div>
                     <div id="belegungsplan" class="panel-body ">
                         <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
+                        <button id="printbtn" class="btn btn-success pull-right" style="display:none;" onclick='printDiv();'>Print</button>
                         <br>
                         <!--             <div class="row mbot15">
                             <div class="col-md-8 col-md-offset-2">
@@ -98,9 +102,6 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <?php echo render_date_input('belegt_v', 'Belegt von'); ?>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <?php echo render_date_input('belegt_b', 'Belegt bis'); ?>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -144,8 +145,30 @@
                             <?php $this->load->view('admin/belegungsplan/table_html'); ?>
 
                         </div>
-                        <div class="gant-view switcher hide">
+                        <div class="gant-view switcher hide" id="gant-chart-filter">
                             <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="bold"><?php echo _l('filter_by'); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 leads-filter-column">
+                                            <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
+                                        </div>
+                                        <div class="col-md-2 leads-filter-column">
+                                            <?php echo render_select('hausnummer', $hausnummer, array('hausnummer', 'hausnummer'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Nr.'), array()); ?>
+                                        </div>
+                                        <div class="col-md-2 leads-filter-column">
+                                            <?php echo render_select('etage', $etage, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array()); ?>
+                                        </div>
+                                        <div class="col-md-2 leads-filter-column">
+                                            <?php echo render_select('flugel', $flugel, array('flugel', 'flugel'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Flügel'), array()); ?>
+                                        </div>
+                                    </div>
+                            </div>
                                 <div class="col-md-12">
                                     <div class="selector"></div>
                                 </div>
@@ -425,8 +448,21 @@ endforeach;
 
 <script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
 <script>
+    function printDiv()
+    {
+        html2canvas($("#DivIdToPrint .fn-content"), {
+                onrendered: function (canvas) {
+                var myImage = canvas.toDataURL("image/png");
+                var tWindow = window.open("");
+                $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
+                    tWindow.focus();
+                    tWindow.print();
+                });
+            }
+        })
+    }
     $(function () {
 
         $("#newoccupation").on("hidden.bs.modal", function () {
@@ -560,6 +596,7 @@ endforeach;
                 $(this).addClass('ganttv').removeClass('list')
                 $('.list-view,.dataTable').addClass('hide');
                 $('.gant-view').removeClass('hide');
+                $('#printbtn').show();
                 if (loader){
                     $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
                 }
@@ -569,7 +606,7 @@ endforeach;
                 $(this).addClass('list').removeClass('ganttv')
                 $('.gant-view').addClass('hide');
                 $('.list-view,.dataTable').removeClass('hide');
-                $('.app').addClass('show-sidebar').removeClass('hide-sidebar');
+                $('#printbtn').hide();
             }
         })
 
@@ -607,15 +644,28 @@ endforeach;
 
         $.each(belegunServerParams, function (i, obj) {
             $('#' + i).on('change', function () {
+                console.log(i);
                 table_belegun.DataTable().ajax.reload()
                     .columns.adjust()
                     .responsive.recalc();
             });
         });
+        $("#gant-chart-filter #strabe").on('change',function(e){ loadGantChart(); });
+        $("#gant-chart-filter #hausnummer").on('change',function(e){ loadGantChart(); });
+        $("#gant-chart-filter #etage").on('change',function(e){ loadGantChart();});
+        $("#gant-chart-filter #flugel").on('change',function(e){ loadGantChart(); });
+
 
         function loadGantChart() {
+            // Get Filter data
+            var filterArray = {};
+            filterArray.strabe = $("#gant-chart-filter #strabe").val();
+            filterArray.hausnummer = $("#gant-chart-filter #hausnummer").val();
+            filterArray.etage = $("#gant-chart-filter #etage").val();
+            filterArray.flugel = $("#gant-chart-filter #flugel").val();
+
             $(".selector").gantt({
-                source: "<?php echo base_url(); ?>/admin/belegungsplan/table1",
+                source: "<?php echo base_url(); ?>/admin/belegungsplan/table1?"+encodeURI($.param(filterArray)),
                 navigate: "scroll",
                 scale: "days",
                 maxScale: "months",

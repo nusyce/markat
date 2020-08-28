@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $hasPermissionEdit = has_permission('tasks', '', 'edit');
 $hasPermissionDelete = has_permission('tasks', '', 'delete');
+$hasPermissionCreate = has_permission('tasks', '', 'create');
 $tasksPriorities = get_tasks_priorities();
 
 $aColumns = [
@@ -154,7 +155,7 @@ foreach ($rResult as $aRow) {
     if ($hasPermissionEdit) {
         $outputName .= '<a href="#" onclick="edit_task(' . $aRow['id'] . '); return false">' . _l('edit') . '</a>';
     }
-    if ($hasPermissionDelete) {
+    if ($hasPermissionCreate) {
         $outputName .= '<span class="text-dark"> | </span><a href="#" onclick="similar_task(' . $aRow['id'] . '); return false" class="text-success   task-copy">' . _l('Create similar') . '</a>';
         //      $outputName .= '<span class="text-dark"> | </span><a href="'.admin_url('tasks/copy_task/').'" onclick="similar_task(' . $aRow['id'] . '); return false" class="text-success   task-copy">' . _l('Create similar') . '</a>';
     }

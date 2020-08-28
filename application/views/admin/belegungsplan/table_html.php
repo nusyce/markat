@@ -12,7 +12,6 @@ $table_data = array(
     'Schlafplätze',
     'Möbliert' ,
     'Belegt von',
-    'Belegt bis',
     'Mieter',
     'Projekt',
     'Aktiv'

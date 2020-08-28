@@ -64,11 +64,10 @@
 
 .menu-item-leistungsverz .fa,
 .menu-item-leistungsverz span,
-<<<<<<< Updated upstream
-.menu-item-projects .fa,
-.menu-item-projects span,
-=======
->>>>>>> Stashed changes
+
+/*.menu-item-projects .fa,*/
+/*.menu-item-projects span,*/
+
 .menu-item-lager .fa,
 .menu-item-lager span,
 .menu-item-buchhaltung .fa,
@@ -84,7 +83,7 @@
 }
 
 .menu-item-leistungsverz,
-.menu-item-projects,
+/*.menu-item-projects,*/
 .menu-item-lager,
 .menu-item-buchhaltung,
 .menu-item-angebote,

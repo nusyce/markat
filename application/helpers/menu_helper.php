@@ -213,7 +213,12 @@ function app_init_admin_sidebar_menu_items()
         }
     }
 
-
+    $CI->app_menu->add_sidebar_menu_item('stock_manager', [
+        'name' => get_menu_option('stock_manager', _l('stock_manager')),
+        'href' => admin_url('stock_manager'),
+        'position' => 88,
+        'icon' => 'fa fa-linode',
+    ]);
 /*
 
     if (has_permission('wohnungen', '', 'view')

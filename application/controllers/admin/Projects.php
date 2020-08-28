@@ -9,6 +9,7 @@ class Projects extends AdminController
         parent::__construct();
         $this->load->model('projects_model');
         $this->load->model('currencies_model');
+        $this->load->model('mieter_model');
         $this->load->helper('date');
     }
 
@@ -111,10 +112,10 @@ class Projects extends AdminController
             $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);
         }
 
+        $data['projectList'] = $this->mieter_model->get_projekte();
         $data['settings'] = $this->projects_model->get_settings();
         $data['statuses'] = $this->projects_model->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
-
         $data['title'] = $title;
         $this->load->view('admin/projects/project', $data);
     }
@@ -122,8 +123,6 @@ class Projects extends AdminController
     public function gantt()
     {
         $data['title'] = _l('project_gant');
-
-
 
         $selected_statuses = [];
         $selectedMember    = null;

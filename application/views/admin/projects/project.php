@@ -172,6 +172,15 @@
                         <?php echo render_date_input('deadline','project_deadline',$value); ?>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php echo render_select('projekte', $projectList, array('id', 'name'), 'Projekte', $project->projekte,
+                            array('data-width' => '100%', 'data-none-selected-text' => 'Projekte', 'onchange'=>'render_mieter();'), array()); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php echo render_select('mieters', [], [], 'Mieters', $project->mieters, array('data-width' => '100%', 'data-none-selected-text' => 'Mieters'), array()); ?>
+                    </div>
+                </div>
                 <?php if(isset($project) && $project->date_finished != null && $project->status == 4) { ?>
                     <?php echo render_datetime_input('date_finished','project_completed_date',_dt($project->date_finished)); ?>
                 <?php } ?>
@@ -309,6 +318,22 @@
     <?php if(isset($project)){ ?>
         var original_project_status = '<?php echo $project->status; ?>';
     <?php } ?>
+    function render_mieter() {
+        let projektId = $('#projekte').val();
+        $('#' +
+            '').empty();
+        $('#mieters').selectpicker('refresh');
+
+        if(projektId) {
+            requestGet('projects/getMieters/' + projektId).done(function (response) {
+                response = JSON.parse(response);
+                $('#mieters').empty();
+                $('#mieters').html(response);
+                $('#mieters').selectpicker('val', selectedMieters);
+                $('#mieters').selectpicker('refresh');
+            });
+        }
+    }
     $(function(){
 
         $('select[name="billing_type"]').on('change',function(){

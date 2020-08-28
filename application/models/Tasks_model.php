@@ -322,6 +322,17 @@ class Tasks_model extends App_Model
         }
     }
 
+    public function copy_task_mietarbeiter($from_task, $to_task)
+    {
+        $followers = $this->get_task_followers($from_task);
+        foreach ($followers as $follower) {
+            $this->db->insert(db_prefix() . 'task_followers', [
+                'taskid' => $to_task,
+                'staffid' => $follower['followerid'],
+            ]);
+        }
+    }
+
     public function copy_task_assignees($from_task, $to_task)
     {
         $assignees = $this->get_task_assignees($from_task);
@@ -1018,6 +1029,15 @@ class Tasks_model extends App_Model
             unset($data['tags']);
         }
 
+        if (isset($taskFor)){
+            $this->db->truncate(db_prefix() . 'task_assigned');
+            foreach ($taskFor as $tF)
+                $this->db->insert(db_prefix() . 'task_assigned', [
+                    'taskid' => $id,
+                    'staffid' => $tF,
+                    'assigned_from' => get_staff_user_id(),
+                ]);
+        }
 
         foreach ($checklistItems as $key => $chkID) {
             $itemTemplate = $this->get_checklist_template($chkID);
@@ -1037,7 +1057,9 @@ class Tasks_model extends App_Model
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);
             log_activity('Task Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
+
         }
+
 
         if ($affectedRows > 0) {
             return true;
