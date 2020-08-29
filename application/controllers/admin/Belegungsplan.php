@@ -48,7 +48,7 @@ class Belegungsplan extends AdminController
         if($this->input->get('etage')){ $filters['etage'] = $this->input->get('etage'); }
         if($this->input->get('flugel')){ $filters['flugel'] = $this->input->get('flugel'); }
 
-        $aqs = $this->wohnungen_model->get_wohnungens($filters);
+        $aqs = $this->wohnungen_model->get_wohnungens($filters, 'strabe');
         if($aqs){
         foreach ($aqs as $k => $aq) {
 

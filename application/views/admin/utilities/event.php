@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-md-12">
             <?php if($event->userid != get_staff_user_id()){ ?>
-              <div class="alert alert-info"><?php echo _l('event_created_by','<a href="'.admin_url('profile/'.$event->userid).'" target="_blank">'.get_staff_full_name($event->userid)).'</a>'; ?></div>
+              <div class="alert alert-info">"<?php echo _l('event_created_by','<a href="'.admin_url('profile/'.$event->userid).'" target="_blank">'.get_staff_full_name($event->userid)).'</a>'; ?></div>
             <?php } ?>
             <?php if(($event->userid == get_staff_user_id() && has_permission('calendar','','edit')) || is_admin()){ ?>
               <?php echo form_hidden('eventid',$event->eventid); ?>
@@ -70,7 +70,7 @@
             <label for="event_public"><?php echo _l('utility_calendar_new_event_make_public'); ?></label>
           </div>
         <?php } else { ?>
-          <a href="<?php echo admin_url('profile/'.$event->userid); ?>"><?php echo staff_profile_image($event->userid,array('staff-profile-xs-image')); ?> <?php echo get_staff_full_name($event->userid); ?></a>
+                <span style="font-size: 11px">created by </span><a href="<?php echo admin_url('profile/'.$event->userid); ?>"><?php echo staff_profile_image($event->userid,array('staff-profile-xs-image')); ?> <?php echo get_staff_full_name($event->userid); ?></a>
           <hr />
           <h5 class="bold"><?php echo _l('event_description'); ?></h5>
           <p><?php echo $event->description; ?></p>

@@ -57,9 +57,16 @@ class Wohnungen_model extends App_Model
         return $this->db->get(db_prefix() . 'wohnungen')->result_array();
     }
 
-    public function visualisierungGet($id = '')
+    public function visualisierungGet($id = '', $type="even")
     {
+        if($type =="even"){
+
+        $this->db->where('MOD(wohnungsnumme,2)',0);
+        }else{
+        $this->db->where('MOD(wohnungsnumme,2)',1);
+        }
         $this->db->where_in(db_prefix() . 'wohnungen.id', $id);
+        $this->db->order_by('wohnungsnumme', 'desc');
         return $this->db->get(db_prefix() . 'wohnungen')->result_array();
 
 

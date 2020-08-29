@@ -98,7 +98,6 @@
 		    $('#newEventModal').modal('show');
 
 		    setTimeout(() => {
-
                 if (!$.fullCalendar.moment(tar_date).hasTime()) {
                     tar_date += ' 00:00';
                 }

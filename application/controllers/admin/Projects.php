@@ -1103,4 +1103,13 @@ class Projects extends AdminController
             redirect(site_url('clients/project/' . $id));
         }
     }
+
+    public function getMieters($projektId) {
+        $mieters = $this->mieter_model->get_mieters(['projektname' => $projektId]);
+        foreach ($mieters as $mieter) {
+            $options .= '<option value="' . $mieter['id'] . '">' . $mieter['fullname'] . ' </option>';
+        }
+        echo json_encode($options);
+        die();
+    }
 }
