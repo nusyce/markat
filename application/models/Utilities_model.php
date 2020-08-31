@@ -59,7 +59,7 @@ class Utilities_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
-           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB 
+            $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB 
             return true;
         }
 
@@ -114,9 +114,9 @@ class Utilities_model extends App_Model
         $is_staff_member = is_staff_member();
         $this->db->select('title,start,end,eventid,userid,color,public');
         // Check if is passed start and end date
-        //$this->db->join(db_prefix() . 'event_rel_staff', db_prefix() . 'event_rel_staff.event_id=' . db_prefix() . 'events.eventid', 'left');
+        $this->db->join(db_prefix() . 'event_rel_staff', db_prefix() . 'event_rel_staff.event_id=' . db_prefix() . 'events.eventid', 'left'); // uncomment after relation table
         $this->db->where('(start BETWEEN "' . $start . '" AND "' . $end . '")');
-        //$this->db->where(db_prefix() . 'event_rel_staff.user_id', get_staff_user_id());
+        $this->db->where(db_prefix() . 'event_rel_staff.user_id', get_staff_user_id()); //uncommented after event relation table
         if ($is_staff_member) {
             $this->db->or_where('public', 1);
         }
