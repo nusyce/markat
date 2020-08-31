@@ -152,6 +152,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 leads-filter-column">
+                                            <?php echo render_date_input('belegt_v','','',array('placeholder' =>'Belegt von')); ?>
+                                        </div>
+
+                                        <div class="col-md-2 leads-filter-column">
                                             <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
                                         </div>
                                         <div class="col-md-2 leads-filter-column">
@@ -582,7 +586,8 @@ endforeach;
                 if (loader){
                     $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
                 }
-                loadGantChart();
+       loadGantChart();
+
             } else {
                 $(this).text('Visualisierung')
                 $(this).addClass('list').removeClass('ganttv')
@@ -633,6 +638,7 @@ endforeach;
                     .responsive.recalc();
             });
         });
+        $("#gant-chart-filter #belegt_v").on('change',function(e){ loadGantChart(); });
         $("#gant-chart-filter #strabe").on('change',function(e){ loadGantChart(); });
         $("#gant-chart-filter #hausnummer").on('change',function(e){ loadGantChart(); });
         $("#gant-chart-filter #etage").on('change',function(e){ loadGantChart();});
@@ -642,6 +648,7 @@ endforeach;
         function loadGantChart() {
             // Get Filter data
             var filterArray = {};
+            filterArray.belegt_v = $("#gant-chart-filter #belegt_v").val();
             filterArray.strabe = $("#gant-chart-filter #strabe").val();
             filterArray.hausnummer = $("#gant-chart-filter #hausnummer").val();
             filterArray.etage = $("#gant-chart-filter #etage").val();
@@ -667,14 +674,9 @@ endforeach;
                     $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
                 }
             });
-
-
         }
-
-    })
-    ;
+    });
 </script>
-
 
 </body>
 </html>

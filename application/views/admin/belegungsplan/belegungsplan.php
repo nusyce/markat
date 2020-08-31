@@ -265,6 +265,11 @@
     .swichable span {
         font-size: 18px;
     }
+    .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%
+    }
 </style>
 <?php init_tail(); ?>
 <?php if (isset($wohnungen)) { ?>
@@ -273,5 +278,6 @@
         var wohnungen_id = '<?php echo $wohnungen->id; ?>';
     </script>
 <?php } ?>
+
 </body>
 </html>
