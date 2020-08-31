@@ -131,6 +131,14 @@ class Utilities_model extends App_Model
         return $this->db->get(db_prefix() . 'events')->row();
     }
 
+    public function get_event_user($id )
+    {
+        $this->db->where('event_id', $id);
+        $this->db->where('user_id', get_staff_user_id());
+
+        return $this->db->get(db_prefix() . 'event_rel_staff')->row();
+    }
+
     public function get_calendar_data($start, $end, $client_id = '', $contact_id = '', $filters = false)
     {
         $start = $this->db->escape_str($start);
