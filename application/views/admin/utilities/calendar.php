@@ -113,7 +113,7 @@
 		}
     } 
 
-	function closebox(ev){
+    function closebox(ev){
     {
         $(ev.srcElement).parent('div').remove()
         return false;
