@@ -38,7 +38,8 @@
 
 	// Drag and Drop Js  
     function allowDrop(ev) { 
-        ev.preventDefault(); 
+		ev.preventDefault(); 
+		//alert("The cursor just exited the " + ev.relatedTarget+ " element.");
     } 
         
     function dragStart(ev) { 
@@ -54,7 +55,7 @@
 		}
 		else{
 			appchild = ev.target.appendChild(document.getElementById(data1).cloneNode(true)); 
-				$(appchild).removeClass('buttonlike').addClass('buttondragged');
+				$(appchild).removeClass('buttonlike').addClass('buttondragged ');
 			var tar_date = $(ev.target).attr('data-date');
 			var elemid = [];
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
@@ -80,7 +81,7 @@
 	} 
 
 // function use to drop event on tasked box will optimize this code latter
-	function dragDrop_event(ev) { 
+/*	function dragDrop_event(ev) { 
     	ev.preventDefault(); 
 		var data1 = ev.dataTransfer.getData("text"); 
 		if (ev.target.tagName != 'TD'){
@@ -111,7 +112,7 @@
 		    }, 100);
 
 		}
-    } 
+    } */
 
     function closebox(ev){
     {

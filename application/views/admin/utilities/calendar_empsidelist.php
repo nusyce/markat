@@ -9,7 +9,7 @@
         <?php  
             
             foreach($staffs as $employee){
-                echo "<div class='fc-toolbar buttonlike menu-text width:80%' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' draggable='true' ondragstart='dragStart(event)' > 
+                echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' draggable='true' ondragstart='dragStart(event)' > 
                     <span> ".$employee['full_name']."</span>
                     <span class='closebox' onclick='closebox(event)'>x</span>
                     
@@ -24,11 +24,13 @@
 
 <style>
 .buttonlike{
-    padding: 12px;
+    padding: 5px;
     color: #FFF;
     border: 0px solid #999;
     background-color: #2196f3;
-    margin: 10px 0px;
+    font-size:12px;
+    margin: 6px 0px;
+    cursor:move;
 }
 .buttondragged{
     padding: 5px;
@@ -36,7 +38,9 @@
     border: 0px solid #999;
     background-color: #2196f3;
     border-radius: 2px;
-    margin: 10px 10px;
+    margin: 12px 10px;
+    position: relative;
+    z-index: 50;
 }
 .closebox {
     float: right;
@@ -46,6 +50,7 @@
     color: #8e0202;
     text-shadow: 0 1px 0 #fff;
     opacity: .2;
+    cursor: pointer;
 
 }
 .closebox:hover {
@@ -56,5 +61,9 @@
     color: #8e0202;
     text-shadow: 0 1px 0 #fff;
     opacity: .7;
+}
+
+.fc-row .fc-bg, .fc-content-skeleton {
+    z-index: auto !important;
 }
 </style>
