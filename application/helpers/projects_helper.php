@@ -33,6 +33,7 @@ function get_project_tabs_admin()
  * Init the default project tabs
  * @return null
  */
+
 function app_init_project_tabs()
 {
     $CI = &get_instance();
@@ -52,21 +53,29 @@ function app_init_project_tabs()
         'linked_to_customer_option' => ['view_tasks'],
     ]);
 
-    $CI->app_tabs->add_project_tab('project_timesheets', [
-        'name'                      => _l('project_timesheets'),
-        'icon'                      => 'fa fa-clock-o',
-        'view'                      => 'admin/projects/project_timesheets',
+    $CI->app_tabs->add_project_tab('project_mieter', [
+        'name'                      => _l('mieter'),
+        'icon'                      => 'fa fa-user-o',
+        'view'                      => 'admin/projects/project_mieter',
         'position'                  => 15,
-        'linked_to_customer_option' => ['view_timesheets'],
+        'linked_to_customer_option' => ['view_mieter'],
     ]);
 
-    $CI->app_tabs->add_project_tab('project_milestones', [
-        'name'                      => _l('project_milestones'),
-        'icon'                      => 'fa fa-rocket',
-        'view'                      => 'admin/projects/project_milestones',
-        'position'                  => 20,
-        'linked_to_customer_option' => ['view_milestones'],
-    ]);
+//    $CI->app_tabs->add_project_tab('project_timesheets', [
+//        'name'                      => _l('project_timesheets'),
+//        'icon'                      => 'fa fa-clock-o',
+//        'view'                      => 'admin/projects/project_timesheets',
+//        'position'                  => 15,
+//        'linked_to_customer_option' => ['view_timesheets'],
+//    ]);
+
+//    $CI->app_tabs->add_project_tab('project_milestones', [
+//        'name'                      => _l('project_milestones'),
+//        'icon'                      => 'fa fa-rocket',
+//        'view'                      => 'admin/projects/project_milestones',
+//        'position'                  => 20,
+//        'linked_to_customer_option' => ['view_milestones'],
+//    ]);
 
     $CI->app_tabs->add_project_tab('project_files', [
         'name'                      => _l('project_files'),
@@ -76,29 +85,29 @@ function app_init_project_tabs()
         'linked_to_customer_option' => ['upload_files'],
     ]);
 
-    $CI->app_tabs->add_project_tab('project_discussions', [
-        'name'                      => _l('project_discussions'),
-        'icon'                      => 'fa fa-commenting',
-        'view'                      => 'admin/projects/project_discussions',
-        'position'                  => 30,
-        'linked_to_customer_option' => ['open_discussions'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_gantt', [
-        'name'                      => _l('project_gant'),
-        'icon'                      => 'fa fa-align-left',
-        'view'                      => 'admin/projects/project_gantt',
-        'position'                  => 35,
-        'linked_to_customer_option' => ['view_gantt'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_tickets', [
-        'name'     => _l('project_tickets'),
-        'icon'     => 'fa fa-life-ring',
-        'view'     => 'admin/projects/project_tickets',
-        'position' => 40,
-        'visible'  => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
-    ]);
+//    $CI->app_tabs->add_project_tab('project_discussions', [
+//        'name'                      => _l('project_discussions'),
+//        'icon'                      => 'fa fa-commenting',
+//        'view'                      => 'admin/projects/project_discussions',
+//        'position'                  => 30,
+//        'linked_to_customer_option' => ['open_discussions'],
+//    ]);
+//
+//    $CI->app_tabs->add_project_tab('project_gantt', [
+//        'name'                      => _l('project_gant'),
+//        'icon'                      => 'fa fa-align-left',
+//        'view'                      => 'admin/projects/project_gantt',
+//        'position'                  => 35,
+//        'linked_to_customer_option' => ['view_gantt'],
+//    ]);
+//
+//    $CI->app_tabs->add_project_tab('project_tickets', [
+//        'name'     => _l('project_tickets'),
+//        'icon'     => 'fa fa-life-ring',
+//        'view'     => 'admin/projects/project_tickets',
+//        'position' => 40,
+//        'visible'  => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
+//    ]);
 
     $CI->app_tabs->add_project_tab('sales', [
         'name'     => _l('sales_string'),

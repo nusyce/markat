@@ -17,7 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-define('APP_BASE_URL', 'https://itfreakz.bplaced.net/');
+define('APP_BASE_URL', 'http://localhost/markat/');
 
 /*
 * --------------------------------------------------------------------------
@@ -38,24 +38,20 @@ define('APP_ENC_KEY', '336655f82c70247cff2e31a9108ff1bc');
  * Database Credentials
  * The hostname of your database server
  */
-define('APP_DB_HOSTNAME', 'db-mysql-markat-34121-do-user-7900236-0.a.db.ondigitalocean.com');
+define('APP_DB_HOSTNAME', 'localhost');
 /**
  * The username used to connect to the database
  */
-define('APP_DB_USERNAME', 'doadmin');
+define('APP_DB_USERNAME', 'root');
 /**
  * The password used to connect to the database
  */
-define('APP_DB_PASSWORD', 'l3vkbo6badmmokg0');
+define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'markat_db');
+define('APP_DB_NAME', 'itfreakz_markat');
 
-/**
- * Port for mysql
- */
-define('APP_DB_PORT', 25060);
 /**
  * @since  2.3.0
  * Database charset

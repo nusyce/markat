@@ -105,6 +105,13 @@ class Utilities extends AdminController
         $data['event'] = $this->utilities_model->get_event($id);
         if ($data['event']->public == 1 && !is_staff_member()
             || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
+
+                $even_relation = $this->utilities_model->get_event_user($id);
+                if($even_relation->event_id == $id){
+                    $this->load->view('admin/utilities/event', $data);
+                }
+
+
         } else {
             $this->load->view('admin/utilities/event', $data);
         }
@@ -170,9 +177,15 @@ class Utilities extends AdminController
         $this->load->helper('path');
 
         $root_options = [
-            'driver' => 'LocalFileSystem',
-            'path'   => set_realpath($media_folder),
-            'URL'    => site_url($media_folder) . '/',
+            //'driver' => 'LocalFileSystem',
+           // 'path'   => set_realpath($media_folder),
+            'driver' => 'MySQL',
+            'host' => APP_DB_HOSTNAME,
+            'user' => APP_DB_USERNAME,
+            'pass' => APP_DB_PASSWORD,
+            'db' => APP_DB_NAME,
+            'path' => 1,
+            //'URL'    => site_url($media_folder) . '/',
             //'debug'=>true,
             'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
             'accessControl' => 'access_control_media',
@@ -218,7 +231,7 @@ class Utilities extends AdminController
             ->from(db_prefix() . 'staff')
             ->where('staffid', get_staff_user_id());
             $user = $this->db->get()->row();
-            $path = set_realpath($media_folder . '/' . $user->media_path_slug);
+          //  $path = set_realpath($media_folder . '/' . $user->media_path_slug);
             if (empty($user->media_path_slug)) {
                 $this->db->where('staffid', $user->staffid);
                 $slug = slug_it($user->firstname . ' ' . $user->lastname);
@@ -226,49 +239,49 @@ class Utilities extends AdminController
                     'media_path_slug' => $slug,
                 ]);
                 $user->media_path_slug = $slug;
-                $path                  = set_realpath($media_folder . '/' . $user->media_path_slug);
+                //$path                  = set_realpath($media_folder . '/' . $user->media_path_slug);
             }
-            if (!is_dir($path)) {
-                mkdir($path, 0755);
-            }
-            if (!file_exists($path . '/index.html')) {
-                $fp = fopen($path . '/index.html', 'w');
-                if ($fp) {
-                    fclose($fp);
-                }
-            }
-            array_push($root_options['attributes'], [
-                'pattern' => '/.(' . $user->media_path_slug . '+)/', // Prevent deleting/renaming folder
-                'read'    => true,
-                'write'   => true,
-                'locked'  => true,
-            ]);
-            $root_options['path'] = $path;
-            $root_options['URL']  = site_url($media_folder . '/' . $user->media_path_slug) . '/';
+            // if (!is_dir($path)) {
+            //     mkdir($path, 0755);
+            // }
+            // if (!file_exists($path . '/index.html')) {
+            //     $fp = fopen($path . '/index.html', 'w');
+            //     if ($fp) {
+            //         fclose($fp);
+            //     }
+            // }
+            // array_push($root_options['attributes'], [
+            //     'pattern' => '/.(' . $user->media_path_slug . '+)/', // Prevent deleting/renaming folder
+            //     'read'    => true,
+            //     'write'   => true,
+            //     'locked'  => true,
+            // ]);
+            // $root_options['path'] = $path;
+            // $root_options['URL']  = site_url($media_folder . '/' . $user->media_path_slug) . '/';
         }
 
-        $publicRootPath      = $media_folder . '/public';
-        $public_root         = $root_options;
-        $public_root['path'] = set_realpath($publicRootPath);
+        // $publicRootPath      = $media_folder . '/public';
+        // $public_root         = $root_options;
+        // $public_root['path'] = set_realpath($publicRootPath);
 
-        $public_root['URL'] = site_url($media_folder) . '/public';
-        unset($public_root['attributes'][3]);
+        // $public_root['URL'] = site_url($media_folder) . '/public';
+        // unset($public_root['attributes'][3]);
 
-        if (!is_dir($publicRootPath)) {
-            mkdir($publicRootPath, 0755);
-        }
+        // if (!is_dir($publicRootPath)) {
+        //     mkdir($publicRootPath, 0755);
+        // }
 
-        if (!file_exists($publicRootPath . '/index.html')) {
-            $fp = fopen($publicRootPath . '/index.html', 'w');
-            if ($fp) {
-                fclose($fp);
-            }
-        }
-
+        // if (!file_exists($publicRootPath . '/index.html')) {
+        //     $fp = fopen($publicRootPath . '/index.html', 'w');
+        //     if ($fp) {
+        //         fclose($fp);
+        //     }
+        // }
+        //echo '<pre>'; print_r($root_options);
         $opts = [
             'roots' => [
                 $root_options,
-                $public_root,
+                //$public_root,
             ],
         ];
 
@@ -364,5 +377,28 @@ class Utilities extends AdminController
 
         $data['title'] = _l('bulk_pdf_exporter');
         $this->load->view('admin/utilities/bulk_pdf_exporter', $data);
+    }
+
+    function user_permission(){
+        $users_id = $this->input->post('users_id');
+        $name = $this->input->post('elfindername');
+        $dir = $this->input->post('elfinderdir');
+        $users = explode(',',$users_id);
+        $success = 0;
+        if(!empty($users)){
+            $elfinder_id = $this->utilities_model->get_elfinder_id($dir,$name);
+            // echo $this->db->last_query();
+            //  echo '<pre>'; print_r( $elfinder_id);
+            //  exit;
+            foreach($users as $user){
+                $data['user_id'] = $user;
+                $data['elfinder_id'] = $elfinder_id;
+                $success = $this->utilities_model->user_role_data($data);
+                $success = 1;
+            }
+        }
+        echo $success;
+        exit;
+
     }
 }

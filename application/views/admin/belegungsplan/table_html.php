@@ -17,7 +17,6 @@ $table_data = array(
     'Aktiv'
 );
 
-$table_data = hooks()->apply_filters('belegungsplan_table_columns', $table_data);
 
 render_datatable($table_data, (isset($class) ? $class : 'belegungsplan'), [], [
     'data-last-order-identifier' => 'belegungsplan',

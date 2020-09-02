@@ -2678,7 +2678,7 @@ exports.globalDefaults = {
     defaultTimedEventDuration: '02:00:00',
     defaultAllDayEventDuration: { days: 1 },
     forceEventDuration: false,
-    nextDayThreshold: '09:00:00',
+    nextDayThreshold: '00:00:00',
     // display
     columnHeader: true,
     defaultView: 'month',

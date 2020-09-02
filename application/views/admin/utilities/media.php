@@ -1,11 +1,14 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+<?php init_head();
+?>
 <div id="wrapper">
   <div class="content">
     <div class="row">
+
       <div class="col-md-12">
         <div class="panel_s">
           <div class="panel-body">
+
             <div id="elfinder"></div>
           </div>
         </div>
@@ -108,7 +111,7 @@ define('elFinderConfig', {
                               // toolbar configuration
                               toolbar: [
                                   ['back', 'forward'],
-                                  ['mkdir', 'mkfile', 'upload'],
+                                  ['mkdir', 'mkfile', 'upload','permission'],
                                   ['open', 'download', 'getfile'],
                                   ['quicklook'],
                                   ['copy', 'paste'],
@@ -184,6 +187,91 @@ define('elFinderConfig', {
         // load JavaScripts (REQUIRED)
         load();
   })();
+  $(document).ready(function() {
+        $("#folderbutton").click(function(){
+            var favorite = [];
+
+            var elfinderdir = $('#elfinderdir').val();
+            var elfindername = $('#elfindername').val();
+            $.each($("input[name='users']:checked"), function(){
+                favorite.push($(this).val());
+            });
+            //alert("My favourite sports are: " + favorite.join(", "));
+             $.post(admin_url + 'utilities/user_permission', {users_id: favorite.join(", "),elfinderdir:elfinderdir,elfindername:elfindername}, function(result){
+             //alert(result)
+                if(result == "1"){
+                  alert_float('success', "Permission provided user successfully");
+                  setTimeout(function() {
+       location.reload(true)
+
+    }, 3000);
+                }else{
+                  alert_float('warning', 'Permission not provided user')
+                }
+            });
+
+
+        });
+    });
+
+
+
+
+
+
 </script>
+
+
+
+<style>
+.elfinder-button-icon-permission:before{
+ /* background: red!important;*/
+/*  content: '\e81f'!important;*/
+ }
+ .elfinder-button-icon-permission:after{
+  /*background: red!important;*/
+  /*content: '\e81f'!important;*/
+ }
+.elfinder-button-icon-permission{
+   background: red!important;
+}
+</style>
+
+
+ <div class="modal fade" id="newoccupation" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">
+                                           Folder Permission
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <input type="hidden" id="elfinderdir">
+                                            <input type="hidden" id="elfindername">
+
+                                          <h3>Select Users</h3>
+                                         <!--  <div class="row"> -->
+
+
+                                          <?php if(!empty($staff_members)) {
+                                            foreach($staff_members as $staff_member){ ?>
+                                              <!-- <div class="col-md-3"> -->
+                                          <label><input type="checkbox" value="<?php echo $staff_member['staffid']; ?>" name="users"> <?php echo $staff_member['firstname'],' '.$staff_member['lastname']; ?></label>
+                                        <!--   </div> -->
+                                          <?php }}?>
+
+                                         <!--  </div> -->
+                                          <br>
+                                          <button type="button" class="btn btn-info" id="folderbutton">Set Permission</button>
+                                      </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 </body>
 </html>

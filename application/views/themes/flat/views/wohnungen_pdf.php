@@ -36,21 +36,34 @@ $tblhtml = '<br><br><h3 style="text-align: center">Detail ' . get_menu_option('w
 <tr><th><strong>Flügel</strong></th> <th><strong>Zimmer</strong></th> <th><strong>Schlafplätze</strong></th> </tr>  
 <tr><td>' . $wohnungen->flugel . '</td> <td>' . $wohnungen->zimmer . '</td> <td>' . $wohnungen->zimmer . '</td> </tr>  
 <tr><th><strong>Möbliert</strong></th> <th><strong>Tierhaltung</strong></th> <th><strong>Balkon</strong></th> </tr>  
-<tr><td>' . boolVald($wohnungen->mobiliert) . '</td> <td>' . boolVald($wohnungen->tierhaltung) . '</td> <td>' . boolVald($wohnungen->balkon) . '</td> </tr>  
-<tr><th colspan="4" style="text-align: center"><strong>' . get_menu_option('inventarlistes', _l('Inventar')) . '</strong></th></tr>
-<tr><td colspan="4">
-<table style="width: 100%"><tr><td>N°</td><td>Qty</td><td>' . get_menu_option('inventarlistes', _l('Inventar')) . '</td></tr>
-</table>
-</td></tr>';
-
+<tr><td>' . boolVald($wohnungen->mobiliert) . '</td> <td>' . boolVald($wohnungen->tierhaltung) . '</td> <td>' . boolVald($wohnungen->balkon) . '</td> </tr>  </table>';
+$tblhtml.='<h3>' . get_menu_option('inventarlistes', _l('Inventar')) . '</h3> 
+<table border="1" style="width: 100%;">
+<tr><th>N°</th><th>Qty</th><th>' . get_menu_option('inventarlistes', _l('Inventar')) . '</th><th>Qubik</th><th>Moved?</th></tr>
+ ';
+$i = 1;
 foreach ($austattung as $k => $ac):
-    if ($ac['is_deleted'] == 0)
-        $tblhtml .= '<tr><td>' . ($k + 1) . '</td><td>' . $ac['qty'] . '</td><td>' . $wohnungenOj->get_inventar($ac['inventar_id']) . '</td></tr>';
+
+    if ($ac['is_deleted'] == 0) {
+        $allData = get_move($wohnungen, $ac['inventar_id']);
+        $sumArray = 0;
+        if ($allData)
+            foreach ($allData as $k => $subArray) {
+                $sumArray += $subArray['qty'];
+            }
+        $moved = $sumArray > 0 ? "Ja" : "Nein";
+        if ($sumArray < $ac['qty']) {
+            $qty = (int)$ac['qty'] - $sumArray;
+            $inventar = $wohnungenOj->get_inventar($ac['inventar_id']);
+            $tblhtml .= '<tr><td>' . $i . '</td><td>' . $qty . '</td><td>' . $inventar->name . '</td><td>' . $inventar->qubik . '</td><td>' . $moved . '</td></tr>';
+
+            $i++;
+        }
+
+    }
 endforeach;
 $tblhtml .= '
-</table>
-</td></tr>
-</table><style>
+</table> <style>
 table th,
 table td {
   padding: 10px !important; 

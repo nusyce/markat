@@ -45,7 +45,7 @@ if ($task_tag !== 'full') {
     $tblhtml .= '<tr><td colspan="3"><strong>Checklistpoints</strong></td></tr>';
     foreach ($task->checklist_items as $k => $ac):
         $check = $ac['finished'] ? 'check-cp.png' : 'no-check-cp.png';
-        $tblhtml .= '<tr><td colspan="3" style="padding: 8px 2px"><br><span><img width="21px" src="assets/images/' . $check . '"/> </span> ' . $ac['description'] . '</td></tr>';
+        $tblhtml .= '<tr><td colspan="3" style="padding: 8px 2px; vertical-align: center"><br><span><img width="21px" src="assets/images/' . $check . '"/> </span> ' . $ac['description'] . '</td></tr>';
     endforeach;
 } else {
     $tblhtml .= '<tr><th colspan="3"><br><strong>Dokumentation before:</strong></th></tr>';

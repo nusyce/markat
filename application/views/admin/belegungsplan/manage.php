@@ -7,6 +7,7 @@
     #switchbtn {
         display: inline-block;
     }
+
     table th:first-child {
         width: 150px;
     }
@@ -68,7 +69,9 @@
                     </div>
                     <div id="belegungsplan" class="panel-body ">
                         <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
-                        <button id="printbtn" class="btn btn-success pull-right" style="display:none;" onclick='printDiv();'>Print</button>
+                        <button id="printbtn" class="btn btn-success pull-right" style="display:none;"
+                                onclick='printDiv();'>Print
+                        </button>
                         <br>
                         <!--             <div class="row mbot15">
                             <div class="col-md-8 col-md-offset-2">
@@ -89,9 +92,8 @@
                                         </h3>
                                     </div>
                                 </div>
-                            </div>
                         </div>-->
-                        <div class="list-view switcher">
+                        <div class="list-view switcher <?= isset($_GET['navigator']) ? 'hide' : ''; ?>">
                             <div class="row" id="mieter-table">
                                 <div class="col-md-12">
                                     <div class="row">
@@ -145,7 +147,8 @@
                             <?php $this->load->view('admin/belegungsplan/table_html'); ?>
 
                         </div>
-                        <div class="gant-view switcher hide" id="gant-chart-filter">
+                        <div class="gant-view switcher  <?= isset($_GET['navigator']) ? '' : 'hide'; ?>"
+                             id="gant-chart-filter">
                             <div class="row">
 
                                 <div class="col-md-12">
@@ -155,6 +158,10 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-md-2 leads-filter-column">
+                                            <?php echo render_date_input('belegt_v','','',array('placeholder' =>'Belegt von')); ?>
+                                        </div>
+
                                         <div class="col-md-2 leads-filter-column">
                                             <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
                                         </div>
@@ -168,7 +175,7 @@
                                             <?php echo render_select('flugel', $flugel, array('flugel', 'flugel'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Flügel'), array()); ?>
                                         </div>
                                     </div>
-                            </div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="selector"></div>
                                 </div>
@@ -448,12 +455,13 @@ endforeach;
 
 <script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"
+        integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA=="
+        crossorigin="anonymous"></script>
 <script>
-    function printDiv()
-    {
+    function printDiv() {
         html2canvas($("#DivIdToPrint .fn-content"), {
-                onrendered: function (canvas) {
+            onrendered: function (canvas) {
                 var myImage = canvas.toDataURL("image/png");
                 var tWindow = window.open("");
                 $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
@@ -463,6 +471,7 @@ endforeach;
             }
         })
     }
+
     $(function () {
 
         $("#newoccupation").on("hidden.bs.modal", function () {
@@ -490,7 +499,6 @@ endforeach;
                 $("#newoccupation").modal('hide');
                 alert_float('success', response.msg);
                 loadGantChart();
-
                 table_belegun.DataTable().ajax.reload()
                     .columns.adjust()
                     .responsive.recalc();
@@ -570,8 +578,11 @@ endforeach;
             $($id).val($setValue);
             $($id).selectpicker('refresh');
         }
-
-
+        <?php if (isset($_GET['navigator'])) {
+        ?>
+        loadGantChart(<?= $_GET['startat']; ?>)
+        <?php
+        } ?>
         function faq_init(a, b) {
             if (a != '' && b != '') {
                 a = moment(a);
@@ -596,8 +607,7 @@ endforeach;
                 $(this).addClass('ganttv').removeClass('list')
                 $('.list-view,.dataTable').addClass('hide');
                 $('.gant-view').removeClass('hide');
-                $('#printbtn').show();
-                if (loader){
+                if (loader) {
                     $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
                 }
                 loadGantChart();
@@ -629,6 +639,7 @@ endforeach;
         var belegunServerParams = {
             "hausnummer": "[name='hausnummer']",
             "strabe": "[name='strabe']",
+            "belegt_v": "[name='belegt_v']",
             "schlaplatze": "[name='schlaplatze']",
             "mobiliert": "[name='mobiliert']",
             "etage": "[name='etage']",
@@ -640,7 +651,7 @@ endforeach;
             ContractsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
         });
 
-        var _table_api = initDataTable(table_belegun, admin_url + 'belegungsplan/table', [0], [0], belegunServerParams, [1, 'desc'], filterArray);
+        initDataTable(table_belegun, admin_url + 'belegungsplan/table', [0], [0], belegunServerParams, [1, 'desc'], filterArray);
 
         $.each(belegunServerParams, function (i, obj) {
             $('#' + i).on('change', function () {
@@ -650,28 +661,31 @@ endforeach;
                     .responsive.recalc();
             });
         });
+        $("#gant-chart-filter #belegt_v").on('change',function(e){ loadGantChart(); });
         $("#gant-chart-filter #strabe").on('change',function(e){ loadGantChart(); });
         $("#gant-chart-filter #hausnummer").on('change',function(e){ loadGantChart(); });
         $("#gant-chart-filter #etage").on('change',function(e){ loadGantChart();});
         $("#gant-chart-filter #flugel").on('change',function(e){ loadGantChart(); });
 
 
-        function loadGantChart() {
+        function loadGantChart(momet = '') {
             // Get Filter data
             var filterArray = {};
+            filterArray.belegt_v = $("#gant-chart-filter #belegt_v").val();
             filterArray.strabe = $("#gant-chart-filter #strabe").val();
             filterArray.hausnummer = $("#gant-chart-filter #hausnummer").val();
             filterArray.etage = $("#gant-chart-filter #etage").val();
             filterArray.flugel = $("#gant-chart-filter #flugel").val();
 
             $(".selector").gantt({
-                source: "<?php echo base_url(); ?>/admin/belegungsplan/table1?"+encodeURI($.param(filterArray)),
+                source: "<?php echo base_url(); ?>/admin/belegungsplan/table1?" + encodeURI($.param(filterArray)),
                 navigate: "scroll",
                 scale: "days",
                 maxScale: "months",
                 minScale: "days",
                 itemsPerPage: 500,
                 scrollToToday: true,
+                scrollToCustomDate: momet,
                 onItemClick: function (data) {
                     if (data.id > 0)
                         startd_edition(data.id);
@@ -679,7 +693,15 @@ endforeach;
                 onAddClick: function (dt, rowId) {
                 },
                 onRender: function () {
+                    $('#printbtn').show();
                     loader = true;
+                    if (momet) {
+                        var reper = $('div[data-repdate="' + momet + '"]');
+                        $([document.documentElement, document.body]).animate({
+                            scrollTop: reper.offset().top
+                        }, 2000);
+                    }
+
                     $('#switchbtn').prop('disabled', false);
                     $('.app').addClass('hide-sidebar').removeClass('show-sidebar');
                 }

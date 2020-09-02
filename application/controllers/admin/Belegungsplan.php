@@ -43,6 +43,7 @@ class Belegungsplan extends AdminController
 ///            print_r($this->input->get());
         $filters = [];
         $demoSource = [];
+        if($this->input->get('belegt_v')){ $filters['belegt_v'] = to_sql_datedv($this->input->get('belegt_v')); }
         if($this->input->get('strabe')){ $filters['strabe'] = $this->input->get('strabe'); }
         if($this->input->get('hausnummer')){ $filters['hausnummer'] = $this->input->get('hausnummer'); }
         if($this->input->get('etage')){ $filters['etage'] = $this->input->get('etage'); }

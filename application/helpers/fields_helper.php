@@ -426,6 +426,25 @@ function render_select_with_input_group($name, $options, $option_attrs = [], $la
     return $select;
 }
 
+function render_select_with_input_group_projekt($name, $options, $option_attrs = [], $label = '', $selected = '', $input_group_contents = '',$input_group_contents_rm = '', $select_attrs = [], $form_group_attr = [], $form_group_class = '', $select_class = '', $include_blank = true)
+{
+    $select_class .= ' _select_input_group';
+    $select = render_select($name, $options, $option_attrs, $label, $selected, $select_attrs, $form_group_attr, $form_group_class, $select_class, $include_blank);
+    $select = str_replace('form-group', 'input-group input-group-select select-' . $name, $select);
+    $select = str_replace('select-placeholder ', '', $select);
+    $select = str_replace('</select>', '</select><div class="input-group-addon bg-success">' . $input_group_contents . '</div><div class="input-group-addon removedd bg-danger">' . $input_group_contents_rm . '</div>', $select);
+
+    $re = '/<label.*<\/label>/i';
+    preg_match($re, $select, $label);
+
+    if (count($label) > 0) {
+        $select = preg_replace($re, '', $select);
+        $select = '<div class="select-placeholder form-group form-group-select-input-' . $name . ' input-group-select">' . $label[0] . $select . '</div>';
+    }
+
+    return $select;
+}
+
 
 if (!function_exists('render_form_builder_field')) {
     /**

@@ -2,7 +2,7 @@
 
 $table_data = [
    _l('the_number_sign'),
-   _l('project_name'),
+   _l('projekte'),
     [
          'name'     => _l('project_customer'),
          'th_attrs' => ['class' => isset($client) ? 'not_visible' : ''],

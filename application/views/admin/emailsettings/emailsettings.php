@@ -8,6 +8,7 @@ echo'<link rel="stylesheet" type="text/css" id="vendor-css" href="https://perfex
 }*/
 ?>
 <div id="wrapper">
+    <?php echo form_open_multipart(admin_url('settings/save')); ?>
     <div class="content">
         <div class="row">
             <div class="col-md-12">
@@ -17,21 +18,24 @@ echo'<link rel="stylesheet" type="text/css" id="vendor-css" href="https://perfex
                         <h4 class="customer-profile-group-heading" style="margin-left:-20px ">Email Einstellungen</h4>
                     </div>
                 </div>
-            <div class="row" id="emailsettings">
-                <div class="col-md-12">
-                    <div class="panel_s">
-                        <div class="panel-body">
-                            <!--?php echo form_open_multipart($this->uri->uri_string(), array('id' => 'firma-form')); ?-->
-                            <?php $this->load->view('admin/emailsettings/form'); ?>
-                            <?php echo form_close(); ?>
+                <div class="row" id="emailsettings">
+                    <div class="col-md-12">
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <?php $this->load->view('admin/emailsettings/form'); ?>
+                                <div class=" btn-bottom-toolbar text-right ">
+                                    <input type="submit" value="Save Settings" class="btn btn-info">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
+    <?php echo form_close(); ?>
 </div>
+
 
 <script>
     function openOption(evt, optName) {

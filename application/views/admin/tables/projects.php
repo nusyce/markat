@@ -8,7 +8,7 @@ $hasPermissionCreate = has_permission('projects', '', 'create');
 
 $aColumns = [
     db_prefix() . 'projects.id as id',
-    'name',
+    db_prefix() . 'tsk_project.name as name',
     get_sql_select_client_company(),
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'projects.id and rel_type="project" ORDER by tag_order ASC) as tags',
     'start_date',
@@ -23,6 +23,7 @@ $sTable       = db_prefix() . 'projects';
 
 $join = [
     'JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'projects.clientid',
+    'LEFT OUTER JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'projects.projekte',
 ];
 
 $where  = [];

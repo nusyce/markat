@@ -1,4 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url(); ?>assets/css/gantt.style.css" type="text/css" rel="stylesheet">
+
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
@@ -75,8 +78,8 @@
                             <div class="clearfix"></div>
                             <hr class="hr-panel-heading"/>
                         </div>
-                            <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                               data-table=".table-wohnungen"><?php echo _l('Alle löschen'); ?></a>
+                        <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
+                           data-table=".table-wohnungen"><?php echo _l('Alle löschen'); ?></a>
                         <?php $this->load->view('admin/wohnungen/table_html'); ?>
                     </div>
                 </div>
@@ -85,13 +88,38 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<style>
+    .row-options-gantchart {
+        color: white;
+        text-align: center;
+        padding: 4px 8px;
+    }
 
+    .row-options-gantchart a {
+        color: white
+    }
+
+    .row-options-gantchart.enabled {
+        background-color: #3E90B7;
+    }
+
+    .row-options-gantchart.disabled {
+        background-color: gray;
+        pointer-events: none;
+        cursor: default;
+    }
+    .row-options-gantchart.disabled a{
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
+<script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 <?php
-foreach ($wohnungens as $wohnungen):
-    $hisOccupations = $this->wohnungen_model->get_occupations($wohnungen['id']);
-
+foreach ($aqs as $aq):
+    $hisOccupations = $this->wohnungen_model->get_occupations($aq['id']);
     ?>
-    <div class="modal fade" id="calendarmx<?= $wohnungen['id'] ?>" tabindex="-1" role="dialog">
+    <div class="modal fade" id="calendarmx<?= $aq['id'] ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
@@ -107,7 +135,7 @@ foreach ($wohnungens as $wohnungen):
                             <div class="panel_s">
                                 <div class="panel-body" style="overflow-x: auto;">
                                     <div class="dt-loader hide"></div>
-                                    <div id="calendar_dd<?= $wohnungen['id'] ?>"></div>
+                                    <div id="calendar_dd<?= $aq['id'] ?>"></div>
                                 </div>
                                 <script>
                                     $(function () {
@@ -116,9 +144,9 @@ foreach ($wohnungens as $wohnungen):
                                         var data = [];
                                         var breackDay = [];
                                         for (let d of dd) {
-                                            var stdate = moment(d.belegt_v,"YYYY-MM-DD").toDate();
+                                            var stdate = moment(d.belegt_v, "YYYY-MM-DD").toDate();
                                             var b_mi = parseInt(d.break_days);
-                                            var enddate = moment(d.belegt_b,"YYYY-MM-DD").toDate();
+                                            var enddate = moment(d.belegt_b, "YYYY-MM-DD").toDate();
 
                                             var i = 0;
                                             var $progress_day = enddate;
@@ -140,7 +168,7 @@ foreach ($wohnungens as $wohnungen):
                                             data.push(ds);
                                         }
 
-                                        $("#calendar_dd<?= $wohnungen['id'] ?>").calendar({
+                                        $("#calendar_dd<?= $aq['id'] ?>").calendar({
                                             enableContextMenu: true,
                                             language: 'de',
                                             enableRangeSelection: false,
@@ -202,6 +230,63 @@ foreach ($wohnungens as $wohnungen):
 <?php
 endforeach;
 ?>
+<script>
+    $(function () {
+        $('table').on('click', '.row-options-gantchart a', function (event) {
+            event.preventDefault();
+            const dd = $(this).data('id');
+            loadGantChart(dd)
+        });
 
+        function loadGantChart(dd) {
+            $("#selector_dd").gantt({
+                source: "<?php echo base_url(); ?>/admin/wohnungen/table1/" + dd,
+                navigate: "scroll",
+                scale: "days",
+                maxScale: "months",
+                minScale: "days",
+                itemsPerPage: 500,
+                scrollToToday: true,
+                scrollToCustomDate: dd,
+                onItemClick: function (data) {
+                },
+                onAddClick: function (dt, rowId) {
+                },
+                onRender: function () {
+                    $('#gantmgre51').modal('show')
+                }
+            });
+
+
+        }
+
+    })
+</script>
+<div class="modal fade" id="gantmgre51" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><?php echo _l('Gantt'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel_s">
+                            <div class="panel-body" style="overflow-x: auto;">
+                                <div class="dt-loader hide"></div>
+                                <div id="selector_dd"></div>
+                            </div>
+                            <script>
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

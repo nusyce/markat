@@ -36,17 +36,18 @@
 	});
 
 
-	// Drag and Drop Js
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-
-    function dragStart(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-  // function use to drop event on empty block
-    function dragDrop(ev) {
+	// Drag and Drop Js  
+    function allowDrop(ev) { 
+		ev.preventDefault();
+		//alert("The cursor just exited the " + ev.relatedTarget+ " element.");
+    } 
+        
+    function dragStart(ev) { 
+        ev.dataTransfer.setData("text", ev.target.id); 
+    } 
+    
+  // function use to drop event on empty block   
+    function dragDrop(ev) { 
 		ev.preventDefault();
 		var data1 = ev.dataTransfer.getData("text");
 		if (ev.target.tagName != 'TD') {
@@ -54,7 +55,7 @@
 		}
 		else{
 			appchild = ev.target.appendChild(document.getElementById(data1).cloneNode(true));
-				$(appchild).removeClass('buttonlike').addClass('buttondragged');
+				$(appchild).removeClass('buttonlike').addClass('buttondragged ');
 			var tar_date = $(ev.target).attr('data-date');
 			var elemid = [];
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
@@ -76,11 +77,11 @@
 
 			}, 100);
 		}
-
-	}
+		
+	} 
 
 // function use to drop event on tasked box will optimize this code latter
-	function dragDrop_event(ev) {
+	function dragDrop_event(ev) { 
     	ev.preventDefault();
 		var data1 = ev.dataTransfer.getData("text");
 		if (ev.target.tagName != 'TD'){
@@ -89,15 +90,24 @@
 		else {
 			appchild = ev.target.appendChild(document.getElementById(data1).cloneNode(true));
 			$(appchild).removeClass('buttonlike').addClass('buttondragged');
-			var th  = $(ev.target).parent().parent().parent().find('thead td').eq($(ev.target).index());
+
+			var colspanToAdd = 0;
+			var index = $(ev.target).index();
+			var tds = $(ev.target).closest('tr').find('td');
+			for (i=0; i < index; i++){
+				colspanToAdd += tds[i].colSpan;
+			}
+			var th  = $(ev.target).parent().parent().parent().find('thead td').eq(colspanToAdd);
 			var tar_date = $(th).attr('data-date');
 			var elemid = [];
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
-		    $('#newEventModal').modal('show');
-
+			$('#newEventModal').modal('show');
+		//	alert('droped row -' + (parseInt($(ev.target).parents('td').index()) + 1));
+		
 		    setTimeout(() => {
+			
                 if (!$.fullCalendar.moment(tar_date).hasTime()) {
                     tar_date += ' 00:00';
                 }
@@ -106,11 +116,11 @@
                 var d1 = fmt.formatDate(new Date(tar_date), vformat);
                 $("input[name='start'].datetimepicker").val(d1);
                 $('select[name="user[]"]').val(elemid).trigger('change');
-
+			
 		    }, 100);
 
 		}
-    }
+    } 
 
     function closebox(ev){
     {

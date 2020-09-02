@@ -8,6 +8,7 @@ class Wohnungen extends AdminController
     {
         parent::__construct();
         $this->load->model('wohnungen_model');
+        $this->load->model('belegungsplan_model');
     }
 
 
@@ -21,7 +22,7 @@ class Wohnungen extends AdminController
         close_setup_menu();
         add_calendar_book_assets();
         $data['title'] = get_menu_option('wohnungen', _l('AQ'));
-        $data['wohnungens'] = $this->wohnungen_model->get();
+        $data['aqs'] = $this->wohnungen_model->get();
         $data['hausnummer'] = $this->wohnungen_model->get_grouped('hausnummer');
         $data['project'] = $this->wohnungen_model->get_projekte();
         $data['strabe'] = $this->wohnungen_model->get_grouped('strabe');
@@ -123,6 +124,85 @@ class Wohnungen extends AdminController
                 }
             }
         }
+    }
+
+
+    public function table1($id)
+    {
+///            print_r($this->input->get());
+        $filters = [];
+        $demoSource = [];
+        $aq = $this->wohnungen_model->get($id);
+        if ($aq) {
+            $tmpdata['name'] = $aq->strabe;
+            $tmpdata['desc'] = $aq->hausnummer;
+            $tmpdata['etage'] = $aq->etage;
+            $tmpdata['fluge'] = $aq->flugel;
+            $belegungsplan = $this->belegungsplan_model->get_occupations(array('wohnungen' => $aq->id));
+            $tmpdata['values'] = [];
+            if (!empty($belegungsplan)) {
+                foreach ($belegungsplan as $b) {
+                    $mieter = $this->mieter_model->get($b['mieter']);
+                    $projektnv = (empty($mieter->projektname)) ? ' ' : ' (' . $mieter->projektname . ')';
+                    $values['label'] = $b['mieter_name'] . $projektnv;
+                    $values['id_mieter'] = (int)$b['mieter'];
+                    $values['id'] = (int)$b['id'];
+                    $values['from'] = time_to_sql_datedv(strtotime($b['belegt_v']));
+                    $values['to'] = time_to_sql_datedv(strtotime($b['belegt_b']));
+                    $dd = rand(1, 14);
+                    $values['customClass'] = "aze" . $dd;
+                    $tmpdata['values'][] = $values;
+
+                    //breack day set on gantt
+                    $b_mi = $b['break_days'];
+                    $enddate = $b['belegt_b'];
+
+                    $i = 0;
+                    $progress_day = $enddate;
+                    if ($b_mi > 0) {
+                        $initdate = 0;
+                        while ($i < $b_mi) {
+                            $progress_day = date('Y-m-d', strtotime($progress_day . ' +1 day'));
+                            $day_of_week_prog = date('w', strtotime($progress_day));
+
+                            if ($day_of_week_prog == 0 || $day_of_week_prog == 6) {
+                                continue;
+                            } else {
+                                if ($i == 0)
+                                    $initdate = $progress_day;
+                                $values['label'] = '';
+                                $values['id_mieter'] = 0;
+                                $values['id'] = 0;
+                                $progress_dayl = date('Y-m-d', strtotime($progress_day . ' +1 day'));
+                                $values['from'] = to_sql_datedv($progress_dayl);
+                                $values['to'] = to_sql_datedv($progress_dayl);
+                                $values['customClass'] = "ganttbreack";
+                                $tmpdata['values'][] = $values;
+
+                                $i++;
+                            }
+
+                        }
+
+                    }
+
+                }
+                $demoSource[] = $tmpdata;
+            }
+        }
+
+        echo json_encode($demoSource);
+        die();
+    }
+
+
+    public function get_inventar_ajax($id)
+    {
+        $inventar = $this->wohnungen_model->getSingleInventer($id);
+        if ($inventar) {
+            echo json_encode($inventar);
+        }
+        die();
     }
 
 

@@ -31,9 +31,9 @@ class Mieter extends AdminController
     }
 
 
-    public function table()
+    public function table($projektname = '')
     {
-        $this->app->get_table_data('mieters', []);
+        $this->app->get_table_data('mieters', ['projektname' => $projektname]);
     }
 
     public function get_ajax($id)

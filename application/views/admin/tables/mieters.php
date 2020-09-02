@@ -3,9 +3,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-$this->ci->load->model('clients_model');
-$base_currency = get_base_currency();
-
 $aColumns = [
     '1',
     db_prefix() . 'mieters.id as id',
@@ -29,7 +26,8 @@ $aColumns = [
     'nachname',
     db_prefix() . 'mieters.email as email',
     db_prefix() . 'mieters.active as active',
-    db_prefix() . 'mieters.updated_at as updated_at'
+    db_prefix() . 'mieters.updated_at as updated_at',
+    db_prefix() . 'occupations.belegt_b as startat'
 ];
 
 
@@ -39,15 +37,18 @@ $sTable = db_prefix() . 'mieters';
 $where = [];
 $join = [];
 $join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.projektname';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'occupations ON ' . db_prefix() . 'occupations.mieter = ' . db_prefix() . 'mieters.id';
 
-//$join = ['LEFT JOIN ' . db_prefix() . 'contacts ON ' . db_prefix() . 'contacts.id = ' . db_prefix() . 'mieters.betreuer'];
-$filter = [];
+ $filter = [];
 
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
 }
+
 if ($this->ci->input->post('project')) {
     array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+} else if ($projektname) { // added to filter in Project View screen
+    array_push($where, 'AND projektname ="' . $projektname . ' " ');
 }
 
 
@@ -95,20 +96,8 @@ foreach ($rResult1 as $aRow) {
     $row = [];
     $row[] = '<div class="multiple_action checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
     $row[] = $aRow['id'];
-
-    // $row[] = $aRow['mieter_id'];
-    //  $row[] = $aRow['strabe'];
-
-
     $subjectOutput = '<a href="' . admin_url('mieter/mieter/' . $aRow['id']) . '">' . $aRow['fullname'] . '</a>';
-    /* if ($aRow['trash'] == 1) {
-         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('mieter_trash') . '</span>';
-     }*/
-
     $subjectOutput .= '<div class="row-options">';
-
-    // $subjectOutput .= '<a href="' . site_url('mieter/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>' |;
-
     $subjectOutput .= '  <a href="' . admin_url('mieter/mieter/' . $aRow['id']) . '">' . _l('edit') . '</a>';
 
     /*    if (has_permission('mieter', '', 'delete')) {*/
@@ -144,7 +133,7 @@ foreach ($rResult1 as $aRow) {
     $row[] = $betreur;
 //    $occupation = $this->ci->belegungsplan_model->get_occupations(['active' => 1, 'mieter' => $aRow['id']]);
     if ($aRow['occuped'] > 0) {
-        $row[] = '<span class="fa fa-check fa-2x" style="color: green"></span>';
+        $row[] = '<a href="' . admin_url('belegungsplan?startat=' .strtotime($aRow['startat']).'000&navigator=') . $aRow['id'] . '" style="color: #24a8e0"><span class="fa fa-check fa-2x" style="color: #24a8e0"></span></a>';
     } else {
         $row[] = '<a href="' . admin_url('belegungsplan?ref_m=') . $aRow['id'] . '">Belegt?</a>';
     }
@@ -153,6 +142,7 @@ foreach ($rResult1 as $aRow) {
     <input type="checkbox"  data-switch-url="' . admin_url() . 'mieter/change_status" name="onoffswitch" class="onoffswitch-checkbox" id="' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . ($aRow['active'] == 1 ? 'checked' : '') . '>
     <label class="onoffswitch-label" for="' . $aRow['id'] . '"></label>
     </div>';
+
     $row[] = $toggleActive;
     $row[] = date('Y-m-d H:i:s', $aRow['updated_at']);
 

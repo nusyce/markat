@@ -146,14 +146,13 @@
                            min="0" value="0"
                            type="number">
                 </div>
-                <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
-                    <?php
-                    echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', array(), array()); ?>
+                <div class="col-md-5 <?= $allData ? ' moved' : '' ?>">
+                    <?php echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', ['id' => 'austattungSelect'], [], '', 'austattungSelect'); ?>
                 </div>
-                <div class="col-md-1" style="padding: 0;">
-                    <input  style="margin-right: -10px;padding-right: 0px !important;"
-                            class="form-control a_qty" min="0" name="sqr[]"
-                            type="number" >
+                <div class="col-md-2" style="padding: 0;">
+                    <input name="sqr[]" readonly style="margin-right: -10px; padding-right: 0px !important;"
+                           class="form-control sqr" min="0" value=""
+                           type="number">
                 </div>
                 <div class="col-md-2">
                     <a href="#"
@@ -166,6 +165,7 @@
     <?php else:
         $wohnungenOj = new Wohnungen_model();
         foreach ($wohnungen->inventer as $k => $a):
+            $inventar = $wohnungenOj->get_inventar($a['inventar_id'])
             ?>
             <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                  data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
@@ -181,13 +181,13 @@
                                    class="form-control a_qty" min="0"
                                    type="number" value="<?= $a['qty'] ?>">
                         </div>
-                        <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
-                            <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
+                        <div class="col-md-5 <?= $allData ? ' moved' : '' ?>">
+                            <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], ['id' => 'austattungSelect'], [], '', 'austattungSelect'); ?>
                         </div>
-                        <div class="col-md-1" style="padding: 0;">
-                            <input name="sqr[]" style="margin-right: -10px; padding-right: 0px !important;"
-                                   class="form-control " min="0"  value="<?= $a['sqr'] ?>"
-                                   type="number" >
+                        <div class="col-md-2" style="padding: 0;">
+                            <input name="sqr[]" readonly style="margin-right: -10px; padding-right: 0px !important;"
+                                   class="form-control sqr" min="0" value="<?= $inventar->qubik * $a['qty'] ?>"
+                                   type="number">
                         </div>
                         <div class="col-md-2">
                             <a href="#"
@@ -198,24 +198,24 @@
                     </div>
                     <?php
                     if (isset($allData))
-                    foreach ($allData as $item) {
-                        ?>
-                        <div class="row ">
-                            <div class="col-md-1">
+                        foreach ($allData as $item) {
+                            ?>
+                            <div class="row ">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <?= $item['qty']; ?>
+                                </div>
+                                <div class="col-md-7">
+                                    <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
                             </div>
-                            <div class="col-md-2 text-center">
-                                <?= $item['qty']; ?>
-                            </div>
-                            <div class="col-md-7">
-                                <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
-                            </div>
-                            <div class="col-md-2">
-                            </div>
-                        </div>
-                        <br>
+                            <br>
 
-                        <?php
-                    }
+                            <?php
+                        }
                     ?>
                     <div class="row hide" id="deleted-reason">
                         <input type="hidden" name="delete[]" value="0"
@@ -264,7 +264,7 @@
                                 <input type="text"
                                        readonly="true" id="reasonsd-<?= $a['id'] ?>"
                                        class="form-control reasonsd"
-                                       value="<?= $wohnungenOj->get_inventar($a['inventar_id']) . ' (' . $a['reason'] . ')' ?>">
+                                       value="<?= $inventar->name . ' (' . $a['reason'] . ')' ?>">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -291,21 +291,6 @@
 </div>
 
 <?php
-
-function get_move($wohnungen, $inventar)
-{
-    $data = array();
-    $movelds = $wohnungen->moved_items;
-    foreach ($movelds as $moveld) {
-        $allResources = unserialize($moveld['inventory']);
-        foreach ($allResources as $item) {
-            if ($item['inventory'] != $inventar)
-                continue;
-            array_push($data, $item);
-        }
-    }
-    return $data;
-}
 
 
 function count_items($inventars)

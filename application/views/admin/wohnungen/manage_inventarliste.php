@@ -28,6 +28,7 @@
                                 <th style="width: 30px"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="invetar"><label></label></div>  </th sty>
                                 <th><?php echo _l('id'); ?></th>
                                 <th><?php echo _l('name'); ?></th>
+                                <th><?php echo _l('Qubik'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -39,10 +40,12 @@
                                                onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false"
                                                data-name="<?php echo $inventarliste['name']; ?>"><?php echo $inventarliste['name']; ?></a><br/>
                                         </td>
+                                        <td > <?php echo $inventarliste['qubik']; ?><br/>
+                                        </td>
                                         <td>
                                             <a href="#"
                                                onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false"
-                                               data-name="<?php echo $inventarliste['name']; ?>"
+                                               data-name="<?php echo $inventarliste['name']; ?>" data-qubik="<?php echo $inventarliste['name']; ?>"
                                                class="btn btn-default btn-icon"><i
                                                         class="fa fa-pencil-square-o"></i></a>
                                             <a href="<?php echo admin_url('wohnungen/delete_inventarliste/' . $inventarliste['id']); ?>"
@@ -78,6 +81,7 @@
                     <div class="col-md-12">
                         <div id="additional"></div>
                         <?php echo render_input('name', 'Name'); ?>
+                        <?php echo render_input('qubik', 'Qubik','','number'); ?>
                     </div>
                 </div>
             </div>
@@ -99,6 +103,7 @@
         $('#inventarliste').on('hidden.bs.modal', function (event) {
             $('#additional').html('');
             $('#inventarliste input[name="name"]').val('');
+            $('#inventarliste input[name="qubik"]').val('');
             $('.add-title').removeClass('hide');
             $('.edit-title').removeClass('hide');
         });
@@ -141,8 +146,10 @@
 
     function edit_inventarliste(invoker, id) {
         var name = $(invoker).data('name');
+        var qubik = $(invoker).data('qubik');
         $('#additional').append(hidden_input('id', id));
         $('#inventarliste input[name="name"]').val(name);
+        $('#inventarliste input[name="qubik"]').val(qubik);
         $('#inventarliste').modal('show');
         $('.add-title').addClass('hide');
     }

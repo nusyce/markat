@@ -101,7 +101,7 @@
             </div>
             <div class="panel_s project-menu-panel">
                <div class="panel-body">
-                  <?php hooks()->do_action('before_render_project_view', $project->id); ?>
+                  <?php hooks()->do_action('before_render_project_view', $project->id, $project->projekte); ?>
                   <?php $this->load->view('admin/projects/project_tabs'); ?>
                </div>
             </div>

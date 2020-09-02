@@ -1,263 +1,172 @@
-    
-<div class='row'>
-    <div class="col-md-12">
-        <div class="panel_s">
-            <div class="panel-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active" id="navtab">
-                        <a href="#email_config" aria-controls="email_config" role="tab" data-toggle="tab" aria-expanded="true">SMTP Einstellungen</a>
-                    </li>
-                    <li role="presentation" class="" id="navtab">
-                        <a href="#email_queue" aria-controls="email_queue" role="tab" data-toggle="tab" aria-expanded="false">Email Warteschlange</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="email_config">
-                        <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
-                        <input type="text" class="fake-autofill-field" name="fakeusernameremembered" value="" tabindex="-1">
-                        <input type="password" class="fake-autofill-field" name="fakepasswordremembered" value="" tabindex="-1">
-                        <h4 style="margin-top:-20px;">SMTP Einstellungen <small>haupt Email einrichten</small></h4>
-                        <hr>
-                        <div class="form-group">
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+        <a href="#email_config" aria-controls="email_config" role="tab" data-toggle="tab"><?php echo _l('settings_smtp_settings_heading'); ?></a>
+    </li>
+    <li role="presentation">
+        <a href="#email_queue" aria-controls="email_queue" role="tab" data-toggle="tab"><?php echo _l('email_queue'); ?></a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="email_config">
+        <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+        <input type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1" />
+        <input type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1" />
+        <h4 style="margin-top:-20px;"><?php echo _l('settings_smtp_settings_heading'); ?> <small><?php echo _l('settings_smtp_settings_subheading'); ?></small></h4>
+        <hr />
+        <div class="form-group">
 
-                            <label for="mail_engine">Mail Motor</label><br>
-                            <div class="radio radio-inline radio-primary">
-                                <input type="radio" name="settings[mail_engine]" id="phpmailer" value="phpmailer" checked="">
-                                <label for="phpmailer">PHPMailer</label>
-                            </div>
+            <label for="mail_engine"><?php echo _l('mail_engine'); ?></label><br />
+            <div class="radio radio-inline radio-primary">
+                <input type="radio" name="settings[mail_engine]" id="phpmailer" value="phpmailer" <?php if(get_option('mail_engine') == 'phpmailer'){echo 'checked';} ?>>
+                <label for="phpmailer">PHPMailer</label>
+            </div>
 
-                            <div class="radio radio-inline radio-primary">
-                                <input type="radio" name="settings[mail_engine]" id="codeigniter" value="codeigniter">
-                                <label for="codeigniter">CodeIgniter</label>
-                            </div>
-                            <hr>
-                                        <label for="email_protocol">Email Protokoll</label><br>
-                            <div class="radio radio-inline radio-primary">
-                                <input type="radio" name="settings[email_protocol]" id="smtp" value="smtp" checked="">
-                                <label for="smtp">SMTP</label>
-                            </div>
+            <div class="radio radio-inline radio-primary">
+                <input type="radio" name="settings[mail_engine]" id="codeigniter" value="codeigniter" <?php if(get_option('mail_engine') == 'codeigniter'){echo 'checked';} ?>>
+                <label for="codeigniter">CodeIgniter</label>
+            </div>
+            <hr />
+            <label for="email_protocol"><?php echo _l('email_protocol'); ?></label><br />
+            <div class="radio radio-inline radio-primary">
+                <input type="radio" name="settings[email_protocol]" id="smtp" value="smtp" <?php if(get_option('email_protocol') == 'smtp'){echo 'checked';} ?>>
+                <label for="smtp">SMTP</label>
+            </div>
 
-                            <div class="radio radio-inline radio-primary">
-                                <input type="radio" name="settings[email_protocol]" id="sendmail" value="sendmail">
-                                <label for="sendmail">Mail senden</label>
-                            </div>
+            <div class="radio radio-inline radio-primary">
+                <input type="radio" name="settings[email_protocol]" id="sendmail" value="sendmail" <?php if(get_option('email_protocol') == 'sendmail'){echo 'checked';} ?>>
+                <label for="sendmail">Sendmail</label>
+            </div>
 
-                            <div class="radio radio-inline radio-primary">
-                                <input type="radio" name="settings[email_protocol]" id="mail" value="mail">
-                                <label for="mail">Mail</label>
-                            </div>
-                        </div>
-                        <div class="smtp-fields">
-                        <div class="form-group mtop15">
-                                <label for="smtp_encryption">Email Verschlüsselung</label><br>
-                                <div class="dropdown bootstrap-select bs3" style="width: 100%;"><select name="settings[smtp_encryption]" class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option value="" selected="">Keiner</option>
-                                    <option value="ssl">SSL</option>
-                                    <option value="tls">TLS</option>
-                                </select><button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="combobox" aria-owns="bs-select-1" aria-haspopup="listbox" aria-expanded="false" title="None"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">None</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open"><div class="inner open" role="listbox" id="bs-select-1" tabindex="-1"><ul class="dropdown-menu inner " role="presentation"></ul></div></div></div>
-                            </div>
-                        <div class="form-group" app-field-wrapper="settings[smtp_host]"><label for="settings[smtp_host]" class="control-label">SMTP Gastgeber</label><input type="text" id="settings[smtp_host]" name="settings[smtp_host]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[smtp_port]"><label for="settings[smtp_port]" class="control-label">SMTP Port</label><input type="text" id="settings[smtp_port]" name="settings[smtp_port]" class="form-control" value=""></div>		</div>
-                        <div class="form-group" app-field-wrapper="settings[smtp_email]"><label for="settings[smtp_email]" class="control-label">Email</label><input type="text" id="settings[smtp_email]" name="settings[smtp_email]" class="form-control" value=""></div>		<div class="smtp-fields">
-                        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="Fill only if your email client use username for SMTP login."></i>
-                        <div class="form-group" app-field-wrapper="settings[smtp_username]"><label for="settings[smtp_username]" class="control-label">SMTP Nutzername</label><input type="text" id="settings[smtp_username]" name="settings[smtp_username]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[smtp_password]"><label for="settings[smtp_password]" class="control-label">SMTP Passwort</label><input type="password" id="settings[smtp_password]" name="settings[smtp_password]" class="form-control" autocomplete="off" value=""></div>		</div>
-                        <div class="form-group" app-field-wrapper="settings[smtp_email_charset]"><label for="settings[smtp_email_charset]" class="control-label">Email Zeichensatz</label><input type="text" id="settings[smtp_email_charset]" name="settings[smtp_email_charset]" class="form-control" value="utf-8"></div>		<div class="form-group" app-field-wrapper="settings[bcc_emails]"><label for="settings[bcc_emails]" class="control-label">BCC Alle Emails an</label><input type="text" id="settings[bcc_emails]" name="settings[bcc_emails]" class="form-control" value=""></div>		<div class="form-group" app-field-wrapper="settings[email_signature]"><label for="settings[email_signature]" class="control-label">Email Unterschrift</label><textarea id="settings[email_signature]" name="settings[email_signature]" class="form-control" data-entities-encode="true" rows="4"></textarea></div>		<hr>
-                        <div class="form-group" app-field-wrapper="settings[email_header]"><label for="settings[email_header]" class="control-label">Vordefinierter Header</label><textarea id="settings[email_header]" name="settings[email_header]" class="form-control" rows="15" data-entities-encode="true"><!doctype html>
-                                            <html>
-                                            <head>
-                                            <meta name="viewport" content="width=device-width" />
-                                            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                                            <style>
-                                                body {
-                                                background-color: #f6f6f6;
-                                                font-family: sans-serif;
-                                                -webkit-font-smoothing: antialiased;
-                                                font-size: 14px;
-                                                line-height: 1.4;
-                                                margin: 0;
-                                                padding: 0;
-                                                -ms-text-size-adjust: 100%;
-                                                -webkit-text-size-adjust: 100%;
-                                            }
-                                            table {
-                                                border-collapse: separate;
-                                                mso-table-lspace: 0pt;
-                                                mso-table-rspace: 0pt;
-                                                width: 100%;
-                                            }
-                                            table td {
-                                                font-family: sans-serif;
-                                                font-size: 14px;
-                                                vertical-align: top;
-                                            }
-                                                /* -------------------------------------
-                                                    BODY &amp; CONTAINER
-                                                    ------------------------------------- */
-                                                    .body {
-                                                    background-color: #f6f6f6;
-                                                    width: 100%;
-                                                    }
-                                                    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
-
-                                                    .container {
-                                                    display: block;
-                                                    margin: 0 auto !important;
-                                                    /* makes it centered */
-                                                    max-width: 680px;
-                                                    padding: 10px;
-                                                    width: 680px;
-                                                    }
-                                                    /* This should also be a block element, so that it will fill 100% of the .container */
-
-                                                    .content {
-                                                    box-sizing: border-box;
-                                                    display: block;
-                                                    margin: 0 auto;
-                                                    max-width: 680px;
-                                                    padding: 10px;
-                                                    }
-                                                /* -------------------------------------
-                                                    HEADER, FOOTER, MAIN
-                                                    ------------------------------------- */
-
-                                                    .main {
-                                                    background: #fff;
-                                                    border-radius: 3px;
-                                                    width: 100%;
-                                                    }
-                                                    .wrapper {
-                                                    box-sizing: border-box;
-                                                    padding: 20px;
-                                                    }
-                                                    .footer {
-                                                    clear: both;
-                                                    padding-top: 10px;
-                                                    text-align: center;
-                                                    width: 100%;
-                                                    }
-                                                    .footer td,
-                                                    .footer p,
-                                                    .footer span,
-                                                    .footer a {
-                                                    color: #999999;
-                                                    font-size: 12px;
-                                                    text-align: center;
-                                                    }
-                                                    hr {
-                                                    border: 0;
-                                                    border-bottom: 1px solid #f6f6f6;
-                                                    margin: 20px 0;
-                                                    }
-                                                /* -------------------------------------
-                                                    RESPONSIVE AND MOBILE FRIENDLY STYLES
-                                                    ------------------------------------- */
-
-                                                    @media only screen and (max-width: 620px) {
-                                                    table[class=body] .content {
-                                                        padding: 0 !important;
-                                                    }
-                                                    table[class=body] .container {
-                                                        padding: 0 !important;
-                                                        width: 100% !important;
-                                                    }
-                                                    table[class=body] .main {
-                                                        border-left-width: 0 !important;
-                                                        border-radius: 0 !important;
-                                                        border-right-width: 0 !important;
-                                                    }
-                                                    }
-                                                </style>
-                                                </head>
-                                                <body class="">
-                                                <table border="0" cellpadding="0" cellspacing="0" class="body">
-                                                    <tr>
-                                                    <td>&amp;nbsp;</td>
-                                                    <td class="container">
-                                                    <div class="content">
-                                                        <!-- START CENTERED WHITE CONTAINER -->
-                                                        <table class="main">
-                                                        <!-- START MAIN CONTENT AREA -->
-                                                        <tr>
-                                                        <td class="wrapper">
-                                                            <table border="0" cellpadding="0" cellspacing="0">
-                                                            <tr>
-                                                            <td></textarea></div>		<div class="form-group" app-field-wrapper="settings[email_footer]"><label for="settings[email_footer]" class="control-label">Predefined Footer</label><textarea id="settings[email_footer]" name="settings[email_footer]" class="form-control" rows="15" data-entities-encode="true"></td>
-                                            </tr>
-                                        </table>
-                                        </td>
-                                    </tr>
-                                    <!-- END MAIN CONTENT AREA -->
-                                    </table>
-                                    <!-- START FOOTER -->
-                                    <div class="footer">
-                                    <table border="0" cellpadding="0" cellspacing="0">
-                                        <tr>
-                                        <td class="content-block">
-                                            <span>{companyname}</span>
-                                        </td>
-                                        </tr>
-                                    </table>
-                                    </div>
-                                    <!-- END FOOTER -->
-                                    <!-- END CENTERED WHITE CONTAINER -->
-                                </div>
-                                </td>
-                                <td>&amp;nbsp;</td>
-                            </tr>
-                            </table>
-                            </body>
-                            </html></textarea>
-                        </div>		
-                        <hr>
-                        <h4>Test Email Senden</h4>
-                        <p class="text-muted">Senden Sie eine Test-E-Mail, um sicherzustellen, dass Ihre SMTP-Einstellungen korrekt eingestellt sind.</p>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="email" class="form-control" name="test_email" data-ays-ignore="true" placeholder="Email Address">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default test_email p7">Test</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="email_queue">
-                                    <div class="form-group">
-                        <label for="email_queue_enabled" class="control-label clearfix">
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature."></i> Email Warteschlange Aktivieren       </label>
-                        <div class="radio radio-primary radio-inline">
-                            <input type="radio" id="y_opt_1_email_queue_enabled" name="settings[email_queue_enabled]" value="1">
-                            <label for="y_opt_1_email_queue_enabled">
-                            Ja          </label>
-                        </div>
-                        <div class="radio radio-primary radio-inline">
-                                <input type="radio" id="y_opt_2_email_queue_enabled" name="settings[email_queue_enabled]" value="0" checked="">
-                                <label for="y_opt_2_email_queue_enabled">
-                                Nein                </label>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <label for="email_queue_skip_with_attachments" class="control-label clearfix">
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="Most likely you will encounter problems with the email queue if the system needs to add big files to the queue. If you plan to use this option consult with your server administrator/hosting provider to increase the max_allowed_packet and&nbsp;wait_timeout&nbsp;options in your server config, otherwise when this option is set to yes the system won't add emails with attachments in the queue and will be sent immediately."></i> Fügen Sie keine E-Mails mit Anhängen in die Warteschlange ein?      </label>
-                        <div class="radio radio-primary radio-inline">
-                            <input type="radio" id="y_opt_1_email_queue_skip_attachments" name="settings[email_queue_skip_with_attachments]" value="1" checked="">
-                            <label for="y_opt_1_email_queue_skip_attachments">
-                                Ja           </label>
-                        </div>
-                        <div class="radio radio-primary radio-inline">
-                                <input type="radio" id="y_opt_2_email_queue_skip_attachments" name="settings[email_queue_skip_with_attachments]" value="0">
-                                <label for="y_opt_2_email_queue_skip_attachments">
-                                Nein              </label>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="radio radio-inline radio-primary">
+                <input type="radio" name="settings[email_protocol]" id="mail" value="mail" <?php if(get_option('email_protocol') == 'mail'){echo 'checked';} ?>>
+                <label for="mail">Mail</label>
             </div>
         </div>
+        <div class="smtp-fields<?php if(get_option('email_protocol') == 'mail'){echo ' hide'; } ?>">
+            <div class="form-group mtop15">
+                <label for="smtp_encryption"><?php echo _l('smtp_encryption'); ?></label><br />
+                <select name="settings[smtp_encryption]" class="selectpicker" data-width="100%">
+                    <option value="" <?php if(get_option('smtp_encryption') == ''){echo 'selected';} ?>><?php echo _l('smtp_encryption_none'); ?></option>
+                    <option value="ssl" <?php if(get_option('smtp_encryption') == 'ssl'){echo 'selected';} ?>>SSL</option>
+                    <option value="tls" <?php if(get_option('smtp_encryption') == 'tls'){echo 'selected';} ?>>TLS</option>
+                </select>
+            </div>
+            <?php echo render_input('settings[smtp_host]','settings_email_host',get_option('smtp_host')); ?>
+            <?php echo render_input('settings[smtp_port]','settings_email_port',get_option('smtp_port')); ?>
+        </div>
+        <?php echo render_input('settings[smtp_email]','settings_email',get_option('smtp_email')); ?>
+        <div class="smtp-fields<?php if(get_option('email_protocol') == 'mail'){echo ' hide'; } ?>">
+            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('smtp_username_help'); ?>"></i>
+            <?php echo render_input('settings[smtp_username]','smtp_username',get_option('smtp_username')); ?>
+            <?php
+            $ps = get_option('smtp_password');
+            if(!empty($ps)){
+                if(false == $this->encryption->decrypt($ps)){
+                    $ps = $ps;
+                } else {
+                    $ps = $this->encryption->decrypt($ps);
+                }
+            }
+            echo render_input('settings[smtp_password]','settings_email_password',$ps,'password',array('autocomplete'=>'off')); ?>
+        </div>
+        <?php echo render_input('settings[smtp_email_charset]','settings_email_charset',get_option('smtp_email_charset')); ?>
+        <?php echo render_input('settings[bcc_emails]','bcc_all_emails',get_option('bcc_emails')); ?>
+        <?php echo render_textarea('settings[email_signature]','settings_email_signature',get_option('email_signature'), ['data-entities-encode'=>'true']); ?>
+        <hr />
+        <?php echo render_textarea('settings[email_header]','email_header',get_option('email_header'),array('rows'=>15, 'data-entities-encode'=>'true')); ?>
+        <?php echo render_textarea('settings[email_footer]','email_footer',get_option('email_footer'),array('rows'=>15, 'data-entities-encode'=>'true')); ?>
+        <hr />
+        <h4><?php echo _l('settings_send_test_email_heading'); ?></h4>
+        <p class="text-muted"><?php echo _l('settings_send_test_email_subheading'); ?></p>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="email" class="form-control" name="test_email" data-ays-ignore="true" placeholder="<?php echo _l('settings_send_test_email_string'); ?>">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default test_email p7">Test</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="email_queue">
+        <?php if(get_option('cron_has_run_from_cli') != '1') { ?>
+            <div class="alert alert-danger">
+                This feature requires a properly configured cron job. Before activating the feature, make sure that the <a href="<?php echo admin_url('settings?group=cronjob'); ?>">cron job</a> is configured as explanation in the documentation.
+            </div>
+        <?php } ?>
+        <?php render_yes_no_option('email_queue_enabled','email_queue_enabled','To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.'); ?>
+        <hr />
+        <?php render_yes_no_option('email_queue_skip_with_attachments','email_queue_skip_attachments','Most likely you will encounter problems with the email queue if the system needs to add big files to the queue. If you plan to use this option consult with your server administrator/hosting provider to increase the max_allowed_packet and wait_timeout options in your server config, otherwise when this option is set to yes the system won\'t add emails with attachments in the queue and will be sent immediately.'); ?>
     </div>
 </div>
-<div class=" btn-bottom-toolbar text-right ">
-    <button type="submit" class="btn btn-info">   Save Settings          </button>
-</div>
 
+<?php init_tail(); ?>
+<script>
+    $(function(){
+        var slug = "<?php echo $tab['slug']; ?>";
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var settingsForm = $('#settings-form');
+
+            if(settingsForm.hasClass('custom-update-url')) {
+                return;
+            }
+
+            var tab = $(this).attr('href').slice(1);
+            settingsForm.attr('action','<?php echo site_url($this->uri->uri_string()); ?>?group='+slug+'&active_tab='+tab);
+        });
+        $('input[name="settings[email_protocol]"]').on('change',function(){
+            if($(this).val() == 'mail'){
+                $('.smtp-fields').addClass('hide');
+            } else {
+                $('.smtp-fields').removeClass('hide');
+            }
+        });
+        $('.sms_gateway_active input').on('change',function(){
+            if($(this).val() == '1') {
+                $('body .sms_gateway_active').not($(this).parents('.sms_gateway_active')[0]).find('input[value="0"]').prop('checked',true);
+            }
+        });
+        <?php if ($tab['slug'] == 'pusher') {
+        ?>
+        <?php if (get_option('desktop_notifications') == '1') {
+        ?>
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            $('#pusherHelper').html('<div class="alert alert-danger">Your browser does not support desktop notifications, please disable this option or use more modern browser.</div>');
+        } else {
+            if(Notification.permission == "denied"){
+                $('#pusherHelper').html('<div class="alert alert-danger">Desktop notifications not allowed in browser settings, search on Google "How to allow desktop notifications for <?php echo $this->agent->browser(); ?>"</div>');
+            }
+        }
+        <?php
+        } ?>
+        <?php if (get_option('pusher_realtime_notifications') == '0') {
+        ?>
+        $('input[name="settings[desktop_notifications]"]').prop('disabled',true);
+        <?php
+        } ?>
+        <?php
+        } ?>
+        $('input[name="settings[pusher_realtime_notifications]"]').on('change',function(){
+            if($(this).val() == '1'){
+                $('input[name="settings[desktop_notifications]"]').prop('disabled',false);
+            } else {
+                $('input[name="settings[desktop_notifications]"]').prop('disabled',true);
+                $('input[name="settings[desktop_notifications]"][value="0"]').prop('checked',true);
+            }
+        });
+        $('.test_email').on('click', function() {
+            var email = $('input[name="test_email"]').val();
+            if (email != '') {
+                $(this).attr('disabled', true);
+                $.post(admin_url + 'emails/sent_smtp_test_email', {
+                    test_email: email
+                }).done(function(data) {
+                    window.location.reload();
+                });
+            }
+        });
+    });
+</script>
 

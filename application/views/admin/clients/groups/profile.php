@@ -16,11 +16,10 @@
                             <?php echo _l('customer_profile_details'); ?>
                         </a>
                     </li>
-                    <li role="presentation" class="<?php if (!$this->input->get('tab')) {
-                        echo 'active';
-                    }; ?>">
-                        <a href="#leistungsempfanger" aria-controls="leistungsempfanger" role="tab" data-toggle="tab">
-                            <?php echo _l('Leistungsempfänger '); ?>
+                    <li role="presentation">
+                        <a href="#leistungsempfanger" aria-controls="leistungsempfanger" role="tab"
+                           data-toggle="tab">
+                            <?php echo _l('Leistungsempfänger'); ?>
                         </a>
                     </li>
                     <?php
@@ -193,123 +192,61 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane<?php if (!$this->input->get('tab')) {
-                echo ' active';
-            }; ?>" id="leistungsempfanger">
+
+            <div role="tabpanel" class="tab-pane" id="leistungsempfanger">
                 <div class="row">
-                    <div class="col-md-12 mtop15 <?php if (isset($client) && (!is_empty_customer_company($client->userid) && total_rows(db_prefix() . 'contacts', array('userid' => $client->userid, 'is_primary' => 1)) > 0)) {
-                        echo '';
-                    } else {
-                        echo ' hide';
-                    } ?>" id="client-show-primary-contact-wrapper">
-                        <div class="checkbox checkbox-info mbot20 no-mtop">
-                            <input type="checkbox"
-                                   name="show_primary_contact"<?php if (isset($client) && $client->show_primary_contact == 1) {
-                                echo ' checked';
-                            } ?> value="1" id="show_primary_contact">
-                            <label for="show_primary_contact"><?php echo _l('show_primary_contact', _l('invoices') . ', ' . _l('estimates') . ', ' . _l('payments') . ', ' . _l('credit_notes')); ?></label>
-                        </div>
-                    </div>
                     <div class="col-md-6">
-                        <?php $value = (isset($client) ? $client->company : ''); ?>
+                        <?php $value = (isset($client) ? $client->company_le : ''); ?>
                         <?php $attrs = (isset($client) ? array() : array('autofocus' => true)); ?>
-                        <?php echo render_input('company', 'client_company', $value, 'text', $attrs); ?>
+                        <?php echo render_input('company_le', 'client_company', $value, 'text', $attrs); ?>
                         <div id="company_exists_info" class="hide"></div>
                         <!-- <?php /*$value = (isset($client) ? $client->address : ''); */ ?>
                         --><?php /*echo render_textarea('address', 'client_address', $value); */ ?>
-                        <?php $value = (isset($client) ? $client->strabe : ''); ?>
-                        <?php echo render_input('strabe', 'Straße', $value); ?>
-                        <?php $value = (isset($client) ? $client->hausnummer : ''); ?>
-                        <?php echo render_input('hausnummer', 'Hausnummer', $value); ?>
-                        <?php $value = (isset($client) ? $client->zip : ''); ?>
-                        <?php echo render_input('zip', 'client_postal_code', $value); ?>
-                        <?php $value = (isset($client) ? $client->city : ''); ?>
-                        <?php echo render_input('city', 'client_city', $value); ?>
-                        <?php $value = (isset($client) ? $client->state : ''); ?>
-                        <?php echo render_input('state', 'client_state', $value); ?>
+                        <?php $value = (isset($client) ? $client->strabe_le : ''); ?>
+                        <?php echo render_input('strabe_le', 'Straße', $value); ?>
+                        <?php $value = (isset($client) ? $client->hausnummer_le : ''); ?>
+                        <?php echo render_input('hausnummer_le', 'Hausnummer', $value); ?>
+                        <?php $value = (isset($client) ? $client->zip_le : ''); ?>
+                        <?php echo render_input('zip_le', 'client_postal_code', $value); ?>
+                        <?php $value = (isset($client) ? $client->city_le : ''); ?>
+                        <?php echo render_input('city_le', 'client_city', $value); ?>
+                        <?php $value = (isset($client) ? $client->state_le : ''); ?>
+                        <?php echo render_input('state_le', 'client_state', $value); ?>
                         <?php $countries = get_all_countries();
                         $customer_default_country = get_option('customer_default_country');
-                        $selected = (isset($client) ? $client->country : $customer_default_country);
-                        echo render_select('country', $countries, array('country_id', array('short_name')), 'clients_country', $selected, array('data-none-selected-text' => _l('dropdown_non_selected_tex')));
+                        $selected = (isset($client) ? $client->country_le : $customer_default_country);
+                        echo render_select('country_le', $countries, array('country_id', array('short_name')), 'clients_country', $selected, array('data-none-selected-text' => _l('dropdown_non_selected_tex')));
                         ?>
-                        <?php $selected = array();
-                        if (isset($customer_groups)) {
-                            foreach ($customer_groups as $group) {
-                                array_push($selected, $group['groupid']);
-                            }
-                        }
-                        /*  if(is_admin() || get_option('staff_members_create_inline_customer_groups') == '1'){
-                           echo render_select_with_input_group('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,'<a href="#" data-toggle="modal" data-target="#customer_group_modal"><i class="fa fa-plus"></i></a>',array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
-                           } else {
-                             echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
-                           }*/
-                        ?>
-                        <?php if (!isset($client)) { ?>
-                            <!--     <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php /*echo _l('customer_currency_change_notice'); */ ?>"></i>-->
-                        <?php }
-                        $s_attrs = array('data-none-selected-text' => _l('system_default_string'));
-                        $selected = '';
-                        if (isset($client) && client_have_transactions($client->userid)) {
-                            $s_attrs['disabled'] = true;
-                        }
-                        foreach ($currencies as $currency) {
-                            if (isset($client)) {
-                                if ($currency['id'] == $client->default_currency) {
-                                    $selected = $currency['id'];
-                                }
-                            }
-                        }
-                        // Do not remove the currency field from the customer profile!
-                        echo render_input('default_currency', '', $selected, 'hidden'); ?>
-                        <!--       <?php /*if(get_option('disable_language') == 0){ */ ?>
-                  <div class="form-group select-placeholder">
-                     <label for="default_language" class="control-label"><?php /*echo _l('localization_default_language'); */ ?>
-                     </label>
-                     <select name="default_language" id="default_language" class="form-control selectpicker" data-none-selected-text="<?php /*echo _l('dropdown_non_selected_tex'); */ ?>">
-                        <option value=""><?php /*echo _l('system_default_string'); */ ?></option>
-                        <?php /*foreach($this->app->get_available_languages() as $availableLanguage){
-                           $selected = '';
-                           if(isset($client)){
-                              if($client->default_language == $availableLanguage){
-                                 $selected = 'selected';
-                              }
-                           }
-                           */ ?>
-                        <option value="<?php /*echo $availableLanguage; */ ?>" <?php /*echo $selected; */ ?>><?php /*echo ucfirst($availableLanguage); */ ?></option>
-                        <?php /*} */ ?>
-                     </select>
-                  </div>
-                  --><?php /*} */ ?>
                     </div>
                     <div class="col-md-6">
 
                         <?php if (get_option('company_requires_vat_number_field') == 1) {
-                            $value = (isset($client) ? $client->vat : '');
-                            echo render_input('vat', 'client_vat_number', $value);
+                            $value = (isset($client) ? $client->vat_le : '');
+                            echo render_input('vat_le', 'client_vat_number', $value);
                         } ?>
 
-                        <?php $value = (isset($client) ? $client->email : ''); ?>
-                        <?php echo render_input('email', 'Email', $value); ?>
-                        <?php $value = (isset($client) ? $client->phonenumber : ''); ?>
-                        <?php echo render_input('phonenumber', 'client_phonenumber', $value); ?>
-                        <?php if ((isset($client) && empty($client->website)) || !isset($client)) {
-                            $value = (isset($client) ? $client->website : '');
-                            echo render_input('website', 'client_website', $value);
+                        <?php $value = (isset($client) ? $client->email_le : ''); ?>
+                        <?php echo render_input('email_le', 'Email', $value); ?>
+                        <?php $value = (isset($client) ? $client->telefon_le : ''); ?>
+                        <?php echo render_input('telefon_le', 'client_phonenumber', $value); ?>
+                        <?php if ((isset($client) && empty($client->website_le)) || !isset($client)) {
+                            $value = (isset($client) ? $client->website_le : '');
+                            echo render_input('website_le', 'client_website', $value);
                         } else { ?>
                             <div class="form-group">
                                 <label for="website"><?php echo _l('client_website'); ?></label>
                                 <div class="input-group">
-                                    <input type="text" name="website" id="website"
-                                           value="<?php echo $client->website; ?>" class="form-control">
+                                    <input type="text" name="website_le" id="website"
+                                           value="<?php echo $client->website_le; ?>" class="form-control">
                                     <div class="input-group-addon">
-                                        <span><a href="<?php echo maybe_add_http($client->website); ?>" target="_blank"
+                                        <span><a href="<?php echo maybe_add_http($client->website_le); ?>" target="_blank"
                                                  tabindex="-1"><i class="fa fa-globe"></i></a></span>
                                     </div>
                                 </div>
                             </div>
                         <?php } ?>
-                        <?php $value = (isset($client) ? $client->note : ''); ?>
-                        <?php echo render_textarea('note', 'Notizen', $value); ?>
+                        <?php $value = (isset($client) ? $client->notizen_le : ''); ?>
+                        <?php echo render_textarea('notizen_le', 'Notizen', $value); ?>
 
                     </div>
                 </div>
@@ -388,9 +325,10 @@
                                         </td>
                                         <td>
                                             <a href="#"
-                                               data-id="<?= $ansprechpartner['id'] ?>" class="btn btn-default _edit btn-icon"><i
+                                               data-id="<?= $ansprechpartner['id'] ?>"
+                                               class="btn btn-default _edit btn-icon"><i
                                                         class="fa fa-pencil"></i></a>
-                                            <a href="<?php echo admin_url('clients/delete_ansprechpartner/'.$client->userid.'/' . $ansprechpartner['id']); ?>"
+                                            <a href="<?php echo admin_url('clients/delete_ansprechpartner/' . $client->userid . '/' . $ansprechpartner['id']); ?>"
                                                class="btn btn-danger _delete btn-icon"><i class="fa fa-remove"></i></a>
                                         </td>
                                     </tr>
@@ -488,20 +426,15 @@
                     <?= form_hidden('userid', $client->userid); ?>
                     <div class="row">
                         <div class="col-md-6">
-                            <?php $value = (isset($client) ? $client->vorname_a : ''); ?>
-                            <?php echo render_input('vorname', 'Vorname', $value); ?>
-                            <?php $value = (isset($client) ? $client->nachname_a : ''); ?>
+                            <?php $value = '' ?>
+                            <?php echo render_input('vorname', 'Vorname', ''); ?>
                             <?php echo render_input('nachname', 'Nachname', $value); ?>
-                            <?php $value = (isset($client) ? $client->position_a : ''); ?>
                             <?php echo render_input('position', 'Position', $value); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <?php $value = (isset($client) ? $client->email_a : ''); ?>
                             <?php echo render_input('email', 'Email', $value); ?>
-                            <?php $value = (isset($client) ? $client->telefon_a : ''); ?>
                             <?php echo render_input('telefon', 'Telefon', $value); ?>
-                            <?php $value = (isset($client) ? $client->notizen_a : ''); ?>
                             <?php echo render_textarea('notizen', 'Notizen', $value); ?>
                         </div>
                     </div>

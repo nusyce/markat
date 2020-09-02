@@ -91,7 +91,7 @@ class Wohnungen_model extends App_Model
     public function get_inventar($id = false)
     {
         $this->db->where('id', $id);
-        return $this->db->get(db_prefix() . 'inventarliste')->row()->name;
+        return $this->db->get(db_prefix() . 'inventarliste')->row();
     }
 
     /**

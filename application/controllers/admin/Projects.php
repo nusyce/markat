@@ -116,6 +116,7 @@ class Projects extends AdminController
         $data['settings'] = $this->projects_model->get_settings();
         $data['statuses'] = $this->projects_model->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
+
         $data['title'] = $title;
         $this->load->view('admin/projects/project', $data);
     }
@@ -123,6 +124,8 @@ class Projects extends AdminController
     public function gantt()
     {
         $data['title'] = _l('project_gant');
+
+
 
         $selected_statuses = [];
         $selectedMember    = null;
@@ -1102,14 +1105,5 @@ class Projects extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
-    }
-
-    public function getMieters($projektId) {
-        $mieters = $this->mieter_model->get_mieters(['projektname' => $projektId]);
-        foreach ($mieters as $mieter) {
-            $options .= '<option value="' . $mieter['id'] . '">' . $mieter['fullname'] . ' </option>';
-        }
-        echo json_encode($options);
-        die();
     }
 }

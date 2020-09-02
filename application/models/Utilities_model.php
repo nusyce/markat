@@ -45,7 +45,7 @@ class Utilities_model extends App_Model
             }
             $this->db->where('eventid', $data['eventid']);
             $this->db->update(db_prefix() . 'events', $data);
-        //    $this->assignusertoevent($users, $data['eventid']); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+            $this->assignusertoevent($users, $data['eventid']); // commented By Amogh : As Event_rel_staff Table wont exist in DB
             if ($this->db->affected_rows() > 0) {
                 return true;
             }
@@ -59,7 +59,7 @@ class Utilities_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
-           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+            $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
             return true;
         }
 
@@ -114,9 +114,9 @@ class Utilities_model extends App_Model
         $is_staff_member = is_staff_member();
         $this->db->select('title,start,end,eventid,userid,color,public');
         // Check if is passed start and end date
-        //$this->db->join(db_prefix() . 'event_rel_staff', db_prefix() . 'event_rel_staff.event_id=' . db_prefix() . 'events.eventid', 'left');
+        $this->db->join(db_prefix() . 'event_rel_staff', db_prefix() . 'event_rel_staff.event_id=' . db_prefix() . 'events.eventid', 'left'); // uncomment after relation table
         $this->db->where('(start BETWEEN "' . $start . '" AND "' . $end . '")');
-        //$this->db->where(db_prefix() . 'event_rel_staff.user_id', get_staff_user_id());
+        $this->db->where(db_prefix() . 'event_rel_staff.user_id', get_staff_user_id()); //uncommented after event relation table
         if ($is_staff_member) {
             $this->db->or_where('public', 1);
         }
@@ -129,6 +129,14 @@ class Utilities_model extends App_Model
         $this->db->where('eventid', $id);
 
         return $this->db->get(db_prefix() . 'events')->row();
+    }
+
+    public function get_event_user($id )
+    {
+        $this->db->where('event_id', $id);
+        $this->db->where('user_id', get_staff_user_id());
+
+        return $this->db->get(db_prefix() . 'event_rel_staff')->row();
     }
 
     public function get_calendar_data($start, $end, $client_id = '', $contact_id = '', $filters = false)
@@ -233,7 +241,6 @@ class Utilities_model extends App_Model
                 array_push($data, $invoice);
             }
         }
-
         if (get_option('show_estimates_on_calendar') == 1 && !$ff || $ff && array_key_exists('estimates', $filters)) {
             $noPermissionsQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
 
@@ -369,7 +376,6 @@ class Utilities_model extends App_Model
                         $task['url'] = site_url('clients/project/' . $task['rel_id'] . '?group=project_tasks&taskid=' . $task['id']);
                     }
                     array_push($data, $task);
-
                 }
             }
         }
@@ -481,7 +487,6 @@ class Utilities_model extends App_Model
                 array_push($data, $_contract);
             }
         }
-
         //calendar_project
         if (get_option('show_projects_on_calendar') == 1 && !$ff || $ff && array_key_exists('projects', $filters)) {
             $this->load->model('projects_model');
@@ -571,4 +576,36 @@ class Utilities_model extends App_Model
 
         return false;
     }
+
+    public function user_role_data($data)
+    {
+
+        $this->db->insert(db_prefix() . 'folder_mapping', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+            return true;
+        }
+
+        return false;
+    }
+    public function get_elfinder_id($dir,$name)
+    {
+
+        $sql = 'SELECT id FROM elfinder_file WHERE mtime=\'' . $dir . '\' AND name=\'' .$name. '\'';
+        //$sql="Select * from my_table where 1";
+    $query = $this->db->query($sql);
+    $res = $query->row();
+   // return $query->result_array();
+      //  $this->db->where('name', $name);
+      //  $this->db->where('parent_id', $dir);
+       // $res = $this->db->get('elfinder_file')->row();
+        if (!empty($res)) {
+            return $res->id;
+        }
+
+        return false;
+    }
+
 }

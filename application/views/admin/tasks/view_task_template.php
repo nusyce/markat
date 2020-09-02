@@ -1151,6 +1151,10 @@
                 <div id="dropbox-chooser-task"></div>
             </div>
             <div class="report-action">
+                <a href="#" onclick="slideToggle('.tasks-comments'); return false;"  class="btn  btn-primary">PDF Dokumentation vorher:</a>
+                <br>
+                <a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation danach:</a>
+                <br>
                 <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>" class="btn  btn-primary">PDF
                     Arbeitsnachweib</a>
                 <br>

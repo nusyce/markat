@@ -3,10 +3,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $this->ci->load->model('wohnungen_model');
+$this->ci->load->model('belegungsplan_model');
 $aColumns = [
     '1',
-    db_prefix() . 'wohnungen.id as id',
-    'strabe',1,
+    db_prefix() . 'wohnungen.id as id', 1,1,
+    'strabe',
     'hausnummer',
     'etage',
     'flugel',
@@ -86,24 +87,27 @@ foreach ($rResult as $aRow) {
     }
     // $row[] = $strabe;
 
-    $subjectOutput = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . $aRow['strabe'] . '</a>';
 
-    $subjectOutput .= '<div class="row-options">';
+    $calendar = '<div class="row-options-calendar"><a href="#" data-toggle="modal" data-target="#calendarmx' . $aRow['id'] . '">';
+    $calendar .= '  <div class="selcet">Kalender</div></a>';
+    $row[] = $calendar;
 
-    // $subjectOutput .= '<a href="' . site_url('wohnungen/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>' |;
+    $occupation = $this->ci->belegungsplan_model->get_occupations(array('wohnungen' => $aRow['id']));
+    $class = $occupation ? ' enabled' : ' disabled';
+    $gantchart = '<div class="row-options-gantchart '.$class.'"><a href="#"  data-id="' . $aRow['id'] . '" data-target="#gantmgre51">';
+    $gantchart .= '  <div class="selcet">Gant Chart</div></a>';
+    $row[] = $gantchart;
 
-    $subjectOutput .= '  <a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    $options = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . $aRow['strabe'] . '</a>';
+    $options .= '<div class="row-options">';
+    $options .= '  <a href="' . admin_url('wohnungen/wohnungen/' . $aRow['id']) . '">' . _l('edit') . '</a>';
 
     /*    if (has_permission('wohnungen', '', 'delete')) {*/
-    $subjectOutput .= ' | <a href="' . admin_url('wohnungen/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-    $subjectOutput .= ' | <a href="' . admin_url('wohnungen/pdf/' . $aRow['id']) . '/?output_type=I">PDF</a>';
+    $options .= ' | <a href="' . admin_url('wohnungen/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    $options .= ' | <a href="' . admin_url('wohnungen/pdf/' . $aRow['id']) . '/?output_type=I">PDF</a>';
     /* }*/
-
-    $subjectOutput .= '</div>';
-    $row[] = $subjectOutput;
-    $subjectOutput = '<div class="row-options-calendar"><a href="#" data-toggle="modal" data-target="#calendarmx' . $aRow['id'] . '">';
-    $subjectOutput .= '  <div class="selcet">Kalender</div></a>';
-    $row[] = $subjectOutput;
+    $options .= '</div>';
+    $row[] = $options;
 
     //$row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['company'] . '</a>';
 
@@ -144,7 +148,6 @@ foreach ($rResult as $aRow) {
         $row['DT_RowClass'] = 'has-row-options';
     }
 
-    $row = hooks()->apply_filters('wohnungen_table_row_data', $row, $aRow);
 
     $output['aaData'][] = $row;
 }
