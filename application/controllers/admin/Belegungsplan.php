@@ -40,7 +40,6 @@ class Belegungsplan extends AdminController
 
     public function table1()
     {
-///            print_r($this->input->get());
         $filters = [];
         $demoSource = [];
         if($this->input->get('belegt_v')){ $filters['belegt_v'] = to_sql_datedv($this->input->get('belegt_v')); }
