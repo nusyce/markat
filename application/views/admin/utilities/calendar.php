@@ -61,7 +61,7 @@
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
-				
+
 		
 			$('#newEventModal').modal('show');
 				
@@ -81,7 +81,7 @@
 	} 
 
 // function use to drop event on tasked box will optimize this code latter
-/*	function dragDrop_event(ev) { 
+	function dragDrop_event(ev) { 
     	ev.preventDefault(); 
 		var data1 = ev.dataTransfer.getData("text"); 
 		if (ev.target.tagName != 'TD'){
@@ -90,13 +90,21 @@
 		else {
 			appchild = ev.target.appendChild(document.getElementById(data1).cloneNode(true)); 
 			$(appchild).removeClass('buttonlike').addClass('buttondragged');
-			var th  = $(ev.target).parent().parent().parent().find('thead td').eq($(ev.target).index());
+
+			var colspanToAdd = 0;
+			var index = $(ev.target).index(); 
+			var tds = $(ev.target).closest('tr').find('td');
+			for (i=0; i < index; i++){
+				colspanToAdd += tds[i].colSpan;
+			}
+			var th  = $(ev.target).parent().parent().parent().find('thead td').eq(colspanToAdd);
 			var tar_date = $(th).attr('data-date');
 			var elemid = [];
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
-		    $('#newEventModal').modal('show');
+			$('#newEventModal').modal('show');
+			//alert('droped row -' + (parseInt($(ev.target).parents('td').index()) + 1));
 		
 		    setTimeout(() => {
 			
@@ -112,7 +120,7 @@
 		    }, 100);
 
 		}
-    } */
+    } 
 
     function closebox(ev){
     {

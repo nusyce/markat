@@ -38,7 +38,8 @@
     border: 0px solid #999;
     background-color: #2196f3;
     border-radius: 2px;
-    margin: 12px 10px;
+    margin: 6px 10px;
+    font-size:12px;
     position: relative;
     z-index: 50;
 }
