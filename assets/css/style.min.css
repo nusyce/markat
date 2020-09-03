@@ -5641,10 +5641,6 @@ body.rtl div.dataTables_wrapper {
     width: 150px
 }
 
-.fn-gantt *, .fn-gantt :after, .fn-gantt :before {
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box
-}
 
 .width300 {
     width: 300px
