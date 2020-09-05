@@ -3,23 +3,42 @@
 <div id="wrapper">
 	<div class="content">
 		<div class="row">
-			<div class="col-xs-10 col-md-10">
+		<?php 
+		if(has_permission('personalplan', get_staff_user_id(), 'edit')) {
+			echo '<div class="col-xs-10 col-md-10">';
+		}
+		else {
+			echo '<div class="col-xs-12 col-md-12">';
+		}
+		?>
 				<div class="panel_s">
 					<div class="panel-body" style="overflow-x: auto;">
 						<div class="dt-loader hide"></div>
-						<?php $this->load->view('admin/utilities/calendar_filters'); ?>
+						
+						<?php
+							if(has_permission('personalplan', get_staff_user_id(), 'view')){
+								$this->load->view('admin/utilities/calendar_filters'); 
+							} 
+						?>
 						<div id="calendar"></div>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-2 col-md-2">
-				<div class="panel_s">
-					<div class="panel-body" style="overflow-x: auto;">
-
-						<?php $this->load->view('admin/utilities/calendar_empsidelist'); ?>
-					</div>
-				</div>
-			</div>
+			
+			<?php	
+				if(has_permission('personalplan', get_staff_user_id(), 'edit') || is_admin()){
+					echo'<div class="col-xs-2 col-md-2">
+							<div class="panel_s">
+								<div class="panel-body" style="overflow-x: auto;">
+						';
+									$this->load->view('admin/utilities/calendar_empsidelist');
+						
+					echo'		</div>
+							</div>
+						</div>
+						';	
+				} 
+			?>
 		</div>
 	</div>
 </div>
@@ -38,7 +57,8 @@
 
 	// Drag and Drop Js  
     function allowDrop(ev) { 
-        ev.preventDefault(); 
+		ev.preventDefault(); 
+		//alert("The cursor just exited the " + ev.relatedTarget+ " element.");
     } 
         
     function dragStart(ev) { 
@@ -54,13 +74,13 @@
 		}
 		else{
 			appchild = ev.target.appendChild(document.getElementById(data1).cloneNode(true)); 
-				$(appchild).removeClass('buttonlike').addClass('buttondragged');
+				$(appchild).removeClass('buttonlike').addClass('buttondragged ');
 			var tar_date = $(ev.target).attr('data-date');
 			var elemid = [];
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
-				
+
 		
 			$('#newEventModal').modal('show');
 				
@@ -89,13 +109,21 @@
 		else {
 			appchild = ev.target.appendChild(document.getElementById(data1).cloneNode(true)); 
 			$(appchild).removeClass('buttonlike').addClass('buttondragged');
-			var th  = $(ev.target).parent().parent().parent().find('thead td').eq($(ev.target).index());
+
+			var colspanToAdd = 0;
+			var index = $(ev.target).index(); 
+			var tds = $(ev.target).closest('tr').find('td');
+			for (i=0; i < index; i++){
+				colspanToAdd += tds[i].colSpan;
+			}
+			var th  = $(ev.target).parent().parent().parent().find('thead td').eq(colspanToAdd);
 			var tar_date = $(th).attr('data-date');
 			var elemid = [];
 			for(var i=0; i<$(ev.target).find("div[id^=emp_]").length; i++){
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
-		    $('#newEventModal').modal('show');
+			$('#newEventModal').modal('show');
+			//alert('droped row -' + (parseInt($(ev.target).parents('td').index()) + 1));
 		
 		    setTimeout(() => {
 			
