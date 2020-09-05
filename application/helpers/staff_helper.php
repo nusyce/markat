@@ -118,6 +118,11 @@ function get_available_staff_permissions($data = [])
             'name' => _l('staff'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
+        
+        'personalplan' => [
+            'name' => _l('personalplan'),
+            'capabilities' => $ $allPermissionsArray,
+        ],
 
         'factoring' => [
             'name' => get_menu_option('factoring', _l('Factoring')),

@@ -75,7 +75,7 @@ class Utilities extends AdminController
                 'success' => $success,
                 'message' => $message,
             ]);
-            die();
+           die();
         }
         $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
         $data['staffs'] = $this->staff_model->get();
@@ -112,8 +112,8 @@ class Utilities extends AdminController
                 }
 
                 
-        } else {
-            $this->load->view('admin/utilities/event', $data);
+        } else {       
+            $this->load->view('admin/utilities/event', $data); 
         }
     }
 

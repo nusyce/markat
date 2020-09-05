@@ -13,7 +13,7 @@
             <?php if($event->userid != get_staff_user_id()){ ?>
               <div class="alert alert-info"><?php echo _l('event_created_by','<a href="'.admin_url('profile/'.$event->userid).'" target="_blank">'.get_staff_full_name($event->userid)).'</a>'; ?></div>
             <?php } ?>
-            <?php if(($event->userid == get_staff_user_id() && has_permission('calendar','','edit')) || is_admin()){ ?>
+            <?php if((false)&&($event->userid == get_staff_user_id() && has_permission('personalplan',get_staff_user_id(),'edit')) || is_admin()) { ?>
               <?php echo form_hidden('eventid',$event->eventid); ?>
               <?php echo render_input('title','utility_calendar_new_event_placeholder',$event->title); ?>
               <?php echo render_textarea('description','event_description',$event->description,array('rows'=>5)); ?>
@@ -87,11 +87,11 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-    <?php if(($event->userid == get_staff_user_id() && has_permission('calendar','','edit')) || is_admin()){ ?>
+    <?php if(($event->userid == get_staff_user_id() && has_permission('personalplan',get_staff_user_id(),'edit')) || is_admin()){ ?>
       <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
-      <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+      <!--button type="submit" class="btn btn-info">< ?php echo _l('submit'); ?></button-->
     <?php } ?>
-    <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
+    
   </div>
   <?php echo form_close(); ?>
 </div><!-- /.modal-content -->
