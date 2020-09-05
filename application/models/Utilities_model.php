@@ -148,7 +148,8 @@ class Utilities_model extends App_Model
         
         $is_admin = is_admin();
         if ($is_admin) {
-            $is_admin = has_permission('calendar', '', 'edit');
+            //$is_admin = has_permission('calendar', '', 'edit');
+            $is_admin = has_permission('personalplan','', 'edit');            
         }
         $has_permission_tasks_view = has_permission('tasks', '', 'view');
         $has_permission_projects_view = has_permission('projects', '', 'view');
