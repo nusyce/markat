@@ -1,99 +1,378 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal fade _event" id="viewEvent">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $event->title; ?></h4>
-      </div>
-      <?php echo form_open('admin/utilities/calendar',array('id'=>'calendar-event-form')); ?>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <?php if($event->userid != get_staff_user_id()){ ?>
-              <div class="alert alert-info"><?php echo _l('event_created_by','<a href="'.admin_url('profile/'.$event->userid).'" target="_blank">'.get_staff_full_name($event->userid)).'</a>'; ?></div>
-            <?php } ?>
-            <?php if((false)&&($event->userid == get_staff_user_id() && has_permission('personalplan',get_staff_user_id(),'edit')) || is_admin()) { ?>
-              <?php echo form_hidden('eventid',$event->eventid); ?>
-              <?php echo render_input('title','utility_calendar_new_event_placeholder',$event->title); ?>
-              <?php echo render_textarea('description','event_description',$event->description,array('rows'=>5)); ?>
-              <?php echo render_datetime_input('start','utility_calendar_new_event_start_date',_dt($event->start)); ?>
-              <div class="clearfix mtop15"></div>
-              <?php echo render_datetime_input('end','utility_calendar_new_event_end_date',_dt($event->end)); ?>
-              <?php if(total_rows('emailtemplates', ['active'=>1,'slug'=>'event-notification-to-staff']) > 0){ ?>
-              <div class="form-group">
-               <div class="row">
-                <div class="col-md-12">
-                  <label for="reminder_before"><?php echo _l('event_notification'); ?></label>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group">
-                    <input type="number" class="form-control" name="reminder_before" value="<?php echo $event->reminder_before; ?>" id="reminder_before">
-                    <span class="input-group-addon"><i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('reminder_notification_placeholder'); ?>"></i></span>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                 <select name="reminder_before_type" id="reminder_before_type" class="selectpicker" data-width="100%">
-                   <option value="minutes"<?php if($event->reminder_before_type == 'minutes'){echo ' selected';} ?>><?php echo _l('minutes'); ?></option>
-                   <option value="hours"<?php if($event->reminder_before_type == 'hours'){echo ' selected';} ?>><?php echo _l('hours'); ?></option>
-                   <option value="days"<?php if($event->reminder_before_type == 'days'){echo ' selected';} ?>><?php echo _l('days'); ?></option>
-                   <option value="weeks"<?php if($event->reminder_before_type == 'weeks'){echo ' selected';} ?>><?php echo _l('weeks'); ?></option>
-                 </select>
-               </div>
-             </div>
-           </div>
-            <?php } ?>
-           <hr />
-           <p class="bold"><?php echo _l('event_color'); ?></p>
-           <?php
-           $event_colors = '';
-           $favourite_colors = get_system_favourite_colors();
-           $i = 0;
-           foreach($favourite_colors as $color){
-            $color_selected_class = 'cpicker-small';
-            if($color == $event->color){
-              $color_selected_class = 'cpicker-big';
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Utilities extends AdminController
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('utilities_model');
+        $this->load->model('staff_model');
+    }
+
+    /* All perfex activity log */
+    public function activity_log()
+    {
+        // Only full admin have permission to activity log
+        if (!is_admin()) {
+            access_denied('Activity Log');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('activity_log');
+        }
+        $data['title'] = _l('utility_activity_log');
+        $this->load->view('admin/utilities/activity_log', $data);
+    }
+
+    /* All perfex activity log */
+    public function pipe_log()
+    {
+        // Only full admin have permission to activity log
+        if (!is_admin()) {
+            access_denied('Ticket Pipe Log');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('ticket_pipe_log');
+        }
+        $data['title'] = _l('ticket_pipe_log');
+        $this->load->view('admin/utilities/ticket_pipe_log', $data);
+    }
+
+    public function clear_activity_log()
+    {
+        if (!is_admin()) {
+            access_denied('Clear activity log');
+        }
+        $this->db->empty_table(db_prefix() . 'activity_log');
+        redirect(admin_url('utilities/activity_log'));
+    }
+
+    public function clear_pipe_log()
+    {
+        if (!is_admin()) {
+            access_denied('Clear ticket pipe activity log');
+        }
+        $this->db->empty_table(db_prefix() . 'tickets_pipe_log');
+        redirect(admin_url('utilities/pipe_log'));
+    }
+
+    /* Calendar functions */
+    public function calendar()
+    {
+        if ($this->input->post() && $this->input->is_ajax_request()) {
+            $data    = $this->input->post();
+            $success = $this->utilities_model->event($data);
+            $message = '';
+            if ($success) {
+                if (isset($data['eventid'])) {
+                    $message = _l('event_updated');
+                } else {
+                    $message = _l('utility_calendar_event_added_successfully');
+                }
             }
-            $event_colors .= "<div class='calendar-cpicker cpicker ".$color_selected_class."' data-color='".$color."' style='background:".$color.";border:1px solid ".$color."'></div>";
-            $i++;
-          }
-          echo '<div class="cpicker-wrapper">';
-          echo $event_colors;
-          echo '</div>';
-          echo form_hidden('color',$event->color);
-          ?>
+            echo json_encode([
+                'success' => $success,
+                'message' => $message,
+            ]);
+           die();
+        }
+        $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
+        $data['staffs'] = $this->staff_model->get();
+        $data['google_calendar_api']  = get_option('google_calendar_api_key');
+        $data['title']                = _l('Personalplan');
+        add_calendar_assets();
 
-          <div class="clearfix"></div>
-          <hr />
-          <div class="checkbox checkbox-primary">
-            <input type="checkbox" name="public" id="event_public" <?php if($event->public == 1){echo 'checked';} ?>>
-            <label for="event_public"><?php echo _l('utility_calendar_new_event_make_public'); ?></label>
-          </div>
-        <?php } else { ?>
-          <a href="<?php echo admin_url('profile/'.$event->userid); ?>"><?php echo staff_profile_image($event->userid,array('staff-profile-xs-image')); ?> <?php echo get_staff_full_name($event->userid); ?></a>
-          <hr />
-          <h5 class="bold"><?php echo _l('event_description'); ?></h5>
-          <p><?php echo $event->description; ?></p>
-          <h5 class="bold"><?php echo _l('utility_calendar_new_event_start_date'); ?></h5>
-          <p><?php echo _dt($event->start); ?></p>
-          <?php if(is_date($event->end)){ ?>
-            <h5 class="bold"><?php echo _l('utility_calendar_new_event_end_date'); ?></h5>
-            <p><?php echo _dt($event->end); ?></p>
-          <?php } ?>
-        <?php } ?>
-      </div>
-    </div>
-  </div>
+        $this->load->view('admin/utilities/calendar', $data);
+    }
 
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-    <?php if(($event->userid == get_staff_user_id() && has_permission('personalplan',get_staff_user_id(),'edit')) || is_admin()){ ?>
-      <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
-      <!--button type="submit" class="btn btn-info">< ?php echo _l('submit'); ?></button-->
-    <?php } ?>
-    
-  </div>
-  <?php echo form_close(); ?>
-</div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    public function get_calendar_data()
+    {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->utilities_model->get_calendar_data(
+                $this->input->post('start'),
+                $this->input->post('end'),
+                '',
+                '',
+                $this->input->post()
+            ));
+            die();
+        }
+    }
+
+    public function view_event($id)
+    {
+        $data['event'] = $this->utilities_model->get_event($id);
+        $even_relation = $this->utilities_model->get_event_users($id);
+        $data['event']->user= array_column( $even_relation,"user_id");
+        print_r($data);
+        if ($data['event']->public == 1 && !is_staff_member()
+            || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
+                
+
+                if($even_relation->event_id == $id){
+                    $this->load->view('admin/utilities/event', $data);
+                }
+
+                
+        } else {       
+            $this->load->view('admin/utilities/event', $data); 
+        }
+    }
+
+    public function delete_event($id)
+    {
+        if ($this->input->is_ajax_request()) {
+            $event = $this->utilities_model->get_event_by_id($id);
+            if ($event->userid != get_staff_user_id() && !is_admin()) {
+                echo json_encode([
+                    'success' => false,
+                ]);
+                die;
+            }
+            $success = $this->utilities_model->delete_event($id);
+            $message = '';
+            if ($success) {
+                $message = _l('utility_calendar_event_deleted_successfully');
+            }
+            echo json_encode([
+                'success' => $success,
+                'message' => $message,
+            ]);
+            die();
+        }
+    }
+
+    // Moved here from version 1.0.5
+    public function media()
+    {
+        $this->load->helper('url');
+        $data['title']     = _l('media_files');
+        $data['connector'] = admin_url() . '/utilities/media_connector';
+
+        $mediaLocale = get_media_locale();
+
+        $this->app_scripts->add('media-js', 'assets/plugins/elFinder/js/elfinder.min.js');
+
+        if (file_exists(FCPATH . 'assets/plugins/elFinder/js/i18n/elfinder.' . $mediaLocale . '.js') && $mediaLocale != 'en') {
+            $this->app_scripts->add('media-lang-js', 'assets/plugins/elFinder/js/i18n/elfinder.' . $mediaLocale . '.js');
+        }
+
+        $this->load->view('admin/utilities/media', $data);
+    }
+
+    public function media_connector()
+    {
+        $media_folder = $this->app->get_media_folder();
+        $mediaPath    = FCPATH . $media_folder;
+
+        if (!is_dir($mediaPath)) {
+            mkdir($mediaPath, 0755);
+        }
+
+        if (!file_exists($mediaPath . '/index.html')) {
+            $fp = fopen($mediaPath . '/index.html', 'w');
+            if ($fp) {
+                fclose($fp);
+            }
+        }
+
+        $this->load->helper('path');
+
+        $root_options = [
+            'driver' => 'LocalFileSystem',
+            'path'   => set_realpath($media_folder),
+            'URL'    => site_url($media_folder) . '/',
+            //'debug'=>true,
+            'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
+            'accessControl' => 'access_control_media',
+            'uploadDeny'    => [
+                'application/x-httpd-php',
+                'application/php',
+                'application/x-php',
+                'text/php',
+                'text/x-php',
+                'application/x-httpd-php-source',
+                'application/perl',
+                'application/x-perl',
+                'application/x-python',
+                'application/python',
+                'application/x-bytecode.python',
+                'application/x-python-bytecode',
+                'application/x-python-code',
+                'wwwserver/shellcgi', // CGI
+            ],
+            'uploadAllow' => !$this->input->get('editor') ? [] : ['image', 'video'],
+            'uploadOrder' => [
+                'deny',
+                'allow',
+            ],
+            'attributes' => [
+                [
+                    'pattern' => '/.tmb/',
+                    'hidden'  => true,
+                ],
+                [
+                    'pattern' => '/.quarantine/',
+                    'hidden'  => true,
+                ],
+                [
+                    'pattern' => '/public/',
+                    'hidden'  => true,
+                ],
+            ],
+        ];
+
+        if (!is_admin()) {
+            $this->db->select('media_path_slug,staffid,firstname,lastname')
+            ->from(db_prefix() . 'staff')
+            ->where('staffid', get_staff_user_id());
+            $user = $this->db->get()->row();
+            $path = set_realpath($media_folder . '/' . $user->media_path_slug);
+            if (empty($user->media_path_slug)) {
+                $this->db->where('staffid', $user->staffid);
+                $slug = slug_it($user->firstname . ' ' . $user->lastname);
+                $this->db->update(db_prefix() . 'staff', [
+                    'media_path_slug' => $slug,
+                ]);
+                $user->media_path_slug = $slug;
+                $path                  = set_realpath($media_folder . '/' . $user->media_path_slug);
+            }
+            if (!is_dir($path)) {
+                mkdir($path, 0755);
+            }
+            if (!file_exists($path . '/index.html')) {
+                $fp = fopen($path . '/index.html', 'w');
+                if ($fp) {
+                    fclose($fp);
+                }
+            }
+            array_push($root_options['attributes'], [
+                'pattern' => '/.(' . $user->media_path_slug . '+)/', // Prevent deleting/renaming folder
+                'read'    => true,
+                'write'   => true,
+                'locked'  => true,
+            ]);
+            $root_options['path'] = $path;
+            $root_options['URL']  = site_url($media_folder . '/' . $user->media_path_slug) . '/';
+        }
+
+        $publicRootPath      = $media_folder . '/public';
+        $public_root         = $root_options;
+        $public_root['path'] = set_realpath($publicRootPath);
+
+        $public_root['URL'] = site_url($media_folder) . '/public';
+        unset($public_root['attributes'][3]);
+
+        if (!is_dir($publicRootPath)) {
+            mkdir($publicRootPath, 0755);
+        }
+
+        if (!file_exists($publicRootPath . '/index.html')) {
+            $fp = fopen($publicRootPath . '/index.html', 'w');
+            if ($fp) {
+                fclose($fp);
+            }
+        }
+
+        $opts = [
+            'roots' => [
+                $root_options,
+                $public_root,
+            ],
+        ];
+
+        $opts      = hooks()->apply_filters('before_init_media', $opts);
+        $connector = new elFinderConnector(new elFinder($opts));
+        $connector->run();
+    }
+
+    public function bulk_pdf_exporter()
+    {
+        if (!has_permission('bulk_pdf_exporter', '', 'view')) {
+            access_denied('bulk_pdf_exporter');
+        }
+
+        if ($this->input->post()) {
+            $export_type = $this->input->post('export_type');
+
+            $this->load->library('app_bulk_pdf_export', [
+                'export_type'       => $export_type,
+                'status'            => $this->input->post($export_type . '_export_status'),
+                'date_from'         => $this->input->post('date-from'),
+                'date_to'           => $this->input->post('date-to'),
+                'payment_mode'      => $this->input->post('paymentmode'),
+                'tag'               => $this->input->post('tag'),
+                'redirect_on_error' => admin_url('utilities/bulk_pdf_exporter'),
+            ]);
+
+            $this->app_bulk_pdf_export->export();
+        }
+
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get();
+
+        $this->load->model('invoices_model');
+        $data['invoice_statuses'] = $this->invoices_model->get_statuses();
+
+        $this->load->model('credit_notes_model');
+        $data['credit_notes_statuses'] = $this->credit_notes_model->get_statuses();
+
+        $this->load->model('proposals_model');
+        $data['proposal_statuses'] = $this->proposals_model->get_statuses();
+
+        $this->load->model('estimates_model');
+        $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+
+        $features = [];
+
+        if (has_permission('invoices', '', 'view')
+        || has_permission('invoices', '', 'view_own')
+        || get_option('allow_staff_view_invoices_assigned') == '1') {
+            $features[] = [
+                'feature' => 'invoices',
+                'name'    => _l('bulk_export_pdf_invoices'),
+            ];
+        }
+
+        if (has_permission('estimates', '', 'view')
+            || has_permission('estimates', '', 'view_own')
+            || get_option('allow_staff_view_estimates_assigned') == '1') {
+            $features[] = [
+                'feature' => 'estimates',
+                'name'    => _l('bulk_export_pdf_estimates'),
+            ];
+        }
+
+        if (has_permission('payments', '', 'view') || has_permission('invoices', '', 'view_own')) {
+            $features[] = [
+                'feature' => 'payments',
+                'name'    => _l('bulk_export_pdf_payments'),
+            ];
+        }
+
+        if (has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own')) {
+            $features[] = [
+                'feature' => 'credit_notes',
+                'name'    => _l('credit_notes'),
+            ];
+        }
+
+        if (has_permission('proposals', '', 'view')
+            || has_permission('proposals', '', 'view_own')
+            || get_option('allow_staff_view_proposals_assigned') == '1') {
+            $features[] = [
+                'feature' => 'proposals',
+                'name'    => _l('bulk_export_pdf_proposals'),
+            ];
+        }
+
+        $data['bulk_pdf_export_available_features'] = hooks()->apply_filters(
+            'bulk_pdf_export_available_features',
+            $features
+        );
+
+        $data['title'] = _l('bulk_pdf_exporter');
+        $this->load->view('admin/utilities/bulk_pdf_exporter', $data);
+    }
+}
