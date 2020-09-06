@@ -78,9 +78,16 @@
                             <div class="clearfix"></div>
                             <hr class="hr-panel-heading"/>
                         </div>
-                        <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                           data-table=".table-wohnungen"><?php echo _l('Alle löschen'); ?></a>
-                        <?php $this->load->view('admin/wohnungen/table_html'); ?>
+
+                        <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
+                        <div class="list-view switcher">
+                            <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
+                               data-table=".table-wohnungen"><?php echo _l('Alle löschen'); ?></a>
+                            <?php $this->load->view('admin/wohnungen/table_html'); ?>
+                        </div>
+                        <div class="visualisation-view switcher hide">
+                             <?php $this->load->view('admin/visualisierung/shared'); ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,6 +95,7 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<?php $this->load->view('admin/visualisierung/shared-js'); ?>
 <style>
     .row-options-gantchart {
         color: white;
@@ -108,7 +116,8 @@
         pointer-events: none;
         cursor: default;
     }
-    .row-options-gantchart.disabled a{
+
+    .row-options-gantchart.disabled a {
         pointer-events: none;
         cursor: default;
     }
@@ -140,7 +149,6 @@ foreach ($aqs as $aq):
                                 <script>
                                     $(function () {
                                         var dd =  <?php echo json_encode($hisOccupations);?>;
-                                        console.log(dd);
                                         var data = [];
                                         var breackDay = [];
                                         for (let d of dd) {
@@ -232,6 +240,21 @@ endforeach;
 ?>
 <script>
     $(function () {
+        $('#switchbtn').click(function (e) {
+            e.preventDefault();
+            if ($(this).hasClass('list')) {
+                $(this).text('Switch to table')
+                $(this).addClass('ganttv').removeClass('list')
+                $('.list-view,.list-view  .dataTable').addClass('hide');
+                $('.visualisation-view , .visualisation-view .dataTable').removeClass('hide');
+            } else {
+                $(this).text('Visualisierung')
+                $('.list-view,.list-view  .dataTable').removeClass('hide');
+                $(this).addClass('list').removeClass('ganttv')
+                $('.visualisation-view , .visualisation-view .dataTable').addClass('hide');
+            }
+        })
+
         $('table').on('click', '.row-options-gantchart a', function (event) {
             event.preventDefault();
             const dd = $(this).data('id');

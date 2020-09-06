@@ -96,12 +96,6 @@ function get_available_staff_permissions($data = [])
             'capabilities' => [
                 'view' => $viewGlobalName],
         ],
-        //personalplan
-        'personalplan'=> [
-            'name' =>  _l('Personalplan'),
-            'capabilities' => [
-                'view' => $viewGlobalName],
-        ],
 
         //Aufgabenplaner
         'tasks' => [
@@ -203,6 +197,10 @@ function get_available_staff_permissions($data = [])
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
 
+        'personalplan' => [
+            'name' => _l('personalplan'),
+            'capabilities' => $allPermissionsArray,
+        ],
         'factoring' => [
             'name' => get_menu_option('factoring', _l('Factoring')),
             'capabilities' => [

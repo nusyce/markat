@@ -103,8 +103,12 @@ class Utilities extends AdminController
     public function view_event($id)
     {
         $data['event'] = $this->utilities_model->get_event($id);
+        $even_relation = $this->utilities_model->get_event_users($id);
+        $data['event']->user= array_column( $even_relation,"user_id");
+        print_r($data);
         if ($data['event']->public == 1 && !is_staff_member()
             || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
+
 
                 $even_relation = $this->utilities_model->get_event_user($id);
                 if($even_relation->event_id == $id){

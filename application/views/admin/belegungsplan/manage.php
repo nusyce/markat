@@ -452,15 +452,15 @@ foreach ($occupations as $occupation):
 <?php
 endforeach;
 ?>
-
 <script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"
         integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA=="
         crossorigin="anonymous"></script>
+
 <script>
     function printDiv() {
-        html2canvas($("#DivIdToPrint .fn-content"), {
+        html2canvas($(".fn-content"), {
             onrendered: function (canvas) {
                 var myImage = canvas.toDataURL("image/png");
                 var tWindow = window.open("");

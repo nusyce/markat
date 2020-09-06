@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php if(staff_can('create', 'personalplan')){ ?>
 <div class="modal fade _event" id="newEventModal">
+<?php }?>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,6 +11,7 @@
             </div>
             <?php echo form_open('admin/utilities/calendar', array('id' => 'calendar-event-form')); ?>
             <div class="modal-body">
+
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('title', 'utility_calendar_new_event_placeholder'); ?>
@@ -95,3 +98,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
