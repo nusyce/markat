@@ -125,8 +125,7 @@
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
 			$('#newEventModal').modal('show');
-			//alert('droped row -' + (parseInt($(ev.target).parents('td').index()) + 1));
-		
+
 		    setTimeout(() => {
 			
                 if (!$.fullCalendar.moment(tar_date).hasTime()) {
