@@ -75,7 +75,7 @@ class Utilities extends AdminController
                 'success' => $success,
                 'message' => $message,
             ]);
-            die();
+           die();
         }
         $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
         $data['staffs'] = $this->staff_model->get();
@@ -103,10 +103,20 @@ class Utilities extends AdminController
     public function view_event($id)
     {
         $data['event'] = $this->utilities_model->get_event($id);
+        $even_relation = $this->utilities_model->get_event_users($id);
+        $data['event']->user= array_column( $even_relation,"user_id");
+        print_r($data);
         if ($data['event']->public == 1 && !is_staff_member()
             || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
-        } else {
-            $this->load->view('admin/utilities/event', $data);
+                
+
+                if($even_relation->event_id == $id){
+                    $this->load->view('admin/utilities/event', $data);
+                }
+
+                
+        } else {       
+            $this->load->view('admin/utilities/event', $data); 
         }
     }
 
