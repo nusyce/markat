@@ -3,7 +3,9 @@
 <div id="wrapper">
 	<div class="content">
 		<div class="row">
+		<?php $_SESSION['staff']= ($staffs); ?>
 		<?php 
+		
 		if(has_permission('personalplan', get_staff_user_id(), 'edit')) {
 			echo '<div class="col-xs-10 col-md-10">';
 		}
