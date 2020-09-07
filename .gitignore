@@ -9,3 +9,4 @@ app-config.php_back
 application/config/app-config.php
 application/config/database.php
 **application/logs
+.htaccess
