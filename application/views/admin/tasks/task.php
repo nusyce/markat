@@ -154,9 +154,16 @@
                                 echo render_project_select($projects, $selected, 'Projekt');
                                 ?>
                             </div>
-                            <?php
-
-                            ?></div>
+                            <div class="col-md-6">
+                                <?php
+                                $selected = '';
+                                if (isset($task) && $task->client) {
+                                    $selected = $task->client;
+                                }
+                                echo render_project_select($clients, $selected, 'Kunder');
+                                ?>
+                            </div>
+                             </div>
                         <div class="row">
                             <div class="col-md-6">
 

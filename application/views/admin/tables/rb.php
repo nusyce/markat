@@ -1,17 +1,16 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 $this->ci->load->model('dokument_model');
 $aColumns = [
-    'id',
+    db_prefix() . 'mieters.id as id',
     'fullname',
-    'projektname',
+    db_prefix() . 'tsk_project.name as project',
     'strabe_m as strabe',
     'hausnummer_m as hausnummer',
     'plz',
     'stadt',
-    'beraumung', 'baubeginn',
-    'ruckraumung', 'bauende',
+    'beraumung',1, 'baubeginn',
+    'ruckraumung', 1,'bauende',
     1,
     'active'
 ];
@@ -21,7 +20,8 @@ $sIndexColumn = 'id';
 $sTable = db_prefix() . 'mieters';
 
 $where = ['AND (beraumung !=""  OR ruckraumung !="" )'];
-$join = [];
+$join = [];$join[] = ' LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.projektname';
+
 $filter = [];
 
 if ($this->ci->input->post('strabe')) {
@@ -90,7 +90,7 @@ foreach ($rResult as $aRow) {
     $subjectOutput = $aRow['fullname'];
     $subjectOutput = '<a href="' . admin_url('mieter/mieter/' . $aRow['id']) . '">' . $aRow['fullname'] . '</a>';
     $row[] = $subjectOutput;
-    $row[] = $aRow['projektname'];
+    $row[] = $aRow['project'];
     $row[] = $aRow['strabe'];
     $row[] = $aRow['hausnummer'];
     $row[] = $aRow['plz'];

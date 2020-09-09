@@ -361,7 +361,7 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <?php if (count($task->attachments) > 0) { ?>
+            <?php if (count($task->attachments) > 0 && 1==3) { ?>
                 <div class="row task_attachments_wrapper">
                     <div class="col-md-12" id="attachments">
                         <hr/>
@@ -1150,21 +1150,18 @@
                 </button>
                 <div id="dropbox-chooser-task"></div>
             </div>
+
             <div class="report-action">
-                <a href="#" onclick="slideToggle('.tasks-comments'); return false;"  class="btn  btn-primary">PDF Dokumentation vorher:</a>
-                <br>
-                <a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation danach:</a>
-                <br>
-                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>" class="btn  btn-primary">PDF
-                    Arbeitsnachweib</a>
+                <h3 style="text-decoration: underline;">PDF DoKumente</h3>
+                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
+
+                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation vorther</a><br>
+
+                <a href="#" onclick="slideToggle('.tasks-comments'); return false;"  class="btn  btn-primary">Dokumentation danash</a>
+
                 <br>
                 <a href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
-                   class="btn btn-primary">PDF
-                    Dokumentation</a>
-                <br>
-                <?php if (has_permission('invoices', '', 'view')): ?>
-                    <a href="#" class="btn btn-primary">Invoice</a>
-                <?php endif; ?>
+                   class="btn" style="background-color: blue;color: white">Dokumentation komplett</a>
             </div>
             <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
             <div id="printSing" style="display:none;margin-top: 30px">

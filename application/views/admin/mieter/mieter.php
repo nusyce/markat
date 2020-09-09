@@ -69,7 +69,6 @@
     }));
 
     appValidateForm('#mieter-form', {
-        projektname: 'required',
     }, heandler_form);
 
     $('#mieter-form').on("submit", function (e) {

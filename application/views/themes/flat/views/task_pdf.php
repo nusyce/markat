@@ -53,11 +53,10 @@ if ($task_tag !== 'full') {
     $i = 0;
     if (count($task->comments) > 0) {
         foreach ($task->comments as $comment) {
-            if ($comment['moment'] == 1 && !empty($comment['content'])) {
+            if ($comment['moment'] == 0 && !empty($comment['content'])) {
                 $comment['content'] = str_replace('[task_attachment]', '', $comment['content']);
                 $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
             }
-            $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
             if ($comment['moment'] == 0 && count($comment['attachments']) > 0) {
                 $tblhtml .= '<tr>';
                 foreach ($comment['attachments'] as $attachment) {

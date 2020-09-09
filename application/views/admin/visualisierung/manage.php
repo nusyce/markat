@@ -4,10 +4,10 @@
     .linksBox{
         border: 2px solid #ddd;
         float: left;
-        margin: 1% 5%;
+        margin: 1% 2%;
         padding: 2%;
         min-height: 60px;
-        font-size: 18px;
+        font-size: 12px;
         text-align:center;
     }
     .linksBox:nth-of-type(1n+1) {
@@ -19,6 +19,12 @@
     .oddData, .evenData{
         float:left;
         width:50%;
+    }
+    #visualTable tr th{
+        width:23%;
+    }
+    #visualTable tr th:first-child{
+        width: 5%;
     }
 </style>
 <div id="wrapper">

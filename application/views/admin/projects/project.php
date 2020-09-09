@@ -23,6 +23,11 @@
                         ?>
                         <div class="row">
                             <div class="col-md-6">
+                                <?php echo render_input('name', 'Projektname', $project->projekte); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <?php echo render_select('projekte', $projectList, array('id', 'name'), 'Projekte', $project->projekte,
                                     array('data-width' => '100%', 'data-none-selected-text' => 'Projekte'), array()); ?>
                             </div>

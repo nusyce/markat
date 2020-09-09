@@ -37,7 +37,7 @@
                                         <td><div class="multiple_action checkbox"><input type="checkbox" value="<?php echo $inventarliste['id']; ?>"><label></label></div></td>
                                         <td><?php echo $inventarliste['id']; ?></td>
                                         <td><a href="#"
-                                               onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false"
+                                               onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false" data-qubik="<?php echo $inventarliste['qubik']; ?>"
                                                data-name="<?php echo $inventarliste['name']; ?>"><?php echo $inventarliste['name']; ?></a><br/>
                                         </td>
                                         <td > <?php echo $inventarliste['qubik']; ?><br/>
@@ -45,7 +45,7 @@
                                         <td>
                                             <a href="#"
                                                onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false"
-                                               data-name="<?php echo $inventarliste['name']; ?>" data-qubik="<?php echo $inventarliste['name']; ?>"
+                                               data-name="<?php echo $inventarliste['name']; ?>" data-qubik="<?php echo $inventarliste['qubik']; ?>"
                                                class="btn btn-default btn-icon"><i
                                                         class="fa fa-pencil-square-o"></i></a>
                                             <a href="<?php echo admin_url('wohnungen/delete_inventarliste/' . $inventarliste['id']); ?>"
@@ -149,7 +149,7 @@
         var qubik = $(invoker).data('qubik');
         $('#additional').append(hidden_input('id', id));
         $('#inventarliste input[name="name"]').val(name);
-        $('#inventarliste input[name="qubik"]').val(qubik);
+        $('#inventarliste #qubik').val(parseInt(qubik));
         $('#inventarliste').modal('show');
         $('.add-title').addClass('hide');
     }

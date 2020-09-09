@@ -319,7 +319,7 @@
             leftPanel: function (element) {
                 /* Left panel */
                 var ganttLeftPanel = $('<div class="leftPanel"/>')
-                    .append($('<div class="row spacer"/><div class="row spacer"/><div class="row spacer last"><div class="header-th strabe">Straße</div><div class="header-th nr">Nr</div><div class="header-th etgag">Etage</div><div class="header-th flugel">Flügel</div></div>'))
+                    .append($('<div class="row spacer"/><div class="row spacer"/><div class="row spacer"/><div class="row spacer last"><div class="header-th strabe">Straße</div><div class="header-th nr">Nr</div><div class="header-th etgag">Etage</div><div class="header-th flugel">Flügel</div></div>'))
 //                    .css("height", tools.getCellSize() * element.headerRows));
 
                 var entries = [];

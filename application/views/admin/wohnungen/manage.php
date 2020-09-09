@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>assets/css/gantt.style.css" type="text/css" rel="stylesheet">
-
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
@@ -120,6 +120,10 @@
     .row-options-gantchart.disabled a {
         pointer-events: none;
         cursor: default;
+    }
+
+    .dataPanel{
+        min-height: 120px;
     }
 </style>
 <script src="<?php echo base_url(); ?>assets/js/jquery.fn.gantt.js"></script>

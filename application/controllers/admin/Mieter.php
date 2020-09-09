@@ -251,8 +251,11 @@ class Mieter extends AdminController
     }
      function makePdf($id){
         $attachments = $this->mieter_model->get_attachments($id);
+        $mieter = $this->mieter_model->get($id, [], true);
+            // echo '<pre>'; print_r($mieter);
+            // exit;
             try {
-                $pdf = mieter_pdf($id,'',$attachments);
+                $pdf = mieter_pdf($id,'',$attachments,$mieter);
             } catch (Exception $e) {
                 echo $e->getMessage();
                 die;

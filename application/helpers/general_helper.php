@@ -89,22 +89,12 @@ function get_move($wohnungen, $inventar)
  */
 function render_project_select($projekts, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
 {
-    foreach ($projekts as $key => $status) {
-        if ($status['isdefault'] == 1) {
-            if ($exclude_default == false) {
-                $projekts[$key]['option_attributes'] = ['data-subtext' => _l('Projekt')];
-            } else {
-                unset($projekts[$key]);
-            }
 
-            break;
-        }
-    }
-    if (has_permission('firma', '', 'edit')) {
-        return render_select_with_input_group_projekt($name, $projekts, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>','<a href="#" class="inline-field-new"><i class="fa fa-minus"></i></a>', $select_attrs);
-    } else {
-        return render_select($name, $projekts, ['id', 'name'], $lang_key, $selected);
-    }
+    $CI = &get_instance();
+    $CI->load->model('Projects_model');
+    $projekts = $CI->Projects_model->get();
+    return render_select($name, $projekts, ['id', 'name'], $lang_key, $selected);
+
 }
 
 /**
