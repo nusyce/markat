@@ -64,7 +64,12 @@
                         </div>
                     </div>
                     <div id="belegungsplan" class="panel-body ">
+                        <div class="col-md-2">
                         <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
+                        </div>
+                        <div class="col-md-4">
+                        <a href="<?php echo admin_url('visualisierung')?> " class="btn btn-danger list">Visualisierung Wohnhaus</a>
+                    </div>
                         <br>
                         <!--             <div class="row mbot15">
                             <div class="col-md-8 col-md-offset-2">

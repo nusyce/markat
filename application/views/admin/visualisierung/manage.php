@@ -7,7 +7,7 @@
         margin: 1% 2%;
         padding: 2%;
         min-height: 60px;
-        font-size: 18px;
+        font-size: 12px;
         text-align:center;
     }
     .linksBox:nth-of-type(1n+1) {
@@ -176,6 +176,7 @@
                 success: function(result){
                 $jsonEven = jQuery.parseJSON(result).even;
                 $jsonOdd = jQuery.parseJSON(result).odd;
+                console.log(result);
                 if($jsonEven.length!=0){
                   $("#visualDetail .modal-title").html($jsonEven[0]['strabe']+' '+$jsonEven[0]['hausnummer'])
                 }
@@ -196,7 +197,7 @@
                         $isData = false;
                        $.each($jsonOdd, function(i, v) {
                             if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
-                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"</div>";
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. "+v.wohnungsnumme+" <br/> "+v.mieter_name+" <br/> <span class='left'>"+v.belegt_v+"</span>  <span class='right'>"+v.belegt_b+" </span></div>";
                                 $isData = true;
                             }
                         });
@@ -206,7 +207,7 @@
 
                        $.each($jsonEven, function(i, v) {
                             if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
-                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"</div>";
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. "+v.wohnungsnumme+" <br/> "+v.mieter_name+" <br/> <span class='left'>"+v.belegt_v+"</span>  <span class='right'>"+v.belegt_b+" </span></div></div>";
                                 $isData = true;
                             }
                         });

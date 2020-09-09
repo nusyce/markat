@@ -70,6 +70,9 @@ class Wohnungen_model extends App_Model
         }else{
         $this->db->where('MOD(wohnungsnumme,2)',1);
         }
+        $this->db->select('occupations.*');
+        $this->db->select('wohnungen.*');
+        $this->db->join(db_prefix() . 'occupations', 'occupations.wohnungen = wohnungen.id', 'LEFT');
         $this->db->where_in(db_prefix() . 'wohnungen.id', $id);
         $this->db->order_by('wohnungsnumme', 'desc');
         return $this->db->get(db_prefix() . 'wohnungen')->result_array();

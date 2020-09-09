@@ -98,12 +98,12 @@ function app_init_admin_sidebar_menu_items()
             'position' => 1,
         ]);
     }
-    $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
-        'slug' => 'mieterbetreuung',
-        'name' => get_menu_option('visualisierung', _l('Visualisierung')),
-        'href' => admin_url('visualisierung'),
-        'position' => 9,
-    ]);
+    // $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
+    //     'slug' => 'mieterbetreuung',
+    //     'name' => get_menu_option('visualisierung', _l('Visualisierung')),
+    //     'href' => admin_url('visualisierung'),
+    //     'position' => 9,
+    // ]);
 
     if (has_permission('belegungsplan', '', 'view')
         || has_permission('belegungsplan', '', 'create')) {
