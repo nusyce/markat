@@ -97,6 +97,12 @@ function render_project_select($projekts, $selected = '', $lang_key = '', $name 
 
 }
 
+
+function render_projekt_select($projekts, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
+{
+    return render_select_with_input_group($name, $projekts, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>', $select_attrs);
+}
+
 /**
  * Check whether the data is intended to be shown for the customer
  * For example this function is used for custom fields, pdf language loading etc...
@@ -217,6 +223,16 @@ function get_current_date_format($php = false)
 
     return $format[0];
 }
+
+
+
+function debug_php()
+{
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
+
 
 /**
  * Is user logged in

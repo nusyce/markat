@@ -195,15 +195,15 @@ foreach ($rResult as $aRow) {
     }
     $outputStatus .= '</span>';
     $row[] = $outputStatus;
-    $row[] = _d($aRow['startdate']);
+    $row[] = _dt($aRow['startdate']);
 
-    $row[] = _d($aRow['duedate']);
+    $row[] = _dt($aRow['duedate']);
     $row[]= '  <a href="' . admin_url('mieter/mieter/' . $aRow['idm']) . '">' .  $aRow['fullname']. '</a>';
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
     $row[] = '<div class="text-center">' . $aRow['checkpoint'] . '</div>';
 
     if ($aRow['datefinished']) {
-        $row[] = date('d.m.Y', strtotime($aRow['datefinished']));
+        $row[] = date('d.m.Y H:i', strtotime($aRow['datefinished']));
     } else {
 
         $row[] = '';

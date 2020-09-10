@@ -37,6 +37,38 @@ class Dokumente extends AdminController
         }
     }
 
+    /* Delete contract from database */
+    public function delete($id)
+    {
+        if (!$id) {
+            redirect(admin_url('dokumente'));
+        }
+        $response = $this->dokument_model->delete([$id]);
+        if ($response == true) {
+            set_alert('success', _l('deleted', 'Dokumente'));
+        } else {
+            // set_alert('warning', _l('Leider können Sie dieses Element nicht löschen, da es mit einem Belegungsplan verknüpft ist'));
+        }
+        redirect(admin_url('dokumente'));
+
+    }
+
+    public function bulk_delete()
+    {
+        if (isset($_POST['data'])) {
+            $response = $this->dokument_model->delete($_POST['data']);
+            if ($response == true) {
+                set_alert('success', _l('deleted', get_menu_option('dokumente', 'Dokumente')));
+            } else {
+                set_alert('warning', _l('problem_deleting', 'Dokumente'));
+            }
+            echo admin_url('dokumente');
+        } else {
+            set_alert('warning', _l('problem_deleting', 'Dokumente'));
+            echo false;
+        }
+    }
+
     public function pdf($id)
     {
         if (!$id) {

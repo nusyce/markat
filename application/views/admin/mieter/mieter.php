@@ -88,11 +88,11 @@
                 type: "POST",
                 dataType: 'json',
                 success: function (e) {
-                  //  window.location.href = e;
+                 window.location.href = e;
                     $(this).prop('disabled', false);
                 },
                 error: function (e) {
-                   // window.location.href = e.responseText;
+                   window.location.href = e.responseText;
                     $(this).prop('disabled', false);
                 }
             });

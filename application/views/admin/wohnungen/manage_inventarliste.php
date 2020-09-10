@@ -28,7 +28,7 @@
                                 <th style="width: 30px"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="invetar"><label></label></div>  </th sty>
                                 <th><?php echo _l('id'); ?></th>
                                 <th><?php echo _l('name'); ?></th>
-                                <th><?php echo _l('Qubik'); ?></th>
+                                <th><?php echo _l('Einheit'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -81,7 +81,7 @@
                     <div class="col-md-12">
                         <div id="additional"></div>
                         <?php echo render_input('name', 'Name'); ?>
-                        <?php echo render_input('qubik', 'Qubik','','number'); ?>
+                        <?php echo render_input('qubik', 'Einheit','','number'); ?>
                     </div>
                 </div>
             </div>

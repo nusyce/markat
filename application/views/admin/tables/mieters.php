@@ -1,13 +1,10 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
-
-
 $aColumns = [
     '1',
     db_prefix() . 'mieters.id as id',
     'fullname',
-    db_prefix() . 'tsk_project.name as project',
+    db_prefix() . 'projects.name as project',
     'strabe_m',
     'hausnummer_m',
     'wohnungsnummer',
@@ -18,7 +15,7 @@ $aColumns = [
     'telefon_1',
     1,
     '(SELECT count(' . db_prefix() . 'occupations.mieter) FROM ' . db_prefix() . 'occupations WHERE ' . db_prefix() . 'occupations.mieter=' . db_prefix() . 'mieters.id) as occuped',
-    'nummer',
+    db_prefix() . 'mieters.nummer as nummer',
     'fulger_p',
     'umsetzwohnung',
     'betreuer',
@@ -29,17 +26,14 @@ $aColumns = [
     db_prefix() . 'mieters.updated_at as updated_at',
     db_prefix() . 'occupations.belegt_b as startat'
 ];
-
-
 $sIndexColumn = 'id';
 $sTable = db_prefix() . 'mieters';
-
 $where = [];
 $join = [];
-$join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.projektname';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'mieters.projektname';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'occupations ON ' . db_prefix() . 'occupations.mieter = ' . db_prefix() . 'mieters.id';
 
- $filter = [];
+$filter = [];
 
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
@@ -133,7 +127,7 @@ foreach ($rResult1 as $aRow) {
     $row[] = $betreur;
 //    $occupation = $this->ci->belegungsplan_model->get_occupations(['active' => 1, 'mieter' => $aRow['id']]);
     if ($aRow['occuped'] > 0) {
-        $row[] = '<a href="' . admin_url('belegungsplan?startat=' .strtotime($aRow['startat']).'000&navigator=') . $aRow['id'] . '" style="color: #24a8e0"><span class="fa fa-check fa-2x" style="color: #24a8e0"></span></a>';
+        $row[] = '<a href="' . admin_url('belegungsplan?startat=' . strtotime($aRow['startat']) . '000&navigator=') . $aRow['id'] . '" style="color: #24a8e0"><span class="fa fa-check fa-2x" style="color: #24a8e0"></span></a>';
     } else {
         $row[] = '<a href="' . admin_url('belegungsplan?ref_m=') . $aRow['id'] . '">Belegt?</a>';
     }

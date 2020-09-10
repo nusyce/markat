@@ -129,8 +129,8 @@
             <td style="width: 50%; padding-right: 12px" class="font-11 ledttd">
                 <table style="margin: 0; width: 100%" class="tt1">
                     <tr>
-                        <td class="line" style="height: 42px"><strong>Auftraggeber/Rechnungsempfänger:</strong> GEHAG
-                            Erste GEHAG Erste GEHAG Erste GEHAG Erste GEHAG Erste
+                        <td class="line" style="height: 42px"><strong>Auftraggeber/Rechnungsempfänger:</strong><br> GEHAG
+                            Erste
                         </td>
                     </tr>
                 </table>

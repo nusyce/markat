@@ -2,6 +2,7 @@
 
 $table_data = [
    _l('the_number_sign'),
+   _l('name'),
    _l('projekte'),
     [
          'name'     => _l('project_customer'),

@@ -45,87 +45,94 @@ if ($task_tag !== 'full') {
     $tblhtml .= '<tr><td colspan="3"><strong>Checklistpoints</strong></td></tr>';
     foreach ($task->checklist_items as $k => $ac):
         $check = $ac['finished'] ? 'check-cp.png' : 'no-check-cp.png';
-        $tblhtml .= '<tr><td colspan="3" style="padding: 8px 2px; vertical-align: center"><br><span><img width="21px" src="assets/images/' . $check . '"/> </span> ' . $ac['description'] . '</td></tr>';
+        $tblhtml .= '<tr><td colspan="3"><br><span><img width="21px" src="assets/images/' . $check . '"/> </span> ' . $ac['description'] . '</td></tr>';
     endforeach;
 } else {
     $tblhtml .= '<tr><th colspan="3"><br><strong>Dokumentation before:</strong></th></tr>';
     $maxcols = 3;
     $i = 0;
-    if (count($task->comments) > 0) {
-        foreach ($task->comments as $comment) {
-            if ($comment['moment'] == 0 && !empty($comment['content'])) {
-                $comment['content'] = str_replace('[task_attachment]', '', $comment['content']);
-                $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
-            }
-            if ($comment['moment'] == 0 && count($comment['attachments']) > 0) {
-                $tblhtml .= '<tr>';
-                foreach ($comment['attachments'] as $attachment) {
-                    if ($i == $maxcols) {
-                        $i = 0;
-                        $tblhtml .= "</tr><tr>";
-                    }
-                    $relPath = get_upload_path_by_type('task') . $attachment['rel_id'] . '/';
-                    $fullPath = $relPath . $attachment['file_name'];
-                    $fname = pathinfo($fullPath, PATHINFO_FILENAME);
-                    $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
-                    $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
-                    $i++;
-                }
-
-                //Add empty <td>'s to even up the amount of cells in a row:
-                while ($i <= $maxcols) {
-                    $tblhtml .= "<td>&nbsp;</td>";
-                    $i++;
-                }
-                $tblhtml .= '</tr>';
-            }
-        }
-
-
-        $pdf->writeHTML($tblhtml, true, false, false, false, '');
-
-        $pdf->AddPage();
-        $tblhtml = '<tr><th colspan="3"><strong>Dokumentation after:</strong></th></tr>';
-        $i = 0;
-        foreach ($task->comments as $comment) {
-            if ($comment['moment'] == 1 && !empty($comment['content'])) {
-                $comment['content'] = str_replace('[task_attachment]', '', $comment['content']);
-                $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
-            }
-            if ($comment['moment'] == 1 && count($comment['attachments']) > 0) {
-                $tblhtml .= '<tr>';
-                foreach ($comment['attachments'] as $attachment) {
-                    if ($i == $maxcols) {
-                        $i = 0;
-                        $tblhtml .= "</tr><tr>";
-                    }
-                    $relPath = get_upload_path_by_type('task') . $attachment['rel_id'] . '/';
-                    $fullPath = $relPath . $attachment['file_name'];
-                    $fname = pathinfo($fullPath, PATHINFO_FILENAME);
-                    $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
-                    $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-                    $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
-                    $i++;
-                }
-                //Add empty <td>'s to even up the amount of cells in a row:
-                while ($i <= $maxcols) {
-                    $tblhtml .= "<td>&nbsp;</td>";
-                    $i++;
-                }
-                $tblhtml .= '</tr>';
-
-            }
+    foreach ($task->comments as $comment) {
+        $comment['content'] = str_replace('[task_attachment]', '', $comment['content']);
+        if ($comment['moment'] == 0 && !empty($comment['content'])) {
+            $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
         }
     }
-}
-if (isset($task->signature)) {
-    $imageContent = file_get_contents($task->signature);
-    $path = tempnam(sys_get_temp_dir(), 'prefix');
+    $tblhtml .= '<tr>';
+    foreach ($task->comments as $comment) {
+        if ($comment['moment'] == 0 && count($comment['attachments']) > 0) {
+            foreach ($comment['attachments'] as $attachment) {
+                if ($i == $maxcols) {
+                    $i = 0;
+                    $tblhtml .= "</tr><tr>";
+                }
+                $relPath = get_upload_path_by_type('task') . $attachment['rel_id'] . '/';
+                $fullPath = $relPath . $attachment['file_name'];
+                $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
+                $thumbPath = $relPath . $fname . '_thumb.' . $fext;
+                $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
+                $i++;
+            }
 
-    file_put_contents($path, $imageContent);
-    $tblhtml .= '<br><br><br><p style="text-align: right"><img src="' . $path . '"></p>';
+        }
+    }
+    //Add empty <td>'s to even up the amount of cells in a row:
+    while ($i <= $maxcols) {
+        $tblhtml .= "<td>&nbsp;</td>";
+        $i++;
+    }
+    $tblhtml .= '</tr></table>';
+
+
+    $pdf->writeHTML($tblhtml, true, false, false, false, '');
+
+    $pdf->AddPage();
+    $tblhtml = '<table cellspacing="2px"> ';
+    $tblhtml .= '<tr><th colspan="3"><strong>Dokumentation after:</strong></th></tr>';
+    $i = 0;
+    $maxcols = 3;
+    foreach ($task->comments as $comment) {
+        $comment['content'] = str_replace('[task_attachment]', '', $comment['content']);
+        if ($comment['moment'] == 1 && !empty($comment['content'])) {
+            $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
+        }
+    }
+    $tblhtml .= '<tr>';
+    foreach ($task->comments as $comment) {
+        if ($comment['moment'] == 1 && count($comment['attachments']) > 0) {
+            foreach ($comment['attachments'] as $attachment) {
+                if ($i == $maxcols) {
+                    $i = 0;
+                    $tblhtml .= "</tr><tr>";
+                }
+                $relPath = get_upload_path_by_type('task') . $attachment['rel_id'] . '/';
+                $fullPath = $relPath . $attachment['file_name'];
+                $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
+                $thumbPath = $relPath . $fname . '_thumb.' . $fext;
+                $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
+                $i++;
+            }
+
+
+        }
+    } //Add empty <td>'s to even up the amount of cells in a row:
+    while ($i <= $maxcols) {
+        $tblhtml .= "<td>&nbsp;</td>";
+        $i++;
+    }
+    $tblhtml .= '</tr>';
 }
+$staff = get_staff();
+
+if (!empty($staff->signature)) {
+    $data = base64_decode($staff->signature);
+    $file = STAFF_PROFILE_IMAGES_FOLDER . uniqid() . '.png';
+    $success = file_put_contents($file, $data);
+
+    $tblhtml .= '<p style="text-align: right"><img src="' . $file . '"></p>';
+}
+
 $tblhtml .= '  
 </table><style> 
 table {

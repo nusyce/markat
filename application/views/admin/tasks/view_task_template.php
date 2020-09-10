@@ -361,12 +361,13 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <?php if (count($task->attachments) > 0 && 1==3) { ?>
-                <div class="row task_attachments_wrapper">
+
+            <?php if (count($task->attachments) > 0 ) { ?>
+              <!--  <div class="row task_attachments_wrapper">
                     <div class="col-md-12" id="attachments">
                         <hr/>
-                        <h4 class="th font-medium mbot15"><?php echo _l('task_view_attachments'); ?></h4>
-                        <div class="row">
+                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */?></h4>
+                        <div class="row">-->
                             <?php
                             $i = 1;
                             // Store all url related data here
@@ -471,29 +472,29 @@
                                     $comments_attachments[$attachment['task_comment_id']][$attachment['id']] = $attachments_data[$attachment['id']];
                                 }
                                 ob_end_clean();
-                                echo $attachments_data[$attachment['id']];
+                             //   echo $attachments_data[$attachment['id']];
                                 ?>
                                 <?php
                                 $i++;
                             } ?>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <?php if (($i - 1) > $show_more_link_task_attachments) { ?>
+                        <!--</div>
+                    </div>-->
+                    <?php if (($i - 1) > $show_more_link_task_attachments  && 1==3) { ?>
+                        <div class="clearfix"></div>
                         <div class="col-md-12" id="show-more-less-task-attachments-col">
                             <a href="#" class="task-attachments-more"
                                onclick="slideToggle('.task_attachments_wrapper .task-attachment-col-more', task_attachments_toggle); return false;"><?php echo _l('show_more'); ?></a>
                             <a href="#" class="task-attachments-less hide"
                                onclick="slideToggle('.task_attachments_wrapper .task-attachment-col-more', task_attachments_toggle); return false;"><?php echo _l('show_less'); ?></a>
                         </div>
+                        <div class="col-md-12 text-center">
+                            <hr/>
+                            <a href="<?php echo admin_url('tasks/download_files/' . $task->id); ?>" class="bold">
+                                <?php echo _l('download_all'); ?> (.zip)
+                            </a>
+                        </div>
                     <?php } ?>
-                    <div class="col-md-12 text-center">
-                        <hr/>
-                        <a href="<?php echo admin_url('tasks/download_files/' . $task->id); ?>" class="bold">
-                            <?php echo _l('download_all'); ?> (.zip)
-                        </a>
-                    </div>
-                </div>
+             <!--   </div>-->
             <?php } ?>
             <hr/>
             <a href="#" id="taskCommentSlide" onclick="slideToggle('.tasks-comments'); return false;">
@@ -528,7 +529,6 @@
                     $len = count($task->comments);
                     $i = 0;
                     foreach ($task->comments as $comment) {
-
                         if ($comment['moment'] == 0) {
                             $comments .= '<div id="comment_' . $comment['id'] . '" data-commentid="' . $comment['id'] . '" data-task-attachment-id="' . $comment['file_id'] . '" class="tc-content task-comment' . (strtotime($comment['dateadded']) >= strtotime('-16 hours') ? ' highlight-bg' : '') . '">';
                             $comments .= '<a data-task-comment-href-id="' . $comment['id'] . '" href="' . admin_url('tasks/view/' . $task->id) . '#comment_' . $comment['id'] . '" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="' . _dt($comment['dateadded']) . '">' . time_ago($comment['dateadded']) . '</span></small></a>';
@@ -1152,7 +1152,7 @@
             </div>
 
             <div class="report-action">
-                <h3 style="text-decoration: underline;">PDF DoKumente</h3>
+                <h3 style="text-decoration: underline;">PDF Dokumente</h3>
                 <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
 
                 <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation vorther</a><br>

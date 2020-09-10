@@ -509,8 +509,13 @@ class Tasks_model extends App_Model
             $taskFor = $data['task_for'];
             unset($data['task_for']);
         }
-        $data['startdate'] = to_sql_date($data['startdate']);
-        $data['duedate'] = to_sql_date($data['duedate']);
+        if (isset($data['project'])) {
+            $data['rel_type'] = 'project';
+            $data['rel_id'] = $data['project'];
+        }
+
+        $data['startdate'] = to_sql_date($data['startdate'], true);
+        $data['duedate'] = to_sql_date($data['duedate'], true);
         $data['dateadded'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = $clientRequest == false ? get_staff_user_id() : get_contact_user_id();
         $data['is_added_from_contact'] = $clientRequest == false ? 0 : 1;
@@ -524,7 +529,7 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $defaultStatus = get_option('default_task_status');
             if ($defaultStatus == 'auto') {
-                if (date('Y-m-d') >= $data['startdate']) {
+                if (date('Y-m-d H:i:s') >= $data['startdate']) {
                     $data['status'] = 4;
                 } else {
                     $data['status'] = 1;
@@ -721,8 +726,8 @@ class Tasks_model extends App_Model
             $comments = $data['comments'];
             unset($data['comments']);
         }
-        $data['startdate'] = to_sql_date($data['startdate']);
-        $data['duedate'] = to_sql_date($data['duedate']);
+        $data['startdate'] = to_sql_date($data['startdate'], true);
+        $data['duedate'] = to_sql_date($data['duedate'], true);
         $data['dateadded'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = $clientRequest == false ? get_staff_user_id() : get_contact_user_id();
         $data['is_added_from_contact'] = $clientRequest == false ? 0 : 1;
@@ -736,7 +741,7 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $defaultStatus = get_option('default_task_status');
             if ($defaultStatus == 'auto') {
-                if (date('Y-m-d') >= $data['startdate']) {
+                if (date('Y-m-d H:i:s') >= $data['startdate']) {
                     $data['status'] = 4;
                 } else {
                     $data['status'] = 1;
@@ -924,9 +929,10 @@ class Tasks_model extends App_Model
      */
     public function update($data, $id, $clientRequest = false)
     {
+        debug_php();
         $affectedRows = 0;
-        $data['startdate'] = to_sql_date($data['startdate']);
-        $data['duedate'] = to_sql_date($data['duedate']);
+        $data['startdate'] = to_sql_date($data['startdate'], true);
+        $data['duedate'] = to_sql_date($data['duedate'], true);
 
         $checklistItems = [];
         if (isset($data['checklist_items']) && count($data['checklist_items']) > 0) {
@@ -937,6 +943,11 @@ class Tasks_model extends App_Model
         if (isset($data['task_for'])) {
             $taskFor = $data['task_for'];
             unset($data['task_for']);
+        }
+
+        if (isset($data['project'])) {
+            $data['rel_type'] = 'project';
+            $data['rel_id'] = $data['project'];
         }
         if (isset($data['datefinished'])) {
             $data['datefinished'] = to_sql_date($data['datefinished'], true);
@@ -1029,7 +1040,7 @@ class Tasks_model extends App_Model
             unset($data['tags']);
         }
 
-        if (isset($taskFor)){
+        if (isset($taskFor)) {
             $this->db->truncate(db_prefix() . 'task_assigned');
             foreach ($taskFor as $tF)
                 $this->db->insert(db_prefix() . 'task_assigned', [
@@ -1064,8 +1075,8 @@ class Tasks_model extends App_Model
         if ($affectedRows > 0) {
             return true;
         }
-
         return false;
+
     }
 
     public function get_checklist_item($id)

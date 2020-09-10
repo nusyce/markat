@@ -39,7 +39,7 @@ $tblhtml = '<br><br><h3 style="text-align: center">Detail ' . get_menu_option('w
 <tr><td>' . boolVald($wohnungen->mobiliert) . '</td> <td>' . boolVald($wohnungen->tierhaltung) . '</td> <td>' . boolVald($wohnungen->balkon) . '</td> </tr>  </table>';
 $tblhtml.='<h3>' . get_menu_option('inventarlistes', _l('Inventar')) . '</h3> 
 <table border="1" style="width: 100%;">
-<tr><th>N°</th><th>Qty</th><th>' . get_menu_option('inventarlistes', _l('Inventar')) . '</th><th>Qubik</th><th>Moved?</th></tr>
+<tr><th>N°</th><th>Qty</th><th>' . get_menu_option('inventarlistes', _l('Inventar')) . '</th><th>Einheit</th><th>Moved?</th></tr>
  ';
 $i = 1;
 foreach ($austattung as $k => $ac):

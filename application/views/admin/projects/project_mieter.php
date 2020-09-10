@@ -17,7 +17,7 @@ $table_data = array(
     'Belegt?',
     'Aktiviert'
 );
-$projektname = ($project->projekte ? $project->projekte : -1);
+$projektname = ($project->id ? $project->id : -1);
 render_datatable($table_data,'project_mieter',
     array(),
     array(

@@ -286,7 +286,7 @@
             </div>
 
             <div class="col-md-6">
-                <?php $bauende = (isset($mieter) ? _d($mieter->bauende) : ''); ?>inde
+                <?php $bauende = (isset($mieter) ? _d($mieter->bauende) : ''); ?>
                 <?php echo render_date_input('bauende', 'Bauende', $bauende); ?>
             </div>
         </div>

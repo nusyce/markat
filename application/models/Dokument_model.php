@@ -79,7 +79,6 @@ class Dokument_model extends App_Model
             $data['updated_at'] = date('Y-m-d H:i:s');
             $this->db->insert(db_prefix() . 'dokumente', $data);
             update_option('standar_modal_doc', $data['json_data']);
-
             return $this->db->insert_id();
         }
 
