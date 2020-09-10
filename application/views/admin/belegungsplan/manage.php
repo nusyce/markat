@@ -71,28 +71,6 @@
                         <a href="<?php echo admin_url('visualisierung')?> " class="btn btn-danger list">Visualisierung Wohnhaus</a>
                     </div>
                         <br>
-                        <!--             <div class="row mbot15">
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="row text-center sommary-wo">
-                                    <div class="col-md-4 col-xs-6 ">
-                                        <h3> Alle AQ's: <span
-                                                    class="bold"> <?php /*echo total_rows(db_prefix() . 'wohnungen', ''); */ ?></span>
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-4 col-xs-6 ">
-                                        <h3><i class="green-dd proint"></i> Frei: <span
-                                                    class="bold"><?php /*echo total_rows(db_prefix() . 'wohnungen', 'belegt=1'); */ ?></span>
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-4 col-xs-6 ">
-                                        <h3><i class="red-dd proint"></i> Belegt: <span
-                                                    class="bold"><?php /*echo total_rows(db_prefix() . 'wohnungen', 'belegt=0'); */ ?></span>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-                        <div class="list-view switcher ">
                             <div class="row" id="mieter-table">
                                 <div class="col-md-12">
                                     <div class="row">
@@ -106,12 +84,6 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <!--                                    <div class="col-md-2 leads-filter-column">
-                                        <?php
-                                        /*                                        $belegt = array(array('id' => '0', 'value' => 'Nein'), array('id' => '1', 'value' => 'Ja'));
-                                                                                echo render_select('belegt', $belegt, array('value', 'value'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Frei?'), array()); */ ?>
-                                    </div>
--->
                                         <div class="col-md-2 leads-filter-column">
                                             <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
                                         </div>
@@ -132,48 +104,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="clearfix"></div>
-                                <hr class="hr-panel-heading"/>
                             </div>
+                            <div class="clearfix"></div>
+                            <hr class="hr-panel-heading"/>
                             <style>
                                 .green {
                                     color: green !important
                                     background: white;
                                 }
                             </style>
+
+                        <div class="list-view switcher ">
                             <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
                                data-table=".table-belegungsplan"><?php echo _l('Alle löschen'); ?></a>
                             <?php $this->load->view('admin/belegungsplan/table_html'); ?>
 
                         </div>
                         <div class="gant-view switcher hide" id="gant-chart-filter">
-                            <div class="row">
-
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p class="bold"><?php echo _l('filter_by'); ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_date_input('belegt_v','','',array('placeholder' =>'Belegt von')); ?>
-                                        </div>
-
-                                        <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
-                                        </div>
-                                        <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_select('hausnummer', $hausnummer, array('hausnummer', 'hausnummer'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Nr.'), array()); ?>
-                                        </div>
-                                        <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_select('etage', $etage, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array()); ?>
-                                        </div>
-                                        <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_select('flugel', $flugel, array('flugel', 'flugel'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Flügel'), array()); ?>
-                                        </div>
-                                    </div>
-                            </div>
                                 <div class="col-md-12">
                                     <div class="selector"></div>
                                 </div>
@@ -643,21 +590,25 @@ endforeach;
                     .responsive.recalc();
             });
         });
-        $("#gant-chart-filter #belegt_v").on('change',function(e){ loadGantChart(); });
-        $("#gant-chart-filter #strabe").on('change',function(e){ loadGantChart(); });
-        $("#gant-chart-filter #hausnummer").on('change',function(e){ loadGantChart(); });
-        $("#gant-chart-filter #etage").on('change',function(e){ loadGantChart();});
-        $("#gant-chart-filter #flugel").on('change',function(e){ loadGantChart(); });
+        $("#belegt_v").on('change',function(e){ loadGantChart(); });
+        $("#strabe").on('change',function(e){ loadGantChart(); });
+        $("#hausnummer").on('change',function(e){ loadGantChart(); });
+        $("#etage").on('change',function(e){ loadGantChart();});
+        $("#flugel").on('change',function(e){ loadGantChart(); });
+        $("#mobiliert").on('change',function(e){ loadGantChart(); });
+        $("#schlaplatze").on('change',function(e){ loadGantChart(); });
 
 
         function loadGantChart() {
             // Get Filter data
             var filterArray = {};
-            filterArray.belegt_v = $("#gant-chart-filter #belegt_v").val();
-            filterArray.strabe = $("#gant-chart-filter #strabe").val();
-            filterArray.hausnummer = $("#gant-chart-filter #hausnummer").val();
-            filterArray.etage = $("#gant-chart-filter #etage").val();
-            filterArray.flugel = $("#gant-chart-filter #flugel").val();
+            filterArray.belegt_v = $("#belegt_v").val();
+            filterArray.strabe = $("#strabe").val();
+            filterArray.hausnummer = $("#hausnummer").val();
+            filterArray.etage = $("#etage").val();
+            filterArray.flugel = $("#flugel").val();
+            filterArray.mobiliert = $("#mobiliert").val();
+            filterArray.schlaplatze = $("#schlaplatze").val();
 
             $(".selector").gantt({
                 source: "<?php echo base_url(); ?>/admin/belegungsplan/table1?"+encodeURI($.param(filterArray)),
