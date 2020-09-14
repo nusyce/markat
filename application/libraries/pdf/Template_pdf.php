@@ -21,7 +21,11 @@ class Template_pdf
             ob_start();
             include $this->file_path();
             $content = ob_get_clean();
-
+            /*
+                        $html2pdf = new Html2Pdf('P', 'A4', 'de',
+                            $unicode = true,
+                            $encoding = 'UTF-8',
+                          $margins = array(20, 10, 20, 14));*/
             $html2pdf = new Html2Pdf('P', 'A4', 'de',
                 $unicode = true,
                 $encoding = 'UTF-8',

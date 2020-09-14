@@ -36,7 +36,9 @@ class Mieter_model extends App_Model
 
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'mieters.id', $id);
-            return $this->db->get(db_prefix() . 'mieters')->row();
+            $mieter = $this->db->get(db_prefix() . 'mieters')->row();
+            $mieter->inventer = $this->getInventer($mieter->id);
+            return $mieter;
         } else {
             $this->db->order_by('fullname', 'asc');
             return $this->db->get(db_prefix() . 'mieters')->result_array();
@@ -167,6 +169,16 @@ class Mieter_model extends App_Model
     function add($data)
     {
         if ($data) {
+            $austattung = $data['austattung'];
+            $a_qty = $data['a_qty'];
+            $sqr = $data['sqr'];
+            $deleteData = $data['delete'];
+            $reasons = $data['reasons'];
+            unset($data['a_qty']);
+            unset($data['austattung']);
+            unset($data['delete']);
+            unset($data['sqr']);
+            unset($data['reasons']);
 
             $data['beraumung'] = to_sql_datedv($data['beraumung']);
             $data['baubeginn'] = to_sql_datedv($data['baubeginn']);
@@ -188,11 +200,39 @@ class Mieter_model extends App_Model
             $data = hooks()->apply_filters('before_mieters_added', $data);
 
             $this->db->insert(db_prefix() . 'mieters', $data);
-            return $this->db->insert_id();
+            $insert_id = $this->db->insert_id();
+            if ($insert_id) {
+                foreach ($austattung as $k => $item) {
+                    if ($a_qty[$k] == 0)
+                        continue;
+                    $data = array('reason' => $reasons[$k],
+                        'is_deleted' => (int)$deleteData[$k],
+                        'for' => 1,
+                        'qty' => $a_qty[$k], 'sqr' => $sqr[$k]);
+                    if (!$this->wohnungen_inventar_model->exist($insert_id, $item)) {
+                        $data['aq_id'] = $insert_id;
+                        $data['inventar_id'] = $item;
+                        $this->wohnungen_inventar_model->add($data);
+                    } else {
+                        $this->wohnungen_inventar_model->update($data, $insert_id, $item);
+                    }
+                }
+            }
         }
         return false;
     }
 
+
+    public function getInventer($aq_id, $acttt = false)
+    {
+        $this->db->where('qty >', 0);
+        $this->db->where('aq_id', $aq_id);
+        $this->db->where('for', 1);
+        if ($acttt) {
+            $this->db->where('is_deleted', 0);
+        }
+        return $this->db->get(db_prefix() . 'wohnungen_inventar')->result_array();
+    }
 
     /**
      * @param integer ID

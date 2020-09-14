@@ -197,6 +197,8 @@ class Dashboard extends AdminController
         } else if ($_POST['menu_slug'] == 'move_inventory') {
             redirect(admin_url('wohnungen/' . $_POST['menu_slug']));
         } else {
+            if ($_POST['menu_clone'] == '1')
+                redirect(admin_url());
             redirect(admin_url($_POST['menu_slug']));
         }
     }

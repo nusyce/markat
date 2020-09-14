@@ -7,7 +7,7 @@ function app_init_admin_sidebar_menu_items()
     $CI = &get_instance();
 
     $CI->app_menu->add_sidebar_menu_item('hauptinfo', [
-        'name' =>   _l('Hauptinfo '),
+        'name' =>  get_menu_option('hauptinfo', _l('Hauptinfo ')),
         'collapse' => true,
         'position' => 1,
         'icon' => 'fa fa-home',
@@ -83,7 +83,7 @@ function app_init_admin_sidebar_menu_items()
 
 
     $CI->app_menu->add_sidebar_menu_item('mieterbetreuung', [
-        'name' =>   _l('Mieterbetreuung '),
+        'name' =>   get_menu_option('mieterbetreuung', _l('Mieterbetreuung ')),
         'collapse' => true,
         'position' => 20,
         'icon' => 'fa fa-file',
@@ -247,7 +247,7 @@ function app_init_admin_sidebar_menu_items()
     }*/
 
     $CI->app_menu->add_sidebar_menu_item('workstation', [
-        'name' =>   _l('Workstation '),
+        'name' =>    get_menu_option('workstation', _l('Workstation ')),
         'collapse' => true,
         'position' => 30,
         'icon' => 'fa fa-file',
@@ -301,7 +301,7 @@ function app_init_admin_sidebar_menu_items()
     ]);
 
     $CI->app_menu->add_sidebar_menu_item('kommunikation', [
-        'name' =>   _l('Kommunikation '),
+        'name' => get_menu_option('kommunikation', _l('Kommunikation')),
         'collapse' => true,
         'position' => 80,
         'icon' => 'fa fa-file',
@@ -326,7 +326,7 @@ function app_init_admin_sidebar_menu_items()
 
 
     $CI->app_menu->add_sidebar_menu_item('buchhaltung', [
-        'name' =>   _l('Buchhaltung '),
+        'name' =>   get_menu_option('buchhaltung',_l('Buchhaltung ')),
         'collapse' => true,
         'position' => 90,
         'icon' => 'fa fa-info',

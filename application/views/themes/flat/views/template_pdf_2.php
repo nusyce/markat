@@ -159,26 +159,11 @@
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong>Entladestelle:</strong></td>
-                        <td class="line" style="width: 60%" colspan="2">Fuhrmann 1</td>
+                        <td class="line" style="width: 60%" colspan="2"><?= $template->aq_strabe.' '.$template->aq_nr ?></td>
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong></strong></td>
-                        <td style="width: 60%" colspan="2">12099 Berlin</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%">Geschoß</td>
-                        <td style="width: 40%"></td>
-                        <td style="width: 20%"><img src="assets/images/phone-icon.png" style="margin-left: 5px"
-                                                    width="14"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%"><strong>Entladestelle:</strong></td>
-                        <td style="width: 60%" colspan="2">Borussia 29/30</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%"><strong></strong></td>
-                        <td style="width: 60%" colspan="2">12099 Berlin</td>
+                        <td style="width: 60%" colspan="2"><?= $template->aq_zip.' '.$template->aq_ort ?></td>
                     </tr>
                     <tr>
                         <td style="width: 40%">Geschoß</td>

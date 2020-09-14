@@ -33,6 +33,7 @@ class Dokument_model extends App_Model
         $this->db->select('c.company as kunde, m.fullname as mieter, m.etage as etage, m.strabe_m as strabe, m.hausnummer_m as nr, m.plz as plz, m.stadt as stadt');
         $this->db->select('m.beraumung as beraumung, m.ruckraumung as ruckraumung, m.stadt as stadt');
         $this->db->select('p.auftrag as auftrag, p.wie as wie, p.nummer as nummer');
+        $this->db->select('w.plz as aq_zip, w.hausnummer as aq_nr, w.ort as aq_ort, w.strabe as aq_strabe');
         $this->db->where('m.id', $mieter);
         $this->db->from(db_prefix() . 'occupations as o');
         $this->db->join(db_prefix() . 'mieters as m', 'm.id = o.mieter', 'INNER');
@@ -65,6 +66,10 @@ class Dokument_model extends App_Model
             $data['nr'] = $response['nr'];
             $data['plz'] = $response['plz'];
             $data['ort'] = $response['stadt'];
+            $data['aq_ort'] = $response['aq_ort'];
+            $data['aq_zip'] = $response['aq_zip'];
+            $data['aq_strabe'] = $response['aq_strabe'];
+            $data['aq_nr'] = $response['aq_nr'];
             $data['auftrag'] = $response['auftrag'];
             $data['wie'] = $response['wie'];
             $data['projeckt'] = $response['nummer'];

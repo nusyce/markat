@@ -431,6 +431,162 @@
 
             </div>
         </div>
+
+        <div class="row" id="tt-pop" style="margin-top: 25px; margin-bottom: 25px">
+            <?php
+            if (empty($wohnungen->inventer)):
+                ?>
+                <div class="col-md-6 count_cone field-clone simple">
+                    <div class="row" style="display: flex">
+                        <div class="col-md-1">
+                            <div class="count-k">1</div>
+                        </div>
+                        <div class="col-md-2" style="padding-right: 5px !important;">
+                            <input name="a_qty[]" style="margin-right: -10px;padding-right: 0 !important;"
+                                   class="form-control a_qty"
+                                   min="0" value="0"
+                                   type="number">
+                        </div>
+                        <div class="col-md-5 <?= $allData ? ' moved' : '' ?>">
+                            <?php echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', ['id' => 'austattungSelect'], [], '', 'austattungSelect'); ?>
+                        </div>
+                        <div class="col-md-2" style="padding: 0;">
+                            <input name="sqr[]" readonly style="margin-right: -10px; padding-right: 0px !important;"
+                                   class="form-control sqr" min="0" value=""
+                                   type="number">
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#"
+                               class="btn remove-aq btn-danger disabled display-block  text-center">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php else:
+                $wohnungenOj = new Wohnungen_model();
+                foreach ($wohnungen->inventer as $k => $a):
+                    $inventar = $wohnungenOj->get_inventar($a['inventar_id'])
+                    ?>
+                    <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
+                         data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
+                        <?php if ($a['is_deleted'] == 0):
+                            $allData = get_move($wohnungen, $a['inventar_id']);
+                            ?>
+                            <div class="row firstroun">
+                                <div class="col-md-1">
+                                    <div class="count-k"><?= $k + 1 ?></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input name="a_qty[]" style="margin-right: -10px;padding-right: 0px !important;"
+                                           class="form-control a_qty" min="0"
+                                           type="number" value="<?= $a['qty'] ?>">
+                                </div>
+                                <div class="col-md-5 <?= $allData ? ' moved' : '' ?>">
+                                    <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], ['id' => 'austattungSelect'], [], '', 'austattungSelect'); ?>
+                                </div>
+                                <div class="col-md-2" style="padding: 0;">
+                                    <input name="sqr[]" readonly style="margin-right: -10px; padding-right: 0px !important;"
+                                           class="form-control sqr" min="0" value="<?= $inventar->qubik * $a['qty'] ?>"
+                                           type="number">
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="#"
+                                       class="btn remove-aq btn-danger display-block  text-center">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <?php
+                            if (isset($allData))
+                                foreach ($allData as $item) {
+                                    ?>
+                                    <div class="row ">
+                                        <div class="col-md-1">
+                                        </div>
+                                        <div class="col-md-2 text-center">
+                                            <?= $item['qty']; ?>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <?php
+                                }
+                            ?>
+                            <div class="row hide" id="deleted-reason">
+                                <input type="hidden" name="delete[]" value="0"
+                                       class="deleted">
+
+                                <div class="col-md-1">
+                                    <div class="count-k"><?= $k + 1 ?></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input style="margin-right: -10px;padding-right: 0px !important;"
+                                           class="form-control" min="0" readonly
+                                           type="number" value="<?= $a['qty'] ?>">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <input type="text" id="reasonsd-<?= $a['id'] ?>"
+                                               readonly name="reasons[]"
+                                               class="form-control reasonsd" value="<?= $a['reason'] ?>"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="#"
+                                       class="btn remove-aqq btn-danger disabled display-block  text-center">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="row" id="deleted-reason">
+                                <input type="hidden" name="delete[]" value="1"
+                                       class="deleted">
+                                <?php echo form_hidden('austattung[]', $a['inventar_id']) ?>
+                                <div class="col-md-1">
+                                    <div class="count-k"><?= $k + 1 ?></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input style="margin-right: -10px;padding-right: 0px !important;" name="a_qty[]"
+                                           class="form-control" min="1" readonly="<?= $a['is_deleted'] ? true : false ?>"
+                                           type="number" value="<?= $a['qty'] ?>">
+                                </div>
+
+                                <div class="col-md-7">
+                                    <input type="hidden" name="reasons[]"
+                                           class="reasonsd" value="<?= $a['reason'] ?>">
+
+                                    <div class="form-group">
+                                        <input type="text"
+                                               readonly="true" id="reasonsd-<?= $a['id'] ?>"
+                                               class="form-control reasonsd"
+                                               value="<?= $inventar->name . ' (' . $a['reason'] . ')' ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="#"
+                                       class="btn remove-aqq btn-danger disabled display-block  text-center">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
+                <?php endforeach;
+            endif;
+            ?>
+            <div id="add-div" class="col-md-2">
+                <a href="#" class="btn miet btn-info display-block  text-center">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">

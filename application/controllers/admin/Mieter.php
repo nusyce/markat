@@ -82,6 +82,7 @@ class Mieter extends AdminController
             $title = $data['mieter']->nachname . ' ' . $data['mieter']->vorname;
         }
         $data['title'] = $title;
+        $data['inventarlistes'] = $this->wohnungen_model->get_inventarliste();
         $data['strabe'] = $this->wohnungen_model->get_grouped('strabe');
         $data['flugel'] = $this->wohnungen_model->get_grouped('flugel');
         $data['schlaplatze'] = $this->wohnungen_model->get_grouped('schlaplatze');

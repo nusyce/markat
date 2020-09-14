@@ -5,6 +5,13 @@
     margin-left: 225px;
     top: 17px;
 }
+.need-edition .edit-menu {
+    right: 8px;
+    z-index: 999;
+}
+.need-edition:hover  .edit-menu {
+    opacity: 1 !important;
+}
 
 .fc-calendarFilter-button {
     display: none !important
@@ -19,10 +26,11 @@
     display: block;
 }
 
-.ganttbreack{
+.ganttbreack {
     background-color: red !important;
     border-color: red !important;
 }
+
 .bg-orange {
     background: orange !important;
 }
@@ -68,8 +76,8 @@
 .menu-item-leistungsverz .fa,
 .menu-item-leistungsverz span,
 
-/*.menu-item-projects .fa,*/
-/*.menu-item-projects span,*/
+    /*.menu-item-projects .fa,*/
+    /*.menu-item-projects span,*/
 
 .menu-item-lager .fa,
 .menu-item-lager span,
@@ -86,7 +94,7 @@
 }
 
 .menu-item-leistungsverz,
-/*.menu-item-projects,*/
+    /*.menu-item-projects,*/
 .menu-item-lager,
 .menu-item-buchhaltung,
 .menu-item-angebote,
@@ -1818,11 +1826,11 @@ body.rtl .dataTables_length {
     z-index: 1
 }
 
-.checkbox input[type=checkbox]:focus + label::before, .checkbox input[type=radio]:focus + label::before {
+/*.checkbox input[type=checkbox]:focus + label::before, .checkbox input[type=radio]:focus + label::before {
     outline: thin dotted;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px
-}
+}*/
 
 .checkbox input[type=checkbox]:checked + label::after, .checkbox input[type=radio]:checked + label::after {
     font-family: 'Glyphicons Halflings';

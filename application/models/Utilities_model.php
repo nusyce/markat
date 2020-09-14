@@ -618,5 +618,69 @@ class Utilities_model extends App_Model
 
         return false;
     }
+    public function get_elfinder_id_data($dir)
+    {
 
+        $sql = 'SELECT id FROM elfinder_file WHERE mtime=\'' . $dir . '\'';
+        //$sql="Select * from my_table where 1";
+    $query = $this->db->query($sql);
+    $res = $query->row();
+   // return $query->result_array();
+      //  $this->db->where('name', $name);
+      //  $this->db->where('parent_id', $dir);
+       // $res = $this->db->get('elfinder_file')->row();
+        if (!empty($res)) {
+            return $res->id;
+        }
+
+        return false;
+    }
+    public function media_folder_data($data)
+    {
+        $sql = 'SELECT id FROM tblshare_link_detail WHERE elfinder_file_id=\'' . $data['elfinder_file_id'] . '\'';
+             //$sql="Select * from my_table where 1";
+        $query = $this->db->query($sql);
+        $res = $query->row();
+        if (!empty($res)) {
+            $this->db->where('elfinder_file_id', $data['elfinder_file_id']);
+            $this->db->update(db_prefix() . 'share_link_detail', $data);
+            return true;
+        }else{
+            $this->db->insert(db_prefix() . 'share_link_detail', $data);
+            $insert_id = $this->db->insert_id();
+            if ($insert_id) {
+               // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+     public function check_media_share_link($elfinder_file_id)
+    {
+        $sql = 'SELECT id FROM tblshare_link_detail WHERE elfinder_file_id=\'' . $elfinder_file_id . '\'';
+             //$sql="Select * from my_table where 1";
+        $query = $this->db->query($sql);
+        $res = $query->row();
+       if (!empty($res)) {
+            return $res->id;
+        }
+
+
+        return false;
+    }
+      public function check_media_share_link_password($elfinder_file_id,$password)
+    {
+        $sql = 'SELECT id FROM tblshare_link_detail WHERE elfinder_file_id=\'' . $elfinder_file_id . '\' and password  =\'' . $password . '\'';
+             //$sql="Select * from my_table where 1";
+        $query = $this->db->query($sql);
+        $res = $query->row();
+       if (!empty($res)) {
+            return $res->id;
+        }
+
+
+        return false;
+    }
 }

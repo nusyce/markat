@@ -47,11 +47,12 @@ class Belegungsplan extends AdminController
         if($this->input->get('hausnummer')){ $filters['hausnummer'] = $this->input->get('hausnummer'); }
         if($this->input->get('etage')){ $filters['etage'] = $this->input->get('etage'); }
         if($this->input->get('flugel')){ $filters['flugel'] = $this->input->get('flugel'); }
+        if($this->input->get('schlaplatze')){ $filters['schlaplatze'] = $this->input->get('schlaplatze'); }
+        if($this->input->get('mobiliert')){ $filters['mobiliert'] = $this->input->get('mobiliert'); }
 
-        $aqs = $this->wohnungen_model->get_wohnungens($filters, 'strabe');
+        $aqs = $this->wohnungen_model->get_wohnungens($filters);
         if($aqs){
         foreach ($aqs as $k => $aq) {
-
             $tmpdata['name'] = $aq['strabe'];
             $tmpdata['desc'] = $aq['hausnummer'];
             $tmpdata['etage'] = $aq['etage'];

@@ -617,6 +617,7 @@ endforeach;
                 $('.gant-view').addClass('hide');
                 $('.list-view,.dataTable').removeClass('hide');
                 $('#printbtn').hide();
+                $('.app').addClass('show-sidebar').removeClass('hide-sidebar');
             }
         })
 
@@ -661,21 +662,25 @@ endforeach;
                     .responsive.recalc();
             });
         });
-        $("#gant-chart-filter #belegt_v").on('change',function(e){ loadGantChart(); });
-        $("#gant-chart-filter #strabe").on('change',function(e){ loadGantChart(); });
-        $("#gant-chart-filter #hausnummer").on('change',function(e){ loadGantChart(); });
-        $("#gant-chart-filter #etage").on('change',function(e){ loadGantChart();});
-        $("#gant-chart-filter #flugel").on('change',function(e){ loadGantChart(); });
+        $("#belegt_v").on('change',function(e){ loadGantChart(); });
+        $("#strabe").on('change',function(e){ loadGantChart(); });
+        $("#hausnummer").on('change',function(e){ loadGantChart(); });
+        $("#etage").on('change',function(e){ loadGantChart();});
+        $("#flugel").on('change',function(e){ loadGantChart(); });
+        $("#mobiliert").on('change',function(e){ loadGantChart(); });
+        $("#schlaplatze").on('change',function(e){ loadGantChart(); });
 
 
         function loadGantChart(momet = '') {
             // Get Filter data
             var filterArray = {};
-            filterArray.belegt_v = $("#gant-chart-filter #belegt_v").val();
-            filterArray.strabe = $("#gant-chart-filter #strabe").val();
-            filterArray.hausnummer = $("#gant-chart-filter #hausnummer").val();
-            filterArray.etage = $("#gant-chart-filter #etage").val();
-            filterArray.flugel = $("#gant-chart-filter #flugel").val();
+            filterArray.belegt_v = $("#belegt_v").val();
+            filterArray.strabe = $("#strabe").val();
+            filterArray.hausnummer = $("#hausnummer").val();
+            filterArray.etage = $("#etage").val();
+            filterArray.flugel = $("#flugel").val();
+            filterArray.mobiliert = $("#mobiliert").val();
+            filterArray.schlaplatze = $("#schlaplatze").val();
 
             $(".selector").gantt({
                 source: "<?php echo base_url(); ?>/admin/belegungsplan/table1?" + encodeURI($.param(filterArray)),

@@ -167,6 +167,7 @@ class Wohnungen_model extends App_Model
     {
         $this->db->where('qty >', 0);
         $this->db->where('aq_id', $aq_id);
+        $this->db->where('for', 0);
         if ($acttt) {
             $this->db->where('is_deleted', 0);
         }
@@ -356,6 +357,7 @@ class Wohnungen_model extends App_Model
                         continue;
                     $data = array('reason' => $reasons[$k],
                         'is_deleted' => (int)$deleteData[$k],
+                        'for' => 0,
                         'qty' => $a_qty[$k], 'sqr' => $sqr[$k]);
                     if (!$this->wohnungen_inventar_model->exist($insert_id, $item)) {
                         $data['aq_id'] = $insert_id;

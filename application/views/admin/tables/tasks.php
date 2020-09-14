@@ -11,14 +11,14 @@ $aColumns = [
     '1', // bulk actions
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
-    'status',
+    db_prefix() . 'tasks.status as status',
     'startdate',
     'duedate',
     db_prefix() . 'mieters.fullname as fullname',
     get_sql_select_task_asignees_full_names() . ' as assignees',
     '(SELECT count(' . db_prefix() . 'task_checklist_items.taskid) FROM ' . db_prefix() . 'task_checklist_items WHERE ' . db_prefix() . 'task_checklist_items.taskid=' . db_prefix() . 'tasks.id) as checkpoint',
     'datefinished',
-    db_prefix() . 'tsk_project.name as project',
+    db_prefix() . 'projects.name as project',
     'priority',
     db_prefix() . 'mieters.id as idm',
 ];
@@ -28,7 +28,7 @@ $sTable = db_prefix() . 'tasks';
 
 $where = [];
 $join = [];
-$join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'tasks.project';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'tasks.project';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'tasks.mieters';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'task_assigned ON ' . db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id';
 
@@ -88,7 +88,7 @@ $result = data_tables_init(
         get_sql_select_task_assignees_ids() . ' as assignees_ids',
         '(SELECT MAX(id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . db_prefix() . 'tasks.id and staff_id=' . get_staff_user_id() . ' and end_time IS NULL) as not_finished_timer_by_current_staff',
         '(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned',
-        '(SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
+        '(SELECT CASE WHEN '.db_prefix() . 'projects.addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
     ]
 );
 

@@ -294,6 +294,192 @@ class Utilities extends AdminController
         $connector->run();
     }
 
+     // Moved here from version 1.0.5
+    public function sharelink()
+    {
+        $this->load->helper('url');
+        $data['title']     = _l('media_files');
+        $parent_id = $this->uri->segment(4);
+        $checkPasswordData = $this->uri->segment(5);
+        $elfinder_id = $this->utilities_model->get_elfinder_id_data($parent_id);
+        $parent_id_data = $elfinder_id;
+
+        $check_data = $this->utilities_model->check_media_share_link($parent_id);
+        if(!empty($check_data) && ($checkPasswordData != 1)){
+            $this->load->view('admin/utilities/media_protected');
+        }else{
+            $data['connector'] = admin_url() . '/utilities/share_connector/'.$parent_id_data;
+
+            $mediaLocale = get_media_locale();
+
+            $this->app_scripts->add('media-js', 'assets/plugins/elFinder/js/elfinder.min.js');
+
+            if (file_exists(FCPATH . 'assets/plugins/elFinder/js/i18n/elfinder.' . $mediaLocale . '.js') && $mediaLocale != 'en') {
+                $this->app_scripts->add('media-lang-js', 'assets/plugins/elFinder/js/i18n/elfinder.' . $mediaLocale . '.js');
+            }
+
+            $this->load->view('admin/utilities/share_media', $data);
+        }
+
+    }
+    public function check_password()
+    {
+
+        $parent_id = $this->uri->segment(4);
+
+        if ($this->input->post()) {
+            $check_data = $this->utilities_model->check_media_share_link_password($parent_id,$this->input->post('password'));
+            if ($check_data) {
+
+                set_alert('success', 'Password Checked Successfully');
+               redirect(admin_url('utilities/sharelink/'.$parent_id.'/1'));
+
+            } else {
+                //set_alert('warning', 'Password Incorrect');
+                $this->session->set_flashdata('message-warning','Password Incorrect');
+               // redirect(admin_url('utilities/sharelink/'.$parent_id.'/2'));
+            }
+        }
+        //set_alert('danger', 'Incorrect Information');
+        $this->load->view('admin/utilities/media_protected');
+
+
+        //redirect(admin_url('utilities/sharelink/'.$parent_id.'/3'));
+    }
+      public function share_connector()
+    {
+        $media_folder = $this->app->get_media_folder();
+        $mediaPath    = FCPATH . $media_folder;
+        $parent_path = $this->uri->segment(4);
+
+        if (!is_dir($mediaPath)) {
+            mkdir($mediaPath, 0755);
+        }
+
+        if (!file_exists($mediaPath . '/index.html')) {
+            $fp = fopen($mediaPath . '/index.html', 'w');
+            if ($fp) {
+                fclose($fp);
+            }
+        }
+
+        $this->load->helper('path');
+
+        $root_options = [
+            //'driver' => 'LocalFileSystem',
+           // 'path'   => set_realpath($media_folder),
+            'driver' => 'MySQL',
+            'host' => APP_DB_HOSTNAME,
+            'port' => APP_DB_PORT,
+            'user' => APP_DB_USERNAME,
+            'pass' => APP_DB_PASSWORD,
+            'db' => APP_DB_NAME,
+            'path' => $parent_path,
+            //'URL'    => site_url($media_folder) . '/',
+            //'debug'=>true,
+            'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
+            'accessControl' => 'access_control_media',
+            'uploadDeny'    => [
+                'application/x-httpd-php',
+                'application/php',
+                'application/x-php',
+                'text/php',
+                'text/x-php',
+                'application/x-httpd-php-source',
+                'application/perl',
+                'application/x-perl',
+                'application/x-python',
+                'application/python',
+                'application/x-bytecode.python',
+                'application/x-python-bytecode',
+                'application/x-python-code',
+                'wwwserver/shellcgi', // CGI
+            ],
+            'uploadAllow' => !$this->input->get('editor') ? [] : ['image', 'video'],
+            'uploadOrder' => [
+                'deny',
+                'allow',
+            ],
+            'attributes' => [
+                [
+                    'pattern' => '/.tmb/',
+                    'hidden'  => true,
+                ],
+                [
+                    'pattern' => '/.quarantine/',
+                    'hidden'  => true,
+                ],
+                [
+                    'pattern' => '/public/',
+                    'hidden'  => true,
+                ],
+            ],
+        ];
+
+        if (!is_admin()) {
+            $this->db->select('media_path_slug,staffid,firstname,lastname')
+            ->from(db_prefix() . 'staff')
+            ->where('staffid', get_staff_user_id());
+            $user = $this->db->get()->row();
+          //  $path = set_realpath($media_folder . '/' . $user->media_path_slug);
+            if (empty($user->media_path_slug)) {
+                $this->db->where('staffid', $user->staffid);
+                $slug = slug_it($user->firstname . ' ' . $user->lastname);
+                $this->db->update(db_prefix() . 'staff', [
+                    'media_path_slug' => $slug,
+                ]);
+                $user->media_path_slug = $slug;
+                //$path                  = set_realpath($media_folder . '/' . $user->media_path_slug);
+            }
+            // if (!is_dir($path)) {
+            //     mkdir($path, 0755);
+            // }
+            // if (!file_exists($path . '/index.html')) {
+            //     $fp = fopen($path . '/index.html', 'w');
+            //     if ($fp) {
+            //         fclose($fp);
+            //     }
+            // }
+            // array_push($root_options['attributes'], [
+            //     'pattern' => '/.(' . $user->media_path_slug . '+)/', // Prevent deleting/renaming folder
+            //     'read'    => true,
+            //     'write'   => true,
+            //     'locked'  => true,
+            // ]);
+            // $root_options['path'] = $path;
+            // $root_options['URL']  = site_url($media_folder . '/' . $user->media_path_slug) . '/';
+        }
+
+        // $publicRootPath      = $media_folder . '/public';
+        // $public_root         = $root_options;
+        // $public_root['path'] = set_realpath($publicRootPath);
+
+        // $public_root['URL'] = site_url($media_folder) . '/public';
+        // unset($public_root['attributes'][3]);
+
+        // if (!is_dir($publicRootPath)) {
+        //     mkdir($publicRootPath, 0755);
+        // }
+
+        // if (!file_exists($publicRootPath . '/index.html')) {
+        //     $fp = fopen($publicRootPath . '/index.html', 'w');
+        //     if ($fp) {
+        //         fclose($fp);
+        //     }
+        // }
+        //echo '<pre>'; print_r($root_options);
+        $opts = [
+            'roots' => [
+                $root_options,
+                //$public_root,
+            ],
+        ];
+
+        $opts      = hooks()->apply_filters('before_init_media', $opts);
+        $connector = new elFinderConnector(new elFinder($opts));
+        $connector->run();
+    }
+
     public function bulk_pdf_exporter()
     {
         if (!has_permission('bulk_pdf_exporter', '', 'view')) {
@@ -404,5 +590,22 @@ class Utilities extends AdminController
         echo $success;
         exit;
 
+    }
+    public function ajax_assign()
+    {
+        $response = ['msg' => '', 'status' => true,'success' => false];
+        if ($this->input->post()) {
+            $data['elfinder_file_id'] = $this->input->post('elfinderdir_new');
+            $data['password'] = $this->input->post('password');
+            $id = $this->utilities_model->media_folder_data($data);
+           // echo $this->db->last_query();
+                $response['success'] = true;
+            if ($id) {
+                $response['msg'] = _l('added_successfully', 'Media');
+            }
+
+        }
+        echo json_encode($response);
+        die();
     }
 }

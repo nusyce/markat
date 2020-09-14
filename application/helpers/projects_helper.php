@@ -82,7 +82,39 @@ function app_init_project_tabs()
         'icon'                      => 'fa fa-files-o',
         'view'                      => 'admin/projects/project_files',
         'position'                  => 25,
-        'linked_to_customer_option' => ['upload_files'],
+        'linked_to_customer_option' => ['view_mieter'],
+    ]);
+
+    $CI->app_tabs->add_project_tab('staff', [
+        'name'                      => _l('MITGLIEDER '),
+        'icon'                      => 'fa fa-files-o',
+        'view'                      => 'admin/projects/project_staff',
+        'position'                  => 28,
+        'linked_to_customer_option' => ['view_staff'],
+    ]);
+
+    $CI->app_tabs->add_project_tab('aq', [
+        'name'                      => _l('AQ '),
+        'icon'                      => 'fa fa-files-o',
+        'view'                      => 'admin/projects/project_aq',
+        'position'                  => 33,
+        'linked_to_customer_option' => ['view_aq'],
+    ]);
+
+    $CI->app_tabs->add_project_tab('personalplan', [
+        'name'                      => _l('Personalplan '),
+        'icon'                      => 'fa fa-files-o',
+        'view'                      => 'admin/projects/project_personalplan',
+        'position'                  => 38,
+        'linked_to_customer_option' => ['view_personalplan'],
+    ]);
+
+    $CI->app_tabs->add_project_tab('rb', [
+        'name'                      => _l('Räumung/Beräumung '),
+        'icon'                      => 'fa fa-files-o',
+        'view'                      => 'admin/projects/project_rb',
+        'position'                  => 43,
+        'linked_to_customer_option' => ['view_rb'],
     ]);
 
 //    $CI->app_tabs->add_project_tab('project_discussions', [
