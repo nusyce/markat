@@ -6,7 +6,7 @@ $this->ci->load->model('wohnungen_model');
 $this->ci->load->model('belegungsplan_model');
 $aColumns = [
     '1',
-    db_prefix() . 'wohnungen.id as id', 1,1,
+    db_prefix() . 'wohnungen.id as id', 1, 1,
     'strabe',
     'hausnummer',
     'etage',
@@ -16,7 +16,7 @@ $aColumns = [
     'schlaplatze',
     'mobiliert',
     '(SELECT count(' . db_prefix() . 'wohnungen_inventar.aq_id) FROM ' . db_prefix() . 'wohnungen_inventar WHERE ' . db_prefix() . 'wohnungen_inventar.aq_id=' . db_prefix() . 'wohnungen.id) as austattung',
-    'project',
+    db_prefix() . 'projects.name as project',
     db_prefix() . 'wohnungen.active',
 ];
 $sIndexColumn = 'id';
@@ -24,6 +24,7 @@ $sTable = db_prefix() . 'wohnungen';
 $where = [];
 $join = [];
 $filter = [];
+$join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'wohnungen.project';
 
 if ($this->ci->input->post('belegt')) {
     $val = $this->ci->db->escape_str($this->ci->input->post('belegt')) == 'Nein' ? 1 : 0;
@@ -34,9 +35,10 @@ if ($this->ci->input->post('belegt')) {
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND strabe ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
 }
-
 if ($this->ci->input->post('project')) {
-    array_push($where, 'AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+    array_push($where, ' AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+} else if ($project) { // added to filter in Project View screen
+    array_push($where, 'AND project ="' . $project . ' " ');
 }
 
 if ($this->ci->input->post('hausnummer')) {
@@ -64,14 +66,13 @@ if ($this->ci->input->post('wohnungsnumme')) {
     array_push($where, 'AND wohnungsnumme ="' . $this->ci->db->escape_str($this->ci->input->post('wohnungsnumme')) . ' " ');
 }
 
-//$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'wohnungen.mieter = ' . db_prefix() . 'mieters.id';
-
-$staff= get_staff();
-if (isset($staff->projects)&&!empty($staff->projects)){
-    $stf_project= unserialize($staff->projects);
-    $stf_project = implode("','",$stf_project);
-    array_push($where, ' AND ' . db_prefix() . 'wohnungen.project IN  ("' . $stf_project . ' ") ');
-
+$staff = get_staff();
+if (isset($staff->projects) && !empty($staff->projects)) {
+    $stf_project = unserialize($staff->projects);
+    if (count($stf_project) > 0) {
+        $stf_project = implode("','", $stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'wohnungen.project IN  ("' . $stf_project . ' ") ');
+    }
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'wohnungen.id']);
@@ -101,7 +102,7 @@ foreach ($rResult as $aRow) {
 
     $occupation = $this->ci->belegungsplan_model->get_occupations(array('wohnungen' => $aRow['id']));
     $class = $occupation ? ' enabled' : ' disabled';
-    $gantchart = '<div class="row-options-gantchart '.$class.'"><a href="#"  data-id="' . $aRow['id'] . '" data-target="#gantmgre51">';
+    $gantchart = '<div class="row-options-gantchart ' . $class . '"><a href="#"  data-id="' . $aRow['id'] . '" data-target="#gantmgre51">';
     $gantchart .= '  <div class="selcet">Gant Chart</div></a>';
     $row[] = $gantchart;
 

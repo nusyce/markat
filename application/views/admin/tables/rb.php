@@ -4,7 +4,7 @@ $this->ci->load->model('dokument_model');
 $aColumns = [
     db_prefix() . 'mieters.id as id',
     'fullname',
-    db_prefix() . 'tsk_project.name as project',
+    db_prefix() . 'projects.name as project',
     'strabe_m as strabe',
     'hausnummer_m as hausnummer',
     'plz',
@@ -20,9 +20,9 @@ $sIndexColumn = 'id';
 $sTable = db_prefix() . 'mieters';
 
 $where = ['AND (beraumung !=""  OR ruckraumung !="" )'];
-$join = [];$join[] = ' LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.project';
-
+$join = [];$join[] = ' LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'mieters.project';
 $filter = [];
+
 
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
@@ -45,7 +45,10 @@ if ($this->ci->input->post('stadt')) {
 
 if ($this->ci->input->post('project')) {
     array_push($where, 'AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+}else if ($project) { // added to filter in Project View screen
+    array_push($where, 'AND project ="' . $project . ' " ');
 }
+
 
 
 if ($this->ci->input->post('beraumung')) {

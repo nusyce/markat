@@ -35,8 +35,11 @@ $join = [];
 $staff= get_staff();
 if (isset($staff->projects)&&!empty($staff->projects)){
     $stf_project= unserialize($staff->projects);
-    $stf_project = implode("','",$stf_project);
-    array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+    if (count($stf_project)>0){
+        $stf_project = implode("','",$stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+
+    }
 
 }
 

@@ -1,47 +1,13 @@
+<?php
 
-        <div class="row">
-            <?php $_SESSION['staff']= ($staffs); ?>
-            <?php
 
-            if(has_permission('personalplan', get_staff_user_id(), 'edit')) {
-                echo '<div class="col-xs-10 col-md-10">';
-            }
-            else {
-                echo '<div class="col-xs-12 col-md-12">';
-            }
-            ?>
-            <div class="panel_s">
-                <div class="panel-body" style="overflow-x: auto;">
-                    <div class="dt-loader hide"></div>
+$data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
+$data['staffs'] = $this->staff_model->get();
+$data['google_calendar_api'] = get_option('google_calendar_api_key');
+$data['title'] = _l('Personalplan');
 
-                    <?php
-                    if(has_permission('personalplan', get_staff_user_id(), 'view')){
-                        $this->load->view('admin/utilities/calendar_filters');
-                    }
-                    ?>
-                    <div id="calendar"></div>
-                </div>
-            </div>
-        </div>
+$this->load->view('admin/utilities/calendar-shared', $data);?>
 
-        <?php
-        if(has_permission('personalplan', get_staff_user_id(), 'edit') || is_admin()){
-            echo'<div class="col-xs-2 col-md-2">
-							<div class="panel_s">
-								<div class="panel-body" style="overflow-x: auto;">
-						';
-            $this->load->view('admin/utilities/calendar_empsidelist');
-
-            echo'		</div>
-							</div>
-						</div>
-						';
-        }
-        ?>
-<?php $this->load->view('admin/utilities/calendar_template'); ?>
-<script>
-    app.calendarIDs = '<?php echo json_encode($google_ids_calendars); ?>';
-</script>
 <script>
     $(function(){
         if(get_url_param('eventid')) {

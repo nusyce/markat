@@ -26,7 +26,9 @@ $aColumns = [
     db_prefix() . 'mieters.updated_at as updated_at',
     db_prefix() . 'occupations.belegt_b as startat'
 ];
-$sIndexColumn = 'id';
+
+
+$sIndexColumn =  'id';
 $sTable = db_prefix() . 'mieters';
 $where = [];
 $join = [];
@@ -36,8 +38,11 @@ $join[] = 'LEFT JOIN ' . db_prefix() . 'occupations ON ' . db_prefix() . 'occupa
 $staff= get_staff();
 if (isset($staff->projects)&&!empty($staff->projects)){
     $stf_project= unserialize($staff->projects);
-    $stf_project = implode("','",$stf_project);
-    array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+    if (count($stf_project)>0){
+        $stf_project = implode("','",$stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+
+    }
 
 }
 $filter = [];
@@ -76,24 +81,12 @@ if ($this->ci->input->post('mobiliert')) {
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'mieters.id']);
-$rResult = array();
+
 $output = $result['output'];
-$rResult1 = $result['rResult'];
+$rResult = $result['rResult'];
+$rResult = unique_multidim_array($rResult, 'id');
 
-
-/*foreach ($rResult1 as $rR) {
-    if ($rR['project'] == 'BOR' && has_permission('mieter', '', 'view_bor')) {
-        array_push($rResult, $rR);
-    } elseif ($rR['project'] == 'FER' && has_permission('mieter', '', 'view_fer')) {
-        array_push($rResult, $rR);
-    } elseif ($rR['project'] == 'TOPS' && has_permission('mieter', '', 'view_tops')) {
-        array_push($rResult, $rR);
-    } elseif ($rR['project'] == '') {
-        array_push($rResult, $rR);
-    }
-}*/
-
-foreach ($rResult1 as $aRow) {
+foreach ($rResult as $aRow) {
     $row = [];
     $row[] = '<div class="multiple_action checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
     $row[] = $aRow['id'];

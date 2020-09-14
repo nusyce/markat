@@ -18,6 +18,11 @@ class Staff extends AdminController
         $this->load->view('admin/staff/manage', $data);
     }
 
+    public function table($project)
+    {
+        $this->app->get_table_data('staff', ['project' => $project]);
+    }
+
     /* Add new staff member or edit existing */
     public function member($id = '')
     {

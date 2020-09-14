@@ -35,9 +35,9 @@ class Wohnungen extends AdminController
     }
 
 
-    public function table($clientid = '')
+    public function table($project = '')
     {
-        $this->app->get_table_data('wohnungen', []);
+        $this->app->get_table_data('wohnungen', ['project' => $project]);
     }
 
     public function render_inventory($clientid = '')

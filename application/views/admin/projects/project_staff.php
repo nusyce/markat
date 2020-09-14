@@ -14,4 +14,7 @@ $custom_fields = get_custom_fields('staff', array('show_on_table' => 1));
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);
 }
-render_datatable($table_data, 'staff');
+$project = ($project->id ? $project->id : -1);
+render_datatable($table_data, 'staff', [], array(
+    'id' => 'table-project-staff',
+    'data-url' => admin_url('staff/table/' . $project)));

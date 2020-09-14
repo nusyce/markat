@@ -65,8 +65,10 @@ class Mieter_model extends App_Model
         $staff = get_staff();
         if (isset($staff->projects) && !empty($staff->projects)) {
             $stf_project = unserialize($staff->projects);
-            $stf_project = implode("','", $stf_project);
-            $this->db->where(db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
+            if (count($stf_project) > 0) {
+                $stf_project = implode("','", $stf_project);
+                $this->db->where(db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
+            }
 
         } else {
             $this->db->where_in('id', $project_ids);
