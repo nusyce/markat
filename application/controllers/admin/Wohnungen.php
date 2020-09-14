@@ -71,6 +71,7 @@ class Wohnungen extends AdminController
             }
         }
 
+
         if ($id == '') {
             $title = 'Wohnungen erstellen';
         } else {
@@ -143,7 +144,7 @@ class Wohnungen extends AdminController
             if (!empty($belegungsplan)) {
                 foreach ($belegungsplan as $b) {
                     $mieter = $this->mieter_model->get($b['mieter']);
-                    $projektnv = (empty($mieter->projektname)) ? ' ' : ' (' . $mieter->projektname . ')';
+                    $projektnv = (empty($mieter->project)) ? ' ' : ' (' . $mieter->project . ')';
                     $values['label'] = $b['mieter_name'] . $projektnv;
                     $values['id_mieter'] = (int)$b['mieter'];
                     $values['id'] = (int)$b['id'];

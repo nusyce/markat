@@ -26,6 +26,7 @@ class Staff extends AdminController
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
+        $this->load->model('projects_model');
         $this->load->model('departments_model');
         if ($this->input->post()) {
             $data = $this->input->post();
@@ -39,7 +40,7 @@ class Staff extends AdminController
             }
 
             $data['password'] = $this->input->post('password', false);
-
+            $data['projects'] = serialize($data['projects']);
             if ($id == '') {
                 if (!has_permission('staff', '', 'create')) {
                     access_denied('staff');
@@ -97,6 +98,7 @@ class Staff extends AdminController
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['roles'] = $this->roles_model->get();
+        $data['projects'] = $this->projects_model->get();
         $data['user_notes'] = $this->misc_model->get_notes($id, 'staff');
         $data['departments'] = $this->departments_model->get();
         $data['title'] = $title;
@@ -234,7 +236,7 @@ class Staff extends AdminController
             }
 
             if (isset($data['signature'])) {
-                $data['signature'] =str_replace('[removed]','',$data['signature']);
+                $data['signature'] = str_replace('[removed]', '', $data['signature']);
             }
             $success = $this->staff_model->update_profile($data, get_staff_user_id());
             if ($success) {

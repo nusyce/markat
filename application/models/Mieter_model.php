@@ -7,6 +7,8 @@ class Mieter_model extends App_Model
     public function __construct()
     {
         parent::__construct();
+
+        $this->load->model('wohnungen_inventar_model');
     }
 
 
@@ -54,11 +56,11 @@ class Mieter_model extends App_Model
 
     public function get_projekte()
     {
-        $project = $this->get_grouped('projektname');
+        $project = $this->get_grouped('project');
         if (!$project) return array();
         $project_ids = array();
         foreach ($project as $p) {
-            array_push($project_ids, $p['projektname']);
+            array_push($project_ids, $p['project']);
         }
         $this->db->where_in('id', $project_ids);
         return $this->db->get(db_prefix() . 'tsk_project')->result_array();
@@ -203,13 +205,13 @@ class Mieter_model extends App_Model
             $insert_id = $this->db->insert_id();
             if ($insert_id) {
                 foreach ($austattung as $k => $item) {
-                    if ($a_qty[$k] == 0)
+                    if ($a_qty[$k] == 0 && $item < 1)
                         continue;
                     $data = array('reason' => $reasons[$k],
                         'is_deleted' => (int)$deleteData[$k],
                         'for' => 1,
                         'qty' => $a_qty[$k], 'sqr' => $sqr[$k]);
-                    if (!$this->wohnungen_inventar_model->exist($insert_id, $item)) {
+                    if (!$this->wohnungen_inventar_model->exist($insert_id, $item, 1)) {
                         $data['aq_id'] = $insert_id;
                         $data['inventar_id'] = $item;
                         $this->wohnungen_inventar_model->add($data);
@@ -221,7 +223,6 @@ class Mieter_model extends App_Model
         }
         return false;
     }
-
 
     public function getInventer($aq_id, $acttt = false)
     {
@@ -270,6 +271,18 @@ class Mieter_model extends App_Model
     public function update($data, $id)
     {
         $affectedRows = 0;
+
+        $austattung = $data['austattung'];
+        $a_qty = $data['a_qty'];
+        $sqr = $data['sqr'];
+        $deleteData = $data['delete'];
+        $reasons = $data['reasons'];
+        unset($data['a_qty']);
+        unset($data['austattung']);
+        unset($data['delete']);
+        unset($data['sqr']);
+        unset($data['reasons']);
+
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['userid'] = get_staff_user_id();
         $data['raucher'] = $data['raucher'] == 'on' ? 1 : 0;
@@ -291,6 +304,22 @@ class Mieter_model extends App_Model
         //   $data = hooks()->apply_filters('before_mieters_updated', $data, $id);
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'mieters', $data);
+        foreach ($austattung as $k => $item) {
+            if ($a_qty[$k] == 0 && $item < 1)
+                continue;
+            $data = array('reason' => $reasons[$k],
+                'is_deleted' => (int)$deleteData[$k],
+                'qty' => $a_qty[$k],
+                'for' => 1,
+                'sqr' => $sqr[$k]);
+            if (!$this->wohnungen_inventar_model->exist($id, $item, 1)) {
+                $data['aq_id'] = $id;
+                $data['inventar_id'] = $item;
+                $this->wohnungen_inventar_model->add($data);
+            } else {
+                $this->wohnungen_inventar_model->update($data, $id, $item);
+            }
+        }
 
         if ($this->db->affected_rows() > 0) {
             return true;

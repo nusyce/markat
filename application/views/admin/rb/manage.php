@@ -45,7 +45,7 @@
                                         <?php echo render_select('stadt', $stadt, array('stadt', 'stadt'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Stadt'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('project', $project, array('projektname', 'projektname'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                        <?php echo render_select('project', $project, array('project', 'project'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
                                         <?php echo render_date_input('beraumung', '', '', array('data-width' => '100%', 'placeholder' => 'Beraumung'), array()); ?>

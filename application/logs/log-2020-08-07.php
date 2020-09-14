@@ -3026,7 +3026,7 @@ ERROR - 2020-08-07 06:12:40 --> Could not find the language line "Mitarbeiter"
 ERROR - 2020-08-07 06:12:40 --> Could not find the language line "Mieter"
 ERROR - 2020-08-07 06:12:40 --> Could not find the language line "Fahrzeugliste"
 ERROR - 2020-08-07 06:12:41 --> Could not find the language line "Erstellen"
-ERROR - 2020-08-07 06:12:41 --> Could not find the language line "Alle l�schen"
+ERROR - 2020-08-07 06:12:41 --> Could not find the language line "Alle l�schen"
 ERROR - 2020-08-07 06:12:45 --> Could not find the language line "MEINE FIRMA"
 ERROR - 2020-08-07 06:12:45 --> Could not find the language line "Personalplan"
 ERROR - 2020-08-07 06:12:45 --> Could not find the language line "Räumung/Beräumung"
@@ -3625,18 +3625,18 @@ ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined offset: 18 C:\xam
 ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined offset: 19 C:\xampp\htdocs\markat\application\helpers\datatables_helper.php 163
 ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined offset: 20 C:\xampp\htdocs\markat\application\helpers\datatables_helper.php 163
 ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined offset: 21 C:\xampp\htdocs\markat\application\helpers\datatables_helper.php 163
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 81
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 83
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 85
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 87
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 81
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 83
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 85
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 87
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 81
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 83
-ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 85
-ERROR - 2020-08-07 06:30:40 --> Severity: Notice --> Undefined index: projektname C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 87
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 81
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 83
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 85
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 87
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 81
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 83
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 85
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 87
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 81
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 83
+ERROR - 2020-08-07 06:30:39 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 85
+ERROR - 2020-08-07 06:30:40 --> Severity: Notice --> Undefined index: project C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 87
 ERROR - 2020-08-07 06:30:40 --> Severity: Notice --> A non well formed numeric value encountered C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 154
 ERROR - 2020-08-07 06:30:40 --> Severity: Notice --> A non well formed numeric value encountered C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 154
 ERROR - 2020-08-07 06:30:40 --> Severity: Notice --> A non well formed numeric value encountered C:\xampp\htdocs\markat\application\views\admin\tables\mieters.php 154

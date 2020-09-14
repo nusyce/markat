@@ -103,6 +103,7 @@ function render_projekt_select($projekts, $selected = '', $lang_key = '', $name 
     return render_select_with_input_group($name, $projekts, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>', $select_attrs);
 }
 
+
 /**
  * Check whether the data is intended to be shown for the customer
  * For example this function is used for custom fields, pdf language loading etc...

@@ -30,19 +30,25 @@ $sIndexColumn = 'id';
 $sTable = db_prefix() . 'mieters';
 $where = [];
 $join = [];
-$join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'mieters.projektname';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'mieters.project';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'occupations ON ' . db_prefix() . 'occupations.mieter = ' . db_prefix() . 'mieters.id';
+$staff= get_staff();
+if (isset($staff->projects)&&!empty($staff->projects)){
+    $stf_project= unserialize($staff->projects);
+    $stf_project = implode("','",$stf_project);
+    array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
 
+}
 $filter = [];
 
 if ($this->ci->input->post('strabe')) {
-    array_push($where, 'AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
+    array_push($where, ' AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
 }
 
 if ($this->ci->input->post('project')) {
-    array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
-} else if ($projektname) { // added to filter in Project View screen
-    array_push($where, 'AND projektname ="' . $projektname . ' " ');
+    array_push($where, ' AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+} else if ($project) { // added to filter in Project View screen
+    array_push($where, 'AND project ="' . $project . ' " ');
 }
 
 
@@ -75,13 +81,13 @@ $rResult1 = $result['rResult'];
 
 
 /*foreach ($rResult1 as $rR) {
-    if ($rR['projektname'] == 'BOR' && has_permission('mieter', '', 'view_bor')) {
+    if ($rR['project'] == 'BOR' && has_permission('mieter', '', 'view_bor')) {
         array_push($rResult, $rR);
-    } elseif ($rR['projektname'] == 'FER' && has_permission('mieter', '', 'view_fer')) {
+    } elseif ($rR['project'] == 'FER' && has_permission('mieter', '', 'view_fer')) {
         array_push($rResult, $rR);
-    } elseif ($rR['projektname'] == 'TOPS' && has_permission('mieter', '', 'view_tops')) {
+    } elseif ($rR['project'] == 'TOPS' && has_permission('mieter', '', 'view_tops')) {
         array_push($rResult, $rR);
-    } elseif ($rR['projektname'] == '') {
+    } elseif ($rR['project'] == '') {
         array_push($rResult, $rR);
     }
 }*/

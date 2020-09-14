@@ -242,8 +242,8 @@
                                                             $classAdd = $occuped ? "<i class='fa fa-check green'></i>" : "";
                                                             ?>
                                                             <?php $projektnv = '';
-                                                            if (empty($mieter['projektname']) == false) {
-                                                                $projektnv = ' (' . $mieter['projektname'] . ')';
+                                                            if (empty($mieter['project']) == false) {
+                                                                $projektnv = ' (' . $mieter['project'] . ')';
                                                             }
                                                             ?>
                                                             <option data-content="<?php echo $classAdd . ' ' . $mieter['fullname'] . ' ' . $mieter['nachname'] . ' ' . $mieter['vorname'] . ' ' . $mieter['strabe_m'] . ' ' . $mieter['hausnummer_m'] . $projektnv ?>"

@@ -26,9 +26,11 @@ class Wohnungen_inventar_model extends App_Model
         }
     }
 
-    public function exist($aq, $invent)
+
+    public function exist($aq, $invent, $type = 0)
     {
         $this->db->where('aq_id', $aq);
+        $this->db->where('for', $type);
         $this->db->where('inventar_id', $invent);
         return $this->db->get(db_prefix() . 'wohnungen_inventar')->row();
 

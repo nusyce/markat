@@ -234,6 +234,14 @@
                                         <?php $value = (isset($member) ? $member->lastname : ''); ?>
 
                                         <?php echo render_input('lastname', 'staff_add_edit_lastname', $value); ?>
+                                        <?php
+                                        $selected = isset($member->projects) ? unserialize($member->projects) : '';
+
+                                        echo render_select('projects[]', $projects, array('id', array('name')), get_menu_option('projects', _l('projects')), $selected, array('multiple' => true), array(), '', '', false); ?>
+
+                                        <?php $value = (isset($member) ? $member->lastname : ''); ?>
+
+                                        <?php echo render_input('lastname', 'staff_add_edit_lastname', $value); ?>
                                     </div>
                                 </div>
 

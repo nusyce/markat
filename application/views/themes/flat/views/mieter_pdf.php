@@ -66,10 +66,10 @@ $pdf->ln(10);
 
 $mieter_info = '';
 //Bill to
-if (!empty($mieter->fullname) || !empty($mieter->projektname)) {
+if (!empty($mieter->fullname) || !empty($mieter->project)) {
 
     $mieter_info = '<div style="color:#424242;">';
-    $mieter_info .= $mieter->fullname. ' | ' . $mieter->projektname;
+    $mieter_info .= $mieter->fullname. ' | ' . $mieter->project;
     $mieter_info .= '</div>';
 }
 if (!empty($mieter->strabe_m) || !empty($mieter->hausnummer_m) || !empty($mieter->wohnungsnummer)) {

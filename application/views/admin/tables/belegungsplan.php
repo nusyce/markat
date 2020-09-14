@@ -18,7 +18,7 @@ $aColumns = [
     db_prefix() . 'occupations.belegt_b as belegt_b',
     db_prefix() . 'wohnungen.belegt as belegt',
     db_prefix() . 'mieters.fullname as mieter_name',
-    db_prefix() . 'mieters.projektname as projekt',
+    db_prefix() . 'mieters.project as projekt',
     db_prefix() . 'occupations.active as active',
     db_prefix() . 'wohnungen.id as wohnungen',
     db_prefix() . 'occupations.mieter as mieter_id',

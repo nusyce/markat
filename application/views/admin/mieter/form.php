@@ -74,7 +74,7 @@
                 $data[] = array('value' => '8. OG');
                 $data[] = array('value' => '9. OG');
                 $data[] = array('value' => '10. OG');
-                $value = (isset($wohnungen) ? $wohnungen->etage : ''); ?>
+                $value = (isset($mieter) ? $mieter->etage : ''); ?>
                 <?php echo render_select('etage', $data, array('value', 'value'), 'Etage', $value); ?>
 
             </div>
@@ -88,7 +88,7 @@
                 $data[] = array('value' => 'Mitte');
                 $data[] = array('value' => 'Mitte/Links');
                 $data[] = array('value' => 'Mitte/Rechts');
-                $value = (isset($wohnungen) ? $wohnungen->flugel : ''); ?>
+                $value = (isset($mieter) ? $mieter->flugel : ''); ?>
                 <?php echo render_select('flugel', $data, array('value', 'value'), 'Flügel', $value); ?>
             </div>
         </div>
@@ -272,10 +272,10 @@
             <div class="col-md-6">
                 <?php
                 $selected = '';
-                if (isset($mieter) && $mieter->projektname) {
-                    $selected = $mieter->projektname;
+                if (isset($mieter) && $mieter->project) {
+                    $selected = $mieter->project;
                 }
-                echo render_project_select($projects, $selected, 'Projekt','projektname');
+                echo render_project_select($projects, $selected, 'Projekt','project');
                 ?>
             </div>
         </div>
@@ -359,6 +359,8 @@
                 </div>
             </div>
         </div>
+
+
         <!--
                                 <div class="row">
                                     <div class="col-md-12">
@@ -434,7 +436,7 @@
 
         <div class="row" id="tt-pop" style="margin-top: 25px; margin-bottom: 25px">
             <?php
-            if (empty($wohnungen->inventer)):
+            if (empty($mieter->inventer)):
                 ?>
                 <div class="col-md-6 count_cone field-clone simple">
                     <div class="row" style="display: flex">
@@ -465,13 +467,13 @@
                 </div>
             <?php else:
                 $wohnungenOj = new Wohnungen_model();
-                foreach ($wohnungen->inventer as $k => $a):
+                foreach ($mieter->inventer as $k => $a):
                     $inventar = $wohnungenOj->get_inventar($a['inventar_id'])
                     ?>
                     <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                          data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
                         <?php if ($a['is_deleted'] == 0):
-                            $allData = get_move($wohnungen, $a['inventar_id']);
+                            $allData = get_move($mieter, $a['inventar_id']);
                             ?>
                             <div class="row firstroun">
                                 <div class="col-md-1">

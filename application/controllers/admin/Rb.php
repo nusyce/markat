@@ -18,7 +18,7 @@ class Rb extends AdminController
         $data['name'] = $this->mieter_model->get_grouped('fullname', true);
         $data['strabe'] = $this->mieter_model->get_grouped('strabe_m', true);
         $data['flugel'] = $this->mieter_model->get_grouped('flugel', true);
-        $data['project'] = $this->mieter_model->get_grouped('projektname', true);
+        $data['project'] = $this->mieter_model->get_grouped('project', true);
         $data['schlaplatze'] = $this->mieter_model->get_grouped('hausnummer_m', true);
         $data['etage'] = $this->mieter_model->get_grouped('etage', true);
         $data['plz'] = $this->mieter_model->get_grouped('plz', true);

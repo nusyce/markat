@@ -434,7 +434,7 @@
 <script>
 
     //  appValidateForm('#mieter-form', {
-    //     projektname: 'required',
+    //     project: 'required',
     // }, heandler_form);
 
     // $('#mieter-form').on("submit", function (e) {

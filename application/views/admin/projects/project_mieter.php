@@ -17,12 +17,12 @@ $table_data = array(
     'Belegt?',
     'Aktiviert'
 );
-$projektname = ($project->id ? $project->id : -1);
+$project = ($project->id ? $project->id : -1);
 render_datatable($table_data,'project_mieter',
     array(),
     array(
         'id'=>'table-project-mieter',
-        'data-url'=>admin_url('mieter/table/'.$projektname),
+        'data-url'=>admin_url('mieter/table/'.$project),
         'data-last-order-identifier' => 'mieter',
         'data-default-order'         => get_table_last_order('mieter'),
     ));

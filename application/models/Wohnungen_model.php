@@ -162,7 +162,6 @@ class Wohnungen_model extends App_Model
         return false;
     }
 
-
     public function getInventer($aq_id, $acttt = false)
     {
         $this->db->where('qty >', 0);

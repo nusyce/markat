@@ -20,7 +20,7 @@ $sIndexColumn = 'id';
 $sTable = db_prefix() . 'mieters';
 
 $where = ['AND (beraumung !=""  OR ruckraumung !="" )'];
-$join = [];$join[] = ' LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.projektname';
+$join = [];$join[] = ' LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'mieters.project';
 
 $filter = [];
 
@@ -44,7 +44,7 @@ if ($this->ci->input->post('stadt')) {
 
 
 if ($this->ci->input->post('project')) {
-    array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+    array_push($where, 'AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
 }
 
 
