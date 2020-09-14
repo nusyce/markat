@@ -32,6 +32,14 @@ $join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.
 $join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'tasks.mieters';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'task_assigned ON ' . db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id';
 
+$staff= get_staff();
+if (isset($staff->projects)&&!empty($staff->projects)){
+    $stf_project= unserialize($staff->projects);
+    $stf_project = implode("','",$stf_project);
+    array_push($where, ' AND ' . db_prefix() . 'tasks.project IN  ("' . $stf_project . ' ") ');
+
+}
+
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 array_push($where, 'AND CASE WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1) THEN rel_type != "project" ELSE 1=1 END');

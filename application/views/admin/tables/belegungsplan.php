@@ -32,6 +32,13 @@ $where = [];
 $filter = [];
 $join = [];
 
+$staff= get_staff();
+if (isset($staff->projects)&&!empty($staff->projects)){
+    $stf_project= unserialize($staff->projects);
+    $stf_project = implode("','",$stf_project);
+    array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+
+}
 
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND ' . db_prefix() . 'wohnungen.strabe ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');

@@ -32,6 +32,7 @@ $where = [];
 $join = [];
 $join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'mieters.project';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'occupations ON ' . db_prefix() . 'occupations.mieter = ' . db_prefix() . 'mieters.id';
+
 $staff= get_staff();
 if (isset($staff->projects)&&!empty($staff->projects)){
     $stf_project= unserialize($staff->projects);

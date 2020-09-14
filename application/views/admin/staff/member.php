@@ -93,7 +93,7 @@
             <div class="col-md-<?php if (!isset($member)) {
                 echo '8 col-md-offset-2';
             } else {
-                echo '5';
+                echo '8';
             } ?>" id="small-table">
 
                 <div class="panel_s">

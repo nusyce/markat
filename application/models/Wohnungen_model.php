@@ -40,8 +40,16 @@ class Wohnungen_model extends App_Model
         foreach ($project as $p) {
             array_push($project_ids, $p['project']);
         }
-        $this->db->where_in('id', $project_ids);
-        return $this->db->get(db_prefix() . 'tsk_project')->result_array();
+        $staff = get_staff();
+        if (isset($staff->projects) && !empty($staff->projects)) {
+            $stf_project = unserialize($staff->projects);
+            $stf_project = implode("','", $stf_project);
+            $this->db->where(db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
+
+        } else {
+            $this->db->where_in('id', $project_ids);
+        }
+        return $this->db->get(db_prefix() . 'projects')->result_array();
     }
 
     /**
@@ -62,13 +70,13 @@ class Wohnungen_model extends App_Model
         return $this->db->get(db_prefix() . 'wohnungen')->result_array();
     }
 
-    public function visualisierungGet($id = '', $type="even")
+    public function visualisierungGet($id = '', $type = "even")
     {
-        if($type =="even"){
+        if ($type == "even") {
 
-        $this->db->where('MOD(wohnungsnumme,2)',0);
-        }else{
-        $this->db->where('MOD(wohnungsnumme,2)',1);
+            $this->db->where('MOD(wohnungsnumme,2)', 0);
+        } else {
+            $this->db->where('MOD(wohnungsnumme,2)', 1);
         }
         $this->db->select('occupations.*');
         $this->db->select('wohnungen.*');
@@ -79,6 +87,7 @@ class Wohnungen_model extends App_Model
 
 
     }
+
     public function get_grouped($column)
     {
         $this->db->where($column . ' !=', '');
