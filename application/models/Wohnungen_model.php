@@ -77,7 +77,7 @@ class Wohnungen_model extends App_Model
 //        $this->db->group_by(array('strabe','hausnummer'));
         $this->db->select('occupations.*');
         $this->db->select('wohnungen.*');
-        $this->db->join(db_prefix() . 'occupations', 'occupations.wohnungen = wohnungen.id', 'LEFT');
+        $this->db->join(db_prefix() . 'occupations', 'occupations.wohnungen = wohnungen.id', 'RIGHT');
 
         return $this->db->get(db_prefix() . 'wohnungen')->result_array();
     }
@@ -99,7 +99,6 @@ class Wohnungen_model extends App_Model
 
 
     }
-
     public function get_grouped($column)
     {
         $this->db->where($column . ' !=', '');
