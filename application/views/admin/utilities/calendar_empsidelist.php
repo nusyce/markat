@@ -89,8 +89,6 @@
     z-index: auto !important;
 }
 
-
-
 .switch {
   position: relative;
   display: inline-block;
@@ -150,6 +148,7 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
 
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
