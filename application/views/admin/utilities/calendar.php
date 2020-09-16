@@ -45,6 +45,7 @@
 	</div>
 </div>
 <?php $this->load->view('admin/utilities/calendar_template'); ?>
+<?php $this->load->view('admin/utilities/calendar_choose'); ?>
 <script>
 	app.calendarIDs = '<?php echo json_encode($google_ids_calendars); ?>';
 </script>
@@ -148,6 +149,18 @@
         return false;
     };
 };
+
+$(".switch").change(function() {
+    if ( $("#select-mf").is(':checked') ) {
+		$('#fh-1').hide();
+		$('#mh-1').show();
+		
+    } else {
+		$('#mh-1').hide();
+		$('#fh-1').show();
+
+    }
+});
 
 </script>
 </body>
