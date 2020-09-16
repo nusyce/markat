@@ -50,8 +50,11 @@
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+                                <a href="<?php echo admin_url('belegungsplan/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
                             <?php endif; ?>
+
                         </h3>
+                        <div></div>
                         <div style="display: flex">
                             <div><a href="#" class="btn btn-info mright5 pull-left display-block" data-toggle="modal"
                                     data-target="#newoccupation"><?php echo 'Erstellen'; ?></a></div>
@@ -59,7 +62,7 @@
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'occupations'); ?></b></h3>
+                                <?php echo ( get_transl_field('tsl_belegungsplan', 'gesamt', 'Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'occupations'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('occupations', $title); ?>
@@ -70,11 +73,10 @@
                     <div id="belegungsplan" class="panel-body ">
                         <div class="row">
                             <div class="col-md-2">
-                                <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
+                                <button id="switchbtn" class="btn btn-success list"><?php echo (et_transl_field('tsl_belegungsplan', 'visualisierung', 'Visualisierung')); ?></button>
                             </div>
                             <div class="col-md-4">
-                                <a href="<?php echo admin_url('visualisierung') ?> " class="btn btn-danger list">Visualisierung
-                                    Wohnhaus</a>
+                                <a href="<?php echo admin_url('visualisierung') ?> " class="btn btn-danger list"><?php echo (get_transl_field('tsl_belegungsplan', 'visualisierungwohnhaus', 'Visualisierung Wohnhaus')); ?></a>
 
                                 <button id="printbtn" class="btn btn-success pull-right" style="display:none;"
                                         onclick='printDiv();'>Print
@@ -198,7 +200,7 @@
                                                     aria-label="Close"><span
                                                         aria-hidden="true">&times;</span></button>
                                             <h4 class="modal-title">
-                                                <span>Erstellen </span><?php echo get_menu_option('belegungsplan', _l('Belegungsplan')); ?>
+                                                <span> <?php echo (get_transl_field('tsl_belegungsplan', 'erstellen', 'Erstellen')); ?> </span><?php echo get_menu_option('belegungsplan', _l('Belegungsplan')); ?>
                                             </h4>
                                         </div>
                                         <div class="modal-body">
@@ -240,7 +242,7 @@
                                                     ?>
                                                     <div class="select-placeholder form-group">
                                                         <label for="mieter" class="control-label" style="width: ;">
-                                                            Mieter
+                                                            <?php echo (  get_transl_field('tsl_belegungsplan', 'mieter','Mieter')); ?>
                                                         </label>
                                                         <select class="selectpicker form-control" data-width="100%"
                                                                 data-live-search="true"
@@ -275,7 +277,7 @@
                                                     <div class="form-check">
                                                         <input type="checkbox" name="kein_m" class="form-check-input"
                                                                id="kein_m">
-                                                        <label class="form-check-label" for="kein_m">Kein Mieter</label>
+                                                        <label class="form-check-label" for="kein_m"> <?php echo ( get_transl_field('tsl_belegungsplan', 'keinmieter','Kein Mieter')); ?></label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
