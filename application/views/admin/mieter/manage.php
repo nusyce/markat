@@ -22,7 +22,18 @@
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'mieters'); ?></b></h3>
+                                <?php
+                                $wherett = '';
+                                $staff = get_staff();
+                                if (isset($staff->projects) && !empty($staff->projects)) {
+                                    $stf_project = unserialize($staff->projects);
+                                    if (is_array($stf_project)&&count($stf_project) > 0) {
+                                        $stf_project = implode("','", $stf_project);
+                                        $wherett = db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ")';
+                                    }
+                                }
+                                $total = total_rows(db_prefix() . 'mieters', $wherett); ?>
+                                Gesamt:<b><?php echo $total; ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('mieters', $title); ?>
@@ -75,8 +86,8 @@
                         </div>
                         <?php echo form_hidden('custom_view'); ?>
                         <div id="export-mieter">
-                                <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                                   data-table=".table-mieter"><?php echo _l('Alle löschen'); ?></a>
+                            <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
+                               data-table=".table-mieter"><?php echo _l('Alle löschen'); ?></a>
                             <?php $this->load->view('admin/mieter/table_html'); ?>
                         </div>
                     </div>

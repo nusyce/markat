@@ -32,12 +32,13 @@ $join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.
 $join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'tasks.mieters';
 $join[] = 'LEFT JOIN ' . db_prefix() . 'task_assigned ON ' . db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id';
 
-$staff= get_staff();
-if (isset($staff->projects)&&!empty($staff->projects)){
-    $stf_project= unserialize($staff->projects);
-    $stf_project = implode("','",$stf_project);
-    array_push($where, ' AND ' . db_prefix() . 'tasks.project IN  ("' . $stf_project . ' ") ');
-
+$staff = get_staff();
+if (isset($staff->projects) && !empty($staff->projects)) {
+    $stf_project = unserialize($staff->projects);
+    if (is_array($stf_project)&&count($stf_project) > 0) {
+        $stf_project = implode("','", $stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'tasks.project IN  ("' . $stf_project . ' ") ');
+    }
 }
 
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');

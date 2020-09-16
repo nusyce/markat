@@ -20,10 +20,20 @@ class Wohnungen_model extends App_Model
     public function get($id = '', $acttt = false)
     {
         $this->db->order_by('strabe', 'asc');
+        $staff = get_staff();
+        if (isset($staff->projects) && !empty($staff->projects)) {
+            $stf_project = unserialize($staff->projects);
+            if (is_array($stf_project)&&count($stf_project) > 0) {
+                $stf_project = implode("','", $stf_project);
+                $this->db->where(db_prefix() . 'wohnungen.project IN  ("' . $stf_project . ' ") ');
+
+            }
+        }
+
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'wohnungen.id', $id);
             $aq = $this->db->get(db_prefix() . 'wohnungen')->row();
-            $aq->inventer = $this->getInventer($aq->id, $acttt);
+            $aq->inventer = $this->wohnungen_inventar_model->getInventer($aq->id, $acttt);
             $aq->moved_items = $this->my_moved_items($aq->id);
             return $aq;
         } else {
@@ -43,7 +53,7 @@ class Wohnungen_model extends App_Model
         $staff = get_staff();
         if (isset($staff->projects) && !empty($staff->projects)) {
             $stf_project = unserialize($staff->projects);
-            if (count($stf_project) > 0) {
+            if (is_array($stf_project)&&count($stf_project) > 0) {
                 $stf_project = implode("','", $stf_project);
                 $this->db->where(db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
 
@@ -173,17 +183,6 @@ class Wohnungen_model extends App_Model
         return false;
     }
 
-    public function getInventer($aq_id, $acttt = false)
-    {
-        $this->db->where('qty >', 0);
-        $this->db->where('aq_id', $aq_id);
-        $this->db->where('for', 0);
-        if ($acttt) {
-            $this->db->where('is_deleted', 0);
-        }
-        return $this->db->get(db_prefix() . 'wohnungen_inventar')->result_array();
-    }
-
 
     public function getSingleInventer($id)
     {
@@ -269,7 +268,7 @@ class Wohnungen_model extends App_Model
     private function countInventatAq($aq_id)
     {
         $counter = 0;
-        $invetert = $this->getInventer($aq_id);
+        $invetert = $this->wohnungen_inventar_model->getInventer($aq_id);
         if ($invetert) {
             foreach ($invetert as $inv) {
                 $counter += $inv['qty'];

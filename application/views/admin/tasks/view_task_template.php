@@ -1153,7 +1153,7 @@
 
             <div class="report-action">
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
-                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
+                <a href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
 
                 <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation vorther</a><br>
 
@@ -1169,7 +1169,6 @@
                 <div class="col-md-12">
                     <canvas id="canvass"></canvas>
                 </div>
-
                 <input type="hidden" name="imageData" id="imageData">
                 <input type="hidden" name="task_id" id="task_id" value="<?= $task->id ?>">
                 <div class="col-md-12">

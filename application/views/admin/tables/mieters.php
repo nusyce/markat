@@ -38,7 +38,7 @@ $join[] = 'LEFT JOIN ' . db_prefix() . 'occupations ON ' . db_prefix() . 'occupa
 $staff= get_staff();
 if (isset($staff->projects)&&!empty($staff->projects)){
     $stf_project= unserialize($staff->projects);
-    if (count($stf_project)>0){
+    if (is_array($stf_project)&&count($stf_project)>0){
         $stf_project = implode("','",$stf_project);
         array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
 

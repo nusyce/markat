@@ -35,11 +35,20 @@ class Mieter_model extends App_Model
     public function get($id = '', $where = [], $for_editor = false)
     {
         $this->db->where($where);
+        $staff = get_staff();
+        if (isset($staff->projects) && !empty($staff->projects)) {
+            $stf_project = unserialize($staff->projects);
+            if (is_array($stf_project) && count($stf_project) > 0) {
+                $stf_project = implode("','", $stf_project);
+                $this->db->where(db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+
+            }
+        }
 
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'mieters.id', $id);
             $mieter = $this->db->get(db_prefix() . 'mieters')->row();
-            $mieter->inventer = $this->getInventer($mieter->id);
+            $mieter->inventer = $this->wohnungen_inventar_model->getInventer($mieter->id, false, 1);
             return $mieter;
         } else {
             $this->db->order_by('fullname', 'asc');
@@ -65,7 +74,7 @@ class Mieter_model extends App_Model
         $staff = get_staff();
         if (isset($staff->projects) && !empty($staff->projects)) {
             $stf_project = unserialize($staff->projects);
-            if (count($stf_project) > 0) {
+            if (is_array($stf_project) && count($stf_project) > 0) {
                 $stf_project = implode("','", $stf_project);
                 $this->db->where(db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
             }
@@ -146,7 +155,7 @@ class Mieter_model extends App_Model
     {
         if ($isrb) {
             $this->db->where('beraumung !=', '');
-            $this->db->where('ruckraumung !=', '');
+            $this->db->or_where('ruckraumung !=', '');
         }
         $this->db->where($column . ' !=', '');
         $this->db->select($column);
@@ -235,16 +244,6 @@ class Mieter_model extends App_Model
         return false;
     }
 
-    public function getInventer($aq_id, $acttt = false)
-    {
-        $this->db->where('qty >', 0);
-        $this->db->where('aq_id', $aq_id);
-        $this->db->where('for', 1);
-        if ($acttt) {
-            $this->db->where('is_deleted', 0);
-        }
-        return $this->db->get(db_prefix() . 'wohnungen_inventar')->result_array();
-    }
 
     /**
      * @param integer ID

@@ -41,14 +41,16 @@ function widget_status_stats($table, $title = '')
     $staff = get_staff();
     if (isset($staff->projects) && !empty($staff->projects) && in_array($table, ['mieters', 'tasks', 'wohnungen'])) {
         $stf_project = unserialize($staff->projects);
-        $stf_project = implode("','", $stf_project);
-        $tt = $table;
-        $where = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")  AND ';
-        $wherett = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")';
+        if (is_array($stf_project)&&count($stf_project) > 0) {
+            $stf_project = implode("','", $stf_project);
+            $tt = $table;
+            $where = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")  AND ';
+            $wherett = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")';
+        }
     }
     $total = total_rows(db_prefix() . $table, $wherett);
-    $active = total_rows(db_prefix() . $table, $where.'active=1');
-    $not_active = total_rows(db_prefix() . $table, $where.' active=0');
+    $active = total_rows(db_prefix() . $table, $where . 'active=1');
+    $not_active = total_rows(db_prefix() . $table, $where . ' active=0');
     $percentData = percentVal($active, $total);
     ob_start()
     ?>

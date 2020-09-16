@@ -7,7 +7,7 @@ function app_init_admin_sidebar_menu_items()
     $CI = &get_instance();
 
     $CI->app_menu->add_sidebar_menu_item('hauptinfo', [
-        'name' =>  get_menu_option('hauptinfo', _l('Hauptinfo ')),
+        'name' => get_menu_option('hauptinfo', _l('Hauptinfo ')),
         'collapse' => true,
         'position' => 1,
         'icon' => 'fa fa-home',
@@ -83,7 +83,7 @@ function app_init_admin_sidebar_menu_items()
 
 
     $CI->app_menu->add_sidebar_menu_item('mieterbetreuung', [
-        'name' =>   get_menu_option('mieterbetreuung', _l('Mieterbetreuung ')),
+        'name' => get_menu_option('mieterbetreuung', _l('Mieterbetreuung ')),
         'collapse' => true,
         'position' => 20,
         'icon' => 'fa fa-file',
@@ -98,12 +98,12 @@ function app_init_admin_sidebar_menu_items()
             'position' => 1,
         ]);
     }
-/*    $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
-        'slug' => 'mieterbetreuung',
-        'name' => get_menu_option('visualisierung', _l('Visualisierung')),
-        'href' => admin_url('visualisierung'),
-        'position' => 9,
-    ]);*/
+    /*    $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
+            'slug' => 'mieterbetreuung',
+            'name' => get_menu_option('visualisierung', _l('Visualisierung')),
+            'href' => admin_url('visualisierung'),
+            'position' => 9,
+        ]);*/
 
     if (has_permission('belegungsplan', '', 'view')
         || has_permission('belegungsplan', '', 'create')) {
@@ -219,35 +219,35 @@ function app_init_admin_sidebar_menu_items()
         'position' => 88,
         'icon' => 'fa fa-linode',
     ]);
-/*
+    /*
 
-    if (has_permission('wohnungen', '', 'view')
-        || has_permission('wohnungen', '', 'create') ||
-        has_permission('inventar', '', 'view') ||
-        has_permission('inventar', '', 'create') ||
-        has_permission('visualisierung', '', 'view') ||
-        has_permission('visualisierung', '', 'create')) {
-        $CI->app_menu->add_sidebar_menu_item('wohnungen', [
-            'name' => get_menu_option('wohnungen', _l('AQ ')),
-            'collapse' => true,
-            'position' => 6,
-            'icon' => 'fa fa-building',
-        ]);
-
-        if (has_permission('visualisierung', '', 'view')
-            || has_permission('visualisierung', '', 'create')) {
-            $CI->app_menu->add_sidebar_children_item('wohnungen', [
-                'slug' => 'wohnungen',
-                'name' => get_menu_option('visualisierung', _l('Visualisierung')),
-                'href' => admin_url('visualisierung'),
-                'position' => 9,
+        if (has_permission('wohnungen', '', 'view')
+            || has_permission('wohnungen', '', 'create') ||
+            has_permission('inventar', '', 'view') ||
+            has_permission('inventar', '', 'create') ||
+            has_permission('visualisierung', '', 'view') ||
+            has_permission('visualisierung', '', 'create')) {
+            $CI->app_menu->add_sidebar_menu_item('wohnungen', [
+                'name' => get_menu_option('wohnungen', _l('AQ ')),
+                'collapse' => true,
+                'position' => 6,
+                'icon' => 'fa fa-building',
             ]);
-        }
 
-    }*/
+            if (has_permission('visualisierung', '', 'view')
+                || has_permission('visualisierung', '', 'create')) {
+                $CI->app_menu->add_sidebar_children_item('wohnungen', [
+                    'slug' => 'wohnungen',
+                    'name' => get_menu_option('visualisierung', _l('Visualisierung')),
+                    'href' => admin_url('visualisierung'),
+                    'position' => 9,
+                ]);
+            }
+
+        }*/
 
     $CI->app_menu->add_sidebar_menu_item('workstation', [
-        'name' =>    get_menu_option('workstation', _l('Workstation ')),
+        'name' => get_menu_option('workstation', _l('Workstation ')),
         'collapse' => true,
         'position' => 30,
         'icon' => 'fa fa-file',
@@ -300,6 +300,7 @@ function app_init_admin_sidebar_menu_items()
         'icon' => '',
     ]);
 
+
     $CI->app_menu->add_sidebar_menu_item('kommunikation', [
         'name' => get_menu_option('kommunikation', _l('Kommunikation')),
         'collapse' => true,
@@ -309,9 +310,9 @@ function app_init_admin_sidebar_menu_items()
     if (get_option('pusher_chat_enabled') == '1') {
         $CI->app_menu->add_sidebar_children_item('kommunikation', [
             'slug' => 'kommunikation',
-            'name'     => 'Chat',
-            'href'     => admin_url('prchat/Prchat_Controller/chat_full_view'),
-            'icon'     => '',
+            'name' => 'Chat',
+            'href' => admin_url('prchat/Prchat_Controller/chat_full_view'),
+            'icon' => '',
             'position' => 10,
         ]);
     }
@@ -326,7 +327,7 @@ function app_init_admin_sidebar_menu_items()
 
 
     $CI->app_menu->add_sidebar_menu_item('buchhaltung', [
-        'name' =>   get_menu_option('buchhaltung',_l('Buchhaltung ')),
+        'name' => get_menu_option('buchhaltung', _l('Buchhaltung ')),
         'collapse' => true,
         'position' => 90,
         'icon' => 'fa fa-info',
@@ -471,23 +472,22 @@ function app_init_admin_sidebar_menu_items()
 
     if (has_permission('projects', '', 'view')) {
 
-/*
-        $CI->app_menu->add_sidebar_menu_item('tasks', [
-            'name' => _l('als_tasks'),
-            'href' => admin_url('tasks'),
-            'icon' => 'fa fa-tasks',
-            'position' => 35,
-        ]);*/
+        /*
+                $CI->app_menu->add_sidebar_menu_item('tasks', [
+                    'name' => _l('als_tasks'),
+                    'href' => admin_url('tasks'),
+                    'icon' => 'fa fa-tasks',
+                    'position' => 35,
+                ]);*/
     }
 
-    if ((!is_staff_member() && get_option('access_tickets_to_none_staff_members') == 1)/* || is_staff_member()*/) {
-        $CI->app_menu->add_sidebar_menu_item('support', [
-            'name' => _l('support'),
-            'href' => admin_url('tickets'),
-            'icon' => 'fa fa-ticket',
-            'position' => 40,
-        ]);
-    }
+
+    $CI->app_menu->add_sidebar_menu_item('support', [
+        'name' => _l('support'),
+        'href' => admin_url('tickets'),
+        'icon' => 'fa fa-ticket',
+        'position' => 40,
+    ]);
 
     if (is_admin()) {
         $CI->app_menu->add_sidebar_menu_item('leads', [
