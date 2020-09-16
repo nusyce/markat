@@ -339,6 +339,20 @@ class Belegungsplan extends AdminController
             echo false;
         }
     }
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_belegungsplan', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('belegungsplan', 'Translation')));
+            redirect(admin_url('belegungsplan/translation'));
 
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/belegungsplan/translation', $data);
+    }
 
 }

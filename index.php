@@ -53,7 +53,7 @@ if (!ini_get('date.timezone')) {
  *
  *     development
  *     testing
- *     production
+ *     development
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
