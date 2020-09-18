@@ -111,7 +111,7 @@
 						<div class="btn-bottom-toolbar text-right">
 							<button type="submit" data-form="#new_ticket_form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('open_ticket'); ?></button>
 						</div>
-						<div class="row">
+						<!--<div class="row">
 							<div class="col-md-12 mbot20 before-ticket-message">
 								<div class="row">
 									<div class="col-md-6">
@@ -147,7 +147,7 @@
 
 
 							</div>
-						</div>
+						</div>-->
 						<div class="clearfix"></div>
 						<?php echo render_textarea('message','','',array(),array(),'','tinymce'); ?>
 					</div>
