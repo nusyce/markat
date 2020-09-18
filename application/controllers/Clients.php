@@ -34,7 +34,7 @@ class Clients extends ClientsController
 
     public function update_menu()
     {
-        update_option($_POST['menu_slug'], $_POST['name']);
+        user_update_option($_POST['menu_slug'], $_POST['name']);
 
         if ($_POST['menu_slug'] == 'all_contacts') {
             redirect(base_url('clients/' . $_POST['menu_slug']));
