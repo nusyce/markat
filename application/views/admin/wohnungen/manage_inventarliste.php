@@ -15,9 +15,9 @@
                                 <a href="<?php echo admin_url('wohnungen/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 
                             <a href="#" onclick="new_inventarliste(); return false;"
-                               class="btn btn-info pull-left display-block"><?php echo _l('Erstellen'); ?></a>
+                               class="btn btn-info pull-left display-block"><?php echo _l( get_transl_field('tsl_inventarlistes', 'erstellen','Erstellen')); ?></a>
                             <a style="margin-left: 10px" href="<?= admin_url('wohnungen/import_inventar')?>"
-                               class="btn btn-info pull-left bg-orange display-block"><?php echo _l('Import'); ?></a>
+                               class="btn btn-info pull-left bg-orange display-block"><?php echo _l( get_transl_field('tsl_inventarlistes', 'import','IMPORT')); ?></a>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading"/>
@@ -30,7 +30,7 @@
                                 <th><?php echo _l('id'); ?></th>
                                 <th><?php echo _l(get_transl_field('tsl_inventarlistes', 'name','Name')); ?></th>
                                 <th><?php echo _l( get_transl_field('tsl_inventarlistes', 'qubik','Qubik')); ?></th>
-                                <th><?php echo _l('options'); ?></th>
+                                <th><?php echo _l(get_transl_field('tsl_inventarlistes', 'optionen','Optionen')); ?></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($inventarlistes as $inventarliste) { ?>
@@ -87,8 +87,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l(get_transl_field('tsl_inventarlistes', 'schliessen','SCHLIESSEN')); ?></button>
+                <button type="submit" class="btn btn-info"><?php echo _l(get_transl_field('tsl_inventarlistes', 'speichern','SPEICHERN')); ?></button>
             </div>
         </div>
         <!-- /.modal-content -->
