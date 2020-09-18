@@ -298,7 +298,7 @@
                   <div class="row">
                      <div class="col-md-6">
                         <?php echo render_input('subject','ticket_settings_subject',$ticket->subject); ?>
-                        <div class="form-group select-placeholder">
+                        <!--<div class="form-group select-placeholder">
                            <label for="contactid" class="control-label"><?php echo _l('contact'); ?></label>
                            <select name="contactid" id="contactid" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php if(!empty($ticket->from_name) && !empty($ticket->ticket_email)){echo ' data-no-contact="true"';} else {echo ' data-ticket-emails="'.$ticket->ticket_emails.'"';} ?>>
                               <?php
@@ -308,7 +308,7 @@
                               ?>
                            </select>
                            <?php echo form_hidden('userid',$ticket->userid); ?>
-                        </div>
+                        </div>-->
                         <div class="row">
                            <div class="col-md-6">
                               <?php echo render_input('name','ticket_settings_to',$ticket->submitter,'text',array('disabled'=>true)); ?>

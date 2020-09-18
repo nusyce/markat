@@ -993,7 +993,9 @@ class Tickets_model extends App_Model
         if ($data['assigned'] == '') {
             $data['assigned'] = 0;
         }
-
+        if ($data['service'] == '') {
+            $data['service'] = 0;
+        }
         if (isset($data['project_id']) && $data['project_id'] == '') {
             $data['project_id'] = 0;
         }
