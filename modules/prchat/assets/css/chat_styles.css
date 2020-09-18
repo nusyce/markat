@@ -491,7 +491,26 @@ body .lity {
 }
 
 #pusherChat .conversation_from {
-    padding-left: 20px;
+    clear: both;
+    position: relative;
+    float: left;
+    margin: 3px 15px 20px 18px;
+    width: 98%;
+    width: calc(100% - 25px);
+    font-size: 15px;
+}
+.replies-date-box
+{
+    font-size: 13px !important;
+    color: #000 !important;
+    margin-left: 10px !important;
+    /* float: right; */
+    position: absolute !important;
+    right: 4px !important;
+    margin-top: 20px;
+    left: 1px !important;
+    bottom: -12px !important;
+    font-style: italic !important;
 }
 
 #pusherChat .myProfilePic {
@@ -976,9 +995,24 @@ body .lity {
 
 #pusherChat div.message_container {
     clear: both;
-    margin-top: 0px;
-    width: 244px;
+    position: relative;
+    float: left;
+    margin: 3px 15px 20px 18px;
+    width: 98%;
+    width: calc(100% - 25px);
+    font-size: 15px;
     /* height: 50px; */
+}
+.sent-date-box{
+    font-size: 13px !important;
+    color: #000 !important;
+    margin-left: 10px !important;
+    /* float: right; */
+    position: absolute !important;
+    right: 4px !important;
+    /* margin-top: 20px; */
+    bottom: -12px !important;
+    font-style: italic !important;
 }
 
 #pusherChat .confirm_delete {

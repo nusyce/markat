@@ -323,7 +323,7 @@
                              ?>
                           </div>
                        </div>
-                       <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
+                       <!--<?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>-->
                     </div>
                     <div class="col-md-6">
                      <div class="form-group mbot20">
