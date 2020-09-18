@@ -7,11 +7,12 @@
                 <div class="panel_s">
                     <div class="panel-body ">
                         <div class="_buttons">
-                            <h3><span><?php echo get_menu_option(c_menu(), 'Inventar') ?></span>
+                            <div class="style-menu" > <h3><span><?php echo get_menu_option(c_menu(), 'Inventar') ?></span>
                                 <?php if (has_permission('menu', '', 'edit')):
                                     ?>
                                     <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
                                 <?php endif; ?></h3>
+                                <a href="<?php echo admin_url('wohnungen/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 
                             <a href="#" onclick="new_inventarliste(); return false;"
                                class="btn btn-info pull-left display-block"><?php echo _l('Erstellen'); ?></a>
@@ -27,8 +28,8 @@
                                 <thead>
                                 <th style="width: 30px"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="invetar"><label></label></div>  </th sty>
                                 <th><?php echo _l('id'); ?></th>
-                                <th><?php echo _l('name'); ?></th>
-                                <th><?php echo _l('Einheit'); ?></th>
+                                <th><?php echo _l(get_transl_field('tsl_inventarlistes', 'name','Name')); ?></th>
+                                <th><?php echo _l( get_transl_field('tsl_inventarlistes', 'qubik','Qubik')); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
