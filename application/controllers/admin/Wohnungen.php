@@ -87,6 +87,7 @@ class Wohnungen extends AdminController
         $this->load->view('admin/wohnungen/wohnungen', $data);
     }
 
+// translation Inventar
 
     public function translation()
     {
@@ -102,6 +103,25 @@ class Wohnungen extends AdminController
         $data['title'] = _l('Translate');
         $data['bodyclass'] = '';
         $this->load->view('admin/wohnungen/translation', $data);
+    }
+
+
+    // tanslation Inventar-Umzugsliste
+
+    public function translationU()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_inventarlistes_un', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('inventarlistes_un', 'Translation')));
+            redirect(admin_url('wohnungen/translationU'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/inventar-um/translation', $data);
     }
 
     // inventarlistes

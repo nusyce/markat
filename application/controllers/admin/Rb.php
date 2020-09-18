@@ -42,7 +42,7 @@ class Rb extends AdminController
     }
 
 
-    public function table($project)
+    public function table($project="")
     {
         // var_dump($_POST);
         $this->app->get_table_data('rb', ['project' => $project]);
