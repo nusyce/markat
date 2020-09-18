@@ -81,8 +81,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="additional"></div>
-                        <?php echo render_input('name', 'Name'); ?>
-                        <?php echo render_input('qubik', 'Einheit','','number'); ?>
+                        <?php echo render_input('name', get_transl_field('tsl_inventarlistes', 'name','Name')); ?>
+                        <?php echo render_input('qubik', get_transl_field('tsl_inventarlistes', 'qubik','Qubik'),'','number'); ?>
                     </div>
                 </div>
             </div>

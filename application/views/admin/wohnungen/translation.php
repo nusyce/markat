@@ -18,13 +18,13 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo render_input('name', 'Name', get_transl_field('tsl_inventarlistes', 'name','Name')); ?>
+                                        <?php echo render_input('name', get_transl_field('tsl_inventarlistes', 'name','Name'), get_transl_field('tsl_inventarlistes', 'name','Name')); ?>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php $vorname = (isset($mieter) ? $mieter->vorname : ''); ?>
-                                        <?php echo render_input('qubik', 'Qubik', get_transl_field('tsl_inventarlistes', 'qubik','Qubik'));?>
+
+                                        <?php echo render_input('qubik', get_transl_field('tsl_inventarlistes', 'qubik','Qubik'), get_transl_field('tsl_inventarlistes', 'qubik','Qubik'));?>
                                     </div>
                                 </div>
 

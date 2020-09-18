@@ -88,6 +88,22 @@ class Wohnungen extends AdminController
     }
 
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_inventarlistes', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('inventarlistes', 'Translation')));
+            redirect(admin_url('wohnungen/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/wohnungen/translation', $data);
+    }
+
     // inventarlistes
     /* Manage wohnungen inventarlistes */
     public function inventarlistes()
