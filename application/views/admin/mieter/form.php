@@ -19,7 +19,7 @@
 
             <div class="col-md-12">
                 <?php $fullname = (isset($mieter) ? $mieter->fullname : ''); ?>
-                <?php echo render_input('fullname', 'Vollständiger Name', $fullname); ?>
+                <?php echo render_input('fullname', get_transl_field('tsl_mieter', 'fullname','Vollständiger Name'), $fullname); ?>
             </div>
         </div>
         <div class="row">

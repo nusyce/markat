@@ -21,7 +21,7 @@
 							<div class="mbot15"></div>
 						<?php } ?>
 						<?php echo render_input('subject','ticket_settings_subject','','text',array('required'=>'true')); ?>
-						<div class="form-group select-placeholder" id="ticket_contact_w">
+						<!--<div class="form-group select-placeholder" id="ticket_contact_w">
 							<label for="contactid"><?php echo _l('contact'); ?></label>
 							<select name="contactid" required="true" id="contactid" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
 								<?php if(isset($contact)) { ?>
@@ -30,7 +30,7 @@
 								<option value=""></option>
 							</select>
 							<?php echo form_hidden('userid'); ?>
-						</div>
+						</div>-->
 						<div class="row">
 							<div class="col-md-6">
 								<?php echo render_input('name','ticket_settings_to','','text',array('disabled'=>true)); ?>
@@ -39,16 +39,16 @@
 								<?php echo render_input('email','ticket_settings_email','','email',array('disabled'=>true)); ?>
 							</div>
 						</div>
-						<div class="row">
+						<!--<div class="row">
 							<div class="col-md-6">
 								<?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',(count($departments) == 1) ? $departments[0]['departmentid'] : '',array('required'=>'true')); ?>
 							</div>
 							<div class="col-md-6">
 								<?php echo render_input('cc','CC'); ?>
 							</div>
-						</div>
+						</div>-->
 					</div>
-					<div class="col-md-6">
+					<!--<div class="col-md-6">
 						<div class="form-group">
 							<label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
 							<input type="text" class="tagsinput" id="tags" name="tags" data-role="tagsinput">
@@ -94,7 +94,7 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div>-->
 					<div class="col-md-12">
 						<?php echo render_custom_fields('tickets'); ?>
 					</div>
