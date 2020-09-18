@@ -264,7 +264,7 @@ function update_option($name, $value, $autoload = null)
 
 function get_transl($slug)
 {
-    $data = get_option($slug);
+    $data = user_get_option($slug);
     if ($data)
         return unserialize($data);
     return array();
@@ -272,7 +272,7 @@ function get_transl($slug)
 
 function get_transl_field($slug, $fied_slug, $default_value)
 {
-    $data = get_option($slug);
+    $data = user_get_option($slug);
     if ($data) {
         $data = unserialize($data);
         if (!empty($data[$fied_slug])) {
