@@ -518,12 +518,34 @@ body.Prchat_Controller #wrapper {
 #frame .content .messages::scrollbarthumb-horizontal {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
+.replies_date
+{
+    font-size: 13px !important;
+    color: #000 !important;
+    margin-left: 10px !important;
+    /* float: right; */
+    position: absolute !important;
+    left: 32px !important;
+    bottom: -12px !important;
+    font-style: italic !important;
+}
 
+.sent-date{
+    font-size: 13px !important;
+    color: #000 !important;
+    margin-left: 10px !important;
+    /* float: right; */
+    position: absolute !important;
+    right: 41px !important;
+    bottom: -12px !important;
+    font-style: italic !important;
+}
 #frame .content .chat_client_messages ul li,
 #frame .content .messages ul li {
     clear: both;
+    position: relative;
     float: left;
-    margin: 3px 15px 5px 18px;
+    margin: 3px 15px 20px 18px;
     width: 98%;
     width: calc(100% - 25px);
     font-size: 15px;
