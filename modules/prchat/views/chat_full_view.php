@@ -396,7 +396,7 @@ init_head();
                                 value.message = emojify.replace(value.message);
                             }
                             if (value.reciever_id == from) {
-                                element.prepend('<li class="replies"><img class="friendProfilePic" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '" data-toggle="tooltip" data-container="body" data-placement="right" title="' + value.time_sent_formatted + '"/><p class="friend">' + value.message + '</p></li>');
+                                element.prepend('<li class="replies"><img class="friendProfilePic2" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '" data-toggle="tooltip" data-container="body" data-placement="right" title="' + value.time_sent_formatted + '"/><p class="friend">' + value.message + '</p></li>');
                             } else {
                                 element.prepend('<li class="sent" id="' + value.id + '"><img class="myProfilePic" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '" data-toggle="tooltip" data-container="body" data-placement="left" title="' + value.time_sent_formatted + '"/><p class="you" id="msg_' + value.id + '">' + value.message + '</p></li>');
                                 <?php if ($chat_delete_option == '1' || is_admin()) :  ?>
@@ -864,7 +864,7 @@ init_head();
                         value.message = emojify.replace(value.message);
                     }
                     if (value.sender_id == userSessionId) {
-                        $('.messages ul').prepend('<li class="sent" id="' + value.id + '"><img data-toggle="tooltip" data-container="body" data-placement="left" title="' + value.time_sent_formatted + '" class="myProfilePic" src="' + fetchUserAvatar(userSessionId, value.user_image) + '"/><p class="you" id="msg_' + value.id + '">' + value.message + '</p></li>');
+                        $('.messages ul').prepend('<li class="sent" id="' + value.id + '"><img data-toggle="tooltip" data-container="body" data-placement="left" title="' + value.time_sent_formatted + '" class="myProfilePic" src="' + fetchUserAvatar(userSessionId, value.user_image) + '"/><p class="you" id="msg_' + value.id + '">' + value.message +'<span style="font-size: 14px;color: #333; margin-left: 10px;">'+value.time_sent_formatted +'</span></p></li>');
                         <?php if ($chat_delete_option == '1' || is_admin()) :  ?>
                         if (value.is_deleted == 0) {
                             $('#msg_' + value.id).tooltipster({
@@ -876,7 +876,7 @@ init_head();
                         <?php endif; ?>
 
                     } else {
-                        $('.messages ul').prepend('<li class="replies"><img data-toggle="tooltip" data-container="body" data-placement="right" title="' + value.time_sent_formatted + '" class="friendProfilePic" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/><p  class="friend">' + value.message + '</p></li>');
+                        $('.messages ul').prepend('<li class="replies"><img data-toggle="tooltip" data-container="body" data-placement="right" title="' + value.time_sent_formatted + '" class="friendProfilePic" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/><p  class="friend">' + value.message +'<span style="font-size: 14px;color: #8fad65; margin-left: 10px;">'+value.time_sent_formatted +'</span></p></li>');
                     }
                 });
                 $('.group_members_inline').remove();
