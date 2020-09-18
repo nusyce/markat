@@ -151,6 +151,23 @@ class Mieter extends AdminController
         echo admin_url('mieter');
     }
 
+
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_mieter', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('mieter', 'Translation')));
+            redirect(admin_url('mieter/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/mieter/translation', $data);
+    }
+
     public function import()
     {
 
@@ -250,24 +267,26 @@ class Mieter extends AdminController
             echo false;
         }
     }
-     function makePdf($id){
+
+    function makePdf($id)
+    {
         $attachments = $this->mieter_model->get_attachments($id);
         $mieter = $this->mieter_model->get($id, [], true);
-            // echo '<pre>'; print_r($mieter);
-            // exit;
-            try {
-                $pdf = mieter_pdf($id,'',$attachments,$mieter);
-            } catch (Exception $e) {
-                echo $e->getMessage();
-                die;
-            }
+        // echo '<pre>'; print_r($mieter);
+        // exit;
+        try {
+            $pdf = mieter_pdf($id, '', $attachments, $mieter);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
 
-            $pdf_name = 'mieter-attachment';
-            
-            // echo 'jjj';
-            // exit;
-            $pdf->Output(mb_strtoupper(slug_it($pdf_name), 'UTF-8') . '.pdf', 'D');
-            die();
+        $pdf_name = 'mieter-attachment';
+
+        // echo 'jjj';
+        // exit;
+        $pdf->Output(mb_strtoupper(slug_it($pdf_name), 'UTF-8') . '.pdf', 'D');
+        die();
         //}
     }
 }

@@ -55,12 +55,20 @@ function mailbox_module_init_menu_items()
         if($num_unread > 0){
             $badge = ' <span class="badge menu-badge bg-warning">' . total_rows(db_prefix() . 'mail_inbox', ['read' => '0','to_staff_id' => get_staff_user_id()]).'</span>';
         }
+        /*
+                $CI->app_menu->add_sidebar_menu_item('mailbox', [
+                    'name'     =>_l('mailbox').$badge,
+                    'href'     => admin_url('mailbox'),
+                    'icon'     => 'fa fa-envelope-square',
+                    'position' => 6,
+                ]);*/
 
-        $CI->app_menu->add_sidebar_menu_item('mailbox', [
-            'name'     =>_l('mailbox').$badge,
-            'href'     => admin_url('mailbox'),
-            'icon'     => 'fa fa-envelope-square',
-            'position' => 6,
+        $CI->app_menu->add_sidebar_children_item('kommunikation', [
+            'slug' => 'kommunikation',
+            'name' => get_menu_option('mailbox', _l('mailbox')).$badge,
+            'href' => admin_url('mailbox'),
+            'position' => 20,
+            'icon' => '',
         ]);
     }
 }
@@ -68,28 +76,28 @@ function mailbox_module_init_menu_items()
 /**
  * Init mailbox module setting menu items in setup in admin_init hook
  * @return null
- */ 
+ */
 function mailbox_add_settings_tab()
 {
     $CI = & get_instance();
     $CI->app_tabs->add_settings_tab('mailbox-settings', [
-       'name'     => ''._l('mailbox_setting').'',
-       'view'     => 'mailbox/mailbox_settings',
-       'position' => 36,
-   ]);
+        'name'     => ''._l('mailbox_setting').'',
+        'view'     => 'mailbox/mailbox_settings',
+        'position' => 36,
+    ]);
 }
 
 /**
  * mailbox migration tables to replace old links description
- * @param  array $tables 
- * @return array         
+ * @param  array $tables
+ * @return array
  */
 function mailbox_migration_tables_to_replace_old_links($tables)
 {
     $tables[] = [
-                'table' => db_prefix() . 'mail_inbox',
-                'field' => 'description',
-            ];
+        'table' => db_prefix() . 'mail_inbox',
+        'field' => 'description',
+    ];
 
     return $tables;
 }
@@ -110,7 +118,7 @@ function scan_email_server(){
         $CI->db->select()
             ->from(db_prefix() . 'staff')
             ->where(db_prefix() . 'staff.mail_password !=', '');
-        $staffs = $CI->db->get()->result_array();    
+        $staffs = $CI->db->get()->result_array();
         require_once(APPPATH . 'third_party/php-imap/Imap.php');
         include_once(APPPATH . 'third_party/simple_html_dom.php');
         foreach ($staffs as $staff) {
@@ -123,7 +131,7 @@ function scan_email_server(){
                 $CI->db->where('staffid', $staff_id);
                 $CI->db->update(db_prefix() . 'staff', [
                     'last_email_check' => time(),
-                ]);                
+                ]);
                 // open connection
                 $imap = new Imap($imap_server, $staff_email, $email_pass, $encryption);
                 if ($imap->isConnected() === false) {
@@ -138,7 +146,7 @@ function scan_email_server(){
                     $emails = $imap->getUnreadMessages();
                 } else {
                     $emails = $imap->getMessages();
-                }  
+                }
 
                 foreach ($emails as $email) {
                     $plainTextBody = $imap->getPlainTextBody($email['uid']);
@@ -151,7 +159,7 @@ function scan_email_server(){
                     }*/
                     $email['body'] = handle_google_drive_links_in_text($email['body']);
                     $email['body']       = prepare_imap_email_body_html($email['body']);
-                    $data['attachments'] = [];                    
+                    $data['attachments'] = [];
                     $data = [];;
                     $data['attachments'] = [];
                     if (isset($email['attachments'])) {
@@ -168,7 +176,7 @@ function scan_email_server(){
                     } else {
                         // No attachments
                         $data['attachments'] = [];
-                    }                    
+                    }
 
                     // Check for To
                     $data['to'] = [];
@@ -196,23 +204,23 @@ function scan_email_server(){
                     $from_email = preg_replace('/(.*)<(.*)>/', '\\2', $email['from']);
                     $data['fromname'] = preg_replace('/(.*)<(.*)>/', '\\1', $email['from']);
                     $data['fromname'] = trim(str_replace('"', '', $data['fromname']));
-                    
-                    $inbox = array();                    
-                    $inbox['from_email'] = $email['from'];                    
+
+                    $inbox = array();
+                    $inbox['from_email'] = $email['from'];
                     $from_staff_id = get_staff_id_by_email(trim($from_email));
                     if($from_staff_id){
-                        $inbox['from_staff_id'] = $from_staff_id;    
-                    }                    
+                        $inbox['from_staff_id'] = $from_staff_id;
+                    }
                     $inbox['to'] = implode(',', $data['to']);
                     $inbox['cc'] = implode(',', $data['cc']);
                     $inbox['sender_name'] = $data['fromname'];
                     $inbox['subject'] = $email['subject'];
-                    $inbox['body'] = $email['body']; 
-                    $inbox['to_staff_id'] = $staff_id;                            
+                    $inbox['body'] = $email['body'];
+                    $inbox['to_staff_id'] = $staff_id;
                     $inbox['date_received']      =  date('Y-m-d H:i:s');
                     $inbox['folder'] = 'inbox';
-                   
-                    $CI->db->insert(db_prefix() . 'mail_inbox', $inbox);                    
+
+                    $CI->db->insert(db_prefix() . 'mail_inbox', $inbox);
                     $inbox_id = $CI->db->insert_id();
                     $path = MAILBOX_MODULE_UPLOAD_FOLDER .'/inbox/'. $inbox_id . '/';
                     foreach ($data['attachments'] as $attachment) {
@@ -236,11 +244,11 @@ function scan_email_server(){
                         fclose($fp);
                         $matt = array();
                         $matt['mail_id']  = $inbox_id;
-                        $matt['type']  = 'inbox'; 
-                        $matt['file_name']  = $filename; 
-                        $matt['file_type']  = get_mime_by_extension($filename); 
+                        $matt['type']  = 'inbox';
+                        $matt['file_name']  = $filename;
+                        $matt['file_type']  = get_mime_by_extension($filename);
                         $CI->db->insert(db_prefix() . 'mail_attachment', $matt);
-                        
+
                     }
                     if(count($data['attachments']) > 0){
                         $CI->db->where('id', $inbox_id);
@@ -250,21 +258,21 @@ function scan_email_server(){
                     }
 
                     if($inbox_id){
-                        $imap->setUnseenMessage($email['uid']);    
-                    }                   
+                        $imap->setUnseenMessage($email['uid']);
+                    }
 
                 }
             }
         }
-    } 
+    }
 
     return false;
-    
+
 }
 
 /**
-* Load the module helper
-*/
+ * Load the module helper
+ */
 $CI = & get_instance();
 $CI->load->helper(MAILBOX_MODULE_NAME . '/mailbox');
 

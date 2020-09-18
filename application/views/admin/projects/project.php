@@ -23,12 +23,12 @@
                         ?>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('name', 'Create new project depend of Miete', $project->name); ?>
+                                <?php echo render_input('name', 'Projekt erstellen', $project->name); ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_projekt_select($projectList, $project->projekte, 'Create new project depend of Miete','projekte' ); ?>
+                                <?php echo render_projekt_select($projectList, $project->projekte, 'Projekt mit Mieter erstellen','projekte' ); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $value = (isset($project) ? $project->nummer : ''); ?>

@@ -5,13 +5,30 @@
     margin-left: 225px;
     top: 17px;
 }
+
 .need-edition .edit-menu {
     right: 8px;
     z-index: 999;
 }
-.need-edition:hover  .edit-menu {
+
+.need-edition:hover .edit-menu {
     opacity: 1 !important;
 }
+
+.style-menu {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.style-menu > * {
+    padding: 0 15px;
+    margin: 0;
+}
+
+.style-menu .btntrans {
+    padding: 8px;
+}
+
 
 .fc-calendarFilter-button {
     display: none !important

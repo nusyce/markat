@@ -6,11 +6,9 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Mieter') ?></span>
-                            <?php if (has_permission('menu', '', 'edit')):
-                                ?>
-                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                            <?php endif; ?></h3>
+                        <div class="style-menu" ><h3><?php echo get_menu_option(c_menu(), 'Mieter') ?>
+                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>
+                                 <a href="<?php echo admin_url('mieter/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <div style="display: flex">
                             <div><a href="<?php echo admin_url('mieter/mieter'); ?>"
                                     class="btn btn-info mright5 pull-left display-block"><?php echo 'Erstellen'; ?></a>

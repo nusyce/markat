@@ -3,7 +3,7 @@
 $table_data = array(
     '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="mieter"><label></label></div>',
     'ID',
-    'Name',
+    get_transl_field('tsl_mieter', 'fullname','Vollständiger Name'),
     'Projekt ',
     'Straße ',
     'Nr. ',
