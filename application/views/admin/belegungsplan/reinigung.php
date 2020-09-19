@@ -46,13 +46,15 @@
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+                                <a href="<?php echo admin_url('reinigung/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
+
                             <?php endif; ?>
                         </h3>
 
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'occupations'); ?></b></h3>
+                                <?php echo (get_transl_field('tsl_reinigung', 'gesamt', 'Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'occupations'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('occupations', $title); ?>
