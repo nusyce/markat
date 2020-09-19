@@ -42,14 +42,54 @@
                             </div>
 
 
+
+
                             <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('alleloschen', get_transl_field('tsl_reinigung', 'alleloschen','Alle löschen'),get_transl_field('tsl_reinigung', 'alleloschen','Alle löschen')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('nr', get_transl_field('tsl_reinigung', 'nr', 'Nr.'),get_transl_field('tsl_reinigung', 'nr', 'Nr. ')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('etage', get_transl_field('tsl_reinigung', 'etage', 'Etage'), get_transl_field('tsl_reinigung', 'etage', 'Etage')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('flugel', get_transl_field('tsl_reinigung', 'flugel', 'Flügel'),get_transl_field('tsl_reinigung', 'flugel', 'Flügel')); ?>
+                                    </div>
+                                </div>
 
                             </div>
 
 
                             <div class="col-md-4">
-
-
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('schlafplatze',get_transl_field('tsl_reinigung', 'schlafplatze','Schlafplätze'),get_transl_field('tsl_reinigung', 'schlafplatze','Schlafplätze')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input( 'mobliert' ,get_transl_field('tsl_reinigung', 'mobliert','Möbliert'),get_transl_field('tsl_reinigung', 'mobliert','Möbliert')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input( 'mieter' ,get_transl_field('tsl_reinigung', 'mieter','Mieter'),get_transl_field('tsl_reinigung', 'mieter','Mieter')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('zimmer', get_transl_field('tsl_reinigung', 'zimmer','Zimmer'),get_transl_field('tsl_reinigung', 'zimmer','Zimmer')); ?>
+                                    </div>
+                                </div>
                             </div>
 
 

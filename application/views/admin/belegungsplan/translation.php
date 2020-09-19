@@ -196,12 +196,12 @@
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo render_input('filterenach', get_transl_field('tsl_belegungsplan', 'Filterenach', 'Filtere nach'),get_transl_field('tsl_mieter', 'filterenach', 'Filtere nach')); ?>
+                                        <?php echo render_input('filterenach', get_transl_field('tsl_belegungsplan', 'Filterenach', 'Filtere nach'),get_transl_field('tsl_belegungsplan', 'filterenach', 'Filtere nach')); ?>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo render_input('flugel', get_transl_field('tsl_belegungsplan', 'flugel', 'Flügel'),get_transl_field('tsl_mieter', 'flugel', 'Flügel')); ?>
+                                        <?php echo render_input('flugel', get_transl_field('tsl_belegungsplan', 'flugel', 'Flügel'),get_transl_field('tsl_belegungsplan', 'flugel', 'Flügel')); ?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -211,12 +211,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo render_input('beraumung', get_transl_field('tsl_belegungsplan', 'beraumung', 'Beräumung'),get_transl_field('tsl_mieter', 'beraumung', 'Beräumung')); ?>
+                                        <?php echo render_input('beraumung', get_transl_field('tsl_belegungsplan', 'beraumung', 'Beräumung'),get_transl_field('tsl_belegungsplan', 'beraumung', 'Beräumung')); ?>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo render_input('ruckraumung', get_transl_field('tsl_belegungsplan', 'ruckraumung', 'Rückräumung'),get_transl_field('tsl_mieter', 'ruckraumung', 'Rückräumung')); ?>
+                                        <?php echo render_input('ruckraumung', get_transl_field('tsl_belegungsplan', 'ruckraumung', 'Rückräumung'),get_transl_field('tsl_belegungsplan', 'ruckraumung', 'Rückräumung')); ?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -234,7 +234,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo render_input('keller', get_transl_field('tsl_belegungsplan', 'keller', 'Keller'),get_transl_field('tsl_mieter', 'keller', 'Keller')); ?>
+                                        <?php echo render_input('keller', get_transl_field('tsl_belegungsplan', 'keller', 'Keller'),get_transl_field('tsl_belegungsplan', 'keller', 'Keller')); ?>
                                     </div>
                                 </div>
                                 <div class="row">

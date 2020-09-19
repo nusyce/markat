@@ -65,7 +65,7 @@
                     <div id="belegungsplan" class="panel-body ">
                         <div class="list-view switcher">
                             <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                               data-table=".table-belegungsplan"><?php echo _l('Alle löschen'); ?></a>
+                               data-table=".table-belegungsplan"><?php echo _l(get_transl_field('tsl_reinigung', 'alleloschen','Alle löschen')); ?></a>
                             <?php $this->load->view('admin/belegungsplan/reinigung_table_html'); ?>
 
                         </div>
