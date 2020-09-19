@@ -124,6 +124,25 @@ class Wohnungen extends AdminController
         $this->load->view('admin/inventar-um/translation', $data);
     }
 
+
+    // translation AQ
+
+    public function translationAQ()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_wohnungen', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('wohnungen', 'Translation')));
+            redirect(admin_url('wohnungen/translationAQ'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/wohnungen/translation_aq', $data);
+    }
+
     // inventarlistes
     /* Manage wohnungen inventarlistes */
     public function inventarlistes()
