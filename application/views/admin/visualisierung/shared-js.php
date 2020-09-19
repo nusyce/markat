@@ -92,7 +92,7 @@
                         $isData = false;
                         $.each($jsonOdd, function(i, v) {
                             if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
-                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"</div>";
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"<br/>"+v.mieter_name+"</div>";                                
                                 $isData = true;
                             }
                         });
@@ -102,7 +102,7 @@
 
                         $.each($jsonEven, function(i, v) {
                             if (v.flugel == $tablheader[$k] && v.etage==$links[$i]) {
-                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"</div>";
+                                $tmpdata+="<div class='linksBox'> Whg.-Nr. <br/>"+v.wohnungsnumme+"<br/>"+v.mieter_name+"</div>";                                
                                 $isData = true;
                             }
                         });
