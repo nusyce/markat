@@ -71,7 +71,7 @@ class Reinigung extends AdminController
             $success = save_transl('tsl_reinigung', $this->input->post());
             if ($success)
                 set_alert('success', _l('updated_successfully', get_menu_option('reinigung', 'Translation')));
-            redirect(admin_url('belegungsplan/translationreinigung'));
+            redirect(admin_url('reinigung/translation'));
 
         }
 
