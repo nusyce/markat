@@ -131,7 +131,7 @@
         $tblhtml .= '<tr><td colspan="3"><br><span><img width="21px" src="assets/images/' . $check . '"/> </span> ' . $ac['description'] . '</td></tr>';
         endforeach;
         } else {
-        $tblhtml .= '<tr><th colspan="3"><br><strong>Dokumentation beforezz:</strong></th></tr>';
+        $tblhtml .= '<tr><th colspan="3"><br><strong>Dokumentation before:</strong></th></tr>';
         $maxcols = 3;
         $i = 0;
         foreach ($task->comments as $comment) {
@@ -170,53 +170,66 @@
      echo  $tblhtml;
 
 
+
+ ?>
+</page>
+
+<page backcolor="#FEFEFE" backtop="40mm"
+      backbottom="40mm" style="font-size: 11pt">
+
+    <?php
+
+
+
+
+
     $tblhtml = '<table cellspacing="2px"> ';
-        $tblhtml .= '<tr><th colspan="3"><strong>Dokumentation after:</strong></th></tr>';
-        $i = 0;
-        $maxcols = 3;
-        foreach ($task->comments as $comment) {
+    $tblhtml .= '<tr><th colspan="3"><strong>Dokumentation after:</strong></th></tr>';
+    $i = 0;
+    $maxcols = 3;
+    foreach ($task->comments as $comment) {
         $comment['content'] = str_replace('[task_attachment]', '', $comment['content']);
         if ($comment['moment'] == 1 && !empty($comment['content'])) {
-        $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
+            $tblhtml .= '<tr><td colspan="3">' . $comment['content'] . '</td></tr>';
         }
-        }
-        $tblhtml .= '<tr>';
-            foreach ($task->comments as $comment) {
-            if ($comment['moment'] == 1 && count($comment['attachments']) > 0) {
+    }
+    $tblhtml .= '<tr>';
+    foreach ($task->comments as $comment) {
+        if ($comment['moment'] == 1 && count($comment['attachments']) > 0) {
             foreach ($comment['attachments'] as $attachment) {
-            if ($i == $maxcols) {
-            $i = 0;
-            $tblhtml .= "</tr><tr>";
-            }
-            $relPath = get_upload_path_by_type('task') . $attachment['rel_id'] . '/';
-            $fullPath = $relPath . $attachment['file_name'];
-            $fname = pathinfo($fullPath, PATHINFO_FILENAME);
-            $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
-            $thumbPath = $relPath . $fname . '_thumb.' . $fext;
-            $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
-            $i++;
+                if ($i == $maxcols) {
+                    $i = 0;
+                    $tblhtml .= "</tr><tr>";
+                }
+                $relPath = get_upload_path_by_type('task') . $attachment['rel_id'] . '/';
+                $fullPath = $relPath . $attachment['file_name'];
+                $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
+                $thumbPath = $relPath . $fname . '_thumb.' . $fext;
+                $tblhtml .= '<td style="padding: 20px; width: 33.33%"><img width="300" height="300" src="' . $thumbPath . '"/> </td>';
+                $i++;
             }
 
 
-            }
-            } //Add empty <td>'s to even up the amount of cells in a row:
-                while ($i <= $maxcols) {
-                $tblhtml .= "<td>&nbsp;</td>";
-            $i++;
-            }
-            $tblhtml .= '</tr>';
         }
-        $staff = get_staff();
+    } //Add empty <td>'s to even up the amount of cells in a row:
+    while ($i <= $maxcols) {
+        $tblhtml .= "<td>&nbsp;</td>";
+        $i++;
+    }
+    $tblhtml .= '</tr>';
+    }
+    $staff = get_staff();
 
-        if (!empty($staff->signature)) {
+    if (!empty($staff->signature)) {
         $data = base64_decode($staff->signature);
         $file = STAFF_PROFILE_IMAGES_FOLDER . uniqid() . '.png';
         $success = file_put_contents($file, $data);
 
         $tblhtml .= '<p style="text-align: right"><img src="' . $file . '"></p>';
-        }
+    }
 
-        $tblhtml .= '
+    $tblhtml .= '
     </table><style>
         table {
             width: 100%;
@@ -224,14 +237,16 @@
             border-spacing: 0 10px;
         }
     </style>';
-      echo $tblhtml;
+    echo $tblhtml;
 
-    function boolVald($bool)
-    {
-    return $bool == -1 ? 'Nein' : 'Ja';
-    } ?>
+    ?>
+
 </page>
-
+<?php
+function boolVald($bool)
+{
+return $bool == -1 ? 'Nein' : 'Ja';
+}
 
 
 
