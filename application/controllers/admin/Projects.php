@@ -1108,4 +1108,19 @@ class Projects extends AdminController
             redirect(site_url('clients/project/' . $id));
         }
     }
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_projects', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('projects', 'Translation')));
+            redirect(admin_url('projects/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/projects/translation', $data);
+    }
 }

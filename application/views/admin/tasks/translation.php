@@ -133,6 +133,16 @@
                                         <?php echo render_input('mitarbeiter',get_transl_field('tsl_tasks', 'mitarbeiter','Mitarbeiter'),get_transl_field('tsl_tasks', 'mitarbeiter','Mitarbeiter')); ?>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('zugewiesen',get_transl_field('tsl_tasks', 'zugewiesen','Zugewiesen'),get_transl_field('tsl_tasks', 'zugewiesen','Zugewiesen')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo render_input('tags',get_transl_field('tsl_tasks', 'tags','Tags'),get_transl_field('tsl_tasks', 'tags','  Tags')); ?>
+                                    </div>
+                                </div>
                             </div>
 
 
