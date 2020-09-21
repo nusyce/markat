@@ -7,19 +7,19 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons"> <!--style="border-bottom: unset !important;"-->
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Fahrzeugliste') ?></span>
+                       <div class="style-menu"> <h3><span><?php echo get_menu_option(c_menu(), 'Fahrzeugliste') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                            <?php endif; ?></h3>
+                            <?php endif; ?></h3><a href="<?php echo admin_url('cars/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <div style="display: flex">
                             <a href="<?php echo admin_url('cars/cars'); ?>"
-                               class="btn btn-info pull-left display-block"><?php echo 'Erstellen'; ?></a>
+                               class="btn btn-info pull-left display-block"><?php echo get_transl_field('tsl_cars', 'erstellen', 'Erstellen'); ?></a>
                         </div>
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'cars'); ?></b></h3>
+                                <?php echo ( get_transl_field('tsl_cars', 'gesamt', 'Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'cars'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('cars', $title); ?>
@@ -30,7 +30,7 @@
 
                     <div class="panel-body">
                             <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                               data-table=".table-cars"><?php echo _l('Alle löschen'); ?></a>
+                               data-table=".table-cars"><?php echo _l(get_transl_field('tsl_cars', 'alleloschen', 'Alle löschen')); ?></a>
                         <?php $this->load->view('admin/cars/table_html'); ?>
                     </div>
                 </div>

@@ -173,5 +173,19 @@ class Cars extends AdminController
         echo 1;
     }
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_cars', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('cars', 'Translation')));
+            redirect(admin_url('cars/translation'));
 
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/cars/translation', $data);
+    }
 }
