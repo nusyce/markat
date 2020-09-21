@@ -10,6 +10,7 @@
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+                                <a href="<?php echo admin_url('tasks/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
                             <?php endif; ?></h3>
                         <hr class="hr-panel-heading"/>
                         <div> <?php if (has_permission('tasks', '', 'create')) { ?>
@@ -44,24 +45,24 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <p class="bold"><?php echo _l('filter_by'); ?></p>
+                                            <p class="bold"><?php echo _l(get_transl_field('tsl_tasks', 'filterenach','Filtere nach')); ?></p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 leads-filter-column">
-                                            <?php echo render_select('status', $statuses, array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Status'), array()); ?>
+                                            <?php echo render_select('status', $statuses, array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_tasks', 'status','Status')), array()); ?>
                                         </div>
                                         <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_date_input('start_date', '','', array('placeholder' => 'Start Datum')); ?>
+                                            <?php echo render_date_input('start_date', '','', array('placeholder' => get_transl_field('tsl_tasks', 'startdatum','Start Datum'))); ?>
                                         </div>
                                         <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_date_input('end_date', '', '', array('placeholder' => 'Fälligkeitsdatum')) ?>
+                                            <?php echo render_date_input('end_date', '', '', array('placeholder' => get_transl_field('tsl_tasks', 'falligkeitsdatum','Fälligkeitsdatum'))) ?>
                                         </div>
                                         <div class="col-md-3 leads-filter-column">
-                                            <?php   echo render_select('member', $staff, array('assigneeid', 'full_name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Mitarbeiter'), array(), '', '', true); ?>
+                                            <?php   echo render_select('member', $staff, array('assigneeid', 'full_name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_tasks', 'mitarbeiter','Mitarbeiter')), array(), '', '', true); ?>
                                         </div>
                                         <div class="col-md-2 leads-filter-column">
-                                            <?php echo render_select('priority', get_tasks_priorities(), array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Priorität'), array()); ?>
+                                            <?php echo render_select('priority', get_tasks_priorities(), array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_tasks', 'prioritat','Priorität')), array()); ?>
                                         </div>
 
                                     </div>
@@ -72,7 +73,7 @@
                             </div>
 
                                 <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                                   data-table=".table-tasks"><?php echo _l('Alle löschen'); ?></a>
+                                   data-table=".table-tasks"><?php echo _l(get_transl_field('tsl_tasks', 'alleloschen','Alle löschen')); ?></a>
 
                             <?php $this->load->view('admin/tasks/_table'); ?>
                             <?php /*$this->load->view('admin/tasks/_bulk_actions'); */?>

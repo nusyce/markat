@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="clearfix"></div>
 <?php if(count($checklists) > 0){ ?>
-<h4 class="bold chk-heading th font-medium"><?php echo _l('Aufgaben Einträge'); ?></h4>
+<h4 class="bold chk-heading th font-medium"><?php echo _l(get_transl_field('tsl_tasks', 'aufgabeneintrage','Aufgaben Einträge')); ?></h4>
 <?php } ?>
 <div class="progress mtop15 hide">
     <div class="progress-bar not-dynamic progress-bar-default task-progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">

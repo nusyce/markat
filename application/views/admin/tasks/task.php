@@ -15,10 +15,10 @@
 
                     <?php
                     if (isset($id)) {
-                        echo 'Bearbeiten Aufgabe';
+                        echo get_transl_field('tsl_tasks', 'bearbeitenaufgabe','Bearbeiten Aufgabe');
                     } else {
 
-                        echo 'Neue Aufgabe erstellen';
+                        echo get_transl_field('tsl_tasks', 'neueaufgabeerstellen','Neue Aufgabe erstellen');
                     } ?>
                 </h4>
             </div>
@@ -151,7 +151,7 @@
                                 if (isset($task) && $task->project) {
                                     $selected = $task->project;
                                 }
-                                echo render_project_select($projects, $selected, 'Projekt');
+                                echo render_project_select($projects, $selected, get_transl_field('tsl_tasks', 'projekt','Projekt'));
                                 ?>
                             </div>
                             <div class="col-md-6">
@@ -160,7 +160,7 @@
                                 if (isset($task) && $task->clients) {
                                     $selected = $task->clients;
                                 }
-                                echo render_select( 'clients',$clients, array('userid','company'),'Kunder',$selected);
+                                echo render_select( 'clients',$clients, array('userid','company'),get_transl_field('tsl_tasks', 'kunder','Kunder'),$selected);
                                 ?>
                             </div>
                         </div>
@@ -175,17 +175,17 @@
                                     }
                                 ?>
 
-                                <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l('als_staff')), $selected, array('multiple' => true), array(), '', '', false); ?>
+                                <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l(get_transl_field('tsl_tasks', 'mitarbeiter','Mitarbeiter'))), $selected, array('multiple' => true), array(), '', '', false); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $mieter = isset($task) ? $task->mieters : '' ?>
-                                <?php echo render_select('mieters', $mieters, array('id', array('fullname', 'vorname', 'nachname')), get_menu_option('mieter', _l('Mieter')), $mieter); ?>
+                                <?php echo render_select('mieters', $mieters, array('id', array('fullname', 'vorname', 'nachname')), get_menu_option('mieter', _l(get_transl_field('tsl_tasks', 'mieter','Mieter'))), $mieter); ?>
                             </div>
 
                             <div class="col-md-6">
                                 <?php
                                 $selected = isset($task) ? $task->car : '';
-                                echo render_select('car', $cars, array('id', array('marke', 'modell', 'kennzeichen')), get_menu_option('cars', _l('Fahrzeugliste')), $selected); ?>
+                                echo render_select('car', $cars, array('id', array('marke', 'modell', 'kennzeichen')), get_menu_option('cars', _l(get_transl_field('tsl_tasks', 'fahrzeugliste','Fahrzeugliste'))), $selected); ?>
                             </div>
 
                             <div class="col-md-6 hide">
