@@ -6,12 +6,14 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Lieferanten') ?></span>
+                        <div class="style-menu" > <h3><span><?php echo get_menu_option(c_menu(), 'Lieferanten') ?></span>
                             <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>
+                            <a href="<?php echo admin_url('lieferanten/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
+
 
                         <a href="<?php echo admin_url('lieferanten/lieferanten'); ?>"
                            class="btn btn-info mright5 test pull-left display-block">
-                            erstellen </a>
+                            <?php echo _l(get_transl_field('tsl_lieferanten', 'erstellen','ERSTELLEN')); ?> </a>
                     </div>
 
                         <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
@@ -23,23 +25,23 @@
                             '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="lieferanten"><label></label></div>',
                             '#',
                             array(
-                                'name' => _l('clients_list_company'),
+                                'name' => _l(get_transl_field('tsl_lieferanten', 'firma','Firma')),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-company')
                             ),
                             array(
-                                'name' => 'Email',
+                                'name' => get_transl_field('tsl_lieferanten', 'email','Email'),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-primary-contact-email')
                             ),
                             array(
-                                'name' => _l('Hausnummer'),
+                                'name' => _l(get_transl_field('tsl_lieferanten', 'hausnummer','Hausnummer')),
                                 'th_attrs' => array('class' => 'toggleable')
                             ),
                             array(
-                                'name' => _l('clients_list_phone'),
+                                'name' => _l(get_transl_field('tsl_lieferanten', 'telefon','Telefon')),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-phone')
                             ),
                             array(
-                                'name' => _l('customer_active'),
+                                'name' => _l(get_transl_field('tsl_lieferanten', 'aktiviert','Aktiviert')),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-active')
                             )
                         );
