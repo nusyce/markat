@@ -24,6 +24,7 @@
                             $table_data = array(
                                 '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="dokumente"><label></label></div>',
                                 'ID',
+                                'Schein',
                                 get_transl_field('tsl_dokumente', 'kunder','Kunder'),
                                 get_transl_field('tsl_dokumente', 'mieter','Mieter'),
                                 get_transl_field('tsl_dokumente', 'beladestelle_stabe','Beladestelle Straße'),
