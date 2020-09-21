@@ -43,24 +43,27 @@
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                            <?php endif; ?></h3>
+                                <a href="<?php echo admin_url('clients/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
+                            <?php endif; ?>
+                        </h3>
 
                         <div style="display: flex">
                             <div>
                                 <?php if (has_permission('customers', '', 'create')) { ?>
+
                                     <a href="<?php echo admin_url('clients/client'); ?>"
                                        class="btn btn-info mright5 test pull-left display-block">
-                                        erstellen </a>
+                                        <?php echo ( get_transl_field('tsl_clients', 'erstellen', 'Erstellen')); ?> </a>
                                     <a href="<?php echo admin_url('clients/import'); ?>"
                                        class="btn bg-orange btn-info pull-left display-block mright5 hidden-xs">
-                                        <?php echo _l('Importieren'); ?></a>
+                                        <?php echo _l(get_transl_field('tsl_clients', 'importieren','Importieren')); ?></a>
                                 <?php } ?>
                             </div>
                         </div>
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'clients'); ?></b></h3>
+                                <?php echo (get_transl_field('tsl_clients', 'gesamt', 'Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'clients'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('clients', $title); ?>
@@ -223,7 +226,7 @@
                                 </ul>
                             </div>-->
                             <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                               data-table=".table-clients"><?php echo _l('Alle löschen'); ?></a>
+                               data-table=".table-clients"><?php echo _l(get_transl_field('tsl_clients', 'alleloschen','Alle löschen')); ?></a>
                         <div class="modal fade bulk_actions" id="customers_bulk_action" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -268,27 +271,27 @@
                             '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="clients"><label></label></div>',
 
                             array(
-                                'name' => _l('clients_list_company'),
+                                'name' => _l(get_transl_field('tsl_clients', 'firma', 'Firma ')),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-company')
                             ),
                             array(
-                                'name' => 'Mitarbeiter',
+                                'name' => get_transl_field('tsl_clients', 'mitarbeiter', 'Mitarbeiter'),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-betreuer')
                             ),
                             array(
-                                'name' => 'Mieter',
+                                'name' =>get_transl_field('tsl_clients', 'mieter','Mieter'),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-meiter')
                             ),
                             array(
-                                'name' => 'Email',
+                                'name' => get_transl_field('tsl_clients', 'email', 'Email'),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-primary-contact-email')
                             ),
                             array(
-                                'name' => _l('clients_list_phone'),
+                                'name' => _l(get_transl_field('tsl_clients', 'telefon', 'Telefon ')),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-phone')
                             ),
                             array(
-                                'name' => _l('customer_active'),
+                                'name' => _l(get_transl_field('tsl_clients', 'aktiviert','Aktiviert')),
                                 'th_attrs' => array('class' => 'toggleable', 'id' => 'th-active')
                             )
                         );

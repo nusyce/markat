@@ -7,7 +7,7 @@
         <div class="panel_s">
 
             <div class="panel-body _buttons">
-                <h3><span><?php echo get_menu_option(c_menu(), 'Kundenbetreuer') ?></span>
+                <h3><span><?php echo get_menu_option(c_menu(), get_transl_field('tsl_clients', 'kundenbetreuer','Kundenbetreuer')) ?></span>
                     <?php if (has_permission('menu', '', 'edit')):
                         ?>
                         <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
@@ -15,16 +15,16 @@
                 <hr class="hr-panel-heading" />
                 <div style="display: flex">
                     <div style="border-right: 1px solid #dde2e7; padding-right: 8px; margin-right: 10px">
-                        <h3 style="margin-top:8px !important;">Gesamt:<b><?php echo total_rows(db_prefix() . 'contacts'); ?></b></h3></div>
+                        <h3 style="margin-top:8px !important;"> <?php echo (get_transl_field('tsl_clients', 'gesamt', 'Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'contacts'); ?></b></h3></div>
 
                     <div style="border-right: 1px solid #dde2e7; padding-right: 8px; margin-right: 10px">
                         <h3 style="margin-top:8px !important;">
-                            Aktive:<b><?php echo total_rows(db_prefix() . 'contacts', 'active=1'); ?></b>
+                            <?php echo ( get_transl_field('tsl_clients', 'aktive', 'Aktive')); ?>:<b><?php echo total_rows(db_prefix() . 'contacts', 'active=1'); ?></b>
                         </h3>
                     </div>
                     <div style="border-right: 1px solid #dde2e7; padding-right: 8px; margin-right: 10px">
                         <h3 style="margin-top:8px !important;">
-                            Inaktiv:<b><?php echo total_rows(db_prefix() . 'contacts', 'active=0'); ?></b>
+                            <?php echo (get_transl_field('tsl_clients', 'inaktiv', 'Inaktiv')); ?>:<b><?php echo total_rows(db_prefix() . 'contacts', 'active=0'); ?></b>
                         </h3>
                     </div>
                     <div> <a href="#" onclick="contact(0); return false;"

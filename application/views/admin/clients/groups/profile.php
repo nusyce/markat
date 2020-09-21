@@ -19,7 +19,7 @@
                     <li role="presentation">
                         <a href="#leistungsempfanger" aria-controls="leistungsempfanger" role="tab"
                            data-toggle="tab">
-                            <?php echo _l('Leistungsempfänger'); ?>
+                            <?php echo _l(get_transl_field('tsl_clients', 'leistungsempfanger', 'Leistungsempfänger')); ?>
                         </a>
                     </li>
                     <?php
@@ -47,7 +47,7 @@
                         <li role="presentation">
                             <a href="#ansprechpartner" aria-controls="ansprechpartner" role="tab"
                                data-toggle="tab">
-                                <?php echo _l('Ansprechpartner'); ?>
+                                <?php echo _l(get_transl_field('tsl_clients', 'ansprechpartner','Ansprechpartner')); ?>
                             </a>
                         </li>
                     <?php } ?>  <?php if (isset($client)) { ?>
@@ -96,9 +96,9 @@
                         <!-- <?php /*$value = (isset($client) ? $client->address : ''); */ ?>
                         --><?php /*echo render_textarea('address', 'client_address', $value); */ ?>
                         <?php $value = (isset($client) ? $client->strabe : ''); ?>
-                        <?php echo render_input('strabe', 'Straße', $value); ?>
+                        <?php echo render_input('strabe',  get_transl_field('tsl_clients', 'strabe_m', 'Straße'), $value); ?>
                         <?php $value = (isset($client) ? $client->hausnummer : ''); ?>
-                        <?php echo render_input('hausnummer', 'Hausnummer', $value); ?>
+                        <?php echo render_input('hausnummer', get_transl_field('tsl_clients', 'hausnummer', 'Hausnummer'), $value); ?>
                         <?php $value = (isset($client) ? $client->zip : ''); ?>
                         <?php echo render_input('zip', 'client_postal_code', $value); ?>
                         <?php $value = (isset($client) ? $client->city : ''); ?>
@@ -167,7 +167,7 @@
                         } ?>
 
                         <?php $value = (isset($client) ? $client->email : ''); ?>
-                        <?php echo render_input('email', 'Email', $value); ?>
+                        <?php echo render_input('email', get_transl_field('tsl_clients', 'email', 'Email'), $value); ?>
                         <?php $value = (isset($client) ? $client->phonenumber : ''); ?>
                         <?php echo render_input('phonenumber', 'client_phonenumber', $value); ?>
                         <?php if ((isset($client) && empty($client->website)) || !isset($client)) {
@@ -203,9 +203,9 @@
                         <!-- <?php /*$value = (isset($client) ? $client->address : ''); */ ?>
                         --><?php /*echo render_textarea('address', 'client_address', $value); */ ?>
                         <?php $value = (isset($client) ? $client->strabe_le : ''); ?>
-                        <?php echo render_input('strabe_le', 'Straße', $value); ?>
+                        <?php echo render_input('strabe_le', get_transl_field('tsl_clients', 'strabe_m', 'Straße'), $value); ?>
                         <?php $value = (isset($client) ? $client->hausnummer_le : ''); ?>
-                        <?php echo render_input('hausnummer_le', 'Hausnummer', $value); ?>
+                        <?php echo render_input('hausnummer_le', get_transl_field('tsl_clients', 'hausnummer', 'Hausnummer'), $value); ?>
                         <?php $value = (isset($client) ? $client->zip_le : ''); ?>
                         <?php echo render_input('zip_le', 'client_postal_code', $value); ?>
                         <?php $value = (isset($client) ? $client->city_le : ''); ?>
@@ -226,7 +226,7 @@
                         } ?>
 
                         <?php $value = (isset($client) ? $client->email_le : ''); ?>
-                        <?php echo render_input('email_le', 'Email', $value); ?>
+                        <?php echo render_input('email_le', get_transl_field('tsl_clients', 'email', 'Email'), $value); ?>
                         <?php $value = (isset($client) ? $client->telefon_le : ''); ?>
                         <?php echo render_input('telefon_le', 'client_phonenumber', $value); ?>
                         <?php if ((isset($client) && empty($client->website_le)) || !isset($client)) {
@@ -246,7 +246,7 @@
                             </div>
                         <?php } ?>
                         <?php $value = (isset($client) ? $client->notizen_le : ''); ?>
-                        <?php echo render_textarea('notizen_le', 'Notizen', $value); ?>
+                        <?php echo render_textarea('notizen_le', get_transl_field('tsl_clients', 'notizen', 'Notizen'), $value); ?>
 
                     </div>
                 </div>
@@ -293,16 +293,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <a href="#" data-toggle="modal" data-target="#new_ansprechpartner"
-                               class="btn btn-info mbot30 headere"><span>Erstellen</span><?php echo _l(' Ansprechpartner'); ?>
+                               class="btn btn-info mbot30 headere"><span> <?php echo ( get_transl_field('tsl_clients', 'erstellen', 'Erstellen')); ?></span><?php echo _l(get_transl_field('tsl_clients', 'ansprechpartner','Ansprechpartner')); ?>
                             </a>
                             <table class="table dt-table">
                                 <thead>
                                 <tr>
                                     <th><?php echo _l('#'); ?></th>
-                                    <th><?php echo _l('Vorname'); ?></th>
-                                    <th><?php echo _l('Nachname'); ?></th>
-                                    <th><?php echo _l('Position'); ?></th>
-                                    <th><?php echo _l('options'); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'vorname', 'Vorname')); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'nachname', 'Nachname')); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'position','Position')); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'options','options')); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -416,7 +416,7 @@
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><span>Erstellen </span> <?php echo _l('Ansprechpartner'); ?>
+                    <h4 class="modal-title"><span>Erstellen </span> <?php echo _l(get_transl_field('tsl_clients', 'ansprechpartner','Ansprechpartner')); ?>
                     </h4>
                 </div>
 
@@ -427,15 +427,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <?php $value = '' ?>
-                            <?php echo render_input('vorname', 'Vorname', ''); ?>
-                            <?php echo render_input('nachname', 'Nachname', $value); ?>
-                            <?php echo render_input('position', 'Position', $value); ?>
+                            <?php echo render_input('vorname', get_transl_field('tsl_clients', 'vorname', 'Vorname'), ''); ?>
+                            <?php echo render_input('nachname',  get_transl_field('tsl_clients', 'nachname', 'Nachname'), $value); ?>
+                            <?php echo render_input('position', get_transl_field('tsl_clients', 'position','Position'), $value); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <?php echo render_input('email', 'Email', $value); ?>
-                            <?php echo render_input('telefon', 'Telefon', $value); ?>
-                            <?php echo render_textarea('notizen', 'Notizen', $value); ?>
+                            <?php echo render_input('email', get_transl_field('tsl_clients', 'email', 'Email'), $value); ?>
+                            <?php echo render_input('telefon', get_transl_field('tsl_clients', 'telefon', 'Telefon '), $value); ?>
+                            <?php echo render_textarea('notizen', get_transl_field('tsl_clients', 'notizen', 'Notizen'), $value); ?>
                         </div>
                     </div>
                     <br>
