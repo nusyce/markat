@@ -46,14 +46,14 @@
                 <div class="panel_s">
 
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Belegungsplan') ?></span>
+                       <div class="style-menu"> <h3><span><?php echo get_menu_option(c_menu(), 'Belegungsplan') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                                <a href="<?php echo admin_url('belegungsplan/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
+
                             <?php endif; ?>
 
-                        </h3>
+                        </h3><a href="<?php echo admin_url('belegungsplan/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <div></div>
                         <div style="display: flex">
                             <div><a href="#" class="btn btn-info mright5 pull-left display-block" data-toggle="modal"
