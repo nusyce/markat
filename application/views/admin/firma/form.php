@@ -10,6 +10,10 @@
         <?php echo render_input('hausnummer', 'Hausnummer', get_option('f_hausnummer')); ?>
         <?php echo render_input('zip', 'Postleitzahl', get_option('f_zip')); ?>
         <?php echo render_input('city', 'Ort', get_option('f_city')); ?>
+        <p style="font-weight: bold"> Meine Bankdaten</p>
+        <?php echo render_input('name_der_bank', 'Name der Bank', get_option('f_name_der_bank')); ?>
+        <?php echo render_input('iban', 'IBAN', get_option('f_iban')); ?>
+        <?php echo render_input('bic', 'BIC', get_option('f_bic')); ?>
         <!--     <?php /*$value = (isset($firma) ? $firma->state : ''); */ ?>
         --><?php /*echo render_input('state', 'client_state', $value);
         $selected = (isset($firma) ? $firma->country : $customer_default_country);
