@@ -1153,4 +1153,20 @@ class Clients extends AdminController
 
         echo json_encode($viewData);
     }
+
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_clients', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('clients', 'Translation')));
+            redirect(admin_url('clients/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/clients/translation', $data);
+    }
 }
