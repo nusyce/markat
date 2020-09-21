@@ -7,10 +7,12 @@
             <div class="panel_s">
               <div class="panel-body">
               <div class="_buttons">
+
               <?php if(has_permission('projects','','create')){ ?>
                 <a href="<?php echo admin_url('projects/project'); ?>" class="btn btn-info pull-left display-block mright5">
                   <?php echo _l('new_project'); ?>
                 </a>
+                  <a href="<?php echo admin_url('projects/translation'); ?>" class="btn btn-info btntrans pull-left display-block" style="margin-right: 5px;"><?php echo 'Translate'; ?></a>
               <?php } ?>
               <a href="<?php echo admin_url('projects/gantt'); ?>" data-toggle="tooltip" title="<?php echo _l('project_gant'); ?>" class="btn btn-default"><i class="fa fa-align-left" aria-hidden="true"></i></a>
               <div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
