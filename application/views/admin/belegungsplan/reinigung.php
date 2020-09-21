@@ -42,14 +42,15 @@
                 <div class="panel_s">
 
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Reinigung') ?></span>
+                       <div class="style-menu"> <h3><span><?php echo get_menu_option(c_menu(), 'Reinigung') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                                <a href="<?php echo admin_url('reinigung/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
+
 
                             <?php endif; ?>
                         </h3>
+                        <a href="<?php echo admin_url('reinigung/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">

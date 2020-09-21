@@ -39,14 +39,14 @@
                 <div class="panel_s">
                     <div class="panel-body _buttons"> <!--style="border-bottom: unset !important;"-->
 
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Kunder') ?></span>
+                      <div class="style-menu">  <h3><span><?php echo get_menu_option(c_menu(), 'Kunder') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                                <a href="<?php echo admin_url('clients/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
+
                             <?php endif; ?>
                         </h3>
-
+                        <a href="<?php echo admin_url('clients/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <div style="display: flex">
                             <div>
                                 <?php if (has_permission('customers', '', 'create')) { ?>

@@ -6,12 +6,16 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Task-Planer') ?></span>
+                        <div class="style-menu">
+                        <h3 style="display: flex"><span><?php echo get_menu_option(c_menu(), 'Task-Planer') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                                <a href="<?php echo admin_url('tasks/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
-                            <?php endif; ?></h3>
+
+                            <?php endif; ?>
+
+                        </h3>
+                        <a href="<?php echo admin_url('tasks/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <hr class="hr-panel-heading"/>
                         <div> <?php if (has_permission('tasks', '', 'create')) { ?>
                                 <a href="#" onclick="new_task(<?php if ($this->input->get('project_id')) {
