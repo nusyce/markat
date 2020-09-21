@@ -9,42 +9,34 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 include_once(__DIR__ . '/App_pdf.php');
 
-class Task_pdf extends App_pdf
+class Task_pdf
 {
     protected $task;
     protected $tags;
 
     public function __construct($task, $tag = '')
     {
-        $GLOBALS['task_pdf'] = $task;
-        if ($tag = 'checklist') {
-            $this->shpww();
-            return;
-        }
-        parent::__construct();
 
         if (!class_exists('Tasks_model', false)) {
             $this->ci->load->model('Tasks_model');
         }
         $this->tags = $tag;
         $this->task = $task;
-        $this->SetTitle($task->id);
+
+        $GLOBALS['task_pdf'] = $task;
+            $this->shpww($task,$tag);
     }
 
-    public function prepare()
-    {
-        $this->set_view_vars([
-            'task_tag' => $this->tags,
-            'task' => $this->task,
-        ]);
-        return $this->build();
-    }
 
-    protected function shpww()
+    protected function shpww($task,$task_tag)
     {
         try {
             ob_start();
-            include $this->file_path_check_list();
+            if ($this->tags == 'checklist') {
+                include $this->file_path_check_list();
+            }else{
+                include $this->file_path();
+            }
             $content = ob_get_clean();
 
             $html2pdf = new Html2Pdf('P', 'A4', 'de',
