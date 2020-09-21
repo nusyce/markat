@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <h3 style="margin-top: 0">Inventar per txt importieren</h3>
+                        <h3 style="margin-top: 0"><?php echo (get_transl_field('tsl_cars', 'inventartxtimportieren', 'Inventar per txt importieren')); ?></h3>
                         <hr class="hr-panel-heading"/>
                         <div class="row">
                             <div class="col-md-6 mtop15">

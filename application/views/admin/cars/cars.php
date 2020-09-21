@@ -11,7 +11,7 @@
 
             <div class="col-md-10 col-md-offset-1">
 
-                <h4 class="customer-profile-group-heading" style="margin: 0">Neue AQ Fahrzeugliste</h4>
+                <h4 class="customer-profile-group-heading" style="margin: 0"> <?php echo ( get_transl_field('tsl_cars', 'neuefahrzeugliste', 'Neue AQ Fahrzeugliste')); ?></h4>
 
             </div>
 
@@ -39,7 +39,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->marke : ''); ?>
 
-                                <?php echo render_input('marke', 'Marke', $value); ?>
+                                <?php echo render_input('marke', get_transl_field('tsl_cars', 'marke', 'Marke'), $value); ?>
 
                             </div>
 
@@ -48,7 +48,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->modell : ''); ?>
 
-                                <?php echo render_input('modell', 'Modell', $value); ?>
+                                <?php echo render_input('modell', get_transl_field('tsl_cars', 'modell', 'Modell'), $value); ?>
 
                             </div>
 
@@ -62,7 +62,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->kennzeichen : ''); ?>
 
-                                <?php echo render_input('kennzeichen', 'Kennzeichen', $value); ?>
+                                <?php echo render_input('kennzeichen', get_transl_field('tsl_cars', 'kennzeichen', 'kennzeichen'), $value); ?>
 
                             </div>
 
@@ -71,7 +71,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->baujahr : ''); ?>
 
-                                <?php echo render_input('baujahr', 'Baujahr', $value); ?>
+                                <?php echo render_input('baujahr', get_transl_field('tsl_cars', 'baujahr', 'Baujahr'), $value); ?>
 
                             </div>
 
@@ -85,7 +85,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->kilometer : ''); ?>
 
-                                <?php echo render_input('kilometer', 'Kilometer', $value); ?>
+                                <?php echo render_input('kilometer', get_transl_field('tsl_cars', 'kilometer', 'Kilometer'), $value); ?>
 
                             </div>
 
@@ -94,7 +94,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->user : ''); ?>
 
-                                <?php echo render_select('user', $users, array('staffid', array('firstname', 'lastname')), 'Mitarbeiter', $value, array(), array(), '', '', false); ?>
+                                <?php echo render_select('user', $users, array('staffid', array('firstname', 'lastname')), get_transl_field('tsl_cars', 'mitarbeiter', 'Mitarbeiter'), $value, array(), array(), '', '', false); ?>
 
                             </div>
                         </div>
@@ -103,7 +103,7 @@
 
                                 <?php $value = (isset($cars) ? $cars->tuv : ''); ?>
 
-                                <?php echo render_date_input('tuv', 'TUV', _d($value)); ?>
+                                <?php echo render_date_input('tuv', get_transl_field('tsl_cars', 'tuv', 'TUV'), _d($value)); ?>
 
                             </div>
 
@@ -112,7 +112,7 @@
 
                                 <?php $value = (isset($cars) ? _d($cars->asu) : ''); ?>
 
-                                <?php echo render_date_input('asu', 'ASU', _d($value)); ?>
+                                <?php echo render_date_input('asu', get_transl_field('tsl_cars', 'asu', 'ASU'), _d($value)); ?>
 
                             </div>
                         </div>
@@ -121,14 +121,14 @@
 
                                 <?php $value = (isset($cars) ? _d($cars->inspektion) : ''); ?>
 
-                                <?php echo render_date_input('inspektion', 'Inspektion', _d($value)); ?>
+                                <?php echo render_date_input('inspektion', get_transl_field('tsl_cars', 'inspektion', 'Inspektion'), _d($value)); ?>
 
                             </div>
 
 
                             <div class="col-md-6">
 
-                                <h3>Datien/Anh&auml;nge hochladen </h3>
+                                <h3> <?php echo ( get_transl_field('tsl_cars', 'dateienherunterladen', 'Dateien / Anhänge herunterladen')); ?> </h3>
 
                                 <div class="row">
 
