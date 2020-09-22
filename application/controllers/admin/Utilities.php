@@ -8,7 +8,7 @@ class Utilities extends AdminController
     {
         parent::__construct();
         $this->load->model('utilities_model');
-        $this->load->model(['staff_model','cars_model']);
+        $this->load->model('staff_model');
     }
 
     /* All perfex activity log */

@@ -1,6 +1,7 @@
 
 *.xml
+<<<<<<< HEAD
 *.iml
 app-config__backup.php
-application/logs/log-2020-08-25.php
-application/logs/log-2020-08-26.php
+=======
+>>>>>>> 4808686... revert
