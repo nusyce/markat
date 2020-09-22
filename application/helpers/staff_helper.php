@@ -124,8 +124,6 @@ function get_available_staff_permissions($data = [])
             'capabilities' => $ $allPermissionsArray,
         ],
 
-        
-
         'factoring' => [
             'name' => get_menu_option('factoring', _l('Factoring')),
             'capabilities' => [
