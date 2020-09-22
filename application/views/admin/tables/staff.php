@@ -50,18 +50,6 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
 
     $row = [];
-    if (isset($project) && !empty($aRow['projects'])) {
-        $projectar = unserialize($aRow['projects']);
-        if (count($projectar) > 0) {
-            if (!in_array($project, $projectar)) {
-                continue;
-            }
-        } else {
-        }
-    } else if (isset($project) && empty($aRow['projects'])) {
-        continue;
-    }
-
     $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['staffid'] . '"><label></label></div>';
 
     for ($i = 0; $i < 0; $i++) {
@@ -132,8 +120,6 @@ foreach ($rResult as $aRow) {
                 <label class="onoffswitch-label" for="c_' . $aRow['staffid'] . '"></label>
             </div>';
     $row[] = $_data;
-
-
     $row['DT_RowClass'] = 'has-row-options';
     $output['aaData'][] = $row;
 }

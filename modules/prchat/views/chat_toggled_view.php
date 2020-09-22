@@ -767,9 +767,9 @@ $currentChatColor = validateChatColorBeforeApply($color);
               value.message = emojify.replace(value.message);
             }
             if (value.reciever_id == userSessionId) {
-              $('.pusherChatBox#' + id + ' .logMsg .msgTxt').prepend('<div class="conversation_from"><img class="friendProfilePic" data-toggle="tooltip" title="' + value.time_sent_formatted + '" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><p class="friend">' + value.message + '</p></div>');
+              $('.pusherChatBox#' + id + ' .logMsg .msgTxt').prepend('<div class="conversation_from"><img class="friendProfilePic" data-toggle="tooltip" title="' + value.time_sent_formatted + '" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><p class="friend">' + value.message+'</p><span class="replies-date-box" style="">'+value.time_sent_formatted +'</span></div>');
             } else {
-              $('.pusherChatBox#' + id + ' .logMsg .msgTxt').prepend('<div class="conversation_me"><img class="myProfilePic" data-toggle="tooltip" title="' + value.time_sent_formatted + '" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><div class="message_container"><p id="' + value.id + '" class="you">' + value.message + '</p></div></div>');
+              $('.pusherChatBox#' + id + ' .logMsg .msgTxt').prepend('<div class="conversation_me"><img class="myProfilePic" data-toggle="tooltip" title="' + value.time_sent_formatted + '" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><div class="message_container"><p id="' + value.id + '" class="you">' + value.message +'</p><span class="sent-date-box" style="">'+value.time_sent_formatted +'</span></div></div>');
               <?php if ($chat_delete_option == '1' || is_admin()) :  ?>
                 if (value.is_deleted == 0) {
                   $('.conversation_me #' + value.id).tooltipster({

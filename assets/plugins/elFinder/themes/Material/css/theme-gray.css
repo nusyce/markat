@@ -1222,6 +1222,7 @@ div.elfinder-cwd-wrapper-list .ui-icon-grip-dotted-vertical {
 .elfinder .elfinder-button-search-menu {
   -webkit-border-radius: 0;
   border-radius: 0;
+  display: none !important;
 }
 /**
  * Navbar

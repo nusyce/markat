@@ -106,7 +106,7 @@ foreach ($rResult as $aRow) {
     $row[] = '<div class="data-act beraumung ' . is_before($aRow['beraumung']) . '" data-ucolumn="beraumung" data-id="' . $aRow['id'] . '">' . $beraumung . '</div>';
     $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
     if ($checker) {
-        $row[] = '<a data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+        $row[] = '<a data-act="BR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
     } else {
         $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
     }
@@ -133,7 +133,7 @@ foreach ($rResult as $aRow) {
 
     $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
     if ($checker) {
-        $row[] = '<a data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+        $row[] = '<a data-act="RR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
     } else {
         $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
     }

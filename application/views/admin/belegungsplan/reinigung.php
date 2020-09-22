@@ -42,17 +42,20 @@
                 <div class="panel_s">
 
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Reinigung') ?></span>
+                       <div class="style-menu"> <h3><span><?php echo get_menu_option(c_menu(), 'Reinigung') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+
+
                             <?php endif; ?>
                         </h3>
+                        <a href="<?php echo admin_url('reinigung/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'occupations'); ?></b></h3>
+                                <?php echo (get_transl_field('tsl_reinigung', 'gesamt', 'Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'occupations'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('occupations', $title); ?>
@@ -63,7 +66,7 @@
                     <div id="belegungsplan" class="panel-body ">
                         <div class="list-view switcher">
                             <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                               data-table=".table-belegungsplan"><?php echo _l('Alle löschen'); ?></a>
+                               data-table=".table-belegungsplan"><?php echo _l(get_transl_field('tsl_reinigung', 'alleloschen','Alle löschen')); ?></a>
                             <?php $this->load->view('admin/belegungsplan/reinigung_table_html'); ?>
 
                         </div>

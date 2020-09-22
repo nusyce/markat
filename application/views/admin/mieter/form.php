@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-md-6">
-        <h3>Private Informationen</h3>
+        <h3><?php echo ( get_transl_field('tsl_mieter', 'privateinformationen', 'Private Informationen')); ?>
+        </h3>
         <!--  --><?php /*if (is_admin()): */ ?>
         <!--            <div class="row">
                 <div class="col-md-12">
@@ -25,38 +26,38 @@
         <div class="row">
             <div class="col-md-12">
                 <?php $vorname = (isset($mieter) ? $mieter->vorname : ''); ?>
-                <?php echo render_input('vorname', 'Vorname', $vorname); ?>
+                <?php echo render_input('vorname', get_transl_field('tsl_mieter', 'vorname','Vorname'), $vorname); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $nachname = (isset($mieter) ? $mieter->nachname : ''); ?>
-                <?php echo render_input('nachname', 'Nachname', $nachname); ?>
+                <?php echo render_input('nachname',  get_transl_field('tsl_mieter', 'nachname','Nachname'), $nachname); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $email = (isset($mieter) ? $mieter->email : ''); ?>
-                <?php echo render_input('email', 'Email', $email, 'email'); ?>
+                <?php echo render_input('email', get_transl_field('tsl_mieter', 'email','Email'), $email, 'email'); ?>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
                 <?php $value = (isset($mieter) ? $mieter->strabe_m : ''); ?>
-                <?php echo render_input('strabe_m', 'Straße', $value); ?>
+                <?php echo render_input('strabe_m', get_transl_field('tsl_mieter', 'strabe_m','Straße'), $value); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $value = (isset($mieter) ? $mieter->hausnummer_m : ''); ?>
-                <?php echo render_input('hausnummer_m', 'Hausnummer', $value); ?>
+                <?php echo render_input('hausnummer_m', get_transl_field('tsl_mieter', 'hausnummer_m','Hausnummer'), $value); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $value = (isset($mieter) ? $mieter->wohnungsnummer : ''); ?>
-                <?php echo render_input('wohnungsnummer', 'Wohnungsnummer', $value); ?>
+                <?php echo render_input('wohnungsnummer', get_transl_field('tsl_mieter', 'wohnungsnummer','Wohnungsnummer'), $value); ?>
             </div>
         </div>
         <div class="row">
@@ -75,7 +76,7 @@
                 $data[] = array('value' => '9. OG');
                 $data[] = array('value' => '10. OG');
                 $value = (isset($mieter) ? $mieter->etage : ''); ?>
-                <?php echo render_select('etage', $data, array('value', 'value'), 'Etage', $value); ?>
+                <?php echo render_select('etage', $data, array('value', 'value'),  get_transl_field('tsl_mieter', 'etage','Etage'),$value); ?>
 
             </div>
         </div>
@@ -89,43 +90,43 @@
                 $data[] = array('value' => 'Mitte/Links');
                 $data[] = array('value' => 'Mitte/Rechts');
                 $value = (isset($mieter) ? $mieter->flugel : ''); ?>
-                <?php echo render_select('flugel', $data, array('value', 'value'), 'Flügel', $value); ?>
+                <?php echo render_select('flugel', $data, array('value', 'value'),  get_transl_field('tsl_mieter', 'flugel','Flügel'),$value); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $plz = (isset($mieter) ? $mieter->plz : ''); ?>
-                <?php echo render_input('plz', 'PLZ', $plz); ?>
+                <?php echo render_input('plz', get_transl_field('tsl_mieter', 'plz','PLZ'), $plz); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $stadt = (isset($mieter) ? $mieter->stadt : ''); ?>
-                <?php echo render_input('stadt', 'Stadt', $stadt); ?>
+                <?php echo render_input('stadt', get_transl_field('tsl_mieter', 'stadt','Stadt'), $stadt); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $telefon_1 = (isset($mieter) ? $mieter->telefon_1 : ''); ?>
-                <?php echo render_input('telefon_1', 'Telefon 1', $telefon_1); ?>
+                <?php echo render_input('telefon_1', get_transl_field('tsl_mieter', 'telefon_1','Telefon 1'), $telefon_1); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $telefon_2 = (isset($mieter) ? $mieter->telefon_2 : ''); ?>
-                <?php echo render_input('telefon_2', 'Telefon 2', $telefon_2); ?>
+                <?php echo render_input('telefon_2', get_transl_field('tsl_mieter', 'telefon_2','²Telefon 2'), $telefon_2); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $telefon_3 = (isset($mieter) ? $mieter->telefon_3 : ''); ?>
-                <?php echo render_input('telefon_3', 'Telefon 3', $telefon_3); ?>
+                <?php echo render_input('telefon_3', get_transl_field('tsl_mieter', 'telefon_3','Telefon 3'), $telefon_3); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <?php $value = (isset($mieter) ? $mieter->notice : ''); ?>
-                <?php echo render_textarea('notice', 'Notice', $value); ?>
+                <?php echo render_textarea('notice', get_transl_field('tsl_mieter', 'notice','Notice'), $value); ?>
             </div>
         </div>
 
@@ -136,14 +137,14 @@
                     <div class="col-md-6">
                         <?php $selected = isset($mieter) && $mieter->haustiere == '1' ? 1 : 0;
                         $datas = array(array('id' => 0, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-                        echo render_select('haustiere', $datas, array('id', 'value'), 'Haustiere', $selected); ?>
+                        echo render_select('haustiere', $datas, array('id', 'value'), get_transl_field('tsl_mieter', 'haustiere','Haustiere'), $selected); ?>
 
                     </div>
                     <div class="col-md-6">
 
                         <?php $selected = isset($mieter) && $mieter->raucher == '1' ? 1 : 0;
                         $datas = array(array('id' => 0, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-                        echo render_select('raucher', $datas, array('id', 'value'), 'Raucher', $selected); ?>
+                        echo render_select('raucher', $datas, array('id', 'value'), get_transl_field('tsl_mieter', 'raucher','Raucher'), $selected); ?>
 
                     </div>
                 </div>
@@ -267,7 +268,8 @@
     <div class="col-md-6">
 
 
-        <h3>Projekt</h3>
+        <h3><?php echo ( get_transl_field('tsl_mieter', 'projekt', 'Projekt:')); ?>
+        </h3>
         <div class="row">
             <div class="col-md-6">
                 <?php
@@ -275,7 +277,7 @@
                 if (isset($mieter) && $mieter->project) {
                     $selected = $mieter->project;
                 }
-                echo render_project_select($projects, $selected, 'Projekt','project');
+                echo render_project_select($selected, 'Projekt','project');
                 ?>
             </div>
         </div>
@@ -287,7 +289,7 @@
 
             <div class="col-md-6">
                 <?php $bauende = (isset($mieter) ? _d($mieter->bauende) : ''); ?>
-                <?php echo render_date_input('bauende', 'Bauende', $bauende); ?>
+                <?php echo render_date_input('bauende', 'Bauende', get_transl_field('tsl_mieter', 'bauende', 'Bauende'),get_transl_field('tsl_mieter', 'bauende', 'Bauende'),$bauende); ?>
             </div>
         </div>
         <div class="row">
@@ -302,7 +304,8 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h4>Fenstereinbau</h4>
+                <h4> <?php echo ( get_transl_field('tsl_mieter', 'fenstereinbau', 'Fenstereinbau')); ?>
+                </h4>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -324,12 +327,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? $mieter->k_nummer : ''); ?>
-                        <?php echo render_input('k_nummer', 'Kellernummer', $value); ?>
+                        <?php echo render_input('k_nummer', get_transl_field('tsl_mieter', 'k_nummer','Kellernummer'), $value); ?>
                     </div>
 
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? _d($mieter->k_baubeginn) : ''); ?>
-                        <?php echo render_date_input('k_baubeginn', 'Keller Beräumung', $value); ?>
+                        <?php echo render_date_input('k_baubeginn', 'Keller Beräumung', get_transl_field('tsl_mieter', 'k_baubeginn','k_baubeginn'),$value); ?>
                     </div>
 
                     <div class="col-md-4">
@@ -354,13 +357,11 @@
                     </div>
                     <div class="col-md-4">
                         <?php $value = (isset($mieter) ? $mieter->kellernummer_a : ''); ?>
-                        <?php echo render_input('kellernummer_a', 'Kellernummer', $value); ?>
+                        <?php echo render_input('kellernummer_a',  get_transl_field('tsl_mieter', 'kellernummer','Kellernummer'),$value); ?>
                     </div>
                 </div>
             </div>
         </div>
-
-
         <!--
                                 <div class="row">
                                     <div class="col-md-12">
@@ -393,7 +394,8 @@
                                     </div>
                                 </div>-->
         <br>
-        <h4>Umsetzwohnung</h4>
+        <h4>  <?php echo( get_transl_field('tsl_mieter', 'umsetzwohnung', 'Umsetzwohnung')); ?>
+        </h4>
         <div class="row">
             <div class="col-md-6">
                 <?php
@@ -404,7 +406,7 @@
 
 
                 $selected = isset($mieter) ? $mieter->art_w : ''; ?>
-                <?php echo render_select('art_w', $datas, array('id', 'value'), 'Art', $selected); ?>
+                <?php echo render_select('art_w', $datas, array('id', 'value'), get_transl_field('tsl_mieter', 'art', 'Art'), $selected); ?>
 
 
             </div>
@@ -412,25 +414,24 @@
         <div class="row">
             <div class="col-md-6">
                 <?php $value = (isset($mieter) ? $mieter->strabe_p : ''); ?>
-                <?php echo render_input('strabe_p', 'Straße', $value); ?>
+                <?php echo render_input('strabe_p', get_transl_field('tsl_mieter', 'strabe_m', 'Straße'), $value); ?>
 
             </div>
             <div class="col-md-6">
                 <?php $value = (isset($mieter) ? $mieter->nr_p : ''); ?>
-                <?php echo render_input('nr_p', 'Nr', $value); ?>
+                <?php echo render_input('nr_p', get_transl_field('tsl_mieter', 'nr', 'Nr.:'), $value); ?>
 
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <?php $value = (isset($mieter) ? $mieter->etage_p : ''); ?>
-                <?php echo render_input('etage_p', 'Etage', $value); ?>
+                <?php echo render_input('etage_p',  get_transl_field('tsl_mieter', 'etage', 'Etage'), $value); ?>
             </div>
 
             <div class="col-md-6">
                 <?php $value = (isset($mieter) ? $mieter->fulger_p : ''); ?>
-                <?php echo render_input('fulger_p', 'Flügel', $value); ?>
-
+                <?php echo render_input('fulger_p', get_transl_field('tsl_mieter', 'flugel', 'Flügel'), $value); ?>
             </div>
         </div>
 
@@ -438,7 +439,7 @@
             <?php
             if (empty($mieter->inventer)):
                 ?>
-                <div class="col-md-6 count_cone field-clone simple">
+                <div class="col-md-12 count_cone field-clone simple">
                     <div class="row" style="display: flex">
                         <div class="col-md-1">
                             <div class="count-k">1</div>
@@ -470,7 +471,7 @@
                 foreach ($mieter->inventer as $k => $a):
                     $inventar = $wohnungenOj->get_inventar($a['inventar_id'])
                     ?>
-                    <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
+                    <div class="col-md-12 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                          data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
                         <?php if ($a['is_deleted'] == 0):
                             $allData = get_move($mieter, $a['inventar_id']);

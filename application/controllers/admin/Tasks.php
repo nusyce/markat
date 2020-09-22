@@ -1444,4 +1444,19 @@ class Tasks extends AdminController
             }
         }
     }
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_tasks', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('tasks', 'Translation')));
+            redirect(admin_url('tasks/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/tasks/translation', $data);
+    }
 }

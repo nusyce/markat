@@ -42,10 +42,10 @@ function widget_status_stats($table, $title = '')
     if (isset($staff->projects) && !empty($staff->projects) && in_array($table, ['mieters', 'tasks', 'wohnungen'])) {
         $stf_project = unserialize($staff->projects);
         if (is_array($stf_project)&&count($stf_project) > 0) {
-            $stf_project = implode("','", $stf_project);
+            $stf_project = implode(",", $stf_project);
             $tt = $table;
-            $where = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")  AND ';
-            $wherett = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")';
+            $where = db_prefix() . $tt . '.project IN  (' . $stf_project . ')  AND ';
+            $wherett = db_prefix() . $tt . '.project IN  (' . $stf_project . ')';
         }
     }
     $total = total_rows(db_prefix() . $table, $wherett);

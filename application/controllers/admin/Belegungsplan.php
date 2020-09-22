@@ -31,12 +31,26 @@ class Belegungsplan extends AdminController
         $this->load->view('admin/belegungsplan/manage', $data);
     }
 
-
-    public function table($clientid = '')
+    public function table($project = '')
     {
-        $this->app->get_table_data('belegungsplan', []);
+        $this->app->get_table_data('belegungsplan', ['project' => $project]);
     }
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_belegungsplan', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('belegungsplan', 'Translation')));
+            redirect(admin_url('belegungsplan/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/belegungsplan/translation', $data);
+    }
 
     public function table1()
     {

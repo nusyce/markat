@@ -4,19 +4,28 @@ $table_data = array(
     '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="belegungsplan"><label></label></div>',
     'ID',
  //   'Frei?',
-    'Straße',
-    'Nr',
-    'Etage',
-    'Flügel',
-    'Zimmer',
-    'Schlafplätze',
-    'Möbliert' ,
+    get_transl_field('tsl_reinigung', 'strabe_m','Straße'),
+    get_transl_field('tsl_reinigung', 'nr','Nr.'),
+    get_transl_field('tsl_reinigung', 'etage','Etage'),
+    get_transl_field('tsl_reinigung', 'flugel','Flügel'),
+    get_transl_field('tsl_reinigung', 'zimmer','Zimmer'),
+    get_transl_field('tsl_reinigung', 'schlafplatze','Schlafplätze'),
+    get_transl_field('tsl_reinigung', 'mobliert','Möbliert'),
+    get_transl_field('tsl_reinigung', 'mieter','Mieter'),
+    get_transl_field('tsl_reinigung', 'reinigungstermin','Reinigungstermin'),
+    get_transl_field('tsl_reinigung', 'aktiv','Aktiveeee')
+   // 'Nr',
+    //'Etage',
+   // 'Flügel',
+  //  'Zimmer',
+   // 'Schlafplätze',
+    //'Möbliert' ,
 //    'Belegt von',
 //    'Belegt bis',
    // 'Resttage',
-    'Mieter',
-    'Reinigungstermin',
-    'Aktiveeee'
+   // 'Mieter',
+   // 'Reinigungstermin',
+    //'Aktiveeee'
 );
 
 $table_data = hooks()->apply_filters('belegungsplan_table_columns', $table_data);

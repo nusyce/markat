@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     '1',
     'id',
+    'act',
     'client',
     'mieter',
     'strabe',
@@ -64,6 +65,7 @@ foreach ($rResult as $aRow) {
     $row = [];
     $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
     $row[] = $aRow['id'];
+    $row[] = $aRow['act'];
     $subjectOutput = $aRow['client'];
     $subjectOutput .= '<div class="row-options">';
     $subjectOutput .= '<a href="' . admin_url('dokumente/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';

@@ -25,6 +25,23 @@ class Lieferanten extends AdminController
     }
 
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_lieferanten', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('lieferanten', 'Translation')));
+            redirect(admin_url('lieferanten/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/lieferanten/translation', $data);
+    }
+
+
     public function table($clientid = '')
     {
         $this->app->get_table_data('lieferanten', []);

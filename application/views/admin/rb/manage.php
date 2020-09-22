@@ -7,11 +7,13 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Räumung/Beräumung') ?></span>
+                        <div class="style-menu" >  <h3><span><?php echo get_menu_option(c_menu(), 'Räumung/Beräumung') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
                             <?php endif; ?></h3>
+                            <a href="<?php echo admin_url('rb/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
+
                     </div>
 
                     <div class="panel-body">
@@ -19,7 +21,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="bold"><?php echo _l('filter_by'); ?></p>
+                                        <p class="bold"><?php echo _l(get_transl_field('tsl_rb', 'filtere_nach','Filtere nach')); ?></p>
                                     </div>
                                 </div>
                                 <div class="row"><!--
@@ -30,37 +32,37 @@
                                         </div>-->
 
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('name', $name, array('fullname', 'fullname'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Name')); ?>
+                                        <?php echo render_select('name', $name, array('fullname', 'fullname'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_rb', 'name','Name'))); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('strabe', $strabe, array('strabe_m', 'strabe_m'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
+                                        <?php echo render_select('strabe', $strabe, array('strabe_m', 'strabe_m'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_rb', 'strabe','Straße')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('schlaplatze', $schlaplatze, array('hausnummer_m', 'hausnummer_m'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Nr.'), array()); ?>
+                                        <?php echo render_select('schlaplatze', $schlaplatze, array('hausnummer_m', 'hausnummer_m'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_rb', 'nr','Nr')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('plz', $plz, array('plz', 'plz'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'PLZ'), array()); ?>
+                                        <?php echo render_select('plz', $plz, array('plz', 'plz'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_rb', 'plz','PLZ')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('stadt', $stadt, array('stadt', 'stadt'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Stadt'), array()); ?>
+                                        <?php echo render_select('stadt', $stadt, array('stadt', 'stadt'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_rb', 'stadt','Stadt')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('project', $project, array('project', 'project'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                        <?php echo render_select('project', $project, array('project', 'project'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_rb', 'projekt','Projekt')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_date_input('beraumung', '', '', array('data-width' => '100%', 'placeholder' => 'Beraumung'), array()); ?>
-                                    </div>
-
-                                    <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_date_input('baubeginn', '', '', array('data-width' => '100%', 'placeholder' => 'Baubeginn'), array()); ?>
+                                        <?php echo render_date_input('beraumung', '', '', array('data-width' => '100%', 'placeholder' =>  get_transl_field('tsl_rb', 'beraumung','Beräumung')), array()); ?>
                                     </div>
 
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_date_input('ruckraumung', '', '', array('data-width' => '100%', 'placeholder' => 'Ruckraumung'), array()); ?>
+                                        <?php echo render_date_input('baubeginn', '', '', array('data-width' => '100%', 'placeholder' => get_transl_field('tsl_rb', 'baubeginn','Baubeginn')), array()); ?>
                                     </div>
 
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_date_input('bauende', '', '', array('data-width' => '100%', 'placeholder' => 'Bauende'), array()); ?>
+                                        <?php echo render_date_input('ruckraumung', '', '', array('data-width' => '100%', 'placeholder' => get_transl_field('tsl_rb', 'ruckraumung','Rückräumung')), array()); ?>
+                                    </div>
+
+                                    <div class="col-md-2 leads-filter-column">
+                                        <?php echo render_date_input('bauende', '', '', array('data-width' => '100%', 'placeholder' => get_transl_field('tsl_rb', 'bauende','Bauende')), array()); ?>
                                     </div>
 
                                 </div>
@@ -107,6 +109,7 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
             <div class="modal-body">
                 <?php echo form_open('', array('id' => 'createpdf-form')); ?>
                 <input type="hidden" value="0" name="mieter" id="mieter">
+                <input type="hidden" name="act" id="act">
                 <div class="row field">
                     <div class="col-md-12">
                         <?php echo render_textarea('fo_arbeit', 'Folgende Arbeit') ?>
@@ -227,10 +230,13 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
                 }
             });
         })
+
         $('.table').on('click', '.createpdf-action', function (e) {
             e.preventDefault();
             const target = $(this).data('id');
+            const act = $(this).data('act');
             $("#createdocument #mieter").val(target);
+            $("#createdocument #act").val(act);
             $('#createdocument').modal({
                 backdrop: 'static',
                 keyboard: false

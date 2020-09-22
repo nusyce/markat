@@ -19667,7 +19667,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 				});
 			})
 			.one('open', function() {
-				opts = (fm.api < 2.1)? null : $('<div class="ui-front ui-widget ui-widget-content elfinder-button-menu elfinder-button-search-menu ui-corner-all"/>')
+				opts = (fm.api < 2.1)? null : $('<div class="ui-front ui-widget ui-widget-content hide elfinder-button-menu elfinder-button-search-menu ui-corner-all"/>')
 					.append(
 						$('<div class="buttonset"/>')
 							.append(
@@ -19682,6 +19682,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 					)
 					.hide()
 					.appendTo(fm.getUI());
+
 				if (opts) {
 					if (sTypes) {
 						typeSet = opts.find('.elfinder-search-type');

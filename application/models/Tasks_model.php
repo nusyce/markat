@@ -67,13 +67,13 @@ class Tasks_model extends App_Model
                    ],*/
             [
                 'id' => self::STATUS_COMPLETE,
-                'color' => '#84c529',
+                'color' => 'red',
                 'name' => _l('task_status_5'),
                 'order' => 77,
                 'filter_default' => false,
             ], [
                 'id' => self::STATUS_ABGERECHNET,
-                'color' => 'red',
+                'color' => '#84c529',
                 'name' => _l('Abgerechnet'),
                 'order' => 100,
                 'filter_default' => false,
@@ -929,7 +929,6 @@ class Tasks_model extends App_Model
      */
     public function update($data, $id, $clientRequest = false)
     {
-        debug_php();
         $affectedRows = 0;
         $data['startdate'] = to_sql_date($data['startdate'], true);
         $data['duedate'] = to_sql_date($data['duedate'], true);

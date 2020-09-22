@@ -32,12 +32,12 @@ $where = [];
 $filter = [];
 $join = [];
 
-$staff= get_staff();
-if (isset($staff->projects)&&!empty($staff->projects)){
-    $stf_project= unserialize($staff->projects);
-    if (is_array($stf_project)&&count($stf_project)>0){
-        $stf_project = implode("','",$stf_project);
-        array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  ("' . $stf_project . ' ") ');
+$staff = get_staff();
+if (isset($staff->projects) && !empty($staff->projects)) {
+    $stf_project = unserialize($staff->projects);
+    if (is_array($stf_project) && count($stf_project) > 0) {
+        $stf_project = implode(",", $stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'mieters.project IN  (' . $stf_project . ') ');
 
     }
 
@@ -53,6 +53,11 @@ if ($this->ci->input->post('hausnummer')) {
 if ($this->ci->input->post('flugel')) {
     array_push($where, 'AND ' . db_prefix() . 'wohnungen.flugel ="' . $this->ci->db->escape_str($this->ci->input->post('flugel')) . ' " ');
 }
+
+if ($project) { // added to filter in Project View screen
+    array_push($where, 'AND ' . db_prefix() . 'mieters.project ="' . $project . ' " ');
+}
+
 
 if ($this->ci->input->post('etage')) {
     array_push($where, 'AND ' . db_prefix() . 'wohnungen.etage ="' . $this->ci->db->escape_str($this->ci->input->post('etage')) . ' " ');
@@ -70,6 +75,7 @@ if ($this->ci->input->post('mobiliert')) {
 if (!empty($this->ci->input->post('belegt_b'))) {
     $belegt_be = $this->ci->input->post('belegt_b');
 }
+
 if (!empty($this->ci->input->post('belegt_v'))) {
     array_push($where, 'AND ' . db_prefix() . 'occupations.belegt_v ="' . to_sql_datedv($this->ci->input->post('belegt_v')) . ' " ');
 
@@ -88,35 +94,6 @@ $rResult = $result['rResult'];
 foreach ($rResult as $a => $aRow) {
     $row = [];
     $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
-
-    /*
-      if ($this->ci->input->post('belegt')) {
-            $val = $this->ci->db->escape_str($this->ci->input->post('belegt')) == 'Nein' ? 1 : 0;
-            $date = date_create($aRow['belegt_v']);
-            $belegt_v = date_format($date, 'd.m.Y');
-            $date = date_create($aRow['belegt_b']);
-            $belegt_b = date_format($date, 'd.m.Y');
-            $noww = date('d.m.Y');
-    if ($val==1){}
-    if ($val==0){}
-            if ($belegt_v < $noww && $noww > $belegt_v) {
-
-            } else {
-
-            }
-        }*/
-    /*    $bv = strtotime($aRow['belegt_v']);
-        //  var_dump($bv , $bv_);
-        if (time() < $bv)
-            continue;*/
-
-    /*   if ($belegt_be) {
-           $bb = strtotime($aRow['belegt_b']);
-           $bb_ = strtotime($belegt_be);
-           if ($bb > $bb_)
-               continue;
-       }*/
-
     $row[] = $a + 1;
 
     // $row[] = $aRow['wohnungen_id'];
@@ -141,7 +118,9 @@ foreach ($rResult as $a => $aRow) {
     $subjectOutput = '<a href="' . admin_url('wohnungen/wohnungen/' . $aRow['wohnungen']) . '">' . $aRow['strabe'] . '</a>';
 
     $subjectOutput .= '<div class="row-options-calendar"><a href="#" data-toggle="modal" data-target="#calendarmx' . $aRow['id'] . '">';
-    $subjectOutput .= '  <div class="selcet">Kalender</div></a>';
+
+    if (empty($project))
+        $subjectOutput .= '  <div class="selcet">Kalender</div></a>';
 
     $subjectOutput .= '</div>';
     $row[] = $subjectOutput;
@@ -164,7 +143,6 @@ foreach ($rResult as $a => $aRow) {
     $row[] = $belegt_b;
     $datediff = strtotime($belegt_b) - strtotime($belegt_v);
     $restage = round($datediff / (60 * 60 * 24));
-    // $row[] = $restage.'  Tage';
     $row[] = $mieter;
 
     $row[] = $aRow['projekt'];

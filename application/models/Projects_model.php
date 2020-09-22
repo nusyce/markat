@@ -207,14 +207,14 @@ class Projects_model extends App_Model
     public function get($id = '', $where = [])
     {
         $this->db->where($where);
-        $staff= get_staff();
+     /*   $staff= get_staff();
         if (isset($staff->projects)&&!empty($staff->projects)){
             $stf_project= unserialize($staff->projects);
             if (is_array($stf_project)&&count($stf_project)>0){
                 $stf_project = implode("','",$stf_project);
                 $this->db->where( db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
             }
-        }
+        }*/
         if (is_numeric($id)) {
             $this->db->where('id', $id);
             $project = $this->db->get(db_prefix() . 'projects')->row();

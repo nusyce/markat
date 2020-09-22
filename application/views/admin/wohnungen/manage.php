@@ -9,14 +9,16 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons"> <!--style="border-bottom: unset !important;"-->
-                        <h3><span><?php echo get_menu_option(c_menu(), 'AQ') ?></span>
+                        <div class="style-menu" >  <h3><span><?php echo get_menu_option(c_menu(), 'AQ') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
                             <?php endif; ?></h3>
+                            <a href="<?php echo admin_url('wohnungen/translationAQ'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
+
                         <div style="display: flex">
                             <a href="<?php echo admin_url('wohnungen/wohnungen'); ?>"
-                               class="btn btn-info pull-left display-block"><?php echo 'Erstellen'; ?></a>
+                               class="btn btn-info pull-left display-block"><?php echo _l( get_transl_field('tsl_wohnungen', 'erstellen','Erstellen')); ?></a>
                         </div>
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
@@ -27,13 +29,13 @@
                                 if (isset($staff->projects) && !empty($staff->projects)) {
                                     $stf_project = unserialize($staff->projects);
                                     if (is_array($stf_project)&&count($stf_project)>0){
-                                        $stf_project = implode("','", $stf_project);
-                                        $wherett = db_prefix() . 'wohnungen.project IN  ("' . $stf_project . ' ")';
+                                        $stf_project = implode(",", $stf_project);
+                                        $wherett = db_prefix() . 'wohnungen.project IN  (' . $stf_project . ')';
 
                                     }
                                 }
                                 $total = total_rows(db_prefix() . 'wohnungen', $wherett);?>
-                                Gesamt:<b><?php echo $total; ?></b></h3>
+                                <?php echo _l(get_transl_field('tsl_wohnungen', 'gesamt','Gesamt')); ?>:<b><?php echo $total; ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('wohnungen', $title); ?>
@@ -47,13 +49,13 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="bold"><?php echo _l('filter_by'); ?></p>
+                                        <p class="bold"><?php echo _l(get_transl_field('tsl_wohnungen', 'filtere_nach','Filtere nach')); ?></p>
                                     </div>
                                 </div>
                                 <div class="row">
 
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('project', $project, array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                        <?php echo render_select('project', $project, array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'projekt','Projekt')), array()); ?>
                                     </div>
                                 </div>
                                 <div class="row"><!--
@@ -64,24 +66,24 @@
                                         </div>-->
 
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Straße'), array()); ?>
+                                        <?php echo render_select('strabe', $strabe, array('strabe', 'strabe'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'strabe','Straße')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('hausnummer', $hausnummer, array('hausnummer', 'hausnummer'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Nr.'), array()); ?>
+                                        <?php echo render_select('hausnummer', $hausnummer, array('hausnummer', 'hausnummer'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'nr','Nr')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('etage', $etage, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Etage'), array()); ?>
+                                        <?php echo render_select('etage', $etage, array('etage', 'etage'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'etage','Etage')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('flugel', $flugel, array('flugel', 'flugel'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Flügel'), array()); ?>
+                                        <?php echo render_select('flugel', $flugel, array('flugel', 'flugel'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'flugel','Flügel')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('schlaplatze', $schlaplatze, array('schlaplatze', 'schlaplatze'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Schlafplätze'), array()); ?>
+                                        <?php echo render_select('schlaplatze', $schlaplatze, array('schlaplatze', 'schlaplatze'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'schlafplatze','Schlafplätze')), array()); ?>
                                     </div>
                                     <div class="col-md-2 leads-filter-column">
                                         <?php
                                         $data = array(array('id' => -1, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-                                        echo render_select('mobiliert', $data, array('id', 'value'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Möbliert'), array()); ?>
+                                        echo render_select('mobiliert', $data, array('id', 'value'), '', '', array('data-width' => '100%', 'data-none-selected-text' => get_transl_field('tsl_wohnungen', 'mobliert','Möbliert')), array()); ?>
                                     </div>
 
                                 </div>
@@ -91,7 +93,7 @@
                             <hr class="hr-panel-heading"/>
                         </div>
 
-                        <button id="switchbtn" class="btn btn-success list">Visualisierung</button>
+                        <button id="switchbtn" class="btn btn-success list"><?php echo _l(get_transl_field('tsl_wohnungen', 'visualisierung','VISUALISIERUNG')); ?></button>
                         <div class="list-view switcher">
                             <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
                                data-table=".table-wohnungen"><?php echo _l('Alle löschen'); ?></a>
