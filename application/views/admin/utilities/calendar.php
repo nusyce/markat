@@ -45,7 +45,6 @@
 	</div>
 </div>
 <?php $this->load->view('admin/utilities/calendar_template'); ?>
-<?php $this->load->view('admin/utilities/calendar_choose'); ?>
 <script>
 	app.calendarIDs = '<?php echo json_encode($google_ids_calendars); ?>';
 </script>
@@ -126,7 +125,8 @@
 				elemid.push($(ev.target).find("div[id^=emp_]")[i].dataset.set);
 			}
 			$('#newEventModal').modal('show');
-
+			//alert('droped row -' + (parseInt($(ev.target).parents('td').index()) + 1));
+		
 		    setTimeout(() => {
 			
                 if (!$.fullCalendar.moment(tar_date).hasTime()) {
@@ -149,18 +149,6 @@
         return false;
     };
 };
-
-$(".switch").change(function() {
-    if ( $("#select-mf").is(':checked') ) {
-		$('#fh-1').hide();
-		$('#mh-1').show();
-		
-    } else {
-		$('#mh-1').hide();
-		$('#fh-1').show();
-
-    }
-});
 
 </script>
 </body>

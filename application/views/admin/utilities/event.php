@@ -113,5 +113,4 @@
       var elemid = <?php echo json_encode($event->user) ?>;
       $('#viewEvent select[name="user[]"]').val(elemid).trigger('change');
     }, 300);
-
 </script>
