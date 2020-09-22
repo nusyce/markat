@@ -78,7 +78,7 @@ class Utilities extends AdminController
             die();
         }
         $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
-        $data['staffs'] = $this->staff_model->get();
+        $data['staffs'] = $this->staff_model->get('',['active'=>1]);
         $data['google_calendar_api']  = get_option('google_calendar_api_key');
         $data['title']                = _l('Personalplan');
         add_calendar_assets();
