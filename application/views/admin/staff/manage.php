@@ -7,16 +7,18 @@
 
                 <div class="panel_s ">
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Kundenbetreuer') ?></span>
+                        <div class="style-menu" > <h3><span><?php echo get_menu_option(c_menu(), 'Kundenbetreuer') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
                             <?php endif; ?></h3>
+                            <a href="<?php echo admin_url('staff/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
+
                         <div style="display: flex">
                             <div>
                                 <?php if (has_permission('staff', '', 'create')) { ?>
                                     <a href="<?php echo admin_url('staff/member'); ?>"
-                                       class="btn btn-info pull-left display-block"><?php echo _l('Erstellen'); ?></a>
+                                       class="btn btn-info pull-left display-block"> <?php echo _l(get_transl_field('tsl_staff', 'erstellen','ERSTELLEN')); ?></a>
 
                                 <?php } ?>
                             </div>
@@ -24,7 +26,7 @@
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'staff'); ?></b></h3>
+                                <?php echo _l(get_transl_field('tsl_staff', 'gesamt','Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'staff'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('staff', $title); ?>
@@ -40,13 +42,13 @@
                         <?php
                         $table_data = array(
                             '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="staff"><label></label></div>',
-                            'Vorname',
-                            'Nachname',
-                            'Rolle',
-                            'Email',
-                            'Telefonnummer',
-                            _l('staff_dt_last_Login'),
-                            _l('staff_dt_active'),
+                            get_transl_field('tsl_staff', 'vorname','Vorname'),
+                            get_transl_field('tsl_staff', 'nachname','Nachname'),
+                            get_transl_field('tsl_staff', 'rolle','Rolle'),
+                            get_transl_field('tsl_staff', 'email','Email'),
+                            get_transl_field('tsl_staff', 'telefonnummer','Telefonnummer'),
+                            get_transl_field('tsl_staff', 'letztes_login','Letztes Login'),
+                            get_transl_field('tsl_staff', 'aktiv','Aktiv'),
                         );
 
                         $custom_fields = get_custom_fields('staff', array('show_on_table' => 1));

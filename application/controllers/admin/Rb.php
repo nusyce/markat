@@ -41,8 +41,24 @@ class Rb extends AdminController
         $this->load->view('admin/rb/manage', $data);
     }
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_rb', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('rb', 'Translation')));
+            redirect(admin_url('rb/translation'));
 
-    public function table($project)
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/rb/translation', $data);
+    }
+
+
+    public function table($project="")
     {
         // var_dump($_POST);
         $this->app->get_table_data('rb', ['project' => $project]);

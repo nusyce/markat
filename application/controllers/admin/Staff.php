@@ -18,6 +18,23 @@ class Staff extends AdminController
         $this->load->view('admin/staff/manage', $data);
     }
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_staff', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('staff', 'Translation')));
+            redirect(admin_url('staff/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/staff/translation', $data);
+    }
+
+
     public function table($project)
     {
         $this->app->get_table_data('staff', ['project' => $project]);

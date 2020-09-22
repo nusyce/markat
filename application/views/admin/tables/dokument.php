@@ -64,6 +64,7 @@ foreach ($rResult as $aRow) {
     $row = [];
     $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
     $row[] = $aRow['id'];
+    $row[] = 'RR';
     $subjectOutput = $aRow['client'];
     $subjectOutput .= '<div class="row-options">';
     $subjectOutput .= '<a href="' . admin_url('dokumente/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';

@@ -17,7 +17,7 @@ $table_data = [
     _l('Aufgaben'),
     _l('Erledigt'),
     _l('Projekt'),
-    _l('tasks_list_priority'),
+    _l('Priorität'),
 ];
 
 $custom_fields = get_custom_fields('tasks', [

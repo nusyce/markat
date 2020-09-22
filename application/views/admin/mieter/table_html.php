@@ -11,10 +11,8 @@ $table_data = array(
     'Etage ',
     'Flügel ',
     'PLZ ',
-
     'Stadt ',
     'Telefon ',
-
     'Kundenbetreuer',
     'Belegt?',
     'Aktiviert'

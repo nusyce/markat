@@ -12,11 +12,11 @@
                             <div class="col-md-6 mtop15">
                                 <?php echo form_open_multipart($this->uri->uri_string(), array('id' => 'import_form')); ?>
                                 <?php echo form_hidden('inventar_import', 'true'); ?>
-                                <?php echo render_input('file_txt', '* Eine Txt Datei wählen', '', 'file'); ?>
+                                <?php echo render_input('file_txt', get_transl_field('tsl_inventarlistes', 'eine-txt-datei-wahlen','* Eine Txt Datei wählen'), '', 'file'); ?>
                                 <div class="form-group">
                                     <button type="button"
-                                            class="btn btn-info import btn-import-submit"><?php echo _l('import'); ?></button>
-                                    <a class="btn btn-success" href="<?= base_url().'assets/sample-data/sample_inventar.txt'?>">Download Sample Data</a>
+                                            class="btn btn-info import btn-import-submit"><?php echo _l(get_transl_field('tsl_inventarlistes', 'importieren','IMPORTIEREN')); ?></button>
+                                    <a class="btn btn-success" href="<?= base_url().'assets/sample-data/sample_inventar.txt'?>"><?php echo _l( get_transl_field('tsl_inventarlistes', 'download_sample_data','DOWNLOAD SAMPLE DATA')); ?></a>
                                  </div>
                                 <?php echo form_close(); ?>
                             </div>
