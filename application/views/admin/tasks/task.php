@@ -327,7 +327,7 @@
                         <p class="bold"><?php echo _l('task_add_edit_description'); ?></p>
                         <?php
                         // onclick and onfocus used for convert ticket to task too
-                        echo render_textarea('description', '', (isset($task) ? $task->description : ''), array('rows' => 6, 'placeholder' => _l('task_add_description'))); ?>
+                        echo render_textarea('description', '', (isset($task) ? html_entity_decode($task->description) : ''), array('rows' => 6, 'placeholder' => _l('task_add_description'))); ?>
 
                         <div class="row">
                             <div class="col-md-6">

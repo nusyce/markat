@@ -61,7 +61,7 @@ class Utilities extends AdminController
     public function calendar()
     {
         if ($this->input->post() && $this->input->is_ajax_request()) {
-            $data    = $this->input->post();
+            $data = $this->input->post();
             $success = $this->utilities_model->event($data);
             $message = '';
             if ($success) {
@@ -110,7 +110,6 @@ class Utilities extends AdminController
             || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
 
 
-                $even_relation = $this->utilities_model->get_event_user($id);
                 if($even_relation->event_id == $id){
                     $this->load->view('admin/utilities/event', $data);
                 }
@@ -148,7 +147,7 @@ class Utilities extends AdminController
     public function media()
     {
         $this->load->helper('url');
-        $data['title']     = _l('media_files');
+        $data['title'] = _l('media_files');
         $data['connector'] = admin_url() . '/utilities/media_connector';
 
         $mediaLocale = get_media_locale();
@@ -165,7 +164,7 @@ class Utilities extends AdminController
     public function media_connector()
     {
         $media_folder = $this->app->get_media_folder();
-        $mediaPath    = FCPATH . $media_folder;
+        $mediaPath = FCPATH . $media_folder;
 
         if (!is_dir($mediaPath)) {
             mkdir($mediaPath, 0755);
@@ -182,7 +181,7 @@ class Utilities extends AdminController
 
         $root_options = [
             //'driver' => 'LocalFileSystem',
-           // 'path'   => set_realpath($media_folder),
+            // 'path'   => set_realpath($media_folder),
             'driver' => 'MySQL',
             'host' => APP_DB_HOSTNAME,
             'user' => APP_DB_USERNAME,
@@ -190,6 +189,50 @@ class Utilities extends AdminController
             'db' => APP_DB_NAME,
             'path' => 1,
             //'URL'    => site_url($media_folder) . '/',
+            //'debug'=>true,
+            'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
+            'accessControl' => 'access_control_media',
+            'uploadDeny' => [
+                'application/x-httpd-php',
+                'application/php',
+                'application/x-php',
+                'text/php',
+                'text/x-php',
+                'application/x-httpd-php-source',
+                'application/perl',
+                'application/x-perl',
+                'application/x-python',
+                'application/python',
+                'application/x-bytecode.python',
+                'application/x-python-bytecode',
+                'application/x-python-code',
+                'wwwserver/shellcgi', // CGI
+            ],
+            'uploadAllow' => !$this->input->get('editor') ? [] : ['image', 'video'],
+            'uploadOrder' => [
+                'deny',
+                'allow',
+            ],
+            'attributes' => [
+                [
+                    'pattern' => '/.tmb/',
+                    'hidden' => true,
+                ],
+                [
+                    'pattern' => '/.quarantine/',
+                    'hidden' => true,
+                ],
+                [
+                    'pattern' => '/public/',
+                    'hidden' => true,
+                ],
+            ],
+        ];
+
+        $root_options_public = [
+            'driver' => 'LocalFileSystem',
+            'path'   => set_realpath($media_folder),
+            'URL'    => site_url($media_folder) . '/',
             //'debug'=>true,
             'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
             'accessControl' => 'access_control_media',
@@ -232,10 +275,10 @@ class Utilities extends AdminController
 
         if (!is_admin()) {
             $this->db->select('media_path_slug,staffid,firstname,lastname')
-            ->from(db_prefix() . 'staff')
-            ->where('staffid', get_staff_user_id());
+                ->from(db_prefix() . 'staff')
+                ->where('staffid', get_staff_user_id());
             $user = $this->db->get()->row();
-          //  $path = set_realpath($media_folder . '/' . $user->media_path_slug);
+            //  $path = set_realpath($media_folder . '/' . $user->media_path_slug);
             if (empty($user->media_path_slug)) {
                 $this->db->where('staffid', $user->staffid);
                 $slug = slug_it($user->firstname . ' ' . $user->lastname);
@@ -264,51 +307,50 @@ class Utilities extends AdminController
             // $root_options['URL']  = site_url($media_folder . '/' . $user->media_path_slug) . '/';
         }
 
-        // $publicRootPath      = $media_folder . '/public';
-        // $public_root         = $root_options;
-        // $public_root['path'] = set_realpath($publicRootPath);
 
-        // $public_root['URL'] = site_url($media_folder) . '/public';
-        // unset($public_root['attributes'][3]);
+        $publicRootPath      = $media_folder . '/public';
+        $public_root         = $root_options_public;
+        $public_root['path'] = set_realpath($publicRootPath);
 
-        // if (!is_dir($publicRootPath)) {
-        //     mkdir($publicRootPath, 0755);
-        // }
+        $public_root['URL'] = site_url($media_folder) . '/public';
+        unset($public_root['attributes'][3]);
 
-        // if (!file_exists($publicRootPath . '/index.html')) {
-        //     $fp = fopen($publicRootPath . '/index.html', 'w');
-        //     if ($fp) {
-        //         fclose($fp);
-        //     }
-        // }
-        //echo '<pre>'; print_r($root_options);
+        if (!is_dir($publicRootPath)) {
+            mkdir($publicRootPath, 0755);
+        }
+
+        if (!file_exists($publicRootPath . '/index.html')) {
+            $fp = fopen($publicRootPath . '/index.html', 'w');
+            if ($fp) {
+                fclose($fp);
+            }
+        }
+
         $opts = [
             'roots' => [
                 $root_options,
-                //$public_root,
+                $public_root,
             ],
         ];
-
-        $opts      = hooks()->apply_filters('before_init_media', $opts);
         $connector = new elFinderConnector(new elFinder($opts));
         $connector->run();
     }
 
-     // Moved here from version 1.0.5
+    // Moved here from version 1.0.5
     public function sharelink()
     {
         $this->load->helper('url');
-        $data['title']     = _l('media_files');
+        $data['title'] = _l('media_files');
         $parent_id = $this->uri->segment(4);
         $checkPasswordData = $this->uri->segment(5);
         $elfinder_id = $this->utilities_model->get_elfinder_id_data($parent_id);
         $parent_id_data = $elfinder_id;
 
         $check_data = $this->utilities_model->check_media_share_link($parent_id);
-        if(!empty($check_data) && ($checkPasswordData != 1)){
+        if (!empty($check_data) && ($checkPasswordData != 1)) {
             $this->load->view('admin/utilities/media_protected');
-        }else{
-            $data['connector'] = admin_url() . '/utilities/share_connector/'.$parent_id_data;
+        } else {
+            $data['connector'] = admin_url() . '/utilities/share_connector/' . $parent_id_data;
 
             $mediaLocale = get_media_locale();
 
@@ -322,22 +364,23 @@ class Utilities extends AdminController
         }
 
     }
+
     public function check_password()
     {
 
         $parent_id = $this->uri->segment(4);
 
         if ($this->input->post()) {
-            $check_data = $this->utilities_model->check_media_share_link_password($parent_id,$this->input->post('password'));
+            $check_data = $this->utilities_model->check_media_share_link_password($parent_id, $this->input->post('password'));
             if ($check_data) {
 
                 set_alert('success', 'Password Checked Successfully');
-               redirect(admin_url('utilities/sharelink/'.$parent_id.'/1'));
+                redirect(admin_url('utilities/sharelink/' . $parent_id . '/1'));
 
             } else {
                 //set_alert('warning', 'Password Incorrect');
-                $this->session->set_flashdata('message-warning','Password Incorrect');
-               // redirect(admin_url('utilities/sharelink/'.$parent_id.'/2'));
+                $this->session->set_flashdata('message-warning', 'Password Incorrect');
+                // redirect(admin_url('utilities/sharelink/'.$parent_id.'/2'));
             }
         }
         //set_alert('danger', 'Incorrect Information');
@@ -346,10 +389,11 @@ class Utilities extends AdminController
 
         //redirect(admin_url('utilities/sharelink/'.$parent_id.'/3'));
     }
-      public function share_connector()
+
+    public function share_connector()
     {
         $media_folder = $this->app->get_media_folder();
-        $mediaPath    = FCPATH . $media_folder;
+        $mediaPath = FCPATH . $media_folder;
         $parent_path = $this->uri->segment(4);
 
         if (!is_dir($mediaPath)) {
@@ -367,7 +411,7 @@ class Utilities extends AdminController
 
         $root_options = [
             //'driver' => 'LocalFileSystem',
-           // 'path'   => set_realpath($media_folder),
+            // 'path'   => set_realpath($media_folder),
             'driver' => 'MySQL',
             'host' => APP_DB_HOSTNAME,
             'port' => APP_DB_PORT,
@@ -379,7 +423,7 @@ class Utilities extends AdminController
             //'debug'=>true,
             'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
             'accessControl' => 'access_control_media',
-            'uploadDeny'    => [
+            'uploadDeny' => [
                 'application/x-httpd-php',
                 'application/php',
                 'application/x-php',
@@ -403,25 +447,25 @@ class Utilities extends AdminController
             'attributes' => [
                 [
                     'pattern' => '/.tmb/',
-                    'hidden'  => true,
+                    'hidden' => true,
                 ],
                 [
                     'pattern' => '/.quarantine/',
-                    'hidden'  => true,
+                    'hidden' => true,
                 ],
                 [
                     'pattern' => '/public/',
-                    'hidden'  => true,
+                    'hidden' => true,
                 ],
             ],
         ];
 
         if (!is_admin()) {
             $this->db->select('media_path_slug,staffid,firstname,lastname')
-            ->from(db_prefix() . 'staff')
-            ->where('staffid', get_staff_user_id());
+                ->from(db_prefix() . 'staff')
+                ->where('staffid', get_staff_user_id());
             $user = $this->db->get()->row();
-          //  $path = set_realpath($media_folder . '/' . $user->media_path_slug);
+            //  $path = set_realpath($media_folder . '/' . $user->media_path_slug);
             if (empty($user->media_path_slug)) {
                 $this->db->where('staffid', $user->staffid);
                 $slug = slug_it($user->firstname . ' ' . $user->lastname);
@@ -475,7 +519,7 @@ class Utilities extends AdminController
             ],
         ];
 
-        $opts      = hooks()->apply_filters('before_init_media', $opts);
+        $opts = hooks()->apply_filters('before_init_media', $opts);
         $connector = new elFinderConnector(new elFinder($opts));
         $connector->run();
     }
@@ -490,12 +534,12 @@ class Utilities extends AdminController
             $export_type = $this->input->post('export_type');
 
             $this->load->library('app_bulk_pdf_export', [
-                'export_type'       => $export_type,
-                'status'            => $this->input->post($export_type . '_export_status'),
-                'date_from'         => $this->input->post('date-from'),
-                'date_to'           => $this->input->post('date-to'),
-                'payment_mode'      => $this->input->post('paymentmode'),
-                'tag'               => $this->input->post('tag'),
+                'export_type' => $export_type,
+                'status' => $this->input->post($export_type . '_export_status'),
+                'date_from' => $this->input->post('date-from'),
+                'date_to' => $this->input->post('date-to'),
+                'payment_mode' => $this->input->post('paymentmode'),
+                'tag' => $this->input->post('tag'),
                 'redirect_on_error' => admin_url('utilities/bulk_pdf_exporter'),
             ]);
 
@@ -520,11 +564,11 @@ class Utilities extends AdminController
         $features = [];
 
         if (has_permission('invoices', '', 'view')
-        || has_permission('invoices', '', 'view_own')
-        || get_option('allow_staff_view_invoices_assigned') == '1') {
+            || has_permission('invoices', '', 'view_own')
+            || get_option('allow_staff_view_invoices_assigned') == '1') {
             $features[] = [
                 'feature' => 'invoices',
-                'name'    => _l('bulk_export_pdf_invoices'),
+                'name' => _l('bulk_export_pdf_invoices'),
             ];
         }
 
@@ -533,21 +577,21 @@ class Utilities extends AdminController
             || get_option('allow_staff_view_estimates_assigned') == '1') {
             $features[] = [
                 'feature' => 'estimates',
-                'name'    => _l('bulk_export_pdf_estimates'),
+                'name' => _l('bulk_export_pdf_estimates'),
             ];
         }
 
         if (has_permission('payments', '', 'view') || has_permission('invoices', '', 'view_own')) {
             $features[] = [
                 'feature' => 'payments',
-                'name'    => _l('bulk_export_pdf_payments'),
+                'name' => _l('bulk_export_pdf_payments'),
             ];
         }
 
         if (has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own')) {
             $features[] = [
                 'feature' => 'credit_notes',
-                'name'    => _l('credit_notes'),
+                'name' => _l('credit_notes'),
             ];
         }
 
@@ -556,7 +600,7 @@ class Utilities extends AdminController
             || get_option('allow_staff_view_proposals_assigned') == '1') {
             $features[] = [
                 'feature' => 'proposals',
-                'name'    => _l('bulk_export_pdf_proposals'),
+                'name' => _l('bulk_export_pdf_proposals'),
             ];
         }
 
@@ -569,18 +613,19 @@ class Utilities extends AdminController
         $this->load->view('admin/utilities/bulk_pdf_exporter', $data);
     }
 
-    function user_permission(){
+    function user_permission()
+    {
         $users_id = $this->input->post('users_id');
         $name = $this->input->post('elfindername');
         $dir = $this->input->post('elfinderdir');
-        $users = explode(',',$users_id);
+        $users = explode(',', $users_id);
         $success = 0;
-        if(!empty($users)){
-            $elfinder_id = $this->utilities_model->get_elfinder_id($dir,$name);
+        if (!empty($users)) {
+            $elfinder_id = $this->utilities_model->get_elfinder_id($dir, $name);
             // echo $this->db->last_query();
             //  echo '<pre>'; print_r( $elfinder_id);
             //  exit;
-            foreach($users as $user){
+            foreach ($users as $user) {
                 $data['user_id'] = $user;
                 $data['elfinder_id'] = $elfinder_id;
                 $success = $this->utilities_model->user_role_data($data);
@@ -591,15 +636,16 @@ class Utilities extends AdminController
         exit;
 
     }
+
     public function ajax_assign()
     {
-        $response = ['msg' => '', 'status' => true,'success' => false];
+        $response = ['msg' => '', 'status' => true, 'success' => false];
         if ($this->input->post()) {
             $data['elfinder_file_id'] = $this->input->post('elfinderdir_new');
             $data['password'] = $this->input->post('password');
             $id = $this->utilities_model->media_folder_data($data);
-           // echo $this->db->last_query();
-                $response['success'] = true;
+            // echo $this->db->last_query();
+            $response['success'] = true;
             if ($id) {
                 $response['msg'] = _l('added_successfully', 'Media');
             }

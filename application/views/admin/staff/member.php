@@ -123,6 +123,16 @@
                                 </a>
 
                             </li>
+                            <li role="presentation">
+
+                                <a href="#tab_meldungen" aria-controls="tab_meldungen" role="tab"
+                                   data-toggle="tab">
+
+                                    <?php echo _l('Meldungen'); ?>
+
+                                </a>
+
+                            </li>
 
                         </ul>
 
@@ -251,7 +261,7 @@
                                         <?php $value = (isset($member) ? $member->email : ''); ?>
 
                                         <?php echo render_input('email', get_transl_field('tsl_staff', 'emails','E-Mail'), $value, 'email', array('autocomplete' => 'off')); ?>
-                                    </div>
+                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         <div class="form-group">
 
@@ -499,6 +509,10 @@
                                 $this->load->view('admin/staff/permissions', $permissionsData);
 
                                 ?>
+
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="tab_meldungen">
 
                             </div>
 

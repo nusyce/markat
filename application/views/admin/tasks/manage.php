@@ -90,10 +90,33 @@
 </div>
 <?php init_tail(); ?>
 <script>
+    $('#choose').toggle();
     taskid = '<?php echo $taskid; ?>';
     $(function () {
         tasks_kanban();
     });
+
+function viewchoose(){
+    $('#choose').show();
+}
+function closechoose(){
+
+    $('#choose').toggle();
+}
+
+    $("body").on("click", "#btnaddCheckpoints", function (e) {
+        e.preventDefault();
+        $task_id = $('#task_id').val();
+        alert($task_id);
+        $(".choosetasks:checked").each(function () {
+            var answer = $(this).val();
+            add_task_checklist_item($task_id, answer);
+
+        });
+        closechoose();
+    });
+
+
 </script>
 </body>
 </html>

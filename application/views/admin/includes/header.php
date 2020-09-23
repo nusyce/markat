@@ -155,11 +155,11 @@ ob_end_clean();
                         <?php $this->load->view('admin/tasks/started_timers', array('startedTimers' => $startedTimers)); ?>
                     </ul>
                 </li>
-                <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip"
-                    title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
-                    <?php $this->load->view('admin/includes/notifications'); ?>
-                </li>
             <?php endif; ?>
+            <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip"
+                title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
+                <?php $this->load->view('admin/includes/notifications'); ?>
+            </li>
         </ul>
     </nav>
 </div>

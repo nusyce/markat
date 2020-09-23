@@ -1,4 +1,45 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+
+<div class="modal" id="choose" role="dialog" style="margin: 25% 0 0 30%;">
+    <div class="modal-content modal-sm">
+        <div class="modal-header" style="max-height: 60px;">
+            <button type="button" class="close" id="close" onclick="closechoose()" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+            </button>
+            <h4>Choose the tasks</h4>
+        </div>
+        <div class="modal-body">
+            <div class="panel_s row">
+                <div class="panel-body">
+                    <form>
+                        <input type="hidden" id="task_id" value="<?php echo $task->id; ?>">
+                        <div>
+                            <label>M�bel reinigen</label>
+                            <input type="checkbox" value="Mobel reinigen" class="pull-right choosetasks" id="tasks1">
+                        </div>
+                        <div>
+                            <label>Bettenshoner?</label>
+                            <input type="checkbox" value="Bettenshoner?" class="pull-right choosetasks" id="tasks2">
+                        </div>
+                        <div>
+                            <label>NSchreinigung nach M�belaufbau</label>
+                            <input type="checkbox" value="NSchreinigung nach M�belaufbau" class="pull-right choosetasks"
+                                   id="tasks3">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary pull-right" id="btnaddCheckpoints"
+                                    name="chtasks">
+                                Erstellen
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>"
      data-status="<?php echo $task->status; ?>">
     <?php if ($this->input->get('opened_from_lead_id')) { ?>
@@ -347,6 +388,9 @@
                     <?php } ?>
                 </select>
             </div>
+            <span style="margin-left: 10px;"><button class="btn btn-success" id="btnchoose" onclick="viewchoose()">Choose</button></span>
+
+
             <div class="clearfix"></div>
             <p class="hide text-muted no-margin"
                id="task-no-checklist-items"><?php echo _l('task_no_checklist_items_found'); ?></p>
