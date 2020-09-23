@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-<div class="modal" id="choose" role="dialog" style="margin: 25% 0 0 30%;">
+<div class="modal" id="choose" role="dialog">
     <div class="modal-content modal-sm">
         <div class="modal-header" style="max-height: 60px;">
             <button type="button" class="close" id="close" onclick="closechoose()" aria-label="Close"><span
@@ -12,21 +12,23 @@
             <div class="panel_s row">
                 <div class="panel-body">
                     <form>
+                        <input type="hidden" id="task_id" value="<?php echo $task->id; ?>">
                         <div>
                             <label>Möbel reinigen</label>
-                            <input type="checkbox" value="Mobel reinigen" class="pull-right">
+                            <input type="checkbox" value="Mobel reinigen" class="pull-right choosetasks" id="tasks1">
                         </div>
                         <div>
                             <label>Bettenshoner?</label>
-                            <input type="checkbox" value="Mobel reinigen" class="pull-right">
+                            <input type="checkbox" value="Bettenshoner?" class="pull-right choosetasks" id="tasks2">
                         </div>
                         <div>
                             <label>NSchreinigung nach Möbelaufbau</label>
-                            <input type="checkbox" value="Mobel reinigen" class="pull-right">
+                            <input type="checkbox" value="NSchreinigung nach Möbelaufbau" class="pull-right choosetasks"
+                                   id="tasks3">
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary pull-right"
-                                    name="choose">
+                            <button type="submit" class="btn btn-primary pull-right" id="btnaddCheckpoints"
+                                    name="chtasks">
                                 Erstellen
                             </button>
                         </div>
@@ -404,11 +406,11 @@
                 <div class="clearfix"></div>
             </div>
 
-            <?php if (count($task->attachments) > 0 ) { ?>
+            <?php if (count($task->attachments) > 0) { ?>
                 <!--  <div class="row task_attachments_wrapper">
                     <div class="col-md-12" id="attachments">
                         <hr/>
-                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */?></h4>
+                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */ ?></h4>
                         <div class="row">-->
                 <?php
                 $i = 1;
@@ -521,7 +523,7 @@
                 } ?>
                 <!--</div>
             </div>-->
-                <?php if (($i - 1) > $show_more_link_task_attachments  && 1==3) { ?>
+                <?php if (($i - 1) > $show_more_link_task_attachments && 1 == 3) { ?>
                     <div class="clearfix"></div>
                     <div class="col-md-12" id="show-more-less-task-attachments-col">
                         <a href="#" class="task-attachments-more"
@@ -1197,9 +1199,11 @@
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
                 <a href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
 
-                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation vorther</a><br>
+                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation
+                    vorther</a><br>
 
-                <a href="#" onclick="slideToggle('.tasks-comments'); return false;"  class="btn  btn-primary">Dokumentation danash</a>
+                <a href="#" onclick="slideToggle('.tasks-comments'); return false;" class="btn  btn-primary">Dokumentation
+                    danash</a>
 
                 <br>
                 <a href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
