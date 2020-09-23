@@ -90,10 +90,20 @@
 </div>
 <?php init_tail(); ?>
 <script>
+    $('#choose').toggle();
     taskid = '<?php echo $taskid; ?>';
     $(function () {
         tasks_kanban();
     });
+
+function viewchoose(){
+    $('#choose').show();
+}
+function closechoose(){
+
+    $('#choose').toggle();
+}
+
 </script>
 </body>
 </html>
