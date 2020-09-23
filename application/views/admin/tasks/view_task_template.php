@@ -386,6 +386,9 @@
                     <?php } ?>
                 </select>
             </div>
+            <span style="margin-left: 10px;"><button class="btn btn-success" id="btnchoose" onclick="viewchoose()">Choose</button></span>
+
+
             <div class="clearfix"></div>
             <p class="hide text-muted no-margin"
                id="task-no-checklist-items"><?php echo _l('task_no_checklist_items_found'); ?></p>
