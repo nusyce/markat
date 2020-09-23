@@ -41,6 +41,13 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <?php echo render_input('sendemail', get_transl_field('tsl_dokumente', 'Sendemail','Send Email'),  get_transl_field('tsl_dokumente', 'Sendemail','Send Email'));?>
+                                    </div>
+                                </div>
+
 
 
                             </div>

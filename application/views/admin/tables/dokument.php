@@ -13,9 +13,10 @@ $aColumns = [
     'ort',
     'etage',
     'datum',
-    'fo_arbeit',
+    //'fo_arbeit',
     'demontage',
     'e_datum',
+
 ];
 $sIndexColumn = 'id';
 $sTable = db_prefix() . 'dokumente';
@@ -78,11 +79,11 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['ort'];
     $row[] = $aRow['etage'];
     $row[] = _d($aRow['datum']);
-    $row[] = $aRow['fo_arbeit'];
     $row[] = _d($aRow['demontage']);
     $row[] = _d($aRow['e_datum']);
     $row[] = '<a href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning">See Pdf</a>';
-
+    $row[] = '<a href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-primary">Send email</a>';
+    //$row[] = $aRow['fo_arbeit'];
     if (!empty($aRow['dateend'])) {
         $_date_end = date('Y-m-d', strtotime($aRow['dateend']));
         if ($_date_end < date('Y-m-d')) {
@@ -99,4 +100,6 @@ foreach ($rResult as $aRow) {
     $row = hooks()->apply_filters('dokumente_table_row_data', $row, $aRow);
 
     $output['aaData'][] = $row;
+
 }
+

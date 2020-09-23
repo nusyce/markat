@@ -60,10 +60,10 @@
                                 get_transl_field('tsl_dokumente', 'ort','ORT'),
                                 get_transl_field('tsl_dokumente', 'etage','Etage'),
                                 get_transl_field('tsl_dokumente', 'datum','Datum'),
-                                get_transl_field('tsl_dokumente', 'folgende_arbeit','Folgende Arbeit'),
                                 get_transl_field('tsl_dokumente', 'demontage','Demontage'),
                                 get_transl_field('tsl_dokumente', 'datum','Datum'),
-                                get_transl_field('tsl_dokumente', 'action','Action')
+                                get_transl_field('tsl_dokumente', 'action','Action'),
+                                get_transl_field('tsl_dokumente', 'Sendemail','Send Email')
                             );
 
                             render_datatable($table_data, (isset($class) ? $class : 'dokumente'), [], [
