@@ -74,14 +74,17 @@ function is_rtl($client_area = false)
 function render_project_select($statuses, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
 {
     foreach ($statuses as $key => $status) {
-        if ($status['isdefault'] == 1) {
-            if ($exclude_default == false) {
-                $statuses[$key]['option_attributes'] = ['data-subtext' => _l('Projekt')];
-            } else {
-                unset($statuses[$key]);
-            }
+        if (isset($status['isdefault']) == 1) {
+            if(($status['isdefault']) == 1){
+                
+                if ($exclude_default == false) {
+                    $statuses[$key]['option_attributes'] = ['data-subtext' => _l('Projekt')];
+                } else {
+                    unset($statuses[$key]);
+                }
 
-            break;
+                break;
+            }
         }
     }
     return render_select_with_input_group($name, $statuses, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>', $select_attrs);

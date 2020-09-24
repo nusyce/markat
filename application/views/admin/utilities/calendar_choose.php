@@ -9,13 +9,13 @@
                 </button>
                 <h4 class="modal-title"><?php echo _l('Please Select'); ?></h4>
             </div>
-            <!--?php echo form_open('admin/utilities/calendar', array('id' => 'calendar-event-form')); ?-->
+
             <div class="modal-body">
 
                 <div class="row">
                     <div class="col-md-12">
-                    <button type="button" class="btn btn-info col-md-6 m-4" ><?php echo _l('Task'); ?></button>
-                    <button type="button" class="btn btn-info col-md-6 m-4"><?php echo _l('Events'); ?></button>
+                    <button type="button" onclick="SetTaskMOdal(); "class="btn btn-info col-md-6 m-4" ><?php echo _l('Task'); ?></button>
+                    <button type="button" onclick=" $('#newEventModal').modal('show'); $('#chooseEventModel').modal('hide');" class="btn btn-info col-md-6 m-4"><?php echo _l('Events'); ?></button>
                     </div>
 
                 </div>
@@ -29,4 +29,22 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<?php }?>             
+<?php }?> 
+
+<script>
+    function SetTaskMOdal(){
+        new_task(); 
+        setTimeout(() => {
+            $('#chooseEventModel').modal('hide');
+            $("input[name='startdate']").val(localStorage.getItem('startdate'));
+
+           var valF = JSON.parse(localStorage.getItem('taskfor'));
+            $('select[name="task_for[]"]').val(valF).trigger('change');
+            //alert((localStorage.getItem('startdate')));
+            
+        }, 900);
+        
+        
+         
+    } 
+</script>
