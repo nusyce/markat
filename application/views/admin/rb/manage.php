@@ -10,7 +10,7 @@
                         <div class="style-menu" >  <h3><span><?php echo get_menu_option(c_menu(), 'Räumung/Beräumung') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
-                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+                                <a id="edit-menu" class="redopencil" href="#"><i class="fa fa-pencil"></i></a>
                             <?php endif; ?></h3>
                             <a href="<?php echo admin_url('rb/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 

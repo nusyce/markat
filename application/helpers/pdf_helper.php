@@ -163,7 +163,7 @@ function wohnungen_pdf($wohnungen, $tag = '')
 function template_pdf($template='', $tag = '')
 {
    
-     return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $template, $template);
+     return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $template, $tag);
 }
 
 function task_pdf($tasks, $tag = '')

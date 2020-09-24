@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body _buttons">
                         <div class="style-menu" >
-                            <h3><?php echo get_menu_option(c_menu(), 'Mieter') ?>
+                            <h3><span><?php echo get_menu_option(c_menu(), 'Mieter') ?></span>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>
                                  <a href="<?php echo admin_url('mieter/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <div style="display: flex">

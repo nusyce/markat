@@ -186,10 +186,10 @@ class Dashboard extends AdminController
         redirect(admin_url());
     }
 
+
     public function update_menu()
     {
-
-        update_option($_POST['menu_slug'], $_POST['name']);
+        user_update_option($_POST['menu_slug'], $_POST['name']);
         if ($_POST['menu_slug'] == 'all_contacts') {
             redirect(admin_url('clients/' . $_POST['menu_slug']));
         } else if ($_POST['menu_slug'] == 'inventarlistes') {

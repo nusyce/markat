@@ -27,7 +27,7 @@
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
         <tr>
             <td style="width: 65%; font-weight: bold">
-                <div><strong>Deutsche Wohnen Construction an </strong></div>
+             <div><strong>Deutsche Wohnen Construction an </strong></div>
                 <div>Facilities GmbH</div>
                 <div>Herrn Stefan Kornows</div>
                 <div>Mecklenburgische Str. 5</div>

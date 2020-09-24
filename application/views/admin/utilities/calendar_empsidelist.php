@@ -6,6 +6,7 @@
             <input type="checkbox" id="select-mf" checked>
             <span class="slider round"></span>
         </label>
+        </br>
         <div class="fc-center" id='mh-1'><h2>Mitarbeiter</h2></div>
         <div class="fc-center" id='fh-1' style="display: none;"><h2>Fahrzeugliste</h2></div>
     </div>
@@ -14,7 +15,7 @@
         <?php
 
             foreach($staffs as $employee){
-                echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' draggable='true' ondragstart='dragStart(event)' > 
+                echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' data-type='emp' draggable='true' ondragstart='dragStart(event)' > 
                     <span> ".$employee['full_name']."</span>
                     <span class='closebox' onclick='closebox(event)'>x</span>
                     
@@ -25,18 +26,17 @@
 
         ?>
     </div>
-    <!--div class="fc-view-container" id='vehicle_list' style="display: none;">
-        < ?php
+    <div class="fc-view-container" id='vehicle_list' style="display: none;">
+        <?php
 
-            foreach($staffs as $employee){
-                echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' draggable='true' ondragstart='dragStart(event)' >
-                    <span> ".$employee['full_name']."</span>
+            foreach($cars as $car){
+                echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='car_".$car['id']."' data-set='".$car['id']."' data-type='car' draggable='true' ondragstart='dragStart(event)' > 
+                    <span> ".$car['modell'].$car['kennzeichen']."</span>
                     <span class='closebox' onclick='closebox(event)'>x</span>
-
+                    
                     </div>";
                 //print_r($employes);
             }
-
 
         ?>
     </div-->

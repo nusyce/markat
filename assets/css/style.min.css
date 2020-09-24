@@ -3119,7 +3119,23 @@ body.rtl.hide-sidebar #wrapper {
         display: block;
         color: #fff;
         margin-right: 0;
-        line-height: 25px
+        margin-top: -22px;
+        line-height: 25px;
+    }
+
+    .date-cont {
+        font-size: 13px;
+        position: relative;
+        color: white;
+        /* left: 0; */
+        text-align: center;
+        /* right:0; */
+        padding-top: 13px;
+        width: 63%;
+        /* padding-right: 33px; */
+        top: 10px;
+        margin: 0 auto;
+        /* margin-top: 1px; */
     }
 
     .mobile-menu {
@@ -3130,7 +3146,9 @@ body.rtl.hide-sidebar #wrapper {
         position: relative;
         display: inline-block;
         float: right;
-        margin-bottom: 0
+        margin-right: -4px;
+        margin-top: -32px;
+        margin-bottom: 0;
     }
 
     ul.mobile-icon-menu > li {
@@ -6666,13 +6684,50 @@ li.task.overdue-task .panel-body {
 
 @media (max-width: 768px) {
     .dataTables_filter input, .dataTables_filter input:focus {
-        width: 100% !important
+        width: auto !important
     }
 
     .fn-gantt .fn-content {
         overflow-x: scroll
     }
+
+    .dataTables_wrapper input[type=search] {
+        position: relative;
+        margin-left: 68px !important;
+        width: 50%;
+
+    }
+    .hidegantprintbtn{
+        display: none !important;
+    }
+
+    .redopencil {
+        position: absolute;
+        top: 2px;
+        right: auto;
+    }
+
+    .style-menu h3 {
+        font-size: 18px;
+        padding-left: 0;
+    }
+
+    .btntrans {
+        font-size: 12px;
+        max-width: 97px;
+        display: block;
+        text-align: center !important;
+        max-height: 35px;
+    }
+
+    #clock2 {
+        width:100%;
+        text-align:center;
+        margin-left:0px;
+        font-size:15px;
+    }
 }
+
 
 #inline-editor-save-btn button {
     color: #fff;

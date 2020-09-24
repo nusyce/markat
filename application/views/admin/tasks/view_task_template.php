@@ -14,16 +14,16 @@
                     <form>
                         <input type="hidden" id="task_id" value="<?php echo $task->id; ?>">
                         <div>
-                            <label>M�bel reinigen</label>
-                            <input type="checkbox" value="Mobel reinigen" class="pull-right choosetasks" id="tasks1">
+                            <label>Möbel reinigen</label>
+                            <input type="checkbox" value="Möbel reinigen" class="pull-right choosetasks" id="tasks1">
                         </div>
                         <div>
                             <label>Bettenshoner?</label>
                             <input type="checkbox" value="Bettenshoner?" class="pull-right choosetasks" id="tasks2">
                         </div>
                         <div>
-                            <label>NSchreinigung nach M�belaufbau</label>
-                            <input type="checkbox" value="NSchreinigung nach M�belaufbau" class="pull-right choosetasks"
+                            <label>NSchreinigung nach Möbelaufbau</label>
+                            <input type="checkbox" value="NSchreinigung nach Möbelaufbau" class="pull-right choosetasks"
                                    id="tasks3">
                         </div>
                         <div>

@@ -78,7 +78,7 @@
                             <div class="col-md-2">
                                 <button id="switchbtn" class="btn btn-success list"><?php echo (get_transl_field('tsl_belegungsplan', 'visualisierung', 'Visualisierung')); ?></button>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 hidegantprintbtn">
                                 <a href="<?php echo admin_url('visualisierung') ?> " class="btn btn-danger list"><?php echo (get_transl_field('tsl_belegungsplan', 'visualisierungwohnhaus', 'Visualisierung Wohnhaus')); ?></a>
 
                                 <button id="printbtn" class="btn btn-success pull-right" style="display:none;"
