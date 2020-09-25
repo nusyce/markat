@@ -40,7 +40,7 @@
 
            var valF = JSON.parse(localStorage.getItem('taskfor'));
             $('select[name="task_for[]"]').val(valF).trigger('change');
-            //alert((localStorage.getItem('startdate')));
+
             
         }, 900);
         
