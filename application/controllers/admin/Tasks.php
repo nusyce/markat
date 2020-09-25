@@ -96,6 +96,22 @@ class Tasks extends AdminController
         }
     }
 
+    public function update_mieter_user($proejct_id = '')
+    {
+        $_users = '<option></option>';
+        $_mieters = '<option></option>';
+        $mieters = $this->projects_model->get_project_mieters($proejct_id);
+        foreach ($mieters as $mieter)
+            $_mieters .= '<option id="' . $mieter['id'] . '">' . $mieter['fullname'] . '</option>';
+
+        $users = $this->projects_model->get_project_users($proejct_id);
+        foreach ($users as $user)
+            $_users .= '<option id="' . $user['staff_id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
+
+        echo json_encode(['mieters' => $_mieters, 'members' => $_users]);
+        die();
+    }
+
     public function update_order()
     {
         $this->tasks_model->update_order($this->input->post());

@@ -27,6 +27,7 @@
 
 .style-menu .btntrans {
     padding: 8px;
+    margin-left: 5px;
 }
 
 .fc-calendarFilter-button {
@@ -3401,7 +3402,8 @@ table.dataTable thead .sorting:after {
 }
 
 .table thead tr th:first-child {
-    border-left: 1px solid #dcdcdc
+    border-left: 1px solid #dcdcdc;
+    max-width: 30px !important;
 }
 
 .table thead tr th:last-child {
@@ -6683,20 +6685,25 @@ li.task.overdue-task .panel-body {
 }
 
 @media (max-width: 768px) {
+    .dataTables_filter input, .dataTables_filter input:focus {
+        width: calc(100% - 52px) !important;
+        /* width: 100% !important; */
+    }
+
+    .dataTables_filter input, .dataTables_filter input:focus input[type=search] {
+        position: absolute;
+        left: 50px;
+    }
 
     .fn-gantt .fn-content {
         overflow-x: scroll
     }
 
-    .dataTables_wrapper input[type=search] {
-        position: relative;
-        margin-left: 68px !important;
-        width: 50%;
 
-    }
-    .hidegantprintbtn{
+    .hidegantprintbtn {
         display: none !important;
     }
+
 
     .redopencil {
         position: absolute;
@@ -6709,6 +6716,7 @@ li.task.overdue-task .panel-body {
         padding-left: 0;
     }
 
+
     .btntrans {
         font-size: 12px;
         max-width: 97px;
@@ -6718,21 +6726,12 @@ li.task.overdue-task .panel-body {
     }
 
     #clock2 {
-        width:100%;
-        text-align:left !important;
-        margin-left:0px;
-        font-size:15px;
-    }
-    .dataTables_filter input, .dataTables_filter input:focus {
-        width: auto !important
-    }
-
-    .dataTables_filter input, .dataTables_filter input:focus input[type=search] {
-        position: absolute;
-        left: 50px;
+        width: 100%;
+        text-align: left !important;
+        margin-left: 0px;
+        font-size: 15px;
     }
 }
-
 
 #inline-editor-save-btn button {
     color: #fff;
@@ -8884,4 +8883,3 @@ Char list random
 .aze16 {
     background-color: #FFFF00 !important;
 }
-

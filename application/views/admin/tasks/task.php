@@ -15,10 +15,10 @@
 
                     <?php
                     if (isset($id)) {
-                        echo get_transl_field('tsl_tasks', 'bearbeitenaufgabe','Bearbeiten Aufgabe');
+                        echo get_transl_field('tsl_tasks', 'bearbeitenaufgabe', 'Bearbeiten Aufgabe');
                     } else {
 
-                        echo get_transl_field('tsl_tasks', 'neueaufgabeerstellen','Neue Aufgabe erstellen');
+                        echo get_transl_field('tsl_tasks', 'neueaufgabeerstellen', 'Neue Aufgabe erstellen');
                     } ?>
                 </h4>
             </div>
@@ -151,7 +151,7 @@
                                 if (isset($task) && $task->project) {
                                     $selected = $task->project;
                                 }
-                                echo render_project_select($selected, get_transl_field('tsl_tasks', 'projekt','Projekt'));
+                                echo render_project_select($selected, get_transl_field('tsl_tasks', 'projekt', 'Projekt'));
                                 ?>
                             </div>
                             <div class="col-md-6">
@@ -160,7 +160,7 @@
                                 if (isset($task) && $task->clients) {
                                     $selected = $task->clients;
                                 }
-                                echo render_select( 'clients',$clients, array('userid','company'),get_transl_field('tsl_tasks', 'kunder','Kunder'),$selected);
+                                echo render_select('clients', $clients, array('userid', 'company'), get_transl_field('tsl_tasks', 'kunder', 'Kunder'), $selected);
                                 ?>
                             </div>
                         </div>
@@ -175,110 +175,110 @@
                                     }
                                 ?>
 
-                                <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l(get_transl_field('tsl_tasks', 'mitarbeiter','Mitarbeiter'))), $selected, array('multiple' => true), array(), '', '', false); ?>
+                                <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l(get_transl_field('tsl_tasks', 'mitarbeiter', 'Mitarbeiter'))), $selected, array('multiple' => true), array(), '', 'members', false); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $mieter = isset($task) ? $task->mieters : '' ?>
-                                <?php echo render_select('mieters', $mieters, array('id', array('fullname', 'vorname', 'nachname')), get_menu_option('mieter', _l(get_transl_field('tsl_tasks', 'mieter','Mieter'))), $mieter); ?>
+                                <?php echo render_select('mieters', $mieters, array('id', array('fullname', 'vorname', 'nachname')), get_menu_option('mieter', _l(get_transl_field('tsl_tasks', 'mieter', 'Mieter'))), $mieter); ?>
                             </div>
 
                             <div class="col-md-6">
                                 <?php
                                 $selected = isset($task) ? $task->car : '';
-                                echo render_select('car', $cars, array('id', array('marke', 'modell', 'kennzeichen')), get_menu_option('cars', _l(get_transl_field('tsl_tasks', 'fahrzeugliste','Fahrzeugliste'))), $selected); ?>
+                                echo render_select('car', $cars, array('id', array('marke', 'modell', 'kennzeichen')), get_menu_option('cars', _l(get_transl_field('tsl_tasks', 'fahrzeugliste', 'Fahrzeugliste'))), $selected); ?>
                             </div>
 
-                            <div class="col-md-6 hide">
+                            <!--    <div class="col-md-6 hide">
                                 <div class="form-group">
                                     <label for="rel_type"
-                                           class="control-label"><?php echo _l('task_related_to'); ?></label>
+                                           class="control-label"><?php /*echo _l('task_related_to'); */ ?></label>
                                     <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%"
-                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                            data-none-selected-text="<?php /*echo _l('dropdown_non_selected_tex'); */ ?>">
                                         <option value=""></option>
                                         <option value="project"
-                                            <?php if (isset($task) || $this->input->get('rel_type')) {
+                                            <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                                 if ($rel_type == 'project') {
                                                     echo 'selected';
                                                 }
-                                            } ?>><?php echo _l('project'); ?></option>
-                                        <option value="invoice" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                            } */ ?>><?php /*echo _l('project'); */ ?></option>
+                                        <option value="invoice" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'invoice') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('invoice'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('invoice'); */ ?>
                                         </option>
                                         <option value="customer"
-                                            <?php if (isset($task) || $this->input->get('rel_type')) {
+                                            <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                                 if ($rel_type == 'customer') {
                                                     echo 'selected';
                                                 }
-                                            } ?>>
-                                            <?php echo _l('client'); ?>
+                                            } */ ?>>
+                                            <?php /*echo _l('client'); */ ?>
                                         </option>
-                                        <option value="estimate" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                        <option value="estimate" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'estimate') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('estimate'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('estimate'); */ ?>
                                         </option>
-                                        <option value="contract" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                        <option value="contract" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'contract') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('contract'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('contract'); */ ?>
                                         </option>
-                                        <option value="ticket" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                        <option value="ticket" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'ticket') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('ticket'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('ticket'); */ ?>
                                         </option>
-                                        <option value="expense" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                        <option value="expense" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'expense') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('expense'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('expense'); */ ?>
                                         </option>
-                                        <option value="lead" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                        <option value="lead" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'lead') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('lead'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('lead'); */ ?>
                                         </option>
-                                        <option value="proposal" <?php if (isset($task) || $this->input->get('rel_type')) {
+                                        <option value="proposal" <?php /*if (isset($task) || $this->input->get('rel_type')) {
                                             if ($rel_type == 'proposal') {
                                                 echo 'selected';
                                             }
-                                        } ?>>
-                                            <?php echo _l('proposal'); ?>
+                                        } */ ?>>
+                                            <?php /*echo _l('proposal'); */ ?>
                                         </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group<?php if ($rel_id == '') {
+                                <div class="form-group<?php /*if ($rel_id == '') {
                                     echo ' hide';
-                                } ?>" id="rel_id_wrapper">
+                                } */ ?>" id="rel_id_wrapper">
                                     <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
                                     <div id="rel_id_select">
                                         <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%"
                                                 data-live-search="true"
-                                                data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                            <?php if ($rel_id != '' && $rel_type != '') {
+                                                data-none-selected-text="<?php /*echo _l('dropdown_non_selected_tex'); */ ?>">
+                                            <?php /*if ($rel_id != '' && $rel_type != '') {
                                                 $rel_data = get_relation_data($rel_type, $rel_id);
                                                 $rel_val = get_relation_values($rel_data, $rel_type);
                                                 echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                            } ?>
+                                            } */ ?>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
 
                         <?php $value = (isset($task) ? $task->name : ''); ?>
@@ -487,7 +487,23 @@
         var _milestone_selected_data;
         _milestone_selected_data = undefined;
 
+
         $(function () {
+
+            $('#_task_modal').on('change', '#project', function (e) {
+                var _id = $(this).val();
+                requestGetJSON('tasks/update_mieter_user/' + _id).done(function (response) {
+                    $('#_task_modal .selectpicker.members').empty();
+                    $('#_task_modal .selectpicker.members').html(response.members);
+                    $('#_task_modal .selectpicker.members').selectpicker('refresh');
+
+                    $('#_task_modal #mieters').empty();
+                    $('#_task_modal #mieters').html(response.mieters);
+                    $('#_task_modal #mieters').selectpicker('refresh');
+
+                });
+            })
+
 
             $("body").off("change", "#rel_id");
 
