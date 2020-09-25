@@ -16,6 +16,7 @@ class Tasks_model extends App_Model
 
     const STATUS_ABGERECHNET = 6;
 
+
     public function __construct()
     {
         parent::__construct();
@@ -94,12 +95,15 @@ class Tasks_model extends App_Model
      */
     public function get($id, $where = [])
     {
+        $this->load->model('mieter_model');
+        $this->load->model('clients_model');
         $is_admin = is_admin();
         $this->db->where('id', $id);
         $this->db->where($where);
         $task = $this->db->get(db_prefix() . 'tasks')->row();
         if ($task) {
             $task->comments = $this->get_task_comments($id);
+            $task->assignees = $this->get_task_assignees($id);
             $mieter = $this->mieter_model->get($task->mieters);
             if ($mieter)
                 $task->mieter = $mieter->fullname;
@@ -122,6 +126,7 @@ class Tasks_model extends App_Model
             $task->timesheets = $this->get_timesheeets($id);
             $task->checklist_items = $this->get_checklist_items($id);
 
+            $task->client_data = $this->clients_model->get($task->clients);
             if (is_staff_logged_in()) {
                 $task->current_user_is_assigned = $this->is_task_assignee(get_staff_user_id(), $id);
                 $task->current_user_is_creator = $this->is_task_creator(get_staff_user_id(), $id);
@@ -138,6 +143,8 @@ class Tasks_model extends App_Model
                     }
                 }
             }
+
+            $task->project_data = $this->projects_model->get($task->project);
         }
 
         return hooks()->apply_filters('get_task', $task);
@@ -939,6 +946,12 @@ class Tasks_model extends App_Model
             unset($data['checklist_items']);
         }
 
+
+        if (isset($data['project'])){
+            $data['rel_type']='project';
+            $data['rel_id']=$data['project'];
+        }
+
         if (isset($data['task_for'])) {
             $taskFor = $data['task_for'];
             unset($data['task_for']);
@@ -959,6 +972,17 @@ class Tasks_model extends App_Model
             }
             unset($data['custom_fields']);
         }
+
+        if (isset($taskFor)) {
+            $this->db->truncate(db_prefix() . 'task_assigned');
+            foreach ($taskFor as $tF)
+                $this->db->insert(db_prefix() . 'task_assigned', [
+                    'taskid' => $id,
+                    'staffid' => $tF,
+                    'assigned_from' => get_staff_user_id(),
+                ]);
+        }
+
 
         if ($clientRequest == false) {
             $data['cycles'] = !isset($data['cycles']) ? 0 : $data['cycles'];
@@ -1074,6 +1098,7 @@ class Tasks_model extends App_Model
         if ($affectedRows > 0) {
             return true;
         }
+
         return false;
 
     }
@@ -1236,7 +1261,6 @@ class Tasks_model extends App_Model
             $data['staffid'] = get_staff_user_id();
             $data['contact_id'] = 0;
         }
-
         $this->db->insert(db_prefix() . 'task_comments', [
             'taskid' => $data['taskid'],
             'content' => is_client_logged_in() ? _strip_tags($data['content']) : $data['content'],
@@ -2506,4 +2530,72 @@ class Tasks_model extends App_Model
     }
 
 
+
+    // Sources
+
+    /**
+     * Get leads projects
+     * @param mixed $id Optional - Source ID
+     * @return mixed object if id passed else array
+     */
+    public function get_project($id = false)
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'tsk_project')->row();
+        }
+
+        $this->db->order_by('name', 'asc');
+
+        return $this->db->get(db_prefix() . 'tsk_project')->result_array();
+    }
+
+    /**
+     * Add new lead project
+     * @param mixed $data project data
+     */
+    public function add_project($data)
+    {
+        $this->db->insert(db_prefix() . 'tsk_project', $data);
+        $insert_id = $this->db->insert_id();
+
+
+        return $insert_id;
+    }
+
+    /**
+     * Update lead project
+     * @param mixed $data project data
+     * @param mixed $id project id
+     * @return boolean
+     */
+    public function update_project($data, $id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'tsk_project', $data);
+        if ($this->db->affected_rows() > 0) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete lead project from database
+     * @param mixed $id project id
+     * @return mixed
+     */
+    public function delete_project($id)
+    {
+        $current = $this->get_project($id);
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'tsk_project');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -50,6 +50,7 @@ class Dokumente extends AdminController
         }
     }
 
+
     /* Delete contract from database */
     public function delete($id)
     {

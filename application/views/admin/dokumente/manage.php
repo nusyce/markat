@@ -7,12 +7,14 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons"> <!--style="border-bottom: unset !important;"-->
-                        <div class="style-menu" > <h3><span><?php echo get_menu_option(c_menu(), 'Dokumente') ?></span>
-                            <?php if (has_permission('menu', '', 'edit')):
-                                ?>
-                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                            <?php endif; ?></h3>
-                            <a href="<?php echo admin_url('dokumente/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
+                        <div class="style-menu"><h3><span><?php echo get_menu_option(c_menu(), 'Dokumente') ?></span>
+                                <?php if (has_permission('menu', '', 'edit')):
+                                    ?>
+                                    <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+                                <?php endif; ?></h3>
+                            <a href="<?php echo admin_url('dokumente/translation'); ?>"
+                               class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a>
+                        </div>
 
                         <hr class="hr-panel-heading"/>
 
@@ -26,9 +28,11 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a href="#" class="btn btn-primary"><?=get_transl_field('tsl_rb', 'arbeitsschein', 'BR Arbeitsschein')?></a>
+                                        <a href="#"
+                                           class="btn btn-primary"><?= get_transl_field('tsl_rb', 'arbeitsschein', 'BR Arbeitsschein') ?></a>
                                         <a href="#" class="btn btn-primary">TR Transport</a>
-                                        <a href="#" class="btn btn-primary"><?=get_transl_field('tsl_rb', 'br_arbeitsschein', 'RR Arbeitsschein')?></a>
+                                        <a href="#"
+                                           class="btn btn-primary"><?= get_transl_field('tsl_rb', 'br_arbeitsschein', 'RR Arbeitsschein') ?></a>
                                         <a href="#" class="btn btn-primary">TT Transport</a>
                                     </div>
                                 </div>
@@ -51,19 +55,19 @@
                             $table_data = array(
                                 '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="dokumente"><label></label></div>',
                                 'ID',
-                                get_transl_field('tsl_dokumente', 'schein','Schein'),
-                                get_transl_field('tsl_dokumente', 'kunder','Kunder'),
-                                get_transl_field('tsl_dokumente', 'mieter','Mieter'),
-                                get_transl_field('tsl_dokumente', 'beladestelle_stabe','Beladestelle Straße'),
-                                get_transl_field('tsl_dokumente', 'nr','nr'),
-                                get_transl_field('tsl_dokumente', 'plz','PLZ'),
-                                get_transl_field('tsl_dokumente', 'ort','ORT'),
-                                get_transl_field('tsl_dokumente', 'etage','Etage'),
-                                get_transl_field('tsl_dokumente', 'datum','Datum'),
-                                get_transl_field('tsl_dokumente', 'demontage','Demontage'),
-                                get_transl_field('tsl_dokumente', 'datum','Datum'),
-                                get_transl_field('tsl_dokumente', 'action','Action'),
-                                get_transl_field('tsl_dokumente', 'Sendemail','Send Email')
+                                get_transl_field('tsl_dokumente', 'schein', 'Schein'),
+                                get_transl_field('tsl_dokumente', 'kunder', 'Kunder'),
+                                get_transl_field('tsl_dokumente', 'mieter', 'Mieter'),
+                                get_transl_field('tsl_dokumente', 'beladestelle_stabe', 'Beladestelle Straße'),
+                                get_transl_field('tsl_dokumente', 'nr', 'nr'),
+                                get_transl_field('tsl_dokumente', 'plz', 'PLZ'),
+                                get_transl_field('tsl_dokumente', 'ort', 'ORT'),
+                                get_transl_field('tsl_dokumente', 'etage', 'Etage'),
+                                get_transl_field('tsl_dokumente', 'datum', 'Datum'),
+                                get_transl_field('tsl_dokumente', 'demontage', 'Demontage'),
+                                get_transl_field('tsl_dokumente', 'datum', 'Datum'),
+                                get_transl_field('tsl_dokumente', 'action', 'Action'),
+                                get_transl_field('tsl_dokumente', 'Sendemail', 'Send Email')
                             );
 
                             render_datatable($table_data, (isset($class) ? $class : 'dokumente'), [], [
@@ -80,6 +84,7 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<?php $this->load->view('admin/dokumente/dokument_send_to_cemail'); ?>
 <script>
     $(function () {
         var ContractsServerParams = {};

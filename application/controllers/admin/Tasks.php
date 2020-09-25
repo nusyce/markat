@@ -108,7 +108,7 @@ class Tasks extends AdminController
         } else {
             $set = 'true';
         }
-
+        $set = 'false';
         $this->session->set_userdata([
             'tasks_kanban_view' => $set,
         ]);
@@ -370,7 +370,7 @@ class Tasks extends AdminController
         }
         $task = $this->tasks_model->get($id);
         try {
-         task_pdf($task, 'checklist');
+            task_pdf($task, 'checklist');
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
@@ -815,18 +815,18 @@ class Tasks extends AdminController
 
     public function save_checklist_item_template()
     {
-        if (has_permission('checklist_templates', '', 'create')) {
-            $id = $this->tasks_model->add_checklist_template($this->input->post('description'));
-            echo json_encode(['id' => $id]);
-        }
+        // if (has_permission('checklist_templates', '', 'create')) {
+        $id = $this->tasks_model->add_checklist_template($this->input->post('description'));
+        echo json_encode(['id' => $id]);
+        //     }
     }
 
     public function remove_checklist_item_template($id)
     {
-        if (has_permission('checklist_templates', '', 'delete')) {
-            $success = $this->tasks_model->remove_checklist_item_template($id);
-            echo json_encode(['success' => $success]);
-        }
+        // if (has_permission('checklist_templates', '', 'delete')) {
+        $success = $this->tasks_model->remove_checklist_item_template($id);
+        echo json_encode(['success' => $success]);
+        // }
     }
 
     public function init_checklist_items()
@@ -1444,6 +1444,7 @@ class Tasks extends AdminController
             }
         }
     }
+
     public function translation()
     {
         if ($this->input->post()) {

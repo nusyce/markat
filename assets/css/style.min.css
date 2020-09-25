@@ -6683,9 +6683,6 @@ li.task.overdue-task .panel-body {
 }
 
 @media (max-width: 768px) {
-    .dataTables_filter input, .dataTables_filter input:focus {
-        width: auto !important
-    }
 
     .fn-gantt .fn-content {
         overflow-x: scroll
@@ -6722,9 +6719,17 @@ li.task.overdue-task .panel-body {
 
     #clock2 {
         width:100%;
-        text-align:center;
+        text-align:left !important;
         margin-left:0px;
         font-size:15px;
+    }
+    .dataTables_filter input, .dataTables_filter input:focus {
+        width: auto !important
+    }
+
+    .dataTables_filter input, .dataTables_filter input:focus input[type=search] {
+        position: absolute;
+        left: 50px;
     }
 }
 

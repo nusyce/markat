@@ -11,26 +11,52 @@
         <div class="modal-body">
             <div class="panel_s row">
                 <div class="panel-body">
-                    <form>
+                    <form id="templateform">
                         <input type="hidden" id="task_id" value="<?php echo $task->id; ?>">
-                        <div>
-                            <label>Möbel reinigen</label>
-                            <input type="checkbox" value="Möbel reinigen" class="pull-right choosetasks" id="tasks1">
+                        <div id="templatelist">
+                            <div>
+                                <label>Möbel reinigen</label>
+                                <input type="checkbox" value="Möbel reinigen" class="pull-right choosetasks"
+                                       id="tasks1">
+                            </div>
+                            <div>
+                                <label>Bettenshoner?</label>
+                                <input type="checkbox" value="Bettenshoner?" class="pull-right choosetasks" id="tasks2">
+                            </div>
+                            <div>
+                                <label>NSchreinigung nach Möbelaufbau</label>
+                                <input type="checkbox" value="NSchreinigung nach Möbelaufbau"
+                                       class="pull-right choosetasks"
+                                       id="tasks3">
+                            </div>
                         </div>
-                        <div>
-                            <label>Bettenshoner?</label>
-                            <input type="checkbox" value="Bettenshoner?" class="pull-right choosetasks" id="tasks2">
+                        <div id="nomoi_ij" class="kjsdjs hide">
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?= render_input('name', 'Name of template', ''); ?>
+                                    <button type="submit" class="btn btn-primary pull-right" id="btnaddNewCheckpoints"
+                                            name="chtasks">
+                                        Erstellen
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
                         </div>
-                        <div>
-                            <label>NSchreinigung nach Möbelaufbau</label>
-                            <input type="checkbox" value="NSchreinigung nach Möbelaufbau" class="pull-right choosetasks"
-                                   id="tasks3">
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary pull-right" id="btnaddCheckpoints"
-                                    name="chtasks">
-                                Erstellen
-                            </button>
+                        <div class="row" id="footer-templatechecklist">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary pull-right" id="btnCreatetask"
+                                        name="chtasks">
+                                    New template
+                                </button>
+                            </div>
+
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary pull-right" id="btnaddCheckpoints"
+                                        name="chtasks">
+                                    Erstellen
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -388,9 +414,9 @@
                     <?php } ?>
                 </select>
             </div>
-            <span style="margin-left: 10px;"><button class="btn btn-success" id="btnchoose" onclick="viewchoose()">Choose</button></span>
-
-
+            <!--     <span style="margin-left: 10px;">
+                     <button class="btn btn-success" id="btnchoose" onclick="viewchoose()">Choose</button></span>
+     -->
             <div class="clearfix"></div>
             <p class="hide text-muted no-margin"
                id="task-no-checklist-items"><?php echo _l('task_no_checklist_items_found'); ?></p>
@@ -406,11 +432,11 @@
                 <div class="clearfix"></div>
             </div>
 
-            <?php if (count($task->attachments) > 0 ) { ?>
+            <?php if (count($task->attachments) > 0) { ?>
                 <!--  <div class="row task_attachments_wrapper">
                     <div class="col-md-12" id="attachments">
                         <hr/>
-                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */?></h4>
+                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */ ?></h4>
                         <div class="row">-->
                 <?php
                 $i = 1;
@@ -523,7 +549,7 @@
                 } ?>
                 <!--</div>
             </div>-->
-                <?php if (($i - 1) > $show_more_link_task_attachments  && 1==3) { ?>
+                <?php if (($i - 1) > $show_more_link_task_attachments && 1 == 3) { ?>
                     <div class="clearfix"></div>
                     <div class="col-md-12" id="show-more-less-task-attachments-col">
                         <a href="#" class="task-attachments-more"
@@ -1199,11 +1225,14 @@
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
                 <a href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn btn-success">Arbeitsschein</a>
                 <br>
-                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
+                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>"
+                   class="btn  btn-success">Checkliste</a>
 
-                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation vorther</a><br>
+                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation
+                    vorther</a><br>
 
-                <a href="#" onclick="slideToggle('.tasks-comments'); return false;"  class="btn  btn-primary">Dokumentation danash</a>
+                <a href="#" onclick="slideToggle('.tasks-comments'); return false;" class="btn  btn-primary">Dokumentation
+                    danash</a>
 
                 <br>
                 <a href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
@@ -1261,6 +1290,33 @@
     jQuery(function () {
         //Initialize sign pad
         init_Sign_Canvas();
+    });
+
+    $('body').on('click', '#btnCreatetask', function (e) {
+        e.preventDefault();
+        $('#footer-templatechecklist button').prop('disabled', true);
+        $('#nomoi_ij').removeClass('hide');
+    });
+
+    $('body').on('click', '#btnaddNewCheckpoints', function (e) {
+        e.preventDefault();
+        var name = $('#nomoi_ij #name').val()
+
+        $.ajax({
+            url: admin_url + "cars/ajax_save",
+            data: {name: name},
+            type: "POST",
+            dataType: 'json',
+            success: function (e) {
+                $('#footer-templatechecklist button').prop('disabled', false);
+                $('#nomoi_ij').addClass('hide');
+            },
+            error: function (e) {
+
+            }
+
+        });
+
     });
 
     $('#sendSign').click(function (e) {

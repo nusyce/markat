@@ -394,15 +394,19 @@
                                     </div>
                                 </div>-->
         <br>
-        <h4>  <?php echo( get_transl_field('tsl_mieter', 'umsetzwohnung', 'Umsetzwohnung')); ?>
-        </h4>
-        <div class="row">
-            <div class="col-md-6">
-                <?php
-                $datas = [];
-                $datas[] = array('id' => 1, 'value' => 'Privat');
-                $datas[] = array('id' => 2, 'value' => 'Gewerblich');
-                $datas[] = array('id' => 3, 'value' => 'Keine');
+        <div class="text-center">
+            <button  id="showumsetzwohnung" type="button" class="btn btn-success"  onclick="showum()" ><i class="fa fa-plus"></i> Show Umsetzwohnung</button>
+        </div>
+        <div class="umsetzwohnung"  id="umsetzwohnung" style="display: none;" >
+            <h4>  <?php echo(get_transl_field('tsl_mieter', 'umsetzwohnung', 'Umsetzwohnung')); ?>
+            </h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php
+                    $datas = [];
+                    $datas[] = array('id' => 1, 'value' => 'Privat');
+                    $datas[] = array('id' => 2, 'value' => 'Gewerblich');
+                    $datas[] = array('id' => 3, 'value' => 'Keine');
 
 
                 $selected = isset($mieter) ? $mieter->art_w : ''; ?>
@@ -611,3 +615,10 @@ if (isset($mieter)): ?>
 <?php
 endif;
 ?>
+<script>
+    function showum(){
+    $("#umsetzwohnung").show();
+    //$("#showumsetzwohnung").attr("disabled", true)
+
+    }
+</script>

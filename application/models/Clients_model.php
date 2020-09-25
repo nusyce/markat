@@ -35,7 +35,9 @@ class Clients_model extends App_Model
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'clients.userid', $id);
             $client = $this->db->get(db_prefix() . 'clients')->row();
-
+            if ($client) {
+                $client->ansprechpartners = $this->get_ansprechpartners($id);
+            }
             if ($client && get_option('company_requires_vat_number_field') == 0) {
                 $client->vat = null;
             }
@@ -92,6 +94,7 @@ class Clients_model extends App_Model
 
     /**
      * @param array $_POST data
+     * @param client_request is this request from the customer area
      * @return integer Insert ID
      * Add new client to database
      */
@@ -168,7 +171,9 @@ class Clients_model extends App_Model
                     ]);
                 }
             }
+
             $log = 'ID: ' . $userid;
+
             if ($log == '' && isset($contact_id)) {
                 $log = get_contact_full_name($contact_id);
             }
@@ -215,17 +220,17 @@ class Clients_model extends App_Model
 
     public function get_ansprechpartners($userid)
     {
-        $this->db->where('userid',$userid);
+        $this->db->where('userid', $userid);
         return $this->db->get(db_prefix() . 'ansprechpartner')->result_array();
     }
 
     public function get_ansprechpartner($id)
     {
-        $this->db->where('id',$id);
+        $this->db->where('id', $id);
         return $this->db->get(db_prefix() . 'ansprechpartner')->row();
     }
 
-    public function update_ansprechpartner ($data, $id)
+    public function update_ansprechpartner($data, $id)
     {
         $affectedRows = 0;
 
@@ -253,9 +258,9 @@ class Clients_model extends App_Model
 
     public function delete_ansprechpartner($id)
     {
-            $this->db->where('id', $id);
-            $this->db->delete(db_prefix() . 'ansprechpartner');
-            return true;
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'ansprechpartner');
+        return true;
     }
 
 
