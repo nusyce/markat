@@ -12,34 +12,34 @@
     </div>
 
     <div class="fc-view-container" id='employee_list' >
-        <?php
-
+        <?php  
+            
             foreach($staffs as $employee){
                 echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='emp_".$employee['staffid']."' data-set='".$employee['staffid']."' data-type='emp' draggable='true' ondragstart='dragStart(event)' > 
                     <span> ".$employee['full_name']."</span>
                     <span class='closebox' onclick='closebox(event)'>x</span>
                     
                     </div>";
-                
+                //print_r($employes);
             }
 
-
+    
         ?>
     </div>
     <div class="fc-view-container" id='vehicle_list' style="display: none;">
-        <?php
-
+        <?php  
+            
             foreach($cars as $car){
                 echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='car_".$car['id']."' data-set='".$car['id']."' data-type='car' draggable='true' ondragstart='dragStart(event)' > 
                     <span> ".$car['modell'].$car['kennzeichen']."</span>
                     <span class='closebox' onclick='closebox(event)'>x</span>
                     
                     </div>";
-              
+                //print_r($employes);
             }
     
         ?>
-    </div>
+    </div-->
 
 </div>
 
