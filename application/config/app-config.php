@@ -17,7 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-define('APP_BASE_URL', 'http://localhost/markat/');
+define('APP_BASE_URL', 'http://192.168.1.5/markat/');
 
 /*
 * --------------------------------------------------------------------------

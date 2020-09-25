@@ -9,7 +9,6 @@ class Utilities extends AdminController
         parent::__construct();
         $this->load->model('utilities_model');
         $this->load->model('staff_model');
-        $this->load->model('cars_model');
     }
 
     /* All perfex activity log */
@@ -82,7 +81,6 @@ class Utilities extends AdminController
         $data['staffs'] = $this->staff_model->get();
         $data['google_calendar_api']  = get_option('google_calendar_api_key');
         $data['title']                = _l('Personalplan');
-        $data['cars'] = $this->cars_model->get();
         add_calendar_assets();
 
         $this->load->view('admin/utilities/calendar', $data);
@@ -107,7 +105,7 @@ class Utilities extends AdminController
         $data['event'] = $this->utilities_model->get_event($id);
         $even_relation = $this->utilities_model->get_event_users($id);
         $data['event']->user= array_column( $even_relation,"user_id");
-        
+        print_r($data);
         if ($data['event']->public == 1 && !is_staff_member()
             || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
 
