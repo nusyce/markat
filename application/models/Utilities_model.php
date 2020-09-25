@@ -499,7 +499,7 @@ class Utilities_model extends App_Model
             }
         }
         //calendar_project do you understand? Oka???
-        if (get_option('show_projects_on_calendar') == 1 && 1==3&& !$ff || $ff && array_key_exists('projects', $filters)) {
+       if (get_option('show_projects_on_calendar') == 1 && 1==3 && !$ff || 1==3 && $ff && array_key_exists('projects', $filters)) {
             $this->load->model('projects_model');
             $this->db->select('name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
 
