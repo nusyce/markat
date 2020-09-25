@@ -88,6 +88,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
         '(SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
 ]);
 
+$rResult = unique_multidim_array($rResult, 'id');
 $output  = $result['output'];
 $rResult = $result['rResult'];
 

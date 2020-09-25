@@ -31,8 +31,8 @@
         autoProcessQueue: false,
         addRemoveLinks: true,
         uploadMultiple: true,
-        parallelUploads: app.options.newsfeed_maximum_files_upload,
-        maxFiles: 40,
+        parallelUploads: 50,
+        maxFiles: 50,
         init: function () {
             mieterDropzone = this;
 
@@ -69,7 +69,6 @@
     }));
 
     appValidateForm('#mieter-form', {
-        projektname: 'required',
     }, heandler_form);
 
     $('#mieter-form').on("submit", function (e) {
@@ -89,11 +88,11 @@
                 type: "POST",
                 dataType: 'json',
                 success: function (e) {
-                  //  window.location.href = e;
+                 window.location.href = e;
                     $(this).prop('disabled', false);
                 },
                 error: function (e) {
-                   // window.location.href = e.responseText;
+                   window.location.href = e.responseText;
                     $(this).prop('disabled', false);
                 }
             });

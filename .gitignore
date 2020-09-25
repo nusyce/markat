@@ -1,7 +1,15 @@
-
 *.xml
-<<<<<<< HEAD
-*.iml
-app-config__backup.php
-=======
->>>>>>> 4808686... revert
+app-config.php_back
+.idea/php.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/encodings.xml
+.idea/markat.iml
+.idea/vcs.xml
+application/config/app-config.php
+application/config/database.php
+application/session
+assets/images/Carte de visite.psd
+application/libraries/pdf-lib.zip
+application/migrations
+

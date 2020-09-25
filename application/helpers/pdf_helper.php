@@ -163,7 +163,7 @@ function wohnungen_pdf($wohnungen, $tag = '')
 function template_pdf($template='', $tag = '')
 {
    
-     return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $template, $template);
+     return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $template, $tag);
 }
 
 function task_pdf($tasks, $tag = '')
@@ -181,11 +181,12 @@ function invoice_pdf($invoice, $tag = '')
 {
     return app_pdf('invoice', LIBSPATH . 'pdf/Invoice_pdf', $invoice, $tag);
 }
-function mieter_pdf($id, $tag = '',$attachments)
+function mieter_pdf($id, $tag = '',$attachments,$mieter)
 {
    // echo 'mieter', LIBSPATH . 'pdf/Miter_pdf';
    // exit;
-    return app_pdf('mieter', LIBSPATH . 'pdf/Mieter_pdf', $id, $tag, $attachments);
+
+    return app_pdf('mieter', LIBSPATH . 'pdf/Mieter_pdf', $id, $tag, $attachments,$mieter);
 }
 
 /**

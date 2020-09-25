@@ -190,7 +190,7 @@ class Forms extends ClientsController
                                     'name'        => $task_name,
                                     'priority'    => get_option('default_task_priority'),
                                     'dateadded'   => date('Y-m-d H:i:s'),
-                                    'startdate'   => date('Y-m-d'),
+                                    'startdate'   => date('Y-m-d H:i:s'),
                                     'addedfrom'   => $form->responsible,
                                     'status'      => 1,
                                     'description' => $description,

@@ -302,32 +302,32 @@ function init_relation_tasks_table($table_attributes = [])
     $table_data = [
         _l('the_number_sign'),
         [
-            'name' => _l('tasks_dt_name'),
+            'name' => _l(get_transl_field('tsl_tasks', 'name','Name')),
             'th_attrs' => [
                 'style' => 'min-width:200px',
             ],
         ],
-        _l('task_status'),
+        _l(get_transl_field('tsl_tasks', 'status','Status')),
         [
-            'name' => _l('tasks_dt_datestart'),
+            'name' => _l(get_transl_field('tsl_tasks', 'startdatum','Start Datum')),
             'th_attrs' => [
                 'style' => 'min-width:75px',
             ],
         ],
         [
-            'name' => _l('task_duedate'),
+            'name' => _l(get_transl_field('tsl_tasks', 'falligkeitsdatum',_l('task_duedate'))),
             'th_attrs' => [
                 'style' => 'min-width:75px',
                 'class' => 'duedate',
             ],
         ],
         [
-            'name' => _l('task_assigned'),
+            'name' => _l(get_transl_field('tsl_tasks', 'zugewiesen','Zugewiesen')),
             'th_attrs' => [
                 'style' => 'min-width:75px',
             ],
         ],
-        _l('tags'),
+        _l(get_transl_field('tsl_tasks', 'tags','Tags')),
         _l('tasks_list_priority'),
     ];
 

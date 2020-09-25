@@ -5,33 +5,34 @@
         if (isset($wohnungen) && $wohnungen->project) {
             $selected = $wohnungen->project;
         }
-        echo render_project_select($projects, $selected, 'Projekt');
+        echo render_project_select($selected,get_transl_field('tsl_wohnungen', 'projekt','Projekt'));
         ?>
+
     </div>
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->plz : ''); ?>
-        <?php echo render_input('plz', 'Postleitzahl', $value); ?>
+        <?php echo render_input('plz', get_transl_field('tsl_wohnungen', 'postleitzahl','Postleitzahl'), $value); ?>
     </div>
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->ort : ''); ?>
-        <?php echo render_input('ort', 'Ort', $value); ?>
+        <?php echo render_input('ort', get_transl_field('tsl_wohnungen', 'ort','Ort'), $value); ?>
     </div>
 
 </div>
 <div class="row">
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->strabe : ''); ?>
-        <?php echo render_input('strabe', 'Stra�e', $value); ?>
+        <?php echo render_input('strabe',  get_transl_field('tsl_wohnungen', 'strabe','Stra�e'), $value); ?>
     </div>
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->hausnummer : ''); ?>
-        <?php echo render_input('hausnummer', 'Hausnummer', $value); ?>
+        <?php echo render_input('hausnummer', get_transl_field('tsl_wohnungen', 'hausnummer','Hausnummer'), $value); ?>
     </div>
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->wohnungsnumme : ''); ?>
-        <?php echo render_input('wohnungsnumme', 'Wohnungsnummer', $value); ?>
+        <?php echo render_input('wohnungsnumme', get_transl_field('tsl_wohnungen', 'wohnungsnummer','Wohnungsnummer'), $value); ?>
     </div>
 
 </div>
@@ -52,7 +53,7 @@
         $data[] = array('value' => '9. OG');
         $data[] = array('value' => '10. OG');
         $value = (isset($wohnungen) ? $wohnungen->etage : ''); ?>
-        <?php echo render_select('etage', $data, array('value', 'value'), 'Etage', $value); ?>
+        <?php echo render_select('etage', $data, array('value', 'value'), get_transl_field('tsl_wohnungen', 'etage','Etage'), $value); ?>
     </div>
     <div class="col-md-4">
         <?php
@@ -63,7 +64,7 @@
         $data[] = array('value' => 'Mitte/Links');
         $data[] = array('value' => 'Mitte/Rechts');
         $value = (isset($wohnungen) ? $wohnungen->flugel : ''); ?>
-        <?php echo render_select('flugel', $data, array('value', 'value'), 'Fl�gel', $value); ?>
+        <?php echo render_select('flugel', $data, array('value', 'value'), get_transl_field('tsl_wohnungen', 'flugel','Fl�gel'), $value); ?>
     </div>
 
 </div>
@@ -71,12 +72,12 @@
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->zimmer : ''); ?>
-        <?php echo render_input('zimmer', 'Zimmer', $value); ?>
+        <?php echo render_input('zimmer', get_transl_field('tsl_wohnungen', 'zimmer','Zimmer'), $value); ?>
     </div>
 
     <div class="col-md-4">
         <?php $value = (isset($wohnungen) ? $wohnungen->schlaplatze : ''); ?>
-        <?php echo render_input('schlaplatze', 'Schlafpl�tze', $value); ?>
+        <?php echo render_input('schlaplatze',  get_transl_field('tsl_wohnungen', 'schlafplatze','Schlafpl�tze'), $value); ?>
     </div>
 </div>
 <div class="row">
@@ -84,28 +85,28 @@
         <?php
         $selected = isset($wohnungen) ? $wohnungen->mobiliert : '';
         $datas = array(array('id' => -1, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-        echo render_select('mobiliert', $datas, array('id', 'value'), 'M�bliert', $selected, array()); ?>
+        echo render_select('mobiliert', $datas, array('id', 'value'), get_transl_field('tsl_wohnungen', 'mobliert','M�bliert'), $selected, array()); ?>
     </div>
 
     <div class="col-md-4">
         <?php
         $selected = isset($wohnungen) ? $wohnungen->tierhaltung : '';
         $datas = array(array('id' => -1, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-        echo render_select('tierhaltung', $datas, array('id', 'value'), 'Tierhaltung', $selected, array()); ?>
+        echo render_select('tierhaltung', $datas, array('id', 'value'), get_transl_field('tsl_wohnungen', 'tierhaltung','Tierhaltung'), $selected, array()); ?>
     </div>
 
     <div class="col-md-4">
         <?php
         $selected = isset($wohnungen) ? $wohnungen->balkon : '';
         $datas = array(array('id' => -1, 'value' => 'Nein'), array('id' => 1, 'value' => 'Ja'));
-        echo render_select('balkon', $datas, array('id', 'value'), 'Balkon', $selected, array()); ?>
+        echo render_select('balkon', $datas, array('id', 'value'), get_transl_field('tsl_wohnungen', 'balkon','Balkon'), $selected, array()); ?>
     </div>
 
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        <h4 style="margin-top: 65px">Inventarliste:
+        <h4 style="margin-top: 65px"><?php echo _l(get_transl_field('tsl_wohnungen', 'inventarliste','Inventarliste')); ?>:
             <span class="bold" id="inventarCOunt"></span>
         </h4>
     </div>
@@ -145,14 +146,13 @@
                            min="0" value="0"
                            type="number">
                 </div>
-                <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
-                    <?php
-                    echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', array(), array()); ?>
+                <div class="col-md-5 <?= $allData ? ' moved' : '' ?>">
+                    <?php echo render_select('austattung[]', $inventarlistes, array('id', 'name'), '', '', ['id' => 'austattungSelect'], [], '', 'austattungSelect'); ?>
                 </div>
-                <div class="col-md-1" style="padding: 0;">
-                    <input  style="margin-right: -10px;padding-right: 0px !important;"
-                            class="form-control a_qty" min="0" name="sqr[]"
-                            type="number" >
+                <div class="col-md-2" style="padding: 0;">
+                    <input name="sqr[]" readonly style="margin-right: -10px; padding-right: 0px !important;"
+                           class="form-control sqr" min="0" value=""
+                           type="number">
                 </div>
                 <div class="col-md-2">
                     <a href="#"
@@ -165,6 +165,7 @@
     <?php else:
         $wohnungenOj = new Wohnungen_model();
         foreach ($wohnungen->inventer as $k => $a):
+            $inventar = $wohnungenOj->get_inventar($a['inventar_id'])
             ?>
             <div class="col-md-6 count_cone reasean <?php echo $a['is_deleted'] == 0 ? 'field-clone ' : ''; ?> "
                  data-id="<?= $a['id'] ?>" id="inventar-<?= $a['id'] ?>">
@@ -180,13 +181,13 @@
                                    class="form-control a_qty" min="0"
                                    type="number" value="<?= $a['qty'] ?>">
                         </div>
-                        <div class="col-md-6 <?= $allData ? ' moved' : '' ?>">
-                            <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], array(), array()); ?>
+                        <div class="col-md-5 <?= $allData ? ' moved' : '' ?>">
+                            <?= render_select('austattung[]', $inventarlistes, array('id', 'name'), '', $a['inventar_id'], ['id' => 'austattungSelect'], [], '', 'austattungSelect'); ?>
                         </div>
-                        <div class="col-md-1" style="padding: 0;">
-                            <input name="sqr[]" style="margin-right: -10px; padding-right: 0px !important;"
-                                   class="form-control " min="0"  value="<?= $a['sqr'] ?>"
-                                   type="number" >
+                        <div class="col-md-2" style="padding: 0;">
+                            <input name="sqr[]" readonly style="margin-right: -10px; padding-right: 0px !important;"
+                                   class="form-control sqr" min="0" value="<?= $inventar->qubik * $a['qty'] ?>"
+                                   type="number">
                         </div>
                         <div class="col-md-2">
                             <a href="#"
@@ -196,24 +197,25 @@
                         </div>
                     </div>
                     <?php
-                    foreach ($allData as $item) {
-                        ?>
-                        <div class="row ">
-                            <div class="col-md-1">
+                    if (isset($allData))
+                        foreach ($allData as $item) {
+                            ?>
+                            <div class="row ">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <?= $item['qty']; ?>
+                                </div>
+                                <div class="col-md-7">
+                                    <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
                             </div>
-                            <div class="col-md-2 text-center">
-                                <?= $item['qty']; ?>
-                            </div>
-                            <div class="col-md-7">
-                            <?= $this->wohnungen_model->get($item['to'])->strabe; ?>
-                            </div>
-                            <div class="col-md-2">
-                            </div>
-                        </div>
-                        <br>
+                            <br>
 
-                        <?php
-                    }
+                            <?php
+                        }
                     ?>
                     <div class="row hide" id="deleted-reason">
                         <input type="hidden" name="delete[]" value="0"
@@ -262,7 +264,7 @@
                                 <input type="text"
                                        readonly="true" id="reasonsd-<?= $a['id'] ?>"
                                        class="form-control reasonsd"
-                                       value="<?= $wohnungenOj->get_inventar($a['inventar_id']) . ' (' . $a['reason'] . ')' ?>">
+                                       value="<?= $inventar->name . ' (' . $a['reason'] . ')' ?>">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -285,25 +287,11 @@
     </div>
 </div>
 <div class="text-right">
-    <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+    <button type="submit" class="btn btn-info"><?php echo _l(get_transl_field('tsl_wohnungen', 'speichern','SPEICHERN')); ?></button>
 </div>
 
 <?php
 
-function get_move($wohnungen, $inventar)
-{
-    $data = array();
-    $movelds = $wohnungen->moved_items;
-    foreach ($movelds as $moveld) {
-        $allResources = unserialize($moveld['inventory']);
-        foreach ($allResources as $item) {
-            if ($item['inventory'] != $inventar)
-                continue;
-            array_push($data, $item);
-        }
-    }
-    return $data;
-}
 
 function count_items($inventars)
 {

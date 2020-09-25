@@ -18,6 +18,7 @@ class Solutionbox extends AdminController
         $this->load->helper('url');
         $data['title']     = _l('media_files');
         $data['connector'] = admin_url() . '/utilities/media_connector';
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
 
         $mediaLocale = get_media_locale();
 

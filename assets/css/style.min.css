@@ -6,6 +6,29 @@
     top: 17px;
 }
 
+.need-edition .edit-menu {
+    right: 8px;
+    z-index: 999;
+}
+
+.need-edition:hover .edit-menu {
+    opacity: 1 !important;
+}
+
+.style-menu {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.style-menu > * {
+    padding: 0 15px;
+    margin: 0;
+}
+
+.style-menu .btntrans {
+    padding: 8px;
+}
+
 .fc-calendarFilter-button {
     display: none !important
 }
@@ -19,6 +42,10 @@
     display: block;
 }
 
+.ganttbreack {
+    background-color: red !important;
+    border-color: red !important;
+}
 
 .bg-orange {
     background: orange !important;
@@ -64,8 +91,10 @@
 
 .menu-item-leistungsverz .fa,
 .menu-item-leistungsverz span,
-.menu-item-projects .fa,
-.menu-item-projects span,
+
+    /*.menu-item-projects .fa,*/
+    /*.menu-item-projects span,*/
+
 .menu-item-lager .fa,
 .menu-item-lager span,
 .menu-item-buchhaltung .fa,
@@ -81,7 +110,7 @@
 }
 
 .menu-item-leistungsverz,
-.menu-item-projects,
+    /*.menu-item-projects,*/
 .menu-item-lager,
 .menu-item-buchhaltung,
 .menu-item-angebote,
@@ -1338,6 +1367,7 @@ a.notification-top {
     width: 210px;
     bottom: 0;
     float: left;
+    overflow: auto;
     left: 0;
     position: absolute;
     top: 63px;
@@ -1345,13 +1375,6 @@ a.notification-top {
     transition: all .5s ease 0s;
 }
 
-<<<<<<< HEAD
-=======
-.overflo {
-    overflow: auto;
-}
-
->>>>>>> 9ead8b56c76641c0636eaa85b14ace024c0e640e
 #side-menu {
     background: #626f80
 }
@@ -1819,11 +1842,11 @@ body.rtl .dataTables_length {
     z-index: 1
 }
 
-.checkbox input[type=checkbox]:focus + label::before, .checkbox input[type=radio]:focus + label::before {
+/*.checkbox input[type=checkbox]:focus + label::before, .checkbox input[type=radio]:focus + label::before {
     outline: thin dotted;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px
-}
+}*/
 
 .checkbox input[type=checkbox]:checked + label::after, .checkbox input[type=radio]:checked + label::after {
     font-family: 'Glyphicons Halflings';
@@ -3096,7 +3119,23 @@ body.rtl.hide-sidebar #wrapper {
         display: block;
         color: #fff;
         margin-right: 0;
-        line-height: 25px
+        margin-top: -22px;
+        line-height: 25px;
+    }
+
+    .date-cont {
+        font-size: 13px;
+        position: relative;
+        color: white;
+        /* left: 0; */
+        text-align: center;
+        /* right:0; */
+        padding-top: 13px;
+        width: 63%;
+        /* padding-right: 33px; */
+        top: 10px;
+        margin: 0 auto;
+        /* margin-top: 1px; */
     }
 
     .mobile-menu {
@@ -3107,7 +3146,9 @@ body.rtl.hide-sidebar #wrapper {
         position: relative;
         display: inline-block;
         float: right;
-        margin-bottom: 0
+        margin-right: -4px;
+        margin-top: -32px;
+        margin-bottom: 0;
     }
 
     ul.mobile-icon-menu > li {
@@ -3360,13 +3401,13 @@ table.dataTable thead .sorting:after {
 }
 
 .table thead tr th:first-child {
-    border-left: 1px solid #dcdcdc;
-    width: 35px;
+    border-left: 1px solid #dcdcdc
 }
 
 .table thead tr th:last-child {
     border-right: 1px solid #dcdcdc
 }
+
 .table > thead > tr > th {
     border-bottom: 0;
     vertical-align: middle;
@@ -5644,10 +5685,6 @@ body.rtl div.dataTables_wrapper {
     width: 150px
 }
 
-.fn-gantt *, .fn-gantt :after, .fn-gantt :before {
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box
-}
 
 .width300 {
     width: 300px
@@ -6647,13 +6684,50 @@ li.task.overdue-task .panel-body {
 
 @media (max-width: 768px) {
     .dataTables_filter input, .dataTables_filter input:focus {
-        width: 100% !important
+        width: auto !important
     }
 
     .fn-gantt .fn-content {
         overflow-x: scroll
     }
+
+    .dataTables_wrapper input[type=search] {
+        position: relative;
+        margin-left: 68px !important;
+        width: 50%;
+
+    }
+    .hidegantprintbtn{
+        display: none !important;
+    }
+
+    .redopencil {
+        position: absolute;
+        top: 2px;
+        right: auto;
+    }
+
+    .style-menu h3 {
+        font-size: 18px;
+        padding-left: 0;
+    }
+
+    .btntrans {
+        font-size: 12px;
+        max-width: 97px;
+        display: block;
+        text-align: center !important;
+        max-height: 35px;
+    }
+
+    #clock2 {
+        width:100%;
+        text-align:center;
+        margin-left:0px;
+        font-size:15px;
+    }
 }
+
 
 #inline-editor-save-btn button {
     color: #fff;
@@ -8738,6 +8812,7 @@ body.gantt {
     position: fixed;
 }
 
+
 /**
 Char list random
  */
@@ -8806,6 +8881,3 @@ Char list random
 }
 
 
-.ganttbreack {
-    background-color: red !important;
-}

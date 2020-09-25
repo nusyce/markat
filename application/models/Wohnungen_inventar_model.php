@@ -26,12 +26,27 @@ class Wohnungen_inventar_model extends App_Model
         }
     }
 
-    public function exist($aq, $invent)
+
+    public function exist($aq, $invent, $type = 0)
     {
         $this->db->where('aq_id', $aq);
+        $this->db->where('for', $type);
         $this->db->where('inventar_id', $invent);
         return $this->db->get(db_prefix() . 'wohnungen_inventar')->row();
 
+    }
+
+
+
+    public function getInventer($aq_id, $acttt = false, $for = 0)
+    {
+        $this->db->where('qty >', 0);
+        $this->db->where('aq_id', $aq_id);
+        $this->db->where('for', $for);
+        if ($acttt) {
+            $this->db->where('is_deleted', 0);
+        }
+        return $this->db->get(db_prefix() . 'wohnungen_inventar')->result_array();
     }
 
 

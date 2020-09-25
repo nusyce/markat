@@ -67,13 +67,13 @@ class Tasks_model extends App_Model
                    ],*/
             [
                 'id' => self::STATUS_COMPLETE,
-                'color' => '#84c529',
+                'color' => 'red',
                 'name' => _l('task_status_5'),
                 'order' => 77,
                 'filter_default' => false,
             ], [
                 'id' => self::STATUS_ABGERECHNET,
-                'color' => 'red',
+                'color' => '#84c529',
                 'name' => _l('Abgerechnet'),
                 'order' => 100,
                 'filter_default' => false,
@@ -322,6 +322,17 @@ class Tasks_model extends App_Model
         }
     }
 
+    public function copy_task_mietarbeiter($from_task, $to_task)
+    {
+        $followers = $this->get_task_followers($from_task);
+        foreach ($followers as $follower) {
+            $this->db->insert(db_prefix() . 'task_followers', [
+                'taskid' => $to_task,
+                'staffid' => $follower['followerid'],
+            ]);
+        }
+    }
+
     public function copy_task_assignees($from_task, $to_task)
     {
         $assignees = $this->get_task_assignees($from_task);
@@ -498,8 +509,13 @@ class Tasks_model extends App_Model
             $taskFor = $data['task_for'];
             unset($data['task_for']);
         }
-        $data['startdate'] = to_sql_date($data['startdate']);
-        $data['duedate'] = to_sql_date($data['duedate']);
+        if (isset($data['project'])) {
+            $data['rel_type'] = 'project';
+            $data['rel_id'] = $data['project'];
+        }
+
+        $data['startdate'] = to_sql_date($data['startdate'], true);
+        $data['duedate'] = to_sql_date($data['duedate'], true);
         $data['dateadded'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = $clientRequest == false ? get_staff_user_id() : get_contact_user_id();
         $data['is_added_from_contact'] = $clientRequest == false ? 0 : 1;
@@ -513,7 +529,7 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $defaultStatus = get_option('default_task_status');
             if ($defaultStatus == 'auto') {
-                if (date('Y-m-d') >= $data['startdate']) {
+                if (date('Y-m-d H:i:s') >= $data['startdate']) {
                     $data['status'] = 4;
                 } else {
                     $data['status'] = 1;
@@ -710,8 +726,8 @@ class Tasks_model extends App_Model
             $comments = $data['comments'];
             unset($data['comments']);
         }
-        $data['startdate'] = to_sql_date($data['startdate']);
-        $data['duedate'] = to_sql_date($data['duedate']);
+        $data['startdate'] = to_sql_date($data['startdate'], true);
+        $data['duedate'] = to_sql_date($data['duedate'], true);
         $data['dateadded'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = $clientRequest == false ? get_staff_user_id() : get_contact_user_id();
         $data['is_added_from_contact'] = $clientRequest == false ? 0 : 1;
@@ -725,7 +741,7 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $defaultStatus = get_option('default_task_status');
             if ($defaultStatus == 'auto') {
-                if (date('Y-m-d') >= $data['startdate']) {
+                if (date('Y-m-d H:i:s') >= $data['startdate']) {
                     $data['status'] = 4;
                 } else {
                     $data['status'] = 1;
@@ -914,8 +930,8 @@ class Tasks_model extends App_Model
     public function update($data, $id, $clientRequest = false)
     {
         $affectedRows = 0;
-        $data['startdate'] = to_sql_date($data['startdate']);
-        $data['duedate'] = to_sql_date($data['duedate']);
+        $data['startdate'] = to_sql_date($data['startdate'], true);
+        $data['duedate'] = to_sql_date($data['duedate'], true);
 
         $checklistItems = [];
         if (isset($data['checklist_items']) && count($data['checklist_items']) > 0) {
@@ -926,6 +942,11 @@ class Tasks_model extends App_Model
         if (isset($data['task_for'])) {
             $taskFor = $data['task_for'];
             unset($data['task_for']);
+        }
+
+        if (isset($data['project'])) {
+            $data['rel_type'] = 'project';
+            $data['rel_id'] = $data['project'];
         }
         if (isset($data['datefinished'])) {
             $data['datefinished'] = to_sql_date($data['datefinished'], true);
@@ -1018,6 +1039,15 @@ class Tasks_model extends App_Model
             unset($data['tags']);
         }
 
+        if (isset($taskFor)) {
+            $this->db->truncate(db_prefix() . 'task_assigned');
+            foreach ($taskFor as $tF)
+                $this->db->insert(db_prefix() . 'task_assigned', [
+                    'taskid' => $id,
+                    'staffid' => $tF,
+                    'assigned_from' => get_staff_user_id(),
+                ]);
+        }
 
         foreach ($checklistItems as $key => $chkID) {
             $itemTemplate = $this->get_checklist_template($chkID);
@@ -1037,13 +1067,15 @@ class Tasks_model extends App_Model
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);
             log_activity('Task Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
+
         }
+
 
         if ($affectedRows > 0) {
             return true;
         }
-
         return false;
+
     }
 
     public function get_checklist_item($id)

@@ -204,7 +204,7 @@ $lang['invoice_view']                                                         = 
 $lang['invoice_select_customer']                                              = 'Kunde';
 $lang['invoice_add_edit_number']                                              = 'Rechnungsnummer';
 $lang['invoice_add_edit_date']                                                = 'Rechnungsdatum';
-$lang['invoice_add_edit_duedate']                                             = 'Fälligkeitsdatum';
+$lang['invoice_add_edit_duedate']                                             = 'Leistungsdatum';
 $lang['invoice_add_edit_currency']                                            = 'Währung';
 $lang['invoice_add_edit_client_note']                                         = 'Kundennotiz';
 $lang['invoice_add_edit_admin_note']                                          = 'Mitarbeiter Notiz';
@@ -1274,7 +1274,7 @@ $lang['show_shipping_on_invoice']                                             = 
 $lang['show_shipping_on_estimate']                                            = 'Leistungsempfänger in Angebot zeigen';
 $lang['is_invoiced_estimate_delete_error']                                    = 'Dieses Angebot wurde bereits in eine Rechnung gewandelt. Es kann daher nicht gelöscht werden.';
 # Customers & Invoices / Estimates
-$lang['ship_to']                                                              = 'Versenden an';
+$lang['ship_to']                                                              = 'Leistungsempfänger';
 $lang['customer_profile_details']                                             = 'Kunden Details';
 $lang['billing_shipping']                                                     = 'Rechnung & Versand';
 $lang['billing_address']                                                      = 'Rechnungsadresse';

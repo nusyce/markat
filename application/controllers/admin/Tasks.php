@@ -8,6 +8,8 @@ class Tasks extends AdminController
     {
         parent::__construct();
         $this->load->model('projects_model');
+        $this->load->model('clients_model');
+        $this->load->model('cars_model');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -360,6 +362,25 @@ class Tasks extends AdminController
         $pdf->Output(mb_strtoupper(slug_it('$invoice_number')) . '.pdf', $type);
     }
 
+    /* Generates invoice PDF and senting to email of $send_to_email = true is passed */
+    public function checklist($id)
+    {
+        if (!$id) {
+            redirect(admin_url('tasks'));
+        }
+        $task = $this->tasks_model->get($id);
+        try {
+         task_pdf($task, 'checklist');
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+            echo $message;
+            if (strpos($message, 'Unable to get the size of the image') !== false) {
+                show_pdf_unable_to_get_image_size_error();
+            }
+            die;
+        }
+    }
+
 
     public function refresh_status()
     {
@@ -515,6 +536,8 @@ class Tasks extends AdminController
         }
         $data['staff'] = $staffs;
         $data['projects'] = $this->misc_model->get_project();
+        $data['cars'] = $this->cars_model->get();
+        $data['clients'] = $this->clients_model->get();
         $this->load->view('admin/tasks/task', $data);
     }
 
@@ -1420,5 +1443,20 @@ class Tasks extends AdminController
                 set_alert('success', _l('total_tasks_deleted', $total_deleted));
             }
         }
+    }
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_tasks', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('tasks', 'Translation')));
+            redirect(admin_url('tasks/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/tasks/translation', $data);
     }
 }

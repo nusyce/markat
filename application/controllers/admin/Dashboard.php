@@ -186,10 +186,10 @@ class Dashboard extends AdminController
         redirect(admin_url());
     }
 
+
     public function update_menu()
     {
-
-        update_option($_POST['menu_slug'], $_POST['name']);
+        user_update_option($_POST['menu_slug'], $_POST['name']);
         if ($_POST['menu_slug'] == 'all_contacts') {
             redirect(admin_url('clients/' . $_POST['menu_slug']));
         } else if ($_POST['menu_slug'] == 'inventarlistes') {
@@ -197,6 +197,8 @@ class Dashboard extends AdminController
         } else if ($_POST['menu_slug'] == 'move_inventory') {
             redirect(admin_url('wohnungen/' . $_POST['menu_slug']));
         } else {
+            if ($_POST['menu_clone'] == '1')
+                redirect(admin_url());
             redirect(admin_url($_POST['menu_slug']));
         }
     }

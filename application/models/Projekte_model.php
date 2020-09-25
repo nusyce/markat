@@ -271,6 +271,7 @@ class projekte_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             return true;
         }
+
         return $affectedRows > 0;
     }
 

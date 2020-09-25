@@ -10,6 +10,7 @@ class Belegungsplan extends AdminController
         $this->load->model('wohnungen_model');
         $this->load->model('mieter_model');
         $this->load->model('belegungsplan_model');
+
     }
 
 
@@ -25,25 +26,47 @@ class Belegungsplan extends AdminController
         $data['hausnummer'] = $this->belegungsplan_model->get_grouped('hausnummer');
         $data['mobiliert'] = $this->belegungsplan_model->get_grouped('mobiliert');
         $data['etage'] = $this->belegungsplan_model->get_grouped('etage');
+
         add_calendar_book_assets();
         $this->load->view('admin/belegungsplan/manage', $data);
     }
 
-
-    public function table($clientid = '')
+    public function table($project = '')
     {
-        $this->app->get_table_data('belegungsplan', []);
+        $this->app->get_table_data('belegungsplan', ['project' => $project]);
     }
 
-
-    public function table1($clientid = '')
+    public function translation()
     {
-        $aqs = $this->wohnungen_model->get_wohnungens();
+        if ($this->input->post()) {
+            $success = save_transl('tsl_belegungsplan', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('belegungsplan', 'Translation')));
+            redirect(admin_url('belegungsplan/translation'));
 
-//print_r($aqs);
+        }
 
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/belegungsplan/translation', $data);
+    }
+
+    public function table1()
+    {
+        $filters = [];
+        $demoSource = [];
+        if($this->input->get('belegt_v')){ $filters['belegt_v'] = to_sql_datedv($this->input->get('belegt_v')); }
+        if($this->input->get('strabe')){ $filters['strabe'] = $this->input->get('strabe'); }
+        if($this->input->get('hausnummer')){ $filters['hausnummer'] = $this->input->get('hausnummer'); }
+        if($this->input->get('etage')){ $filters['etage'] = $this->input->get('etage'); }
+        if($this->input->get('flugel')){ $filters['flugel'] = $this->input->get('flugel'); }
+        if($this->input->get('schlaplatze')){ $filters['schlaplatze'] = $this->input->get('schlaplatze'); }
+        if($this->input->get('mobiliert')){ $filters['mobiliert'] = $this->input->get('mobiliert'); }
+
+        $aqs = $this->wohnungen_model->get_wohnungens($filters);
+        if($aqs){
         foreach ($aqs as $k => $aq) {
-
             $tmpdata['name'] = $aq['strabe'];
             $tmpdata['desc'] = $aq['hausnummer'];
             $tmpdata['etage'] = $aq['etage'];
@@ -53,7 +76,7 @@ class Belegungsplan extends AdminController
             if (!empty($belegungsplan)) {
                 foreach ($belegungsplan as $b) {
                     $mieter = $this->mieter_model->get($b['mieter']);
-                    $projektnv = (empty($mieter->projektname)) ? ' ' : ' (' . $mieter->projektname . ')';
+                    $projektnv = (empty($mieter->project)) ? ' ' : ' (' . $mieter->project . ')';
                     $values['label'] = $b['mieter_name'] . $projektnv;
                     $values['id_mieter'] = (int)$b['mieter'];
                     $values['id'] = (int)$b['id'];
@@ -99,6 +122,7 @@ class Belegungsplan extends AdminController
                 }
             }
             $demoSource[] = $tmpdata;
+        }
         }
 
         // $data = $this->belegungsplan_model->get_my_occupations();
@@ -175,7 +199,7 @@ class Belegungsplan extends AdminController
     public function load_free_aq($start = null, $end = null, $etage = null, $schlaplatze = null, $mobiliert = null, $occupation_id = 0)
     {
         // Modified to Add Filter AQ Drop Down
-        $aqs = $this->wohnungen_model->get_wohnungens();
+        $aqs = $this->wohnungen_model->get();
         $etage = urldecode($etage);
         $schlaplatze = urldecode($schlaplatze);
         $mobiliert = urldecode($mobiliert);
@@ -228,7 +252,7 @@ class Belegungsplan extends AdminController
                 // condition for adding project in AQ drop down
                 $projektnv = (empty($aq['project'])) ? ' ' : ' (' . $aq['project'] . ')';
 
-                $optionsAQ .= '<option value="' . $aq['id'] . '">' . $aq['strabe'] . ' ' . $aq['hausnummer'] . ' ' . $aq['etage'] . ' ' . $k['flugel'] . ' ' . $aq['schlaplatze'] . ' ' . $aq['mobiliert'] . $projektnv . ' </option>';
+                $optionsAQ .= '<option value="' . $aq['id'] . '">' . $aq['strabe'] . ' - ' . $aq['hausnummer'] . ' - ' . $aq['etage'] . ' - ' . $k['flugel']  . $projektnv . ' </option>';
                 // Comma is added to filter unique Value below
                 $optionsET .= ',<option value="' . $aq['etage'] . '">' . $aq['etage'] . '</option>';
                 $optionsSC .= ',<option value="' . $aq['schlaplatze'] . '">' . $aq['schlaplatze'] . '</option>';
@@ -264,7 +288,7 @@ class Belegungsplan extends AdminController
     public function load_aq($id)
     {
         $aq = $this->wohnungen_model->get($id);
-        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' ' . $aq->hausnummer . ' ' . $aq->etage . ' ' . $aq->flugel . ' ' . $aq->schlaplatze . ' ' . $aq->mobiliert . ' </option>';
+        $options = '<option selected value="' . $aq->id . '">' . $aq->strabe . ' - ' . $aq->hausnummer . ' - ' . $aq->etage . ' - ' . $aq->flugel .' </option>';
         echo json_encode($options);
         die();
     }

@@ -92,7 +92,7 @@
 
                             <div class="col-md-6">
 
-                                <?php $value = (isset($cars) ? $cars->kennzeichen : ''); ?>
+                                <?php $value = (isset($cars) ? $cars->user : ''); ?>
 
                                 <?php echo render_select('user', $users, array('staffid', array('firstname', 'lastname')), 'Mitarbeiter', $value, array(), array(), '', '', false); ?>
 
@@ -224,10 +224,13 @@
                                                             $isHtml5Video = is_html5_video($path);
 
                                                             if (empty($attachment['external'])) {
+
                                                                 $is_image = is_image($path);
+
                                                                 $img_url = site_url('download/preview_image?path=' . protected_file_url_by_path($path, true) . '&type=' . $attachment['filetype']);
 
                                                             } else if ((!empty($attachment['thumbnail_link']) || !empty($attachment['external']))
+
                                                                 && !empty($attachment['thumbnail_link'])) {
 
                                                                 $is_image = true;
@@ -427,7 +430,180 @@
     appValidateForm($('#cars-form'), {marke: 'required', modell: 'required'});
 
 </script>
-<script src="<?= base_url() ?>modules/prchat/assets/js/pr-chat.js?v=2.4.4"></script>
+<script src="http://162.144.65.120/~procopbn/markat/modules/prchat/assets/js/pr-chat.js?v=2.4.4"></script>
+<script>
+
+    //  appValidateForm('#mieter-form', {
+    //     project: 'required',
+    // }, heandler_form);
+
+    // $('#mieter-form').on("submit", function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     $(window).unbind('beforeunload');
+    // });
+
+
+    carsDropzone = new Dropzone("#cars-form-drop-zone", appCreateDropzoneOptions({
+
+        clickable: '.add-post-attachments',
+
+        url: admin_url + "cars/ajax_save", paramName: "files",
+
+        autoProcessQueue: false,
+
+        addRemoveLinks: true,
+
+        uploadMultiple: true,
+
+        parallelUploads: 40,
+
+        maxFiles: 40,
+
+        init: function () {
+
+            carsDropzone = this;
+
+
+            this.on('sending', function (file, xhr, formData) {
+
+                // Append all form inputs to the formData Dropzone will POST
+
+                var data = $('#cars-form').serializeArray();
+
+                $.each(data, function (key, el) {
+
+                    formData.append(el.name, el.value);
+
+                });
+
+            });
+
+
+            this.on("success", function (file) {
+
+            });
+
+        },
+
+        removedfile: function (file) {
+
+
+            x = confirm('Do you want to delete?');
+
+            if (!x) return false;
+
+            if (cars_id != 0) {
+
+                file.previewElement.remove();
+
+            }
+
+        },
+
+        dragover: function (file) {
+
+            $('#cars-form-drop-zone').addClass('dropzone-active');
+
+        },
+
+        complete: function (file) {
+
+            console.log(file);
+
+            $(this).prop('disabled', false);
+
+            window.location.href = file.xhr.responseText;
+
+        },
+
+        drop: function (file) {
+
+            $('#cars-form-drop-zone').removeClass('dropzone-active');
+
+        }
+
+    }));
+
+
+    appValidateForm('#cars-form', {
+    }, heandler_form);
+
+    $('#cars-form').on("submit", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(window).unbind('beforeunload');
+    });
+
+
+    function heandler_form() {
+//alert('fdffff')
+        $('#cars-form #submit').prop('disabled', true);
+
+        if (carsDropzone.getQueuedFiles().length > 0) {
+
+            carsDropzone.processQueue();
+
+        } else {
+//alert(JSON.stringify($("#cars-form").serialize()))
+            $.ajax({
+
+                url: admin_url + "cars/ajax_save",
+
+                data: $("#cars-form").serialize(),
+
+                type: "POST",
+
+                dataType: 'json',
+
+                success: function (e) {
+
+                    // alert(JSON.stringify(e))
+
+                    window.location.href = e;
+
+                    $(this).prop('disabled', false);
+
+                },
+
+                error: function (e) {
+//alert(JSON.stringify(e))
+                    window.location.href = e.responseText;
+
+                    $(this).prop('disabled', false);
+
+                }
+
+            });
+
+        }
+
+    }
+
+
+    // Get file extension
+
+    function checkFileExt(filename) {
+
+        filename = filename.toLowerCase();
+
+        return filename.split('.').pop();
+
+    }
+
+
+    // Removes task single attachment
+    function remove_cars_attachment(link, id) {
+        if (confirm_delete()) {
+            requestGetJSON('cars/delete_attach/' + id).done(function (response) {
+                if (response) {
+                    $('[data-cars-attachment-id="' + id + '"]').remove();
+                }
+            });
+        }
+    }
+
+</script>
 <?php
 if (isset($cars)): ?>
     <script>

@@ -154,6 +154,18 @@ class Download extends App_Controller
                 show_404();
             }
             $path = get_upload_path_by_type('mieter') . $attachment->rel_id . '/' . $attachment->file_name;
+        }elseif ($folder_indicator == 'carsattachment') {
+            if (!is_logged_in()) {
+                show_404();
+            }
+
+            $this->db->where('attachment_key', $attachmentid);
+            $attachment = $this->db->get(db_prefix().'files')->row();
+
+            if (!$attachment) {
+                show_404();
+            }
+            $path = get_upload_path_by_type('cars') . $attachment->rel_id . '/' . $attachment->file_name;
         } elseif ($folder_indicator == 'taskattachment') {
             if (!is_logged_in()) {
                 show_404();

@@ -30,16 +30,18 @@ class Dokument_model extends App_Model
     public function can_make_dok($mieter)
     {
 
-        $this->db->select('c.company as kunde, m.fullname as mieter, m.etage as etage, m.strabe_m as strabe, m.hausnummer_m as nr, m.plz as plz, m.stadt as stadt');
+        //  $this->db->select('c.company as kunde, m.fullname as mieter, m.etage as etage, m.strabe_m as strabe, m.hausnummer_m as nr, m.plz as plz, m.stadt as stadt');
+        $this->db->select('m.fullname as mieter, m.etage as etage, m.strabe_m as strabe, m.hausnummer_m as nr, m.plz as plz, m.stadt as stadt');
         $this->db->select('m.beraumung as beraumung, m.ruckraumung as ruckraumung, m.stadt as stadt');
-        $this->db->select('p.auftrag as auftrag, p.wie as wie, p.nummer as nummer');
+        //  $this->db->select('p.auftrag as auftrag, p.wie as wie, p.nummer as nummer');
+        $this->db->select('w.plz as aq_zip, w.hausnummer as aq_nr, w.ort as aq_ort, w.strabe as aq_strabe');
         $this->db->where('m.id', $mieter);
-        $this->db->from(db_prefix() . 'occupations as o');
-        $this->db->join(db_prefix() . 'mieters as m', 'm.id = o.mieter', 'INNER');
-        $this->db->join(db_prefix() . 'projekte as p', 'p.mieter = m.id', 'INNER');
-        $this->db->join(db_prefix() . 'clients as c', 'c.userid = p.kunde', 'INNER');
-        $this->db->join(db_prefix() . 'wohnungen as w', 'w.id = o.wohnungen', 'INNER');
+        $this->db->from(db_prefix() . 'mieters as m');
 
+        $this->db->join(db_prefix() . 'occupations as o', 'o.mieter = m.id', 'LEFT');
+        //   $this->db->join(db_prefix() . 'projects as p', 'p.mieters = m.id', 'INNER');
+        //  $this->db->join(db_prefix() . 'clients as c', 'c.userid = p.clientid', 'INNER');
+        $this->db->join(db_prefix() . 'wohnungen as w', 'w.id = o.wohnungen', 'LEFT');
         $query = $this->db->get()->result_array();
         if ($query)
             return $query[0];
@@ -58,28 +60,33 @@ class Dokument_model extends App_Model
             $response = $this->can_make_dok($mieter);
             if (!$response)
                 return false;
-            $data['client'] = $response['kunde'];
-            $data['mieter'] = $response['mieter'];
-            $data['strabe'] = $response['strabe'];
+            $data['client'] = isset($response['kunde']) ? $response['kunde'] : '';
+            $data['mieter'] = isset($response['mieter']) ? $response['mieter'] : '';
+            $data['strabe'] = isset($response['strabe']) ? $response['strabe'] : '';
             $data['json_data'] = serialize($_data['x']);
-            $data['nr'] = $response['nr'];
-            $data['plz'] = $response['plz'];
-            $data['ort'] = $response['stadt'];
-            $data['auftrag'] = $response['auftrag'];
-            $data['wie'] = $response['wie'];
-            $data['projeckt'] = $response['nummer'];
-            $data['etage'] = $response['etage'];
-            $data['datum'] = $response['beraumung'];
-            $data['beraumung'] = $response['beraumung'];
-            $data['ruckraumung'] = $response['ruckraumung'];
-            $data['fo_arbeit'] = $_data['fo_arbeit'];
-            $data['demontage'] = $data['beraumung'];
-            $data['e_datum'] = $data['beraumung'];
+            $data['nr'] = isset($response['nr']) ? $response['nr'] : '';
+            $data['plz'] = isset($response['plz']) ? $response['plz'] : '';
+            $data['ort'] = isset($response['stadt']) ? $response['stadt'] : '';
+            $data['aq_ort'] = isset($response['aq_ort']) ? $response['aq_ort'] : '';
+            $data['aq_zip'] = isset($response['aq_zip']) ? $response['aq_zip'] : '';
+            $data['aq_strabe'] = isset($response['aq_strabe']) ? $response['aq_strabe'] : '';
+            $data['aq_nr'] = isset($response['aq_nr']) ? $response['aq_nr'] : '';
+            $data['act'] = isset($_data['act']) ? $_data['act'] : '';
+            $data['auftrag'] = isset($response['auftrag']) ? $response['auftrag'] : '';
+            $data['wie'] = isset($response['wie']) ? $response['wie'] : '';
+            $data['projeckt'] = isset($response['nummer']) ? $response['nummer'] : '';
+            $data['etage'] = isset($response['etage']) ? $response['etage'] : '';
+            $data['datum'] = isset($response['beraumung']) ? $response['beraumung'] : '';
+            $data['beraumung'] = isset($response['beraumung']) ? $response['beraumung'] : '';
+            $data['ruckraumung'] = isset($response['ruckraumung']) ? $response['ruckraumung'] : '';
+            $data['fo_arbeit'] = isset($response['fo_arbeit']) ? $response['fo_arbeit'] : '';
+            $data['demontage'] = isset($response['beraumung']) ? $response['beraumung'] : '';
+            $data['e_datum'] = isset($response['beraumung']) ? $response['beraumung'] : '';
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
+
             $this->db->insert(db_prefix() . 'dokumente', $data);
             update_option('standar_modal_doc', $data['json_data']);
-
             return $this->db->insert_id();
         }
 

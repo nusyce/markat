@@ -6,11 +6,10 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <h3><span><?php echo get_menu_option(c_menu(), 'Mieter') ?></span>
-                            <?php if (has_permission('menu', '', 'edit')):
-                                ?>
-                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
-                            <?php endif; ?></h3>
+                        <div class="style-menu" >
+                            <h3><span><?php echo get_menu_option(c_menu(), 'Mieter') ?></span>
+                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>
+                                 <a href="<?php echo admin_url('mieter/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
                         <div style="display: flex">
                             <div><a href="<?php echo admin_url('mieter/mieter'); ?>"
                                     class="btn btn-info mright5 pull-left display-block"><?php echo 'Erstellen'; ?></a>
@@ -22,7 +21,18 @@
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'mieters'); ?></b></h3>
+                                <?php
+                                $wherett = '';
+                                $staff = get_staff();
+                                if (isset($staff->projects) && !empty($staff->projects)) {
+                                    $stf_project = unserialize($staff->projects);
+                                    if (is_array($stf_project)&&count($stf_project) > 0) {
+                                        $stf_project = implode(",", $stf_project);
+                                        $wherett = db_prefix() . 'mieters.project IN  (' . $stf_project . ')';
+                                    }
+                                }
+                                $total = total_rows(db_prefix() . 'mieters', $wherett); ?>
+                                Gesamt:<b><?php echo $total; ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('mieters', $title); ?>
@@ -42,7 +52,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2 leads-filter-column">
-                                        <?php echo render_select('project', $project, array('projektname', 'projektname'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
+                                        <?php echo render_select('project', $project, array('id', 'name'), '', '', array('data-width' => '100%', 'data-none-selected-text' => 'Projekt'), array()); ?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -75,8 +85,8 @@
                         </div>
                         <?php echo form_hidden('custom_view'); ?>
                         <div id="export-mieter">
-                                <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                                   data-table=".table-mieter"><?php echo _l('Alle löschen'); ?></a>
+                            <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
+                               data-table=".table-mieter"><?php echo _l('Alle löschen'); ?></a>
                             <?php $this->load->view('admin/mieter/table_html'); ?>
                         </div>
                     </div>

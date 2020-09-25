@@ -70,19 +70,7 @@ if($server_type =="remote"){
 /**
  * The name of the database you want to connect to
  */
-if($server_type =="local"){
-    define('APP_DB_NAME', 'vbgenius_markat');
-}
-if($server_type =="remote"){
-    define('APP_DB_NAME', 'markat_db');
-}
-
-if($server_type =="local"){
-    define('APP_DB_PORT', '5432');
-}
-if($server_type =="remote"){
-    define('APP_DB_PORT', '25060');
-}
+define('APP_DB_NAME', 'vbgenius_markat');
 
 /**
  * @since  2.3.0

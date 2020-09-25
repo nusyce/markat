@@ -18,12 +18,12 @@ class Rb extends AdminController
         $data['name'] = $this->mieter_model->get_grouped('fullname', true);
         $data['strabe'] = $this->mieter_model->get_grouped('strabe_m', true);
         $data['flugel'] = $this->mieter_model->get_grouped('flugel', true);
-        $data['project'] = $this->mieter_model->get_grouped('projektname', true);
+        $data['project'] = $this->mieter_model->get_grouped('project', true);
         $data['schlaplatze'] = $this->mieter_model->get_grouped('hausnummer_m', true);
         $data['etage'] = $this->mieter_model->get_grouped('etage', true);
         $data['plz'] = $this->mieter_model->get_grouped('plz', true);
         $data['stadt'] = $this->mieter_model->get_grouped('stadt', true);
-        $data['title'] = get_menu_option('rb', 'Räumung/Beräumung');
+        $data['title'] = get_menu_option('rb', _l('Räumung/Beräumung'));
         $mieters = $this->mieter_model->get();
         foreach ($mieters as $mieter) {
             $arrData = [];
@@ -41,11 +41,26 @@ class Rb extends AdminController
         $this->load->view('admin/rb/manage', $data);
     }
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_rb', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('rb', 'Translation')));
+            redirect(admin_url('rb/translation'));
 
-    public function table()
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/rb/translation', $data);
+    }
+
+    public function table($project='')
     {
         // var_dump($_POST);
-        $this->app->get_table_data('rb', []);
+        $this->app->get_table_data('rb', ['project' => $project]);
     }
 
     public function get_ajax($id)

@@ -65,6 +65,7 @@ foreach ($quickActions as $key => $item) {
         ?>
         <?php
         foreach ($sidebar_menu as $key => $item) {
+
             if (isset($item['collapse']) && count($item['children']) === 0) {
                 continue;
             }
@@ -73,8 +74,14 @@ foreach ($quickActions as $key => $item) {
                   continue;
               }*/
             ?>
-            <li class="menu-item-<?php echo $item['slug']; ?>"
+            <li class="menu-item-<?php echo $item['slug'];
+            echo count($item['children']) > 0 ? ' need-edition' : '' ?> "
+                data-target="<?= count($item['children']) > 0 ? $item['slug'] : '' ?>"
                 <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
+                <?php if (count($item['children']) > 0): ?>
+                    <a class="edit-menu" style="opacity: 0; position: absolute" href="#"><i
+                                class="fa fa-pencil"></i></a>
+                <?php endif; ?>
                 <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>"
                    aria-expanded="false"
                     <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
@@ -124,7 +131,6 @@ foreach ($quickActions as $key => $item) {
         </li>
         <li>
             <div class="newlogoposition"><?php get_company_logo(get_admin_uri() . '/') ?></div>
-            jj
         </li>
         <?php hooks()->do_action('after_render_aside_menu'); ?>
         <?php $this->load->view('admin/projects/pinned'); ?>

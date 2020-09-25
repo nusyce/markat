@@ -7,6 +7,8 @@ class Mieter_model extends App_Model
     public function __construct()
     {
         parent::__construct();
+
+        $this->load->model('wohnungen_inventar_model');
     }
 
 
@@ -33,10 +35,23 @@ class Mieter_model extends App_Model
     public function get($id = '', $where = [], $for_editor = false)
     {
         $this->db->where($where);
+        $staff = get_staff();
+        if (isset($staff->projects) && !empty($staff->projects)) {
+            $stf_project = unserialize($staff->projects);
+            if (is_array($stf_project) && count($stf_project) > 0) {
+                $stf_project = implode(",", $stf_project);
+                $this->db->where(db_prefix() . 'mieters.project IN  (' . $stf_project . ') ');
+
+            }
+        }
 
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'mieters.id', $id);
-            return $this->db->get(db_prefix() . 'mieters')->row();
+            $mieter = $this->db->get(db_prefix() . 'mieters')->row();
+            if ($mieter){
+                $mieter->inventer = $this->wohnungen_inventar_model->getInventer($mieter->id, false, 1);
+                return $mieter;
+            }
         } else {
             $this->db->order_by('fullname', 'asc');
             return $this->db->get(db_prefix() . 'mieters')->result_array();
@@ -47,6 +62,30 @@ class Mieter_model extends App_Model
     {
         $this->db->where(['rel_id' => $id, 'rel_type' => 'mieter']);
         return $this->db->get(db_prefix() . 'files')->result_array();
+    }
+
+
+    public function get_projekte()
+    {
+        $project = $this->get_grouped('project');
+        if (!$project) return array();
+        $project_ids = array();
+        foreach ($project as $p) {
+            array_push($project_ids, $p['project']);
+        }
+        $staff = get_staff();
+        if (isset($staff->projects) && !empty($staff->projects)) {
+            $stf_project = unserialize($staff->projects);
+            if (is_array($stf_project) && count($stf_project) > 0) {
+                $stf_project = implode(",", $stf_project);
+                $this->db->where(db_prefix() . 'projects.id IN  (' . $stf_project . ') ');
+            }
+
+        } else {
+            $this->db->where_in('id', $project_ids);
+        }
+        return $this->db->get(db_prefix() . 'projects')->result_array();
+
     }
 
     public function add_attachment($insert_id, $data)
@@ -118,7 +157,7 @@ class Mieter_model extends App_Model
     {
         if ($isrb) {
             $this->db->where('beraumung !=', '');
-            $this->db->where('ruckraumung !=', '');
+            $this->db->or_where('ruckraumung !=', '');
         }
         $this->db->where($column . ' !=', '');
         $this->db->select($column);
@@ -155,6 +194,27 @@ class Mieter_model extends App_Model
     {
         if ($data) {
 
+            if (isset($data['a_qty'])){
+                $a_qty = $data['a_qty'];
+                unset($data['a_qty']);
+            }
+            if (isset($data['austattung'])){
+                $austattung = $data['austattung'];
+                unset($data['austattung']);
+            }
+            if (isset($data['delete'])){
+                $deleteData = $data['delete'];
+                unset($data['delete']);
+            }
+            if (isset($data['sqr'])){
+                $sqr = $data['sqr'];
+                unset($data['sqr']);
+            }
+            if (isset($data['reasons'])){
+                $reasons = $data['reasons'];
+                unset($data['reasons']);
+            }
+
             $data['beraumung'] = to_sql_datedv($data['beraumung']);
             $data['baubeginn'] = to_sql_datedv($data['baubeginn']);
             $data['ruckraumung'] = to_sql_datedv($data['ruckraumung']);
@@ -172,10 +232,25 @@ class Mieter_model extends App_Model
             $data['userid'] = get_staff_user_id();
             $data['active'] = 1;
 
-            $data = hooks()->apply_filters('before_mieters_added', $data);
-
             $this->db->insert(db_prefix() . 'mieters', $data);
-            return $this->db->insert_id();
+            $insert_id = $this->db->insert_id();
+            if ($insert_id) {
+                foreach ($austattung as $k => $item) {
+                    if ($a_qty[$k] == 0 && $item < 1)
+                        continue;
+                    $data = array('reason' => $reasons[$k],
+                        'is_deleted' => (int)$deleteData[$k],
+                        'for' => 1,
+                        'qty' => $a_qty[$k], 'sqr' => $sqr[$k]);
+                    if (!$this->wohnungen_inventar_model->exist($insert_id, $item, 1)) {
+                        $data['aq_id'] = $insert_id;
+                        $data['inventar_id'] = $item;
+                        $this->wohnungen_inventar_model->add($data);
+                    } else {
+                        $this->wohnungen_inventar_model->update($data, $insert_id, $item);
+                    }
+                }
+            }
         }
         return false;
     }
@@ -217,6 +292,28 @@ class Mieter_model extends App_Model
     public function update($data, $id)
     {
         $affectedRows = 0;
+
+        if (isset($data['a_qty'])){
+            $a_qty = $data['a_qty'];
+            unset($data['a_qty']);
+        }
+        if (isset($data['austattung'])){
+            $austattung = $data['austattung'];
+            unset($data['austattung']);
+        }
+        if (isset($data['delete'])){
+            $deleteData = $data['delete'];
+            unset($data['delete']);
+        }
+        if (isset($data['sqr'])){
+            $sqr = $data['sqr'];
+            unset($data['sqr']);
+        }
+        if (isset($data['reasons'])){
+            $reasons = $data['reasons'];
+            unset($data['reasons']);
+        }
+
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['userid'] = get_staff_user_id();
         $data['raucher'] = $data['raucher'] == 'on' ? 1 : 0;
@@ -238,6 +335,22 @@ class Mieter_model extends App_Model
         //   $data = hooks()->apply_filters('before_mieters_updated', $data, $id);
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'mieters', $data);
+        foreach ($austattung as $k => $item) {
+            if ($a_qty[$k] == 0 && $item < 1)
+                continue;
+            $data = array('reason' => $reasons[$k],
+                'is_deleted' => (int)$deleteData[$k],
+                'qty' => $a_qty[$k],
+                'for' => 1,
+                'sqr' => $sqr[$k]);
+            if (!$this->wohnungen_inventar_model->exist($id, $item, 1)) {
+                $data['aq_id'] = $id;
+                $data['inventar_id'] = $item;
+                $this->wohnungen_inventar_model->add($data);
+            } else {
+                $this->wohnungen_inventar_model->update($data, $id, $item);
+            }
+        }
 
         if ($this->db->affected_rows() > 0) {
             return true;

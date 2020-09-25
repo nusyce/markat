@@ -14,7 +14,7 @@ class Misc extends AdminController
     {
         include_once(APPPATH . 'third_party/JD_Geocoder_Request.php');
 
-        $data    = $this->input->post();
+        $data = $this->input->post();
         $address = '';
 
         $address .= $data['address'];
@@ -30,7 +30,7 @@ class Misc extends AdminController
         if (empty($apiKey)) {
             echo json_encode([
                 'response' => [
-                    'status'        => 'MISSING_API_KEY',
+                    'status' => 'MISSING_API_KEY',
                     'error_message' => 'Add Google API Key in Setup->Settings->Google',
                 ],
             ]);
@@ -49,7 +49,7 @@ class Misc extends AdminController
 
     public function get_taxes_dropdown_template()
     {
-        $name    = $this->input->post('name');
+        $name = $this->input->post('name');
         $taxname = $this->input->post('taxname');
         echo $this->misc_model->get_taxes_dropdown_template($name, $taxname);
     }
@@ -85,7 +85,7 @@ class Misc extends AdminController
 
     public function tinymce_file_browser()
     {
-        $data['connector']   = admin_url() . '/utilities/media_connector';
+        $data['connector'] = admin_url() . '/utilities/media_connector';
         $data['mediaLocale'] = get_media_locale();
         $this->app_css->add('app-css', base_url($this->app_css->core_file('assets/css', 'style.css')) . '?v=' . $this->app_css->core_version(), 'editor-media');
         $this->load->view('admin/includes/elfinder_tinymce', $data);
@@ -126,7 +126,7 @@ class Misc extends AdminController
                         set_alert('success', _l('added_successfully', _l('projekt')));
                     }
                 } else {
-                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                    echo json_encode(['success' => $id ? true : fales, 'data' => $id]);
                 }
             } else {
                 $id = $data['id'];
@@ -139,6 +139,13 @@ class Misc extends AdminController
         }
     }
 
+    public function rm_project($id)
+    {
+        if ($id) {
+            $id = $this->misc_model->delete_project($id);
+        }
+        echo 1;
+    }
 
     public function delete_sale_activity($id)
     {
@@ -194,9 +201,9 @@ class Misc extends AdminController
                 $this->load->model('emails_model');
                 $this->emails_model->add_attachment([
                     'attachment' => $this->input->post('file_path'),
-                    'filename'   => $this->input->post('file_name'),
-                    'type'       => $this->input->post('filetype'),
-                    'read'       => true,
+                    'filename' => $this->input->post('file_name'),
+                    'type' => $this->input->post('filetype'),
+                    'read' => true,
                 ]);
                 $message = $this->input->post('send_file_message');
                 $message = nl2br($message);
@@ -225,18 +232,18 @@ class Misc extends AdminController
     /* Since version 1.0.2 add client reminder */
     public function add_reminder($rel_id_id, $rel_type)
     {
-        $message    = '';
+        $message = '';
         $alert_type = 'warning';
         if ($this->input->post()) {
             $success = $this->misc_model->add_reminder($this->input->post(), $rel_id_id);
             if ($success) {
                 $alert_type = 'success';
-                $message    = _l('reminder_added_successfully');
+                $message = _l('reminder_added_successfully');
             }
         }
         echo json_encode([
             'alert_type' => $alert_type,
-            'message'    => $message,
+            'message' => $message,
         ]);
     }
 
@@ -244,7 +251,7 @@ class Misc extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('reminders', [
-                'id'       => $id,
+                'id' => $id,
                 'rel_type' => $rel_type,
             ]);
         }
@@ -260,8 +267,8 @@ class Misc extends AdminController
     public function reminders()
     {
         $this->load->model('staff_model');
-        $data['members']   = $this->staff_model->get('', ['active' => 1]);
-        $data['title']     = _l('reminders');
+        $data['members'] = $this->staff_model->get('', ['active' => 1]);
+        $data['title'] = _l('reminders');
         $data['bodyclass'] = 'all-reminders';
         $this->load->view('admin/utilities/all_reminders', $data);
     }
@@ -279,16 +286,16 @@ class Misc extends AdminController
         if (!$id && !$rel_id) {
             die('No reminder found');
         }
-        $success    = $this->misc_model->delete_reminder($id);
+        $success = $this->misc_model->delete_reminder($id);
         $alert_type = 'warning';
-        $message    = _l('reminder_failed_to_delete');
+        $message = _l('reminder_failed_to_delete');
         if ($success) {
             $alert_type = 'success';
-            $message    = _l('reminder_deleted');
+            $message = _l('reminder_deleted');
         }
         echo json_encode([
             'alert_type' => $alert_type,
-            'message'    => $message,
+            'message' => $message,
         ]);
     }
 
@@ -297,7 +304,7 @@ class Misc extends AdminController
         $reminder = $this->misc_model->get_reminders($id);
         if ($reminder) {
             if ($reminder->creator == get_staff_user_id() || is_admin()) {
-                $reminder->date        = _dt($reminder->date);
+                $reminder->date = _dt($reminder->date);
                 $reminder->description = clear_textarea_breaks($reminder->description);
                 echo json_encode($reminder);
             }
@@ -310,9 +317,9 @@ class Misc extends AdminController
         if ($reminder && ($reminder->creator == get_staff_user_id() || is_admin()) && $reminder->isnotified == 0) {
             $success = $this->misc_model->edit_reminder($this->input->post(), $id);
             echo json_encode([
-                    'alert_type' => 'success',
-                    'message'    => ($success ? _l('updated_successfully', _l('reminder')) : ''),
-                ]);
+                'alert_type' => 'success',
+                'message' => ($success ? _l('updated_successfully', _l('reminder')) : ''),
+            ]);
         }
     }
 
@@ -452,8 +459,8 @@ class Misc extends AdminController
         }
 
         echo json_encode([
-        'html'             => $this->load->view('admin/includes/notifications', [], true),
-        'notificationsIds' => $notificationsIds,
+            'html' => $this->load->view('admin/includes/notifications', [], true),
+            'notificationsIds' => $notificationsIds,
         ]);
     }
 
@@ -531,7 +538,7 @@ class Misc extends AdminController
                 FROM INFORMATION_SCHEMA.TABLES
                 WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='" . APP_DB_NAME . "'")->result_array();
             foreach ($tables as $table_data) {
-                $table  = $table_data['TABLE_NAME'];
+                $table = $table_data['TABLE_NAME'];
                 $fields = $this->db->list_fields($table);
 
                 foreach ($fields as $field) {
@@ -575,7 +582,7 @@ class Misc extends AdminController
                 WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='" . APP_DB_NAME . "'")->result_array();
 
             foreach ($tables as $table_data) {
-                $table  = $table_data['TABLE_NAME'];
+                $table = $table_data['TABLE_NAME'];
                 $fields = $this->db->list_fields($table);
 
                 foreach ($fields as $field) {
@@ -610,7 +617,7 @@ class Misc extends AdminController
     {
         if (is_admin()) {
             $databaseName = APP_DB_NAME;
-            $tables       = $this->db->query("SELECT TABLE_NAME,
+            $tables = $this->db->query("SELECT TABLE_NAME,
                              ENGINE
                             FROM information_schema.TABLES
                             WHERE TABLE_SCHEMA = '$databaseName' and ENGINE = 'myISAM'")->result_array();
@@ -632,7 +639,7 @@ class Misc extends AdminController
     public function upgrade_232_database()
     {
         $charset = $this->db->char_set;
-        $collat  = $this->db->dbcollat;
+        $collat = $this->db->dbcollat;
 
         if (!is_admin()) {
             die('You must be logged in as administrator to perform this action');

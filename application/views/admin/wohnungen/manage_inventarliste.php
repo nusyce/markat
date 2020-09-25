@@ -7,16 +7,17 @@
                 <div class="panel_s">
                     <div class="panel-body ">
                         <div class="_buttons">
-                            <h3><span><?php echo get_menu_option(c_menu(), 'Inventar') ?></span>
+                            <div class="style-menu" > <h3><span><?php echo get_menu_option(c_menu(), 'Inventar') ?></span>
                                 <?php if (has_permission('menu', '', 'edit')):
                                     ?>
                                     <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
                                 <?php endif; ?></h3>
+                                <a href="<?php echo admin_url('wohnungen/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 
                             <a href="#" onclick="new_inventarliste(); return false;"
-                               class="btn btn-info pull-left display-block"><?php echo _l('Erstellen'); ?></a>
+                               class="btn btn-info pull-left display-block"><?php echo _l( get_transl_field('tsl_inventarlistes', 'erstellen','Erstellen')); ?></a>
                             <a style="margin-left: 10px" href="<?= admin_url('wohnungen/import_inventar')?>"
-                               class="btn btn-info pull-left bg-orange display-block"><?php echo _l('Import'); ?></a>
+                               class="btn btn-info pull-left bg-orange display-block"><?php echo _l( get_transl_field('tsl_inventarlistes', 'import','IMPORT')); ?></a>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading"/>
@@ -27,8 +28,9 @@
                                 <thead>
                                 <th style="width: 30px"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="invetar"><label></label></div>  </th sty>
                                 <th><?php echo _l('id'); ?></th>
-                                <th><?php echo _l('name'); ?></th>
-                                <th><?php echo _l('options'); ?></th>
+                                <th><?php echo _l(get_transl_field('tsl_inventarlistes', 'name','Name')); ?></th>
+                                <th><?php echo _l( get_transl_field('tsl_inventarlistes', 'qubik','Qubik')); ?></th>
+                                <th><?php echo _l(get_transl_field('tsl_inventarlistes', 'optionen','Optionen')); ?></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($inventarlistes as $inventarliste) { ?>
@@ -36,13 +38,15 @@
                                         <td><div class="multiple_action checkbox"><input type="checkbox" value="<?php echo $inventarliste['id']; ?>"><label></label></div></td>
                                         <td><?php echo $inventarliste['id']; ?></td>
                                         <td><a href="#"
-                                               onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false"
+                                               onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false" data-qubik="<?php echo $inventarliste['qubik']; ?>"
                                                data-name="<?php echo $inventarliste['name']; ?>"><?php echo $inventarliste['name']; ?></a><br/>
+                                        </td>
+                                        <td > <?php echo $inventarliste['qubik']; ?><br/>
                                         </td>
                                         <td>
                                             <a href="#"
                                                onclick="edit_inventarliste(this,<?php echo $inventarliste['id']; ?>); return false"
-                                               data-name="<?php echo $inventarliste['name']; ?>"
+                                               data-name="<?php echo $inventarliste['name']; ?>" data-qubik="<?php echo $inventarliste['qubik']; ?>"
                                                class="btn btn-default btn-icon"><i
                                                         class="fa fa-pencil-square-o"></i></a>
                                             <a href="<?php echo admin_url('wohnungen/delete_inventarliste/' . $inventarliste['id']); ?>"
@@ -77,13 +81,14 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="additional"></div>
-                        <?php echo render_input('name', 'Name'); ?>
+                        <?php echo render_input('name', get_transl_field('tsl_inventarlistes', 'name','Name')); ?>
+                        <?php echo render_input('qubik', get_transl_field('tsl_inventarlistes', 'qubik','Qubik'),'','number'); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l(get_transl_field('tsl_inventarlistes', 'schliessen','SCHLIESSEN')); ?></button>
+                <button type="submit" class="btn btn-info"><?php echo _l(get_transl_field('tsl_inventarlistes', 'speichern','SPEICHERN')); ?></button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -99,6 +104,7 @@
         $('#inventarliste').on('hidden.bs.modal', function (event) {
             $('#additional').html('');
             $('#inventarliste input[name="name"]').val('');
+            $('#inventarliste input[name="qubik"]').val('');
             $('.add-title').removeClass('hide');
             $('.edit-title').removeClass('hide');
         });
@@ -141,8 +147,10 @@
 
     function edit_inventarliste(invoker, id) {
         var name = $(invoker).data('name');
+        var qubik = $(invoker).data('qubik');
         $('#additional').append(hidden_input('id', id));
         $('#inventarliste input[name="name"]').val(name);
+        $('#inventarliste #qubik').val(parseInt(qubik));
         $('#inventarliste').modal('show');
         $('.add-title').addClass('hide');
     }

@@ -15,7 +15,7 @@ class Emailsettings extends AdminController
     {
         close_setup_menu();
 
-        $data['title'] = get_menu_option('emailsettings', 'Email Einstellungen');
+        $data['title'] = get_menu_option('emailsettings', 'Email Settings');
         $this->load->view('admin/emailsettings/emailsettings', $data);
     }
 

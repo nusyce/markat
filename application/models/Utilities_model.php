@@ -59,7 +59,7 @@ class Utilities_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
-            $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB 
+            $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
             return true;
         }
 
@@ -139,7 +139,7 @@ class Utilities_model extends App_Model
         return $this->db->get(db_prefix() . 'event_rel_staff')->row();
     }
 
-    
+
     public function get_event_users($id )
     {
         $this->db->select('user_id');
@@ -159,7 +159,7 @@ class Utilities_model extends App_Model
         $is_admin = is_admin();
         if ($is_admin) {
             //$is_admin = has_permission('calendar', '', 'edit');
-            $is_admin = has_permission('personalplan','', 'edit');            
+            $is_admin = has_permission('personalplan','', 'edit');
         }
         $has_permission_tasks_view = has_permission('tasks', '', 'view');
         $has_permission_projects_view = has_permission('projects', '', 'view');
@@ -348,7 +348,7 @@ class Utilities_model extends App_Model
             } else {
                 $this->db->select(db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
                 $this->db->from(db_prefix() . 'tasks');
-                $this->db->where('status !=', 5);
+               // $this->db->where('status !=', 5);
 
                 $this->db->where("CASE WHEN duedate IS NULL THEN (startdate BETWEEN '$start' AND '$end') ELSE (duedate BETWEEN '$start' AND '$end') END", null, false);
 
@@ -498,8 +498,8 @@ class Utilities_model extends App_Model
                 array_push($data, $_contract);
             }
         }
-        //calendar_project
- /*       if (get_option('show_projects_on_calendar') == 1 && !$ff || $ff && array_key_exists('projects', $filters)) {
+        //calendar_project do you understand? Oka???
+        if (get_option('show_projects_on_calendar') == 1 && 1==3&& !$ff || $ff && array_key_exists('projects', $filters)) {
             $this->load->model('projects_model');
             $this->db->select('name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
 
@@ -544,7 +544,7 @@ class Utilities_model extends App_Model
 
                 array_push($data, $_project);
             }
-        }*/
+        }
 // Below code creating error - Amogh 
 
         if (!$client_data && !$ff || (!$client_data && $ff && array_key_exists('events', $filters))) {
@@ -584,6 +584,102 @@ class Utilities_model extends App_Model
 
             return true;
         }
+
+        return false;
+    }
+
+    public function user_role_data($data)
+    {
+
+        $this->db->insert(db_prefix() . 'folder_mapping', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+           // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+            return true;
+        }
+
+        return false;
+    }
+    public function get_elfinder_id($dir,$name)
+    {
+
+        $sql = 'SELECT id FROM elfinder_file WHERE mtime=\'' . $dir . '\' AND name=\'' .$name. '\'';
+        //$sql="Select * from my_table where 1";
+    $query = $this->db->query($sql);
+    $res = $query->row();
+   // return $query->result_array();
+      //  $this->db->where('name', $name);
+      //  $this->db->where('parent_id', $dir);
+       // $res = $this->db->get('elfinder_file')->row();
+        if (!empty($res)) {
+            return $res->id;
+        }
+
+        return false;
+    }
+    public function get_elfinder_id_data($dir)
+    {
+
+        $sql = 'SELECT id FROM elfinder_file WHERE mtime=\'' . $dir . '\'';
+        //$sql="Select * from my_table where 1";
+    $query = $this->db->query($sql);
+    $res = $query->row();
+   // return $query->result_array();
+      //  $this->db->where('name', $name);
+      //  $this->db->where('parent_id', $dir);
+       // $res = $this->db->get('elfinder_file')->row();
+        if (!empty($res)) {
+            return $res->id;
+        }
+
+        return false;
+    }
+    public function media_folder_data($data)
+    {
+        $sql = 'SELECT id FROM tblshare_link_detail WHERE elfinder_file_id=\'' . $data['elfinder_file_id'] . '\'';
+             //$sql="Select * from my_table where 1";
+        $query = $this->db->query($sql);
+        $res = $query->row();
+        if (!empty($res)) {
+            $this->db->where('elfinder_file_id', $data['elfinder_file_id']);
+            $this->db->update(db_prefix() . 'share_link_detail', $data);
+            return true;
+        }else{
+            $this->db->insert(db_prefix() . 'share_link_detail', $data);
+            $insert_id = $this->db->insert_id();
+            if ($insert_id) {
+               // $this->assignusertoevent($users, $insert_id); // commented By Amogh : As Event_rel_staff Table wont exist in DB
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+     public function check_media_share_link($elfinder_file_id)
+    {
+        $sql = 'SELECT id FROM tblshare_link_detail WHERE elfinder_file_id=\'' . $elfinder_file_id . '\'';
+             //$sql="Select * from my_table where 1";
+        $query = $this->db->query($sql);
+        $res = $query->row();
+       if (!empty($res)) {
+            return $res->id;
+        }
+
+
+        return false;
+    }
+      public function check_media_share_link_password($elfinder_file_id,$password)
+    {
+        $sql = 'SELECT id FROM tblshare_link_detail WHERE elfinder_file_id=\'' . $elfinder_file_id . '\' and password  =\'' . $password . '\'';
+             //$sql="Select * from my_table where 1";
+        $query = $this->db->query($sql);
+        $res = $query->row();
+       if (!empty($res)) {
+            return $res->id;
+        }
+
 
         return false;
     }

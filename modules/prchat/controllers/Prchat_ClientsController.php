@@ -217,7 +217,7 @@ class Prchat_ClientsController extends ClientsController
      */
     public function uploadMethod()
     {
-        $allowedFiles = get_option('allowed_files');
+        $allowedFiles = '*';
         $allowedFiles = str_replace(',', '|', $allowedFiles);
         $allowedFiles = str_replace('.', '', $allowedFiles);
 

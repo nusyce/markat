@@ -171,10 +171,10 @@ class Tickets extends AdminController
             if (!is_admin()) {
                 $this->load->model('departments_model');
                 $staff_departments = $this->departments_model->get_staff_departments(get_staff_user_id(), true);
-                if (!in_array($data['ticket']->department, $staff_departments)) {
+                /*if (!in_array($data['ticket']->department, $staff_departments)) {
                     set_alert('danger', _l('ticket_access_by_department_denied'));
                     redirect(admin_url('access_denied'));
-                }
+                }*/
             }
         }
 

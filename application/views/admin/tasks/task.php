@@ -14,12 +14,12 @@
                 <h4 class="modal-title" id="myModalLabel">
 
                     <?php
-                    if (isset($id)){
-                        echo 'Bearbeiten Aufgabe';
-                    }else{
+                    if (isset($id)) {
+                        echo get_transl_field('tsl_tasks', 'bearbeitenaufgabe','Bearbeiten Aufgabe');
+                    } else {
 
-                        echo 'Neue Aufgabe erstellen';
-                    }?>
+                        echo get_transl_field('tsl_tasks', 'neueaufgabeerstellen','Neue Aufgabe erstellen');
+                    } ?>
                 </h4>
             </div>
             <div class="modal-body">
@@ -151,12 +151,19 @@
                                 if (isset($task) && $task->project) {
                                     $selected = $task->project;
                                 }
-                                echo render_project_select($projects, $selected, 'Projekt');
+                                echo render_project_select($selected, get_transl_field('tsl_tasks', 'projekt','Projekt'));
                                 ?>
                             </div>
-                            <?php
-
-                            ?></div>
+                            <div class="col-md-6">
+                                <?php
+                                $selected = '';
+                                if (isset($task) && $task->clients) {
+                                    $selected = $task->clients;
+                                }
+                                echo render_select( 'clients',$clients, array('userid','company'),get_transl_field('tsl_tasks', 'kunder','Kunder'),$selected);
+                                ?>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
 
@@ -168,11 +175,17 @@
                                     }
                                 ?>
 
-                                <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l('als_staff')), $selected, array('multiple' => true), array(), '', '', false); ?>
+                                <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l(get_transl_field('tsl_tasks', 'mitarbeiter','Mitarbeiter'))), $selected, array('multiple' => true), array(), '', '', false); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $mieter = isset($task) ? $task->mieters : '' ?>
-                                <?php echo render_select('mieters', $mieters, array('id', array('fullname','vorname', 'nachname')), get_menu_option('mieter', _l('Mieter')), $mieter); ?>
+                                <?php echo render_select('mieters', $mieters, array('id', array('fullname', 'vorname', 'nachname')), get_menu_option('mieter', _l(get_transl_field('tsl_tasks', 'mieter','Mieter'))), $mieter); ?>
+                            </div>
+
+                            <div class="col-md-6">
+                                <?php
+                                $selected = isset($task) ? $task->car : '';
+                                echo render_select('car', $cars, array('id', array('marke', 'modell', 'kennzeichen')), get_menu_option('cars', _l(get_transl_field('tsl_tasks', 'fahrzeugliste','Fahrzeugliste'))), $selected); ?>
                             </div>
 
                             <div class="col-md-6 hide">
@@ -293,28 +306,28 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php if (isset($task)) {
-                                    $value = _d($task->startdate);
+                                    $value = _dt($task->startdate);
                                 } else if (isset($start_date)) {
                                     $value = $start_date;
                                 } else {
-                                    $value = _d(date('Y-m-d'));
+                                    $value = _dt(date('Y-m-d H:i:s'));
                                 }
                                 $date_attrs = array();
                                 if (isset($task) && $task->recurring > 0 && $task->last_recurring_date != null) {
                                     $date_attrs['disabled'] = true;
                                 }
                                 ?>
-                                <?php echo render_date_input('startdate', 'task_add_edit_start_date', $value, $date_attrs); ?>
+                                <?php echo render_datetime_input('startdate', 'task_add_edit_start_date', $value, $date_attrs); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
-                                <?php echo render_date_input('duedate', 'task_add_edit_due_date', $value, $project_end_date_attrs); ?>
+                                <?php $value = (isset($task) ? _dt($task->duedate) : ''); ?>
+                                <?php echo render_datetime_input('duedate', 'task_add_edit_due_date', $value, $project_end_date_attrs); ?>
                             </div>
                         </div>
                         <p class="bold"><?php echo _l('task_add_edit_description'); ?></p>
                         <?php
                         // onclick and onfocus used for convert ticket to task too
-                        echo render_textarea('description', '', (isset($task) ? $task->description : ''), array('rows' => 6, 'placeholder' => _l('task_add_description'))); ?>
+                        echo render_textarea('description', '', (isset($task) ? html_entity_decode($task->description) : ''), array('rows' => 6, 'placeholder' => _l('task_add_description'))); ?>
 
                         <div class="row">
                             <div class="col-md-6">

@@ -29,11 +29,11 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<?php }?> 
+<?php }?>
 
 <script>
     function SetTaskMOdal(){
-        new_task(); 
+        new_task();
         setTimeout(() => {
             $('#chooseEventModel').modal('hide');
             $("input[name='startdate']").val(localStorage.getItem('startdate'));
@@ -41,10 +41,7 @@
            var valF = JSON.parse(localStorage.getItem('taskfor'));
             $('select[name="task_for[]"]').val(valF).trigger('change');
             //alert((localStorage.getItem('startdate')));
-            
+
         }, 900);
-        
-        
-         
-    } 
+    }
 </script>

@@ -12,16 +12,23 @@ class Template_pdf
 {
     protected $templates;
     protected $table;
+    protected $tag;
 
     public function __construct($template, $tag = '')
     {
+
         $this->templates = $template;
+        $this->tag = $tag;
+    }
+
+    public function prepared()
+    {
+        $template = $this->templates;
         $this->preparetable($template->json_data);
         try {
             ob_start();
             include $this->file_path();
             $content = ob_get_clean();
-
             $html2pdf = new Html2Pdf('P', 'A4', 'de',
                 $unicode = true,
                 $encoding = 'UTF-8',
@@ -36,6 +43,33 @@ class Template_pdf
             $formatter = new ExceptionFormatter($e);
             echo $formatter->getHtmlMessage();
         }
+    }
+
+    public function email()
+    {
+        $template = $this->templates;
+        $this->preparetable($template->json_data);
+
+        try {
+            ob_start();
+            include $this->file_path();
+            $content = ob_get_clean();
+            $html2pdf = new Html2Pdf('P', 'A4', 'de',
+                $unicode = true,
+                $encoding = 'UTF-8',
+                $margins = array(5, 5, 5, 4));
+            $html2pdf->setDefaultFont('Arial');
+            $html2pdf->writeHTML($content);
+            $statementPdfFileName = slug_it(_l('Dokument') . '-' . $this->templates->mieter);
+            $data = $html2pdf->Output($statementPdfFileName . '.pdf', 'S');
+            return $data;
+        } catch (Html2PdfException $e) {
+            $html2pdf->clean();
+
+            $formatter = new ExceptionFormatter($e);
+            echo $formatter->getHtmlMessage();
+        }
+        return false;
     }
 
     function preparetable($jsqon)
@@ -54,6 +88,10 @@ class Template_pdf
 
     public function prepare()
     {
+        if ($this->tag == 'e')
+            return $this->email();
+        else
+            $this->prepared();
     }
 
     protected function type()

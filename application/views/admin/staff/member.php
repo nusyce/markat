@@ -93,7 +93,7 @@
             <div class="col-md-<?php if (!isset($member)) {
                 echo '8 col-md-offset-2';
             } else {
-                echo '5';
+                echo '8';
             } ?>" id="small-table">
 
                 <div class="panel_s">
@@ -123,6 +123,16 @@
                                 </a>
 
                             </li>
+                            <li role="presentation">
+
+                                <a href="#tab_meldungen" aria-controls="tab_meldungen" role="tab"
+                                   data-toggle="tab">
+
+                                    <?php echo _l('Meldungen'); ?>
+
+                                </a>
+
+                            </li>
 
                         </ul>
 
@@ -143,7 +153,7 @@
                                                                                 data-toggle="tooltip"
                                                                                 data-title="<?php echo _l('two_factor_authentication_info'); ?>"></i>
 
-                                            <?php echo _l('enable_two_factor_authentication'); ?></label>
+                                            <?php echo _l(get_transl_field('tsl_staff', 'zwei_faktor_authentifizierung_aktivieren','Zwei-faktor-Authentifizierung aktivieren')); ?></label>
 
                                     </div>
 
@@ -174,7 +184,7 @@
                                         <input type="checkbox" value="1" name="is_not_staff"
                                                id="is_not_staff" <?php echo $checked; ?>>
 
-                                        <label for="is_not_staff"><?php echo _l('is_not_staff_member'); ?></label>
+                                        <label for="is_not_staff"><?php echo _l(get_transl_field('tsl_staff', 'kein_mitarbeiter','kein Mitarbeiter')); ?></label>
 
                                     </div>
 
@@ -216,7 +226,7 @@
                                                  style="border: 1px solid grey; padding: 80px 44px 80px 44px;width: 300px;">
 
                                                 <label for="profile_image"
-                                                       class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
+                                                       class="profile-image"><?php echo _l(get_transl_field('tsl_staff', 'profil_bild','Profil Bild')); ?></label>
 
                                                 <input type="file" name="profile_image" class="form-control"
                                                        id="profile_image">
@@ -230,10 +240,18 @@
 
                                         <?php $attrs = (isset($member) ? array() : array('autofocus' => true)); ?>
 
-                                        <?php echo render_input('firstname', 'staff_add_edit_firstname', $value, 'text', $attrs); ?>
+                                        <?php echo render_input('firstname', get_transl_field('tsl_staff', 'vorname','Vorname'), $value, 'text', $attrs); ?>
                                         <?php $value = (isset($member) ? $member->lastname : ''); ?>
 
-                                        <?php echo render_input('lastname', 'staff_add_edit_lastname', $value); ?>
+                                        <?php echo render_input('lastname', get_transl_field('tsl_staff', 'familienname','Familienname'), $value); ?>
+                                        <?php
+                                        $selected = isset($member->projects) ? unserialize($member->projects) : '';
+
+                                        echo render_select('projects[]', $projects, array('id', array('name')), get_menu_option('projects', _l(get_transl_field('tsl_staff', 'projekte','Projekte'))), $selected, array('multiple' => true), array(), '', '', false); ?>
+
+                                        <?php $value = (isset($member) ? $member->lastname : ''); ?>
+
+                                        <?php echo render_input('lastname', get_transl_field('tsl_staff', 'familienname','Familienname'), $value); ?>
                                     </div>
                                 </div>
 
@@ -242,12 +260,12 @@
 
                                         <?php $value = (isset($member) ? $member->email : ''); ?>
 
-                                        <?php echo render_input('email', 'staff_add_edit_email', $value, 'email', array('autocomplete' => 'off')); ?>
-                                    </div>
+                                        <?php echo render_input('email', get_transl_field('tsl_staff', 'emails','E-Mail'), $value, 'email', array('autocomplete' => 'off')); ?>
+                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         <div class="form-group">
 
-                                            <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
+                                            <label for="hourly_rate"><?php echo _l(get_transl_field('tsl_staff', 'stundensatz','Stundensatz')); ?></label>
 
                                             <div class="input-group">
 
@@ -276,7 +294,7 @@
 
                                         <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
 
-                                        <?php echo render_input('phonenumber', 'staff_add_edit_phonenumber', $value); ?>
+                                        <?php echo render_input('phonenumber', get_transl_field('tsl_staff', 'telefon','Telefon'), $value); ?>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         <?php if (!isset($member) || is_admin() || !is_admin() && $member->admin == 0) { ?>
@@ -292,7 +310,7 @@
                                         <div class="clearfix form-group" style="margin-top: -18px!important;">
 
                                             <label for="password"
-                                                   class="control-label"><?php echo _l('staff_add_edit_password'); ?></label>
+                                                   class="control-label"><?php echo _l(get_transl_field('tsl_staff', 'passwort','Passwort')); ?></label>
 
                                             <div class="input-group">
 
@@ -414,7 +432,7 @@
                                             <input type="checkbox" name="administrator"
                                                    id="administrator" <?php echo $isadmin; ?>>
 
-                                            <label for="administrator"><?php echo _l('staff_add_edit_administrator'); ?></label>
+                                            <label for="administrator"><?php echo _l('xx'); ?></label>
 
                                         </div>
 
@@ -427,7 +445,7 @@
                                             <input type="checkbox" name="send_welcome_email" id="send_welcome_email"
                                                    checked>
 
-                                            <label for="send_welcome_email"><?php echo _l('staff_send_welcome_email'); ?></label>
+                                            <label for="send_welcome_email"><?php echo _l(get_transl_field('tsl_staff', 'willkommens_e_mail_senden','Willkommens-E-Mail senden')); ?></label>
 
                                         </div>
 
@@ -472,11 +490,11 @@
 
                                 ?>
 
-                                <?php echo render_select('role', $roles, array('roleid', 'name'), 'staff_add_edit_role', $selected); ?>
+                                <?php echo render_select('role', $roles, array('roleid', 'name'), get_transl_field('tsl_staff', 'rolle','Rolle'), $selected); ?>
 
                                 <hr/>
 
-                                <h4 class="font-medium mbot15 bold"><?php echo _l('staff_add_edit_permissions'); ?></h4>
+                                <h4 class="font-medium mbot15 bold"><?php echo _l(get_transl_field('tsl_staff', 'berechtigungen','Berechtigungen')); ?></h4>
 
                                 <?php
 
@@ -494,6 +512,10 @@
 
                             </div>
 
+                            <div role="tabpanel" class="tab-pane" id="tab_meldungen">
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -504,7 +526,7 @@
 
             <div class="btn-bottom-toolbar text-right btn-toolbar-container-out">
 
-                <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <button type="submit" class="btn btn-info"><?php echo _l(get_transl_field('tsl_staff', 'speichern','SPEICHERN')); ?></button>
 
             </div>
 

@@ -129,8 +129,9 @@
             <td style="width: 50%; padding-right: 12px" class="font-11 ledttd">
                 <table style="margin: 0; width: 100%" class="tt1">
                     <tr>
-                        <td class="line" style="height: 42px"><strong>Auftraggeber/Rechnungsempfänger:</strong> GEHAG
-                            Erste GEHAG Erste GEHAG Erste GEHAG Erste GEHAG Erste
+                        <td class="line" style="height: 42px"><strong>Auftraggeber/Rechnungsempfänger:</strong><br>
+                            <?= $template->client ?><br>
+                            <?= $template->strabe_c.' '.$template->nr_c.' | '.$template->plz_c.' '.$template->ort_c ?>
                         </td>
                     </tr>
                 </table>
@@ -149,43 +150,33 @@
                             <strong><?= $template->strabe . ' ' . $template->nr ?></strong></td>
                     </tr>
                     <tr>
-                        <td style="width: 40%" class="line"></td>
+                        <td style="width: 40%" ></td>
                         <td class="line" style="width: 60%" colspan="2">
                             <strong><?= $template->plz . ' ' . $template->ort ?></strong></td>
                     </tr>
                     <tr>
                         <td style="width: 40%">Geschoß</td>
-                        <td style="width: 60%" colspan="2"><strong><?= $template->etage ?></strong></td>
+                        <td style="width: 60%"  class="line" colspan="2"><strong><?= $template->etage ?></strong></td>
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong>Entladestelle:</strong></td>
-                        <td class="line" style="width: 60%" colspan="2">Fuhrmann 1</td>
+                        <td class="line" style="width: 60%" colspan="2"><?= $template->aq_strabe.' '.$template->aq_nr ?></td>
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong></strong></td>
-                        <td style="width: 60%" colspan="2">12099 Berlin</td>
+                        <td style="width: 60%" class="line" colspan="2"><?= $template->aq_zip.' '.$template->aq_ort ?></td>
                     </tr>
                     <tr>
                         <td style="width: 40%">Geschoß</td>
-                        <td style="width: 40%"></td>
-                        <td style="width: 20%"><img src="assets/images/phone-icon.png" style="margin-left: 5px"
-                                                    width="14"/>
+                        <td style="width: 60%" colspan="2" class="line"><?= $template->aq_etage ?></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="assets/images/phone-icon.png" style="margin-left: 5px; margin-right: 5px" width="14"/>
+                            <?= $template->phone_m?>
                         </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%"><strong>Entladestelle:</strong></td>
-                        <td style="width: 60%" colspan="2">Borussia 29/30</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%"><strong></strong></td>
-                        <td style="width: 60%" colspan="2">12099 Berlin</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%">Geschoß</td>
-                        <td style="width: 40%"></td>
-                        <td style="width: 20%"><img src="assets/images/phone-icon.png" style="margin-left: 5px"
-                                                    width="14"/>
-                        </td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
                 <table class="tbl21" style="width: 100%; margin: 0">
@@ -363,6 +354,15 @@
                         <td class="text-center"><strong><?= $this->srapdata(4, 10) ?></strong></td>
                         <td class="text-center"><strong><?= $this->srapdata(5, 10) ?></strong></td>
                         <td class="text-center"><strong><?= $this->srapdata(6, 10) ?></strong></td>
+                    </tr>
+                    <tr>
+                        <td>Fußbodenschutz</td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 11) ?></strong></td>
                     </tr>
                     <tr>
                         <td style="height: 8px"></td>

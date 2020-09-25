@@ -157,11 +157,14 @@ class Misc_model extends App_Model
      */
     public function add_project($data)
     {
-        $this->db->insert(db_prefix() . 'tsk_project', $data);
-        $insert_id = $this->db->insert_id();
-
-
-        return $insert_id;
+        $this->db->where('name', $data['name']);
+        $res = $this->db->get(db_prefix() . 'tsk_project')->row();
+        if (!$res) {
+            $this->db->insert(db_prefix() . 'tsk_project', $data);
+            $res = $this->db->insert_id();
+            return array('id' => $res, 'state' => 'new');
+        }
+        return array('id' => $res->id, 'state' => 'old');
     }
 
     /**
@@ -182,6 +185,8 @@ class Misc_model extends App_Model
         return false;
     }
 
+
+
     /**
      * Delete lead project from database
      * @param mixed $id project id
@@ -189,7 +194,6 @@ class Misc_model extends App_Model
      */
     public function delete_project($id)
     {
-        $current = $this->get_project($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'tsk_project');
         if ($this->db->affected_rows() > 0) {

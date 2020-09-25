@@ -2,30 +2,32 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$hasPermissionEdit   = has_permission('projects', '', 'edit');
+$hasPermissionEdit = has_permission('projects', '', 'edit');
 $hasPermissionDelete = has_permission('projects', '', 'delete');
 $hasPermissionCreate = has_permission('projects', '', 'create');
 
 $aColumns = [
     db_prefix() . 'projects.id as id',
-    'name',
+    db_prefix() . 'projects.name as name',
+    db_prefix() . 'tsk_project.name as project',
     get_sql_select_client_company(),
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'projects.id and rel_type="project" ORDER by tag_order ASC) as tags',
     'start_date',
     'deadline',
     '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'project_members JOIN ' . db_prefix() . 'staff on ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'project_members.staff_id WHERE project_id=' . db_prefix() . 'projects.id ORDER BY staff_id) as members',
     'status',
-    ];
+];
 
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix() . 'projects';
+$sTable = db_prefix() . 'projects';
 
 $join = [
     'JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'projects.clientid',
+    'LEFT OUTER JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'projects.projekte',
 ];
 
-$where  = [];
+$where = [];
 $filter = [];
 
 if ($clientid != '') {
@@ -73,7 +75,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     '(SELECT GROUP_CONCAT(staff_id SEPARATOR ",") FROM ' . db_prefix() . 'project_members WHERE project_id=' . db_prefix() . 'projects.id ORDER BY staff_id) as members_ids',
 ]);
 
-$output  = $result['output'];
+$output = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
@@ -105,6 +107,8 @@ foreach ($rResult as $aRow) {
 
     $row[] = $name;
 
+    $row[] = $aRow['project'];
+
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
 
     $row[] = render_tags($aRow['tags']);
@@ -115,18 +119,18 @@ foreach ($rResult as $aRow) {
 
     $membersOutput = '';
 
-    $members       = explode(',', $aRow['members']);
+    $members = explode(',', $aRow['members']);
     $exportMembers = '';
     foreach ($members as $key => $member) {
         if ($member != '') {
             $members_ids = explode(',', $aRow['members_ids']);
-            $member_id   = $members_ids[$key];
+            $member_id = $members_ids[$key];
             $membersOutput .= '<a href="' . admin_url('profile/' . $member_id) . '">' .
-            staff_profile_image($member_id, [
-                'staff-profile-image-small mright5',
+                staff_profile_image($member_id, [
+                    'staff-profile-image-small mright5',
                 ], 'small', [
-                'data-toggle' => 'tooltip',
-                'data-title'  => $member,
+                    'data-toggle' => 'tooltip',
+                    'data-title' => $member,
                 ]) . '</a>';
             // For exporting
             $exportMembers .= $member . ', ';
@@ -137,7 +141,7 @@ foreach ($rResult as $aRow) {
     $row[] = $membersOutput;
 
     $status = get_project_status_by_id($aRow['status']);
-    $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
+    $row[] = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

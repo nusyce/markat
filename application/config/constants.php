@@ -136,6 +136,9 @@ define('TEMP_FOLDER', FCPATH . 'temp' . '/');
  */
 define('CLIENT_ATTACHMENTS_FOLDER', FCPATH . 'uploads/clients' . '/');
 
+define('CARS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cars' . '/');
+
+
 /**
  * All tickets attachments
  */
