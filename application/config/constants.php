@@ -148,7 +148,7 @@ define('TICKET_ATTACHMENTS_FOLDER', FCPATH . 'uploads/ticket_attachments' . '/')
 /**
  * Cars attachments
  */
-define('CARS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cars' . '/');
+//define('CARS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cars' . '/');
 
 /**
  * Company attachments, favicon, logo etc..
