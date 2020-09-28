@@ -223,10 +223,6 @@ class projekte_model extends App_Model
         if ($data) {
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
-            if (isset($data['haustiere'])) {
-                $data['haustiere'] = $data['haustiere'] == 'on' ? 1 : 0;
-                $data['raucher'] = $data['raucher'] == 'on' ? 1 : 0;
-            }
             $data['userid'] = get_staff_user_id();
             $data['active'] = 1;
 
@@ -269,17 +265,13 @@ class projekte_model extends App_Model
         $affectedRows = 0;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['userid'] = get_staff_user_id();
-        $data['raucher'] = $data['raucher'] == 'on' ? 1 : 0;
-        $data['haustiere'] = $data['haustiere'] == 'on' ? 1 : 0;
-        $data['active'] = 1;
-        //   $data = hooks()->apply_filters('before_projekte_updated', $data, $id);
-
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'projekte', $data);
 
         if ($this->db->affected_rows() > 0) {
             return true;
         }
+
         return $affectedRows > 0;
     }
 

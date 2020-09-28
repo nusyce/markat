@@ -46,11 +46,81 @@ function get_available_staff_permissions($data = [])
         ],*/
         'customers' => [
             'name' => _l('clients'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => $withoutViewOwnPermissionsArray,
+           /* 'capabilities' => $withNotApplicableViewOwn,
             'help' => [
                 'view_own' => _l('permission_customers_based_on_admins'),
+            ],*/
+        ],
+
+        //Mieter
+        'mieter' => [
+            'name' => get_menu_option('mieter', _l('Mieter')),
+            'capabilities' => [
+                'view_bor' => 'Projekt BOR',
+                'view_fer' => 'Projekt FER',
+                'view_tops' => 'Projekt TOPS',
+                'create' => _l('permission_create'),
+                'edit' => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
             ],
         ],
+
+        //AQ
+        'wohnungen' => [
+            'name' => get_menu_option('wohnungen', _l('AQ')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
+         // inventarliste erstellen
+         'inventory_list' => [
+            'name' => get_menu_option('inventory_list', _l('Inventarliste Erstellen')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
+        //Inventar Umzugsliste
+        'inventar-umzugsliste' => [
+            'name'         => get_menu_option('inventar-umzugsliste', _l('Inventar Umzugsliste')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
+        //Belegungsplan
+        'aq_belegungsplan' => [
+            'name' => get_menu_option('aq_belegungsplan', _l('AQ - Belegungsplan')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
+        //Raumung Beraumung
+        'raumung'=> [
+            'name' => get_menu_option('raumung', _l('Raumung/Beraumung')),
+            'capabilities' => [
+                'view' => $viewGlobalName],
+        ],
+
+        //Aufgabenplaner
+        'tasks' => [
+            'name' => get_menu_option('tasks', _l('Task-Planer')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+            //'capabilities' => $withNotApplicableViewOwn,
+            'help' => [
+                'view' => _l('help_tasks_permissions'),
+                'view_own' => _l('permission_tasks_based_on_assignee'),
+            ],
+        ],
+
+        // Fahrzeuge
+        'vehicles' => [
+            'name' => get_menu_option('vehicles', _l('Fahrzeuge')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
+        // Fermdfirmen
+        'contract_firm' => [
+            'name' => get_menu_option('contract_firm', _l('Fermdfirmen')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
+        //Rechnungen
         'invoices' => [
             'name' => _l('invoices'),
             'capabilities' => $allPermissionsArray,
@@ -107,6 +177,14 @@ function get_available_staff_permissions($data = [])
             'name' => _l('roles'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
+        'projects' => [
+            'name'         => _l('projects'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'         => [
+                'view'     => _l('help_project_permissions'),
+                'view_own' => _l('permission_projects_based_on_assignee'),
+            ],
+        ],
         'settings' => [
             'name' => _l('settings'),
             'capabilities' => [
@@ -118,7 +196,18 @@ function get_available_staff_permissions($data = [])
             'name' => _l('staff'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
+        
+        'personalplan' => [
+            'name' => _l('personalplan'),
+            'capabilities' => $ $allPermissionsArray,
+        ],
 
+        
+
+        'personalplan' => [
+            'name' => _l('personalplan'),
+            'capabilities' => $allPermissionsArray,
+        ],
         'factoring' => [
             'name' => get_menu_option('factoring', _l('Factoring')),
             'capabilities' => [
@@ -151,6 +240,11 @@ function get_available_staff_permissions($data = [])
             'name' => get_menu_option('wohnungen', _l('AQ')),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
+        'visualisierung' => [
+            'name' => get_menu_option('visualisierung', _l('Visualisierung')),
+            'capabilities' => $withoutViewOwnPermissionsArray,
+        ],
+
         'belegungsplan' => [
             'name' => get_menu_option('belegungsplan', _l('Belegungsplan')),
             'capabilities' => $withoutViewOwnPermissionsArray,
@@ -169,15 +263,10 @@ function get_available_staff_permissions($data = [])
             'name' => 'Can edit calender',
             'capabilities' => ['edit' => 'Ja']
         ],
-
-        'tasks' => [
-            'name' => get_menu_option('tasks', _l('Task-Planer')),
-            'capabilities' => $withNotApplicableViewOwn,
-            'help' => [
-                'view' => _l('help_tasks_permissions'),
-                'view_own' => _l('permission_tasks_based_on_assignee'),
-            ],
-        ],/*
+        'dashboard' => [
+            'name' => 'Dashboard',
+            'capabilities' => ['admin' => 'CEO Dashboard']
+        ], /*
         'subscriptions' => [
             'name'         => _l('subscriptions'),
             'capabilities' => $allPermissionsArray,

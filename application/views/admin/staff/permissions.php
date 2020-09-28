@@ -2,8 +2,8 @@
    <table class="table table-bordered roles no-margin">
       <thead>
          <tr>
-            <th>Feature</th>
-            <th>Capabilities</th>
+            <th><?php echo _l(get_transl_field('tsl_staff', 'feature','Feature')); ?></th>
+            <th><?php echo _l(get_transl_field('tsl_staff', 'capabilities','Capabilities')); ?></th>
          </tr>
       </thead>
       <tbody>

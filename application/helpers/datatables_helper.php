@@ -219,7 +219,6 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
     $sLimit
     ";
     $rResult = $CI->db->query($sQuery)->result_array();
-
     $rResult = hooks()->apply_filters('datatables_sql_query_results', $rResult, [
         'table' => $sTable,
         'limit' => $sLimit,
@@ -327,7 +326,7 @@ function render_datatable($headings = [], $class = '', $additional_classes = [''
     }
     $table .= '</tr>';
     $table .= '</thead>';
-    $table .= '<tbody></tbody>';
+//    $table .= '<tbody></tbody>';
     $table .= '</table></div>';
     echo $table;
 }

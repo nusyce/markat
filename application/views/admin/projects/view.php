@@ -26,21 +26,21 @@
                         <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
                      </div>
                      <div class="col-md-5 text-right">
-                        <?php if(has_permission('tasks','','create')){ ?>
-                        <a href="#" onclick="new_task_from_relation(undefined,'project',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
-                        <?php } ?>
+                       <!-- <?php /*if(has_permission('tasks','','create')){ */?>
+                        <a href="#" onclick="new_task_from_relation(undefined,'project',<?php /*echo $project->id; */?>); return false;" class="btn btn-info"><?php /*echo _l('new_task'); */?></a>
+                        <?php /*} */?>
                         <?php
-                           $invoice_func = 'pre_invoice_project';
-                           ?>
-                        <?php if(has_permission('invoices','','create')){ ?>
-                        <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
-                        <?php } ?>
-                        <?php
-                           $project_pin_tooltip = _l('pin_project');
+/*                           $invoice_func = 'pre_invoice_project';
+                           */?>
+                        <?php /*if(has_permission('invoices','','create')){ */?>
+                        <a href="#" onclick="<?php /*echo $invoice_func; */?>(<?php /*echo $project->id; */?>); return false;" class="invoice-project btn btn-info<?php /*if($project->client_data->active == 0){echo ' disabled';} */?>"><?php /*echo _l('invoice_project'); */?></a>
+                        <?php /*} */?>
+                        --><?php
+/*                           $project_pin_tooltip = _l('pin_project');
                            if(total_rows(db_prefix().'pinned_projects',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
                              $project_pin_tooltip = _l('unpin_project');
                            }
-                           ?>
+                           */?>
                         <div class="btn-group">
                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                            <?php echo _l('more'); ?> <span class="caret"></span>
@@ -101,7 +101,7 @@
             </div>
             <div class="panel_s project-menu-panel">
                <div class="panel-body">
-                  <?php hooks()->do_action('before_render_project_view', $project->id); ?>
+                  <?php hooks()->do_action('before_render_project_view', $project->id, $project->projekte); ?>
                   <?php $this->load->view('admin/projects/project_tabs'); ?>
                </div>
             </div>

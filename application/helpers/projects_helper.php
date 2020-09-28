@@ -33,142 +33,167 @@ function get_project_tabs_admin()
  * Init the default project tabs
  * @return null
  */
+
 function app_init_project_tabs()
 {
     $CI = &get_instance();
 
     $CI->app_tabs->add_project_tab('project_overview', [
-        'name'     => _l('project_overview'),
-        'icon'     => 'fa fa-th',
-        'view'     => 'admin/projects/project_overview',
-        'position' => 5,
+        'name' => _l('Übersicht'),
+        'icon' => 'fa fa-th',
+        'view' => 'admin/projects/project_overview',
+        'position' => 1,
     ]);
 
     $CI->app_tabs->add_project_tab('project_tasks', [
-        'name'                      => _l('tasks'),
-        'icon'                      => 'fa fa-check-circle',
-        'view'                      => 'admin/projects/project_tasks',
-        'position'                  => 10,
+        'name' => _l('tasks'),
+        'icon' => 'fa fa-check-circle',
+        'view' => 'admin/projects/project_tasks',
+        'position' => 15,
         'linked_to_customer_option' => ['view_tasks'],
     ]);
 
-    $CI->app_tabs->add_project_tab('project_timesheets', [
-        'name'                      => _l('project_timesheets'),
-        'icon'                      => 'fa fa-clock-o',
-        'view'                      => 'admin/projects/project_timesheets',
-        'position'                  => 15,
-        'linked_to_customer_option' => ['view_timesheets'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_milestones', [
-        'name'                      => _l('project_milestones'),
-        'icon'                      => 'fa fa-rocket',
-        'view'                      => 'admin/projects/project_milestones',
-        'position'                  => 20,
-        'linked_to_customer_option' => ['view_milestones'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_files', [
-        'name'                      => _l('project_files'),
-        'icon'                      => 'fa fa-files-o',
-        'view'                      => 'admin/projects/project_files',
-        'position'                  => 25,
-        'linked_to_customer_option' => ['upload_files'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_discussions', [
-        'name'                      => _l('project_discussions'),
-        'icon'                      => 'fa fa-commenting',
-        'view'                      => 'admin/projects/project_discussions',
-        'position'                  => 30,
-        'linked_to_customer_option' => ['open_discussions'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_gantt', [
-        'name'                      => _l('project_gant'),
-        'icon'                      => 'fa fa-align-left',
-        'view'                      => 'admin/projects/project_gantt',
-        'position'                  => 35,
-        'linked_to_customer_option' => ['view_gantt'],
-    ]);
-
-    $CI->app_tabs->add_project_tab('project_tickets', [
-        'name'     => _l('project_tickets'),
-        'icon'     => 'fa fa-life-ring',
-        'view'     => 'admin/projects/project_tickets',
-        'position' => 40,
-        'visible'  => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
-    ]);
-
-    $CI->app_tabs->add_project_tab('sales', [
-        'name'     => _l('sales_string'),
-        'position' => 45,
-        'collapse' => true,
-        'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
-            || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
-            || (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
-    ]);
-
-    $CI->app_tabs->add_project_tab_children_item('sales', [
-        'slug'     => 'project_invoices',
-        'name'     => _l('project_invoices'),
-        'view'     => 'admin/projects/project_invoices',
-        'position' => 5,
-        'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
-    ]);
-
-    $CI->app_tabs->add_project_tab_children_item('sales', [
-        'slug'     => 'project_estimates',
-        'name'     => _l('estimates'),
-        'view'     => 'admin/projects/project_estimates',
-        'position' => 10,
-        'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
-    ]);
-
-    $CI->app_tabs->add_project_tab_children_item('sales', [
-        'slug'     => 'project_expenses',
-        'name'     => _l('project_expenses'),
-        'view'     => 'admin/projects/project_expenses',
-        'position' => 15,
-       'visible'   => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
-    ]);
-
-    $CI->app_tabs->add_project_tab_children_item('sales', [
-        'slug'     => 'project_credit_notes',
-        'name'     => _l('credit_notes'),
-        'view'     => 'admin/projects/project_credit_notes',
+    $CI->app_tabs->add_project_tab('project_belegungsplan', [
+        'name' => _l('Belegungsplan'),
+        'icon' => 'fa fa-calendar',
+        'view' => 'admin/projects/project_belegungsplan',
         'position' => 20,
-        'visible'  => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
+        'linked_to_customer_option' => ['view_belegungsplan'],
     ]);
 
-    $CI->app_tabs->add_project_tab_children_item('sales', [
-        'slug'     => 'project_subscriptions',
-        'name'     => _l('subscriptions'),
-        'view'     => 'admin/projects/project_subscriptions',
-        'position' => 25,
-        'visible'  => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
+    $CI->app_tabs->add_project_tab('project_mieter', [
+        'name' => _l('Mieter'),
+        'icon' => 'fa fa-user-o',
+        'view' => 'admin/projects/project_mieter',
+        'position' => 35,
+        'linked_to_customer_option' => ['view_mieter'],
     ]);
+
+
+    $CI->app_tabs->add_project_tab('personalplan', [
+        'name' => _l('Personalplan '),
+        'icon' => 'fa fa-files-o',
+        'view' => 'admin/projects/project_personalplan',
+        'position' => 10,
+        'linked_to_customer_option' => ['view_personalplan'],
+    ]);
+
+    $CI->app_tabs->add_project_tab('rb', [
+        'name' => _l('Räumung/Beräumung '),
+        'icon' => 'fa fa-files-o',
+        'view' => 'admin/projects/project_rb',
+        'position' => 25,
+        'linked_to_customer_option' => ['view_rb'],
+    ]);
+
+//    $CI->app_tabs->add_project_tab('project_timesheets', [
+//        'name'                      => _l('project_timesheets'),
+//        'icon'                      => 'fa fa-clock-o',
+//        'view'                      => 'admin/projects/project_timesheets',
+//        'position'                  => 15,
+//        'linked_to_customer_option' => ['view_timesheets'],
+//    ]);
+
+//    $CI->app_tabs->add_project_tab('project_milestones', [
+//        'name'                      => _l('project_milestones'),
+//        'icon'                      => 'fa fa-rocket',
+//        'view'                      => 'admin/projects/project_milestones',
+//        'position'                  => 20,
+//        'linked_to_customer_option' => ['view_milestones'],
+//    ]);
+
+      $CI->app_tabs->add_project_tab('project_files', [
+            'name'                      => _l('project_files'),
+            'icon'                      => 'fa fa-files-o',
+            'view'                      => 'admin/projects/project_files',
+            'position'                  => 55,
+            'linked_to_customer_option' => ['view_mieter'],
+        ]);
+
+    $CI->app_tabs->add_project_tab('staff', [
+        'name' => _l('Mitglieder '),
+        'icon' => 'fa fa-files-o',
+        'view' => 'admin/projects/project_staff',
+        'position' => 5,
+        'linked_to_customer_option' => ['view_staff'],
+    ]);
+
+    $CI->app_tabs->add_project_tab('aq', [
+        'name' => _l('AQ '),
+        'icon' => 'fa fa-files-o',
+        'view' => 'admin/projects/project_aq',
+        'position' => 40,
+        'linked_to_customer_option' => ['view_aq'],
+    ]);
+    /*
+       $CI->app_tabs->add_project_tab('sales', [
+           'name'     => _l('sales_string'),
+           'position' => 45,
+           'collapse' => true,
+           'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
+               || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
+               || (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'vin')),
+       ]);
+*/
+    $CI->app_tabs->add_project_tab('sales', [
+        'slug' => 'project_invoices',
+        'icon' => 'fa fa-linode',
+        'name' => _l('project_invoices'),
+        'view' => 'admin/projects/project_invoices',
+        'position' => 45]);
+    /*
+          $CI->app_tabs->add_project_tab_children_item('sales', [
+              'slug'     => 'project_estimates',
+              'name'     => _l('estimates'),
+              'view'     => 'admin/projects/project_estimates',
+              'position' => 10,
+              'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
+          ]);
+
+          $CI->app_tabs->add_project_tab_children_item('sales', [
+              'slug'     => 'project_expenses',
+              'name'     => _l('project_expenses'),
+              'view'     => 'admin/projects/project_expenses',
+              'position' => 15,
+             'visible'   => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
+          ]);
+
+          $CI->app_tabs->add_project_tab_children_item('sales', [
+              'slug'     => 'project_credit_notes',
+              'name'     => _l('credit_notes'),
+              'view'     => 'admin/projects/project_credit_notes',
+              'position' => 20,
+              'visible'  => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
+          ]);
+
+          $CI->app_tabs->add_project_tab_children_item('sales', [
+              'slug'     => 'project_subscriptions',
+              'name'     => _l('subscriptions'),
+              'view'     => 'admin/projects/project_subscriptions',
+              'position' => 25,
+              'visible'  => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
+          ]);*/
 
     $CI->app_tabs->add_project_tab('project_notes', [
-        'name'     => _l('project_notes'),
-        'icon'     => 'fa fa-file-o',
-        'view'     => 'admin/projects/project_notes',
+        'name' => _l('project_notes'),
+        'icon' => 'fa fa-file-o',
+        'view' => 'admin/projects/project_notes',
         'position' => 50,
     ]);
 
     $CI->app_tabs->add_project_tab('project_activity', [
-        'name'                      => _l('project_activity'),
-        'icon'                      => 'fa fa-exclamation',
-        'view'                      => 'admin/projects/project_activity',
-        'position'                  => 55,
+        'name' => _l('project_activity'),
+        'icon' => 'fa fa-exclamation',
+        'view' => 'admin/projects/project_activity',
+        'position' => 60,
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
 }
 
 /**
  * Filter only visible tabs selected from project settings
- * @param  array $tabs available tabs
- * @param  array $applied_settings current applied project visible tabs
+ * @param array $tabs available tabs
+ * @param array $applied_settings current applied project visible tabs
  * @return array
  */
 function filter_project_visible_tabs($tabs, $applied_settings)
@@ -179,7 +204,7 @@ function filter_project_visible_tabs($tabs, $applied_settings)
 
         if ($dropdown) {
             $totalChildTabsHidden = 0;
-            $newChild             = [];
+            $newChild = [];
 
             foreach ($tab['children'] as $d) {
                 if ((isset($applied_settings[$d['slug']]) && $applied_settings[$d['slug']] == 0)) {
@@ -212,7 +237,7 @@ function filter_project_visible_tabs($tabs, $applied_settings)
 
 /**
  * Get project by ID or current queried project
- * @param  mixed $id project id
+ * @param mixed $id project id
  * @return mixed
  */
 function get_project($id = null)
@@ -237,7 +262,7 @@ function get_project($id = null)
 
 /**
  * Get project status by passed project id
- * @param  mixed $id project id
+ * @param mixed $id project id
  * @return array
  */
 function get_project_status_by_id($id)
@@ -250,11 +275,11 @@ function get_project_status_by_id($id)
     $statuses = $CI->projects_model->get_project_statuses();
 
     $status = [
-          'id'    => 0,
-          'color' => '#333',
-          'name'  => '[Status Not Found]',
-          'order' => 1,
-      ];
+        'id' => 0,
+        'color' => '#333',
+        'name' => '[Status Not Found]',
+        'order' => 1,
+    ];
 
     foreach ($statuses as $s) {
         if ($s['id'] == $id) {
@@ -291,12 +316,12 @@ function get_user_pinned_projects()
 
 /**
  * Get project name by passed id
- * @param  mixed $id
+ * @param mixed $id
  * @return string
  */
 function get_project_name_by_id($id)
 {
-    $CI      = & get_instance();
+    $CI = &get_instance();
     $project = $CI->app_object_cache->get('project-name-data-' . $id);
 
     if (!$project) {
@@ -315,7 +340,7 @@ function get_project_name_by_id($id)
 
 /**
  * Return project milestones
- * @param  mixed $project_id project id
+ * @param mixed $project_id project id
  * @return array
  */
 function get_project_milestones($project_id)
@@ -329,12 +354,12 @@ function get_project_milestones($project_id)
 
 /**
  * Get project client id by passed project id
- * @param  mixed $id project id
+ * @param mixed $id project id
  * @return mixed
  */
 function get_client_id_by_project_id($id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('clientid');
     $CI->db->where('id', $id);
     $project = $CI->db->get(db_prefix() . 'projects')->row();
@@ -347,7 +372,7 @@ function get_client_id_by_project_id($id)
 
 /**
  * Check if customer has project assigned
- * @param  mixed $customer_id customer id to check
+ * @param mixed $customer_id customer id to check
  * @return boolean
  */
 function customer_has_projects($customer_id)
@@ -359,12 +384,12 @@ function customer_has_projects($customer_id)
 
 /**
  * Get project billing type
- * @param  mixed $project_id
+ * @param mixed $project_id
  * @return mixed
  */
 function get_project_billing_type($project_id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('billing_type');
     $CI->db->where('id', $project_id);
     $project = $CI->db->get(db_prefix() . 'projects')->row();
@@ -374,14 +399,15 @@ function get_project_billing_type($project_id)
 
     return false;
 }
+
 /**
  * Get project deadline
- * @param  mixed $project_id
+ * @param mixed $project_id
  * @return mixed
  */
 function get_project_deadline($project_id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('deadline');
     $CI->db->where('id', $project_id);
     $project = $CI->db->get(db_prefix() . 'projects')->row();
@@ -400,21 +426,21 @@ function get_project_deadline($project_id)
 function get_project_discussions_language_array()
 {
     $lang = [
-        'discussion_add_comment'      => _l('discussion_add_comment'),
-        'discussion_newest'           => _l('discussion_newest'),
-        'discussion_oldest'           => _l('discussion_oldest'),
-        'discussion_attachments'      => _l('discussion_attachments'),
-        'discussion_send'             => _l('discussion_send'),
-        'discussion_reply'            => _l('discussion_reply'),
-        'discussion_edit'             => _l('discussion_edit'),
-        'discussion_edited'           => _l('discussion_edited'),
-        'discussion_you'              => _l('discussion_you'),
-        'discussion_save'             => _l('discussion_save'),
-        'discussion_delete'           => _l('discussion_delete'),
+        'discussion_add_comment' => _l('discussion_add_comment'),
+        'discussion_newest' => _l('discussion_newest'),
+        'discussion_oldest' => _l('discussion_oldest'),
+        'discussion_attachments' => _l('discussion_attachments'),
+        'discussion_send' => _l('discussion_send'),
+        'discussion_reply' => _l('discussion_reply'),
+        'discussion_edit' => _l('discussion_edit'),
+        'discussion_edited' => _l('discussion_edited'),
+        'discussion_you' => _l('discussion_you'),
+        'discussion_save' => _l('discussion_save'),
+        'discussion_delete' => _l('discussion_delete'),
         'discussion_view_all_replies' => _l('discussion_view_all_replies'),
-        'discussion_hide_replies'     => _l('discussion_hide_replies'),
-        'discussion_no_comments'      => _l('discussion_no_comments'),
-        'discussion_no_attachments'   => _l('discussion_no_attachments'),
+        'discussion_hide_replies' => _l('discussion_hide_replies'),
+        'discussion_no_comments' => _l('discussion_no_comments'),
+        'discussion_no_attachments' => _l('discussion_no_attachments'),
         'discussion_attachments_drop' => _l('discussion_attachments_drop'),
     ];
 
@@ -423,7 +449,7 @@ function get_project_discussions_language_array()
 
 /**
  * Check if project has recurring tasks
- * @param  mixed $id project id
+ * @param mixed $id project id
  * @return boolean
  */
 function project_has_recurring_tasks($id)
@@ -434,18 +460,18 @@ function project_has_recurring_tasks($id)
 function total_project_tasks_by_milestone($milestone_id, $project_id)
 {
     return total_rows(db_prefix() . 'tasks', [
-              'rel_type'  => 'project',
-              'rel_id'    => $project_id,
-              'milestone' => $milestone_id,
-             ]);
+        'rel_type' => 'project',
+        'rel_id' => $project_id,
+        'milestone' => $milestone_id,
+    ]);
 }
 
 function total_project_finished_tasks_by_milestone($milestone_id, $project_id)
 {
     return total_rows(db_prefix() . 'tasks', [
-             'rel_type'  => 'project',
-             'rel_id'    => $project_id,
-             'status'    => 5,
-             'milestone' => $milestone_id,
-             ]);
+        'rel_type' => 'project',
+        'rel_id' => $project_id,
+        'status' => 5,
+        'milestone' => $milestone_id,
+    ]);
 }

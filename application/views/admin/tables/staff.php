@@ -120,8 +120,6 @@ foreach ($rResult as $aRow) {
                 <label class="onoffswitch-label" for="c_' . $aRow['staffid'] . '"></label>
             </div>';
     $row[] = $_data;
-
-
     $row['DT_RowClass'] = 'has-row-options';
     $output['aaData'][] = $row;
 }

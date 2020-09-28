@@ -16,6 +16,12 @@
                             <?php echo _l('customer_profile_details'); ?>
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a href="#leistungsempfanger" aria-controls="leistungsempfanger" role="tab"
+                           data-toggle="tab">
+                            <?php echo _l(get_transl_field('tsl_clients', 'leistungsempfanger', 'Leistungsempfänger')); ?>
+                        </a>
+                    </li>
                     <?php
                     $customer_custom_fields = false;
                     if (total_rows(db_prefix() . 'customfields', array('fieldto' => 'customers', 'active' => 1)) > 0) {
@@ -41,7 +47,7 @@
                         <li role="presentation">
                             <a href="#ansprechpartner" aria-controls="ansprechpartner" role="tab"
                                data-toggle="tab">
-                                <?php echo _l('Ansprechpartner'); ?>
+                                <?php echo _l(get_transl_field('tsl_clients', 'ansprechpartner','Ansprechpartner')); ?>
                             </a>
                         </li>
                     <?php } ?>  <?php if (isset($client)) { ?>
@@ -90,9 +96,9 @@
                         <!-- <?php /*$value = (isset($client) ? $client->address : ''); */ ?>
                         --><?php /*echo render_textarea('address', 'client_address', $value); */ ?>
                         <?php $value = (isset($client) ? $client->strabe : ''); ?>
-                        <?php echo render_input('strabe', 'Straße', $value); ?>
+                        <?php echo render_input('strabe',  get_transl_field('tsl_clients', 'strabe_m', 'Straße'), $value); ?>
                         <?php $value = (isset($client) ? $client->hausnummer : ''); ?>
-                        <?php echo render_input('hausnummer', 'Hausnummer', $value); ?>
+                        <?php echo render_input('hausnummer', get_transl_field('tsl_clients', 'hausnummer', 'Hausnummer'), $value); ?>
                         <?php $value = (isset($client) ? $client->zip : ''); ?>
                         <?php echo render_input('zip', 'client_postal_code', $value); ?>
                         <?php $value = (isset($client) ? $client->city : ''); ?>
@@ -161,7 +167,7 @@
                         } ?>
 
                         <?php $value = (isset($client) ? $client->email : ''); ?>
-                        <?php echo render_input('email', 'Email', $value); ?>
+                        <?php echo render_input('email', get_transl_field('tsl_clients', 'email', 'Email'), $value); ?>
                         <?php $value = (isset($client) ? $client->phonenumber : ''); ?>
                         <?php echo render_input('phonenumber', 'client_phonenumber', $value); ?>
                         <?php if ((isset($client) && empty($client->website)) || !isset($client)) {
@@ -182,6 +188,65 @@
                         <?php } ?>
                         <?php $value = (isset($client) ? $client->note : ''); ?>
                         <?php echo render_textarea('note', 'Notizen', $value); ?>
+
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="leistungsempfanger">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php $value = (isset($client) ? $client->company_le : ''); ?>
+                        <?php $attrs = (isset($client) ? array() : array('autofocus' => true)); ?>
+                        <?php echo render_input('company_le', 'client_company', $value, 'text', $attrs); ?>
+                        <div id="company_exists_info" class="hide"></div>
+                        <!-- <?php /*$value = (isset($client) ? $client->address : ''); */ ?>
+                        --><?php /*echo render_textarea('address', 'client_address', $value); */ ?>
+                        <?php $value = (isset($client) ? $client->strabe_le : ''); ?>
+                        <?php echo render_input('strabe_le', get_transl_field('tsl_clients', 'strabe_m', 'Straße'), $value); ?>
+                        <?php $value = (isset($client) ? $client->hausnummer_le : ''); ?>
+                        <?php echo render_input('hausnummer_le', get_transl_field('tsl_clients', 'hausnummer', 'Hausnummer'), $value); ?>
+                        <?php $value = (isset($client) ? $client->zip_le : ''); ?>
+                        <?php echo render_input('zip_le', 'client_postal_code', $value); ?>
+                        <?php $value = (isset($client) ? $client->city_le : ''); ?>
+                        <?php echo render_input('city_le', 'client_city', $value); ?>
+                        <?php $value = (isset($client) ? $client->state_le : ''); ?>
+                        <?php echo render_input('state_le', 'client_state', $value); ?>
+                        <?php $countries = get_all_countries();
+                        $customer_default_country = get_option('customer_default_country');
+                        $selected = (isset($client) ? $client->country_le : $customer_default_country);
+                        echo render_select('country_le', $countries, array('country_id', array('short_name')), 'clients_country', $selected, array('data-none-selected-text' => _l('dropdown_non_selected_tex')));
+                        ?>
+                    </div>
+                    <div class="col-md-6">
+
+                        <?php if (get_option('company_requires_vat_number_field') == 1) {
+                            $value = (isset($client) ? $client->vat_le : '');
+                            echo render_input('vat_le', 'client_vat_number', $value);
+                        } ?>
+
+                        <?php $value = (isset($client) ? $client->email_le : ''); ?>
+                        <?php echo render_input('email_le', get_transl_field('tsl_clients', 'email', 'Email'), $value); ?>
+                        <?php $value = (isset($client) ? $client->telefon_le : ''); ?>
+                        <?php echo render_input('telefon_le', 'client_phonenumber', $value); ?>
+                        <?php if ((isset($client) && empty($client->website_le)) || !isset($client)) {
+                            $value = (isset($client) ? $client->website_le : '');
+                            echo render_input('website_le', 'client_website', $value);
+                        } else { ?>
+                            <div class="form-group">
+                                <label for="website"><?php echo _l('client_website'); ?></label>
+                                <div class="input-group">
+                                    <input type="text" name="website_le" id="website"
+                                           value="<?php echo $client->website_le; ?>" class="form-control">
+                                    <div class="input-group-addon">
+                                        <span><a href="<?php echo maybe_add_http($client->website_le); ?>" target="_blank"
+                                                 tabindex="-1"><i class="fa fa-globe"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <?php $value = (isset($client) ? $client->notizen_le : ''); ?>
+                        <?php echo render_textarea('notizen_le', get_transl_field('tsl_clients', 'notizen', 'Notizen'), $value); ?>
 
                     </div>
                 </div>
@@ -228,16 +293,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <a href="#" data-toggle="modal" data-target="#new_ansprechpartner"
-                               class="btn btn-info mbot30 headere"><span>Erstellen</span><?php echo _l(' Ansprechpartner'); ?>
+                               class="btn btn-info mbot30 headere"><span> <?php echo ( get_transl_field('tsl_clients', 'erstellen', 'Erstellen')); ?></span><?php echo _l(get_transl_field('tsl_clients', 'ansprechpartner','Ansprechpartner')); ?>
                             </a>
                             <table class="table dt-table">
                                 <thead>
                                 <tr>
                                     <th><?php echo _l('#'); ?></th>
-                                    <th><?php echo _l('Vorname'); ?></th>
-                                    <th><?php echo _l('Nachname'); ?></th>
-                                    <th><?php echo _l('Position'); ?></th>
-                                    <th><?php echo _l('options'); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'vorname', 'Vorname')); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'nachname', 'Nachname')); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'position','Position')); ?></th>
+                                    <th><?php echo _l(get_transl_field('tsl_clients', 'options','options')); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -260,9 +325,10 @@
                                         </td>
                                         <td>
                                             <a href="#"
-                                               data-id="<?= $ansprechpartner['id'] ?>" class="btn btn-default _edit btn-icon"><i
+                                               data-id="<?= $ansprechpartner['id'] ?>"
+                                               class="btn btn-default _edit btn-icon"><i
                                                         class="fa fa-pencil"></i></a>
-                                            <a href="<?php echo admin_url('clients/delete_ansprechpartner/'.$client->userid.'/' . $ansprechpartner['id']); ?>"
+                                            <a href="<?php echo admin_url('clients/delete_ansprechpartner/' . $client->userid . '/' . $ansprechpartner['id']); ?>"
                                                class="btn btn-danger _delete btn-icon"><i class="fa fa-remove"></i></a>
                                         </td>
                                     </tr>
@@ -350,7 +416,7 @@
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><span>Erstellen </span> <?php echo _l('Ansprechpartner'); ?>
+                    <h4 class="modal-title"><span>Erstellen </span> <?php echo _l(get_transl_field('tsl_clients', 'ansprechpartner','Ansprechpartner')); ?>
                     </h4>
                 </div>
 
@@ -360,21 +426,16 @@
                     <?= form_hidden('userid', $client->userid); ?>
                     <div class="row">
                         <div class="col-md-6">
-                            <?php $value = (isset($client) ? $client->vorname_a : ''); ?>
-                            <?php echo render_input('vorname', 'Vorname', $value); ?>
-                            <?php $value = (isset($client) ? $client->nachname_a : ''); ?>
-                            <?php echo render_input('nachname', 'Nachname', $value); ?>
-                            <?php $value = (isset($client) ? $client->position_a : ''); ?>
-                            <?php echo render_input('position', 'Position', $value); ?>
+                            <?php $value = '' ?>
+                            <?php echo render_input('vorname', get_transl_field('tsl_clients', 'vorname', 'Vorname'), ''); ?>
+                            <?php echo render_input('nachname',  get_transl_field('tsl_clients', 'nachname', 'Nachname'), $value); ?>
+                            <?php echo render_input('position', get_transl_field('tsl_clients', 'position','Position'), $value); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <?php $value = (isset($client) ? $client->email_a : ''); ?>
-                            <?php echo render_input('email', 'Email', $value); ?>
-                            <?php $value = (isset($client) ? $client->telefon_a : ''); ?>
-                            <?php echo render_input('telefon', 'Telefon', $value); ?>
-                            <?php $value = (isset($client) ? $client->notizen_a : ''); ?>
-                            <?php echo render_textarea('notizen', 'Notizen', $value); ?>
+                            <?php echo render_input('email', get_transl_field('tsl_clients', 'email', 'Email'), $value); ?>
+                            <?php echo render_input('telefon', get_transl_field('tsl_clients', 'telefon', 'Telefon '), $value); ?>
+                            <?php echo render_textarea('notizen', get_transl_field('tsl_clients', 'notizen', 'Notizen'), $value); ?>
                         </div>
                     </div>
                     <br>

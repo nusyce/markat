@@ -9,11 +9,19 @@
             ELSE 1=1
             END';
         $tasks_my_where .= $sqlProjectTasksWhere;
+    $staff = get_staff();
+    if (isset($staff->projects) && !empty($staff->projects)) {
+        $stf_project = unserialize($staff->projects);
+        if (is_array($stf_project)&&count($stf_project) > 0) {
+            $stf_project = implode(",", $stf_project);
+            $tasks_my_where.= ' AND ' . db_prefix() . 'tasks.project IN  (' . $stf_project . ') ';
+        }
+    }
     ?>
     <div class="col-md-2 col-xs-6 border-right">
         <h3 class="bold no-mtop"><?php echo total_rows(db_prefix() . 'tasks') ?></h3>
         <p style="color:#000" class="font-medium no-mbot">
-            Alle Aufgaben
+            <?php echo (get_transl_field('tsl_tasks', 'alleaufgaben','Alle Aufgaben')); ?>
         </p>
         <p class="font-medium-xs no-mbot text-muted">
             <?php echo _l('tasks_view_assigned_to_user'); ?>: <?php echo total_rows(db_prefix() . 'tasks', $tasks_my_where) ?>

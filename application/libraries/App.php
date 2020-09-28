@@ -373,9 +373,28 @@ class App
         }
 
         // Loop the options and store them in a array to prevent fetching again and again from database
+
         foreach ($options as $option) {
-            $this->options[$option['name']] = $option['value'];
+            //echo $this->ci->session->userdata('staff_user_id');
+            $array = array('name' => $option['name'], 'user_id' => $this->ci->session->userdata('staff_user_id'));
+            $res_data = $this->ci->db->select('value')
+            ->where($array)->get(db_prefix() . 'menu_mapping')->row();
+            //echo $this->ci->db->last_query();
+            //exit;
+            if(!empty($res_data)){
+                 //echo 'hhh';
+                 //echo $res_data->value;
+                 //echo '<pre>'; print_r($res_data);
+                 //exit;
+                $this->options[$option['name']] = $res_data->value;
+            }else{
+                $this->options[$option['name']] = $option['value'];
+            }
+
+
         }
+        // echo '<pre>'; print_r($options);
+        //  exit;
 
         /**
          * Available languages

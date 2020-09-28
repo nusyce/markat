@@ -25,15 +25,15 @@ class Mieter extends AdminController
         $data['hausnummer'] = $this->mieter_model->get_grouped('hausnummer_m');
         $data['wohnungsnummer'] = $this->mieter_model->get_grouped('wohnungsnummer');
         $data['etage'] = $this->mieter_model->get_grouped('etage');
-        $data['project'] = $this->mieter_model->get_grouped('projektname');
+        $data['project'] = $this->mieter_model->get_projekte();
         $data['title'] = get_menu_option('mieter', 'Mieter');
         $this->load->view('admin/mieter/manage', $data);
     }
 
 
-    public function table()
+    public function table($project = '')
     {
-        $this->app->get_table_data('mieters', []);
+        $this->app->get_table_data('mieters', ['project' => $project]);
     }
 
     public function get_ajax($id)
@@ -55,6 +55,7 @@ class Mieter extends AdminController
     public function mieter($id = '')
     {
 
+        $this->load->model('misc_model');
         if ($this->input->post()) {
             if ($id == '') {
                 $id = $this->mieter_model->add($this->input->post());
@@ -81,12 +82,14 @@ class Mieter extends AdminController
             $title = $data['mieter']->nachname . ' ' . $data['mieter']->vorname;
         }
         $data['title'] = $title;
+        $data['inventarlistes'] = $this->wohnungen_model->get_inventarliste();
         $data['strabe'] = $this->wohnungen_model->get_grouped('strabe');
         $data['flugel'] = $this->wohnungen_model->get_grouped('flugel');
         $data['schlaplatze'] = $this->wohnungen_model->get_grouped('schlaplatze');
         $data['mobiliert'] = $this->wohnungen_model->get_grouped('mobiliert');
         $data['etage'] = $this->wohnungen_model->get_grouped('etage');
 
+        $data['projects'] = $this->misc_model->get_project();
         $data['betreuers'] = $this->clients_model->get_contacts();
         //$data['bodyclass'] = 'contract';
         $this->load->view('admin/mieter/mieter', $data);
@@ -115,37 +118,56 @@ class Mieter extends AdminController
                 set_alert('success', _l('updated_successfully', get_menu_option('mieter', 'Mieter')));
             }
         }
-        // Count total files
-        $countfiles = count($_FILES['files']['name']);
-        for ($i = 0; $i < $countfiles; $i++) {
+        if (isset($_FILES['files'])){
+            // Count total files
+            $countfiles = count($_FILES['files']['name']);
+            for ($i = 0; $i < $countfiles; $i++) {
 
-            if (!empty($_FILES['files']['name'][$i])) {
-                // Define new $_FILES array - $_FILES['file']
-                $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-                $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-                $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-                $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-                $_FILES['file']['size'] = $_FILES['files']['size'][$i];
-                // Set preference
-                if (!file_exists('uploads/mieter/' . $id)) {
-                    mkdir('uploads/mieter/' . $id, 0777, true);
-                }
-                $config['upload_path'] = 'uploads/mieter/' . $id;
-                $config['allowed_types'] = '*';
-                $config['max_size'] = '500000'; // max_size in kb
-                $config['file_name'] = $_FILES['files']['name'][$i];
+                if (!empty($_FILES['files']['name'][$i])) {
+                    // Define new $_FILES array - $_FILES['file']
+                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+                    // Set preference
+                    if (!file_exists('uploads/mieter/' . $id)) {
+                        mkdir('uploads/mieter/' . $id, 0777, true);
+                    }
+                    $config['upload_path'] = 'uploads/mieter/' . $id;
+                    $config['allowed_types'] = '*';
+                    $config['max_size'] = '500000'; // max_size in kb
+                    $config['file_name'] = $_FILES['files']['name'][$i];
 
-                //Load upload library
-                $this->load->library('upload', $config);
-                // File upload
-                if ($this->upload->do_upload('file')) {
-                    // Get data about the file
-                    $uploadData = $this->upload->data();
-                    $this->mieter_model->add_attachment($id, $uploadData);
+                    //Load upload library
+                    $this->load->library('upload', $config);
+                    // File upload
+                    if ($this->upload->do_upload('file')) {
+                        // Get data about the file
+                        $uploadData = $this->upload->data();
+                        $this->mieter_model->add_attachment($id, $uploadData);
+                    }
                 }
             }
         }
         echo admin_url('mieter');
+    }
+
+
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_mieter', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('mieter', 'Translation')));
+            redirect(admin_url('mieter/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/mieter/translation', $data);
     }
 
     public function import()
@@ -248,4 +270,25 @@ class Mieter extends AdminController
         }
     }
 
+    function makePdf($id)
+    {
+        $attachments = $this->mieter_model->get_attachments($id);
+        $mieter = $this->mieter_model->get($id, [], true);
+        // echo '<pre>'; print_r($mieter);
+        // exit;
+        try {
+            $pdf = mieter_pdf($id, '', $attachments, $mieter);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+        $pdf_name = 'mieter-attachment';
+
+        // echo 'jjj';
+        // exit;
+        $pdf->Output(mb_strtoupper(slug_it($pdf_name), 'UTF-8') . '.pdf', 'D');
+        die();
+        //}
+    }
 }

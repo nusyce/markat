@@ -8,13 +8,11 @@ class Wohnungen_pdf extends App_pdf
 {
     protected $wohnungen;
 
-    private $wohnungen_number;
-
-    public function __construct($wohnungen, $tag = '')
+    public function __construct($aq, $tag = '')
     {
 
-        $wohnungen                = hooks()->apply_filters('wohnungen_html_pdf_data', $wohnungen);
-        $GLOBALS['wohnungen_pdf'] = $wohnungen;
+        $wohnungen = hooks()->apply_filters('wohnungen_html_pdf_data', $aq);
+        $GLOBALS['wohnungen_pdf'] = $aq;
 
         parent::__construct();
 
@@ -22,19 +20,20 @@ class Wohnungen_pdf extends App_pdf
             $this->ci->load->model('wohnungen_model');
         }
 
-        $this->tag            = $tag;
-        $this->wohnungen        = $wohnungen;
-        $this->SetTitle($this->id);
+        $this->tag = $tag;
+        $this->wohnungen = $aq;
+        $pdf_title = $aq->strabe . ' - ' . $aq->hausnummer . ' - ' . $aq->etage . ' - ' . $aq->flugel;
+        $this->SetTitle($pdf_title);
     }
 
 
     public function prepare()
     {
-      //  $this->with_number_to_word($this->wohnungen->clientid);
+        //  $this->with_number_to_word($this->wohnungen->clientid);
 
         $this->set_view_vars([
-            'wohnungen_number' => $this->id,
-            'wohnungen'        => $this->wohnungen,
+            'wohnungen_number' => $this->wohnungen->id,
+            'wohnungen' => $this->wohnungen,
         ]);
 
         return $this->build();

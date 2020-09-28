@@ -63,11 +63,11 @@
     }
 
     .tb2 {
-        border-spacing: 1px !important;
+    / / border-spacing: 1 px !important;
     }
 
     .ttt21 {
-        border-spacing: 1px !important;
+    / / border-spacing: 1 px !important;
     }
 
     .ledttd td {
@@ -80,24 +80,33 @@
     .tt41 td {
         height: 8px;
     }
+    td {
+        min-height: 50px !important;
+    }
 
     .tbl21 td {
         width: 25%;
-    }
-
-    td {
-        /*padding-left: 5px;
-        padding-right: 5px;*/
-        position: relative;
     }
 
     .bgd {
         background: #CCFFFF;
     }
 
+    .line {
+        background-image: url(assets/images/back1.png);
+        background-size: cover;
+        border-collapse: collapse;
+    }
+
+    .ledttd td {
+        line-height: 16px;
+    }
+
     table td, table td * {
         vertical-align: top;
     }
+
+
 
     .tbd1 {
         border-collapse: collapse;
@@ -114,69 +123,60 @@
     <p style="text-align: center; margin: 0">Bitterfelder Straße 12, 12681 Berlin, Tel. (030) 29 49 59 11 & (030) 55 49
         38
         00, Fax (030) 55 49 38 02</p>
+    <br>
     <table style="width: 100%; ">
         <tr>
             <td style="width: 50%; padding-right: 12px" class="font-11 ledttd">
                 <table style="margin: 0; width: 100%" class="tt1">
                     <tr>
-                        <td bgcolor="#CCFFFF"><strong>Auftraggeber/Rechnungsempfänger:</strong> GEHAG Erste</td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF">Beteiligungs GmbH, c/o Deutsche Wohnen Constructions</td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF">& Facilities GmbH, Mecklenburgische Straße 57, 14197 Berlin</td>
+                        <td class="line" style="height: 42px"><strong>Auftraggeber/Rechnungsempfänger:</strong><br>
+                            <?= $template->client ?><br>
+                            <?= $template->strabe_c.' '.$template->nr_c.' | '.$template->plz_c.' '.$template->ort_c ?>
+                        </td>
                     </tr>
                 </table>
                 <table style="margin: 0; width: 100%" class="tt1212">
                     <tr>
                         <td style="width: 40%"><strong>Name Mieter:</strong></td>
-                        <td bgcolor="#CCFFFF" style="width: 60%" bgcolor="#CCFFFF" colspan="2"><strong>Narin Ala</strong></td>
+                        <td class="line" style="width: 60%" colspan="2">
+                            <strong><?= $template->mieter ?></strong></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF" colspan="3"></td>
+                        <td class="line" colspan="3"></td>
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong>Beladestelle:</strong></td>
-                        <td bgcolor="#CCFFFF" style="width: 60%" colspan="2"><strong>Borussiastr. 29/30</strong></td>
+                        <td class="line" style="width: 60%" colspan="2">
+                            <strong><?= $template->strabe . ' ' . $template->nr ?></strong></td>
                     </tr>
                     <tr>
-                        <td style="width: 40%" bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF" style="width: 60%" colspan="2"><strong>12099 Berlin</strong></td>
+                        <td style="width: 40%" ></td>
+                        <td class="line" style="width: 60%" colspan="2">
+                            <strong><?= $template->plz . ' ' . $template->ort ?></strong></td>
                     </tr>
                     <tr>
                         <td style="width: 40%">Geschoß</td>
-                        <td style="width: 60%" colspan="2"><strong>2. OG</strong></td>
+                        <td style="width: 60%"  class="line" colspan="2"><strong><?= $template->etage ?></strong></td>
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong>Entladestelle:</strong></td>
-                        <td bgcolor="#CCFFFF" style="width: 60%" colspan="2">Fuhrmann 1</td>
+                        <td class="line" style="width: 60%" colspan="2"><?= $template->aq_strabe.' '.$template->aq_nr ?></td>
                     </tr>
                     <tr>
                         <td style="width: 40%"><strong></strong></td>
-                        <td style="width: 60%" colspan="2">12099 Berlin</td>
+                        <td style="width: 60%" class="line" colspan="2"><?= $template->aq_zip.' '.$template->aq_ort ?></td>
                     </tr>
                     <tr>
                         <td style="width: 40%">Geschoß</td>
-                        <td style="width: 40%"></td>
-                        <td style="width: 20%"><img src="assets/images/phone-icon.png" style="margin-left: 5px"
-                                                    width="14"/>
+                        <td style="width: 60%" colspan="2" class="line"><?= $template->aq_etage ?></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="assets/images/phone-icon.png" style="margin-left: 5px; margin-right: 5px" width="14"/>
+                            <?= $template->phone_m?>
                         </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%"><strong>Entladestelle:</strong></td>
-                        <td style="width: 60%" colspan="2">Borussia 29/30</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%"><strong></strong></td>
-                        <td style="width: 60%" colspan="2">12099 Berlin</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 40%">Geschoß</td>
-                        <td style="width: 40%"></td>
-                        <td style="width: 20%"><img src="assets/images/phone-icon.png" style="margin-left: 5px"
-                                                    width="14"/>
-                        </td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
                 <table class="tbl21" style="width: 100%; margin: 0">
@@ -188,27 +188,28 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
                         <td><strong>Räumhilfe:</strong></td>
-                        <td style="line-height: 11px" bgcolor="#CCFFFF">25/11/2019</td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td style="line-height: 11px"
+                            class="line"><?= date('d/m/Y', strtotime($template->beraumung)) ?></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
                         <td><strong>Demontagen:</strong></td>
-                        <td bgcolor="#CCFFFF">25/11/2019</td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"><?= date('d/m/Y', strtotime($template->beraumung)) ?></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                 </table>
                 <table class="tesds21" style="width: 100%">
@@ -216,45 +217,32 @@
                         <td>folgende Arbeit (Besonderheit):</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"><strong>Komplettberäumung von: Küche, Bad, Flur</strong></td>
+                        <td class="line" style="height: 60px;">
+                            <strong><?= $template->fo_arbeit ?></strong>
+                        </td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"><strong>In den anderen Räumen müssen alle Fensterbereiche</strong></td>
+                        <td class="line" style="border-top: none; border-collapse: unset">
+                            <strong><u>Demontagen:</u><?= date('d/m/Y', strtotime($template->beraumung)) ?></strong>
+                        </td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"><strong>mind. 1,50 m beräumt werden. Dann Inventar mit</strong></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"><strong>Bauplanen abdecken.</strong></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"><strong><u>Einpacken von Kartons</u></strong></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF"><strong><u>Demontagen:</u></strong></td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
                     </tr>
                 </table>
+
                 <table style="width: 100%" border="1" class="tbd1">
                     <tr class="text-center">
                         <td style="width: 24%; vertical-align: middle"><strong><br>Material</strong></td>
@@ -270,102 +258,111 @@
                     </tr>
                     <tr>
                         <td>Umzugskarton</td>
-                        <td></td>
-                        <td class="text-center"><strong>5</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 0) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 0) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 0) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 0) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 0) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 0) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Bücherkarton</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 1) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 1) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 1) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 1) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 1) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 1) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Kleiderbox</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 2) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 2) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 2) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 2) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 2) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 2) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Packseide</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 3) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 3) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 3) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 3) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 3) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 3) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Stretchfolie</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 4) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 4) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 4) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 4) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 4) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 4) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Luftpolsterfolie</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 5) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 5) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 5) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 5) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 5) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 5) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Bauplanen</td>
-                        <td></td>
-                        <td class="text-center"><strong>10</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 6) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 6) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 6) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 6) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 6) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 6) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Klebeband</td>
-                        <td></td>
-                        <td class="text-center"><strong>4</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 7) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 7) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 7) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 7) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 7) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 7) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Matratzenhülle</td>
-                        <td></td>
-                        <td class="text-center"><strong>2</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 8) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 8) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 8) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 8) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 8) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 8) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Bettensack</td>
-                        <td></td>
-                        <td class="text-center"><strong>2</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 9) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 9) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 9) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 9) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 9) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 9) ?></strong></td>
                     </tr>
                     <tr>
                         <td>Kreppband</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 10) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 10) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 10) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 10) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 10) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 10) ?></strong></td>
+                    </tr>
+                    <tr>
+                        <td>Fußbodenschutz</td>
+                        <td class="text-center"><strong><?= $this->srapdata(1, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(2, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(3, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(4, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(5, 11) ?></strong></td>
+                        <td class="text-center"><strong><?= $this->srapdata(6, 11) ?></strong></td>
                     </tr>
                     <tr>
                         <td style="height: 8px"></td>
@@ -385,78 +382,78 @@
                         <td>Pause Std.</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF">25/11/2019</td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"><?= date('d/m/Y', strtotime($template->beraumung)) ?></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF">25/11/2019</td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"><?= date('d/m/Y', strtotime($template->beraumung)) ?></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
+                        <td class="line"></td>
                     </tr>
                 </table>
                 <table style="width: 100%">
                     <tr>
                         <td style="width: 25%"><strong>Wartezeit:</strong></td>
-                        <td style="width: 12.5%;" bgcolor="#CCFFFF"></td>
+                        <td style="width: 12.5%;" class="line"></td>
                         <td style="width: 12.5%;"><strong>Std.</strong></td>
                         <td style="width: 12.5%;"><strong>Grund</strong></td>
-                        <td style="width: 37.5%;" bgcolor="#CCFFFF"></td>
+                        <td style="width: 37.5%;" class="line"></td>
                     </tr>
                     <tr>
                         <td style="width: 25%; font-size: 10px">Sonderleistungen:</td>
-                        <td colspan="4" style="width: 75%" bgcolor="#CCFFFF"></td>
+                        <td colspan="4" style="width: 75%" class="line"></td>
                     </tr>
                 </table>
                 <table style="width: 100%;" class="eee21">
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
                     </tr>
                     <tr>
-                        <td bgcolor="#CCFFFF"></td>
+                        <td class="line"></td>
                     </tr>
                 </table>
                 <table style="width: 100%;">
                     <tr>
                         <td style="width: 25%"><strong>Einpacken:</strong></td>
-                        <td style="width: 12.5%;" bgcolor="#CCFFFF"></td>
+                        <td style="width: 12.5%;" class="line"></td>
                         <td style="width: 12.5%;">Std.</td>
                         <td style="width: 25%"><strong>Zerlegen:</strong></td>
-                        <td style="width: 12.5%;" bgcolor="#CCFFFF"></td>
+                        <td style="width: 12.5%;" class="line"></td>
                         <td style="width: 12.5%;">Std.</td>
                     </tr>
                     <tr>
                         <td style="width: 25%"><strong>Auspacken:</strong></td>
-                        <td style="width: 12.5%;" bgcolor="#CCFFFF"></td>
+                        <td style="width: 12.5%;" class="line"></td>
                         <td style="width: 12.5%;">Std.</td>
                         <td style="width: 25%"><strong>Aufbauen:</strong></td>
-                        <td style="width: 12.5%;" bgcolor="#CCFFFF"></td>
+                        <td style="width: 12.5%;" class="line"></td>
                         <td style="width: 12.5%;">Std.</td>
                     </tr>
                 </table>
@@ -475,10 +472,10 @@
             <td style="width: 50%; padding: 0 !important; " class="ledttdf">
                 <table style="width: 100%">
                     <tr>
-                        <td style="width: 55%">WIE: 1120 - 0002
-                            <br>Projekt-Nr.: B.1120000201
+                        <td style="width: 55%">WIE: <?= $template->wie ?>
+                            <br>Projekt-Nr.: <?= $template->projeckt ?>
                         </td>
-                        <td>Auftrag: 3000012249</td>
+                        <td>Auftrag: <?= $template->auftrag ?> <br> Zimmer:___</td>
                     </tr>
                     <tr>
                         <td colspan="2"><h1 style="padding-top: 8px; font-size: 22px; margin: 0; color: red">
@@ -506,41 +503,41 @@
                                     <td style="width: 25%;">./. Pausen Std.</td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF">25/11/2019</td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line">25/11/2019</td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
+                                    <td class="line"></td>
                                 </tr>
                             </table>
                             <br>
                             <span>Zusätzlich zum Umzugsvertrag erbrachte Leistungen:</span>
                             <table style="width: 100%" class="ttdf">
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                             </table>
                             <span>Anschluss: Waschmaschine und/oder Geschirrspüler. Probelauf?</span>
@@ -554,37 +551,37 @@
                                         <img src="assets/images/un-check.png" width="15"/>
                                     </td>
                                     <td style="width: 8%">Nein</td>
-                                    <td style="width:68%" bgcolor="#CCFFFF"></td>
+                                    <td style="width:68%" class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 100%" colspan="5" bgcolor="#CCFFFF"></td>
+                                    <td style="width: 100%" colspan="5" class="line"></td>
                                 </tr>
                             </table>
                             <span><strong>Vorschäden am Umzugsgut -> vor Einlagerung</strong></span>
                             <table style="width: 100%" class="tb2l">
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#CCFFFF"></td>
+                                    <td class="line"></td>
                                 </tr>
                             </table>
                             <div>Die Richtigkeit der vorstehenden Angaben wird bestätigt.</div>
@@ -651,7 +648,6 @@
                                 <br>
                                 <br>
                                 <div style="width: 100%;padding-left: 8px">30/09/2019</div>
-                                <br>
                                 <br>
                                 <br>
                                 <br>

@@ -4,20 +4,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $hasPermissionEdit = has_permission('tasks', '', 'edit');
 $hasPermissionDelete = has_permission('tasks', '', 'delete');
+$hasPermissionCreate = has_permission('tasks', '', 'create');
 $tasksPriorities = get_tasks_priorities();
 
 $aColumns = [
     '1', // bulk actions
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
-    'status',
+    db_prefix() . 'tasks.status as status',
     'startdate',
     'duedate',
+    db_prefix() . 'mieters.fullname as fullname',
     get_sql_select_task_asignees_full_names() . ' as assignees',
     '(SELECT count(' . db_prefix() . 'task_checklist_items.taskid) FROM ' . db_prefix() . 'task_checklist_items WHERE ' . db_prefix() . 'task_checklist_items.taskid=' . db_prefix() . 'tasks.id) as checkpoint',
     'datefinished',
-    db_prefix() . 'tsk_project.name as project',
+    db_prefix() . 'projects.name as project',
     'priority',
+    db_prefix() . 'mieters.id as idm',
 ];
 
 $sIndexColumn = 'id';
@@ -25,7 +28,18 @@ $sTable = db_prefix() . 'tasks';
 
 $where = [];
 $join = [];
-$join[] = 'LEFT JOIN ' . db_prefix() . 'tsk_project ON ' . db_prefix() . 'tsk_project.id = ' . db_prefix() . 'tasks.project';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'tasks.project';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'mieters ON ' . db_prefix() . 'mieters.id = ' . db_prefix() . 'tasks.mieters';
+$join[] = 'LEFT JOIN ' . db_prefix() . 'task_assigned ON ' . db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id';
+
+$staff = get_staff();
+if (isset($staff->projects) && !empty($staff->projects)) {
+    $stf_project = unserialize($staff->projects);
+    if (is_array($stf_project)&&count($stf_project) > 0) {
+        $stf_project = implode(",", $stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'tasks.project IN  (' . $stf_project . ') ');
+    }
+}
 
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
@@ -47,7 +61,7 @@ if (count($custom_fields) > 4) {
 }
 
 if ($this->ci->input->post('status')) {
-    array_push($where, 'AND status ="' . $this->ci->db->escape_str($this->ci->input->post('status')) . ' " ');
+    array_push($where, 'AND '.db_prefix() . 'tasks.status ="' . $this->ci->db->escape_str($this->ci->input->post('status')) . ' " ');
 }
 
 if ($this->ci->input->post('start_date')) {
@@ -58,10 +72,10 @@ if ($this->ci->input->post('start_date')) {
 if ($this->ci->input->post('end_date')) {
     array_push($where, 'AND duedate ="' . date('Y-m-d', strtotime($this->ci->input->post('end_date'))) . ' " ');
 }
-/*
 if ($this->ci->input->post('member')) {
-    array_push($where, 'AND flugel ="' . $this->ci->db->escape_str($this->ci->input->post('member')) . ' " ');
-}*/
+    array_push($where, 'AND ' . db_prefix() . 'task_assigned.staffid ="' . $this->ci->db->escape_str($this->ci->input->post('member')) . ' " ');
+}
+
 
 if ($this->ci->input->post('priority')) {
     array_push($where, 'AND priority ="' . $this->ci->db->escape_str($this->ci->input->post('priority')) . ' " ');
@@ -83,13 +97,14 @@ $result = data_tables_init(
         get_sql_select_task_assignees_ids() . ' as assignees_ids',
         '(SELECT MAX(id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . db_prefix() . 'tasks.id and staff_id=' . get_staff_user_id() . ' and end_time IS NULL) as not_finished_timer_by_current_staff',
         '(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned',
-        '(SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
+        '(SELECT CASE WHEN '.db_prefix() . 'projects.addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
     ]
 );
 
 $output = $result['output'];
 $rResult = $result['rResult'];
 
+$rResult = unique_multidim_array($rResult, 'id');
 foreach ($rResult as $aRow) {
     if ($this->ci->input->post('member') && !hisMember($this->ci->input->post('member'), $aRow['id']))
         continue;
@@ -149,7 +164,7 @@ foreach ($rResult as $aRow) {
     if ($hasPermissionEdit) {
         $outputName .= '<a href="#" onclick="edit_task(' . $aRow['id'] . '); return false">' . _l('edit') . '</a>';
     }
-    if ($hasPermissionDelete) {
+    if ($hasPermissionCreate) {
         $outputName .= '<span class="text-dark"> | </span><a href="#" onclick="similar_task(' . $aRow['id'] . '); return false" class="text-success   task-copy">' . _l('Create similar') . '</a>';
         //      $outputName .= '<span class="text-dark"> | </span><a href="'.admin_url('tasks/copy_task/').'" onclick="similar_task(' . $aRow['id'] . '); return false" class="text-success   task-copy">' . _l('Create similar') . '</a>';
     }
@@ -189,14 +204,15 @@ foreach ($rResult as $aRow) {
     }
     $outputStatus .= '</span>';
     $row[] = $outputStatus;
-    $row[] = _d($aRow['startdate']);
+    $row[] = _dt($aRow['startdate']);
 
-    $row[] = _d($aRow['duedate']);
+    $row[] = _dt($aRow['duedate']);
+    $row[]= '  <a href="' . admin_url('mieter/mieter/' . $aRow['idm']) . '">' .  $aRow['fullname']. '</a>';
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
     $row[] = '<div class="text-center">' . $aRow['checkpoint'] . '</div>';
 
     if ($aRow['datefinished']) {
-        $row[] = date('d.m.Y', strtotime($aRow['datefinished']));
+        $row[] = date('d.m.Y H:i', strtotime($aRow['datefinished']));
     } else {
 
         $row[] = '';

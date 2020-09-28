@@ -6,19 +6,22 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons"> <!--style="border-bottom: unset !important;"-->
-                        <h3><span><?php echo get_menu_option('inventarlistes_un', _l('Inventar-Umzugsliste')); ?></span>
+                        <div class="style-menu" >  <h3><span><?php echo get_menu_option('inventarlistes_un', _l('Inventar-Umzugsliste')); ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
                             <?php endif; ?></h3>
+                            <a href="<?php echo admin_url('wohnungen/translationU'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
+
                         <div style="display: flex">
                             <a href="#" id="act-mouvement"
-                               class="btn btn-info pull-left display-block"><?php echo 'Erstellen'; ?></a>
+                               class="btn btn-info pull-left display-block">  <?php echo _l(get_transl_field('tsl_inventarlistes_un', 'erstellen','Erstellen')); ?></a>
                         </div>
                         <hr class="hr-panel-heading"/>
                         <div class="col-md-4" style="padding: 0">
                             <h3 style="margin-top:3px !important;">
-                                Gesamt:<b><?php echo total_rows(db_prefix() . 'inventory_um'); ?></b></h3>
+
+                                <?php echo _l(get_transl_field('tsl_inventarlistes_un', 'gesamt','Gesamt')); ?>:<b><?php echo total_rows(db_prefix() . 'inventory_um'); ?></b></h3>
                             <div class="panel_s" style="margin: 0 !important;">
                                 <div class="panel-body" style="padding: 8px">
                                     <?= widget_status_stats('inventory_um', $title); ?>
@@ -81,7 +84,7 @@
                                                 aria-label="Close"><span
                                                     aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title">
-                                            <span>Move </span><?php echo get_menu_option('inventar', _l('inventar')); ?>
+                                            <span> <?php echo _l(get_transl_field('tsl_inventarlistes_un', 'move_iventar','Move iventar')); ?> </span>
                                         </h4>
                                     </div>
 
@@ -92,7 +95,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <?php
-                                                echo render_select('aq_from', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'Start AQ', '', array('required' => true)); ?>
+                                                echo render_select('aq_from', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), get_transl_field('tsl_inventarlistes_un', 'startaq','Start AQ'), '', array('required' => true)); ?>
                                             </div>
                                         </div>
                                         <br>
@@ -103,7 +106,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <?php
-                                                echo render_select('aq_to', $aqs, array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), 'Ende AQ', '', array('required' => true)); ?>
+                                                echo render_select('aq_to', array(), array('id', array('strabe', 'hausnummer', 'etage', 'flugel')), get_transl_field('tsl_inventarlistes_un', 'endeaq','Ende AQ'), '', array('required' => true)); ?>
                                             </div>
                                         </div>
                                         <br>
@@ -111,7 +114,7 @@
                                             <div class="col-md-12">
                                                 <div class="text-right">
                                                     <button type="submit"
-                                                            class="btn btn-info"><?php echo _l('submit'); ?></button>
+                                                            class="btn btn-info"> <?php echo _l(get_transl_field('tsl_inventarlistes_un', 'speichern','SPEICHERN')); ?> </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -126,13 +129,13 @@
         </div>
     </div>
 </div>
+
 <style>
     .max-value {
         font-size: 27px;
-        position: absolute;
-        right: 53px;
+        right: 48px;
         bottom: 0;
-        top: 24px;
+        top: 0;
     }
 </style>
 <?php init_tail(); ?>
@@ -149,13 +152,43 @@
 
         $("#inventar-form").on("change", ".checkinventar_all", function (e) {
             $val = this.checked;
-            $(this).parents('#inventars').find('.form-check').each(function () {
-                $(this).find(".qtyfiels").prop('required', $val);
+            var avaibleQty = 0, movedQty = 0;
+            $(this).parents('#inventars').find('.dieldkf').each(function () {
+                //$(this).find(".qtyfiels").prop('required', $val);
                 $maxqty = $(this).find(".qtyfiels").attr('max');
                 $(this).find(".qtyfiels").val($maxqty);
-
-                $(this).find(".checkinventar").prop('checked', $val);
+                /* $(this).find(".checkinventar").prop('checked', $val);*/
+                avaibleQty += parseInt($maxqty);
+                movedQty += parseInt($(this).find(".qtyfiels").val());
+                if (avaibleQty) {
+                    $('#availSelected').html(avaibleQty);
+                    $('#restItem').html(avaibleQty);
+                }
+                if (movedQty) {
+                    $('#moveledSelected').html(movedQty);
+                    $('#restItem').html(avaibleQty - movedQty);
+                }
             });
+
+        });
+
+        $("#inventar-form").on("change", ".qtyfiels", function (e) {
+            $val = this.checked;
+            var avaibleQty = 0, movedQty = 0;
+            $(this).parents('#inventars').find('.dieldkf').each(function () {
+                $maxqty = $(this).find(".qtyfiels").attr('max');
+                avaibleQty += parseInt($maxqty);
+                movedQty += parseInt($(this).find(".qtyfiels").val());
+                if (avaibleQty) {
+                    $('#availSelected').html(avaibleQty);
+                    $('#restItem').html(avaibleQty);
+                }
+                if (movedQty) {
+                    $('#moveledSelected').html(movedQty);
+                    $('#restItem').html(avaibleQty - movedQty);
+                }
+            });
+
         });
 
 
@@ -170,9 +203,13 @@
                 url: admin_url + 'wohnungen/list_invantories/' + this.value,
                 success: function (inventars) {
                     inventars = JSON.parse(inventars);
-                    $('#inventars').html(inventars);
+                    $('#inventars').html(inventars.items);
+                    $('#aq_to').html(inventars.aqs);
+                    $(".qtyfiels").trigger('change');
+                    $('#aq_to').selectpicker('refresh');
                 }
             });
+
         })
 
         appValidateForm($('#inventar-form'), {aq_from: 'required', aq_to: 'required'});

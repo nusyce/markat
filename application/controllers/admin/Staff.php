@@ -14,8 +14,30 @@ class Staff extends AdminController
             $this->app->get_table_data('staff');
         }
         $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
-        $data['title']         = _l('staff_members');
+        $data['title'] = _l('staff_members');
         $this->load->view('admin/staff/manage', $data);
+    }
+
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_staff', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('staff', 'Translation')));
+            redirect(admin_url('staff/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/staff/translation', $data);
+    }
+
+
+    public function table($project)
+    {
+        $this->app->get_table_data('staff', ['project' => $project]);
     }
 
     /* Add new staff member or edit existing */
@@ -26,6 +48,7 @@ class Staff extends AdminController
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
+        $this->load->model('projects_model');
         $this->load->model('departments_model');
         if ($this->input->post()) {
             $data = $this->input->post();
@@ -39,7 +62,7 @@ class Staff extends AdminController
             }
 
             $data['password'] = $this->input->post('password', false);
-
+            $data['projects'] = serialize($data['projects']);
             if ($id == '') {
                 if (!has_permission('staff', '', 'create')) {
                     access_denied('staff');
@@ -75,8 +98,8 @@ class Staff extends AdminController
             if (!$member) {
                 blank_page('Staff Member Not Found', 'danger');
             }
-            $data['member']            = $member;
-            $title                     = $member->firstname . ' ' . $member->lastname;
+            $data['member'] = $member;
+            $title = $member->firstname . ' ' . $member->lastname;
             $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
 
             $ts_filter_data = [];
@@ -85,21 +108,22 @@ class Staff extends AdminController
                     $ts_filter_data[$this->input->get('range')] = true;
                 } else {
                     $ts_filter_data['period-from'] = $this->input->get('period-from');
-                    $ts_filter_data['period-to']   = $this->input->get('period-to');
+                    $ts_filter_data['period-to'] = $this->input->get('period-to');
                 }
             } else {
                 $ts_filter_data['this_month'] = true;
             }
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
-            $data['timesheets']  = $data['logged_time']['timesheets'];
+            $data['timesheets'] = $data['logged_time']['timesheets'];
         }
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
-        $data['roles']         = $this->roles_model->get();
-        $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
-        $data['departments']   = $this->departments_model->get();
-        $data['title']         = $title;
+        $data['roles'] = $this->roles_model->get();
+        $data['projects'] = $this->projects_model->get();
+        $data['user_notes'] = $this->misc_model->get_notes($id, 'staff');
+        $data['departments'] = $this->departments_model->get();
+        $data['title'] = $title;
 
         $this->load->view('admin/staff/member', $data);
     }
@@ -146,8 +170,8 @@ class Staff extends AdminController
     public function save_hidden_table_columns()
     {
         hooks()->do_action('before_save_hidden_table_columns');
-        $data   = $this->input->post();
-        $id     = $data['id'];
+        $data = $this->input->post();
+        $id = $data['id'];
         $hidden = isset($data['hidden']) ? $data['hidden'] : [];
         update_staff_meta(get_staff_user_id(), 'hidden-columns-' . $id, json_encode($hidden));
     }
@@ -170,7 +194,7 @@ class Staff extends AdminController
         $data['view_all'] = false;
         if (is_admin() && $this->input->get('view') == 'all') {
             $data['staff_members_with_timesheets'] = $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers WHERE staff_id !=' . get_staff_user_id())->result_array();
-            $data['view_all']                      = true;
+            $data['view_all'] = true;
         }
 
         if ($this->input->is_ajax_request()) {
@@ -182,7 +206,7 @@ class Staff extends AdminController
         }
 
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
-        $data['title']       = '';
+        $data['title'] = '';
         $this->load->view('admin/staff/timesheets', $data);
     }
 
@@ -208,7 +232,7 @@ class Staff extends AdminController
         if (isset($_POST['data'])) {
             $ids = $_POST['data'];
             foreach ($ids as $id) {
-                if ($this->staff_model->delete($id,1)) {
+                if ($this->staff_model->delete($id, 1)) {
                     $total_deleted++;
                 }
             }
@@ -216,7 +240,6 @@ class Staff extends AdminController
         set_alert('success', _l('deleted', _l('staff_member')));
         echo admin_url('staff');
     }
-
 
 
     /* When staff edit his profile */
@@ -234,6 +257,9 @@ class Staff extends AdminController
                 $data['email_signature'] = nl2br_save_html($data['email_signature']);
             }
 
+            if (isset($data['signature'])) {
+                $data['signature'] = str_replace('[removed]', '', $data['signature']);
+            }
             $success = $this->staff_model->update_profile($data, get_staff_user_id());
             if ($success) {
                 set_alert('success', _l('staff_profile_updated'));
@@ -242,10 +268,10 @@ class Staff extends AdminController
         }
         $member = $this->staff_model->get(get_staff_user_id());
         $this->load->model('departments_model');
-        $data['member']            = $member;
-        $data['departments']       = $this->departments_model->get();
+        $data['member'] = $member;
+        $data['departments'] = $this->departments_model->get();
         $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
-        $data['title']             = $member->firstname . ' ' . $member->lastname;
+        $data['title'] = $member->firstname . ' ' . $member->lastname;
         $this->load->view('admin/staff/profile', $data);
     }
 
@@ -301,7 +327,7 @@ class Staff extends AdminController
         hooks()->do_action('staff_profile_access', $id);
 
         $data['logged_time'] = $this->staff_model->get_logged_time_data($id);
-        $data['staff_p']     = $this->staff_model->get($id);
+        $data['staff_p'] = $this->staff_model->get($id);
 
         if (!$data['staff_p']) {
             blank_page('Staff Member Not Found', 'danger');
@@ -309,8 +335,8 @@ class Staff extends AdminController
 
         $this->load->model('departments_model');
         $data['staff_departments'] = $this->departments_model->get_staff_departments($data['staff_p']->staffid);
-        $data['departments']       = $this->departments_model->get();
-        $data['title']             = _l('staff_profile_string') . ' - ' . $data['staff_p']->firstname . ' ' . $data['staff_p']->lastname;
+        $data['departments'] = $this->departments_model->get();
+        $data['title'] = _l('staff_profile_string') . ' - ' . $data['staff_p']->firstname . ' ' . $data['staff_p']->lastname;
         // notifications
         $total_notifications = total_rows(db_prefix() . 'notifications', [
             'touserid' => get_staff_user_id(),
@@ -334,40 +360,40 @@ class Staff extends AdminController
     {
         $this->load->model('misc_model');
         if ($this->input->post()) {
-            $page   = $this->input->post('page');
+            $page = $this->input->post('page');
             $offset = ($page * $this->misc_model->get_notifications_limit());
             $this->db->limit($this->misc_model->get_notifications_limit(), $offset);
             $this->db->where('touserid', get_staff_user_id());
             $this->db->order_by('date', 'desc');
             $notifications = $this->db->get(db_prefix() . 'notifications')->result_array();
-            $i             = 0;
+            $i = 0;
             foreach ($notifications as $notification) {
                 if (($notification['fromcompany'] == null && $notification['fromuserid'] != 0) || ($notification['fromcompany'] == null && $notification['fromclientid'] != 0)) {
                     if ($notification['fromuserid'] != 0) {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('staff/profile/' . $notification['fromuserid']) . '">' . staff_profile_image($notification['fromuserid'], [
-                        'staff-profile-image-small',
-                        'img-circle',
-                        'pull-left',
-                    ]) . '</a>';
+                                'staff-profile-image-small',
+                                'img-circle',
+                                'pull-left',
+                            ]) . '</a>';
                     } else {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('clients/client/' . $notification['fromclientid']) . '">
                     <img class="client-profile-image-small img-circle pull-left" src="' . contact_profile_image_url($notification['fromclientid']) . '"></a>';
                     }
                 } else {
                     $notifications[$i]['profile_image'] = '';
-                    $notifications[$i]['full_name']     = '';
+                    $notifications[$i]['full_name'] = '';
                 }
                 $additional_data = '';
                 if (!empty($notification['additional_data'])) {
                     $additional_data = unserialize($notification['additional_data']);
-                    $x               = 0;
+                    $x = 0;
                     foreach ($additional_data as $data) {
                         if (strpos($data, '<lang>') !== false) {
                             $lang = get_string_between($data, '<lang>', '</lang>');
                             $temp = _l($lang);
                             if (strpos($temp, 'project_status_') !== false) {
                                 $status = get_project_status_by_id(strafter($temp, 'project_status_'));
-                                $temp   = $status['name'];
+                                $temp = $status['name'];
                             }
                             $additional_data[$x] = $temp;
                         }
@@ -375,8 +401,8 @@ class Staff extends AdminController
                     }
                 }
                 $notifications[$i]['description'] = _l($notification['description'], $additional_data);
-                $notifications[$i]['date']        = time_ago($notification['date']);
-                $notifications[$i]['full_date']   = $notification['date'];
+                $notifications[$i]['date'] = time_ago($notification['date']);
+                $notifications[$i]['full_date'] = $notification['date'];
                 $i++;
             } //$notifications as $notification
             echo json_encode($notifications);

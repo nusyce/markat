@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3"><label>Projekt Projektname</label></div>
-                                    <div class="col-md-3"><?php echo render_select('projektname', $data, array('slug', 'label')) ?></div>
+                                    <div class="col-md-3"><?php echo render_select('project', $data, array('slug', 'label')) ?></div>
                                     <div class="col-md-3"><label>Baubeginn</label></div>
                                     <div class="col-md-3"><?php echo render_select('baubeginn', $data, array('slug', 'label')) ?></div>
                                 </div>

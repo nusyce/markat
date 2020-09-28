@@ -8,6 +8,8 @@ class Tasks extends AdminController
     {
         parent::__construct();
         $this->load->model('projects_model');
+        $this->load->model('clients_model');
+        $this->load->model('cars_model');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -126,37 +128,6 @@ class Tasks extends AdminController
         if ($this->input->is_ajax_request() && (has_permission('invoices', '', 'edit') || has_permission('invoices', '', 'create'))) {
             $customer_id = get_client_id_by_project_id($project_id);
             echo json_encode($this->tasks_model->get_billable_tasks($customer_id, $project_id));
-        }
-    }
-
-    /* Add or update leads sources */
-    public function project()
-    {
-        if ($this->input->post()) {
-            $data = $this->input->post();
-            if (!$this->input->post('id')) {
-                $inline = isset($data['inline']);
-                if (isset($data['inline'])) {
-                    unset($data['inline']);
-                }
-
-                $id = $this->tasks_model->add_project($data);
-
-                if (!$inline) {
-                    if ($id) {
-                        set_alert('success', _l('added_successfully', _l('lead_source')));
-                    }
-                } else {
-                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
-                }
-            } else {
-                $id = $data['id'];
-                unset($data['id']);
-                $success = $this->tasks_model->update_project($data, $id);
-                if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('lead_source')));
-                }
-            }
         }
     }
 
@@ -366,7 +337,6 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
         $task = $this->tasks_model->get($id);
-
         try {
             $tag = isset($_GET['full']) ? 'full' : '';
             $pdf = task_pdf($task, $tag);
@@ -390,6 +360,25 @@ class Tasks extends AdminController
         }
 
         $pdf->Output(mb_strtoupper(slug_it('$invoice_number')) . '.pdf', $type);
+    }
+
+    /* Generates invoice PDF and senting to email of $send_to_email = true is passed */
+    public function checklist($id)
+    {
+        if (!$id) {
+            redirect(admin_url('tasks'));
+        }
+        $task = $this->tasks_model->get($id);
+        try {
+         task_pdf($task, 'checklist');
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+            echo $message;
+            if (strpos($message, 'Unable to get the size of the image') !== false) {
+                show_pdf_unable_to_get_image_size_error();
+            }
+            die;
+        }
     }
 
 
@@ -533,12 +522,11 @@ class Tasks extends AdminController
                 ];
             }
         }
-        $this->load->model(['lieferanten_model', 'mieter_model']);
+        $this->load->model(['lieferanten_model', 'misc_model', 'mieter_model']);
         $data['id'] = $id;
         $data['title'] = $title;
         $data['mieters'] = $this->mieter_model->get();
         $dStaff = $this->staff_model->get('', ['active' => 1], true);
-
         $staffs = array();
         foreach ($dStaff as $d) {
             if ($d['role'] == 9999) {
@@ -547,7 +535,9 @@ class Tasks extends AdminController
             array_push($staffs, $d);
         }
         $data['staff'] = $staffs;
-        $data['projects'] = $this->tasks_model->get_project();
+        $data['projects'] = $this->misc_model->get_project();
+        $data['cars'] = $this->cars_model->get();
+        $data['clients'] = $this->clients_model->get();
         $this->load->view('admin/tasks/task', $data);
     }
 
@@ -948,7 +938,7 @@ class Tasks extends AdminController
         if ($this->input->post('no_editor')) {
             $data['content'] = nl2br($this->input->post('content'));
         }
-        $data['moment'] = nl2br($this->input->post('moment'));
+        $data['moment'] = $this->input->post('moment');
         $comment_id = false;
         if ($data['content'] != ''
             || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {
@@ -1453,5 +1443,20 @@ class Tasks extends AdminController
                 set_alert('success', _l('total_tasks_deleted', $total_deleted));
             }
         }
+    }
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_tasks', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('tasks', 'Translation')));
+            redirect(admin_url('tasks/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/tasks/translation', $data);
     }
 }

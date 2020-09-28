@@ -2678,7 +2678,7 @@ exports.globalDefaults = {
     defaultTimedEventDuration: '02:00:00',
     defaultAllDayEventDuration: { days: 1 },
     forceEventDuration: false,
-    nextDayThreshold: '09:00:00',
+    nextDayThreshold: '00:00:00',
     // display
     columnHeader: true,
     defaultView: 'month',
@@ -11830,7 +11830,7 @@ var TimeGrid = /** @class */ (function (_super) {
         this.el.find('> .fc-bg').html('<table class="' + theme.getClass('tableGrid') + '">' +
             this.renderBgTrHtml(0) + // row=0
             '</table>');
-        this.colEls = this.el.find('.fc-day, .fc-disabled-day');
+        this.colEls = this.el.find('.fc-day, .fc-disabled-day'); //main header 
         this.colCoordCache = new CoordCache_1.default({
             els: this.colEls,
             isHorizontal: true

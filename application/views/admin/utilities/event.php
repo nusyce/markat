@@ -13,7 +13,18 @@
             <?php if($event->userid != get_staff_user_id()){ ?>
               <div class="alert alert-info"><?php echo _l('event_created_by','<a href="'.admin_url('profile/'.$event->userid).'" target="_blank">'.get_staff_full_name($event->userid)).'</a>'; ?></div>
             <?php } ?>
-            <?php if(($event->userid == get_staff_user_id() && has_permission('calendar','','edit')) || is_admin()){ ?>
+            <?php if(($event->userid == get_staff_user_id() && has_permission('personalplan',get_staff_user_id(),'edit')) || is_admin()) { ?>
+              <a href="<?php echo admin_url('profile/'.$event->userid); ?>"><?php echo staff_profile_image($event->userid,array('staff-profile-xs-image')); ?> <?php echo get_staff_full_name($event->userid); ?></a>
+          <hr />
+          
+            <div class="form-group">
+              <?php
+                $staffs = $_SESSION['staff'];
+                echo render_select('user[]', $staffs, array('staffid', array('firstname', 'lastname')), 'Mitabeiter', '', array('required' => true, 'multiple' => true) ); 
+              ?>
+              </div>
+
+              <!--?php echo form_hidden('user[]',implode($event->user); ?-->
               <?php echo form_hidden('eventid',$event->eventid); ?>
               <?php echo render_input('title','utility_calendar_new_event_placeholder',$event->title); ?>
               <?php echo render_textarea('description','event_description',$event->description,array('rows'=>5)); ?>
@@ -87,12 +98,19 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-    <?php if(($event->userid == get_staff_user_id() && has_permission('calendar','','edit')) || is_admin()){ ?>
+    <?php if(($event->userid == get_staff_user_id() && has_permission('personalplan',get_staff_user_id(),'edit')) || is_admin()){ ?>
       <button type="button" class="btn btn-danger" onclick="delete_event(<?php echo $event->eventid; ?>); return false"><?php echo _l('delete_event'); ?></button>
-      <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+      <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button-->
     <?php } ?>
+    
   </div>
   <?php echo form_close(); ?>
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script> 
+    setTimeout(() => {
+      var elemid = <?php echo json_encode($event->user) ?>;
+      $('#viewEvent select[name="user[]"]').val(elemid).trigger('change');
+    }, 300);
+</script>

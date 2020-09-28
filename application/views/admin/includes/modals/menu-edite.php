@@ -17,7 +17,8 @@
                 <h4 class="modal-title" id="myModalLabel"><?php echo 'Edit Menu'; ?></h4>
             </div>
             <div class="modal-body">
-                <?php echo form_hidden('menu_slug', $first_segment) ?>
+                <input type="hidden" id="menu_slug" name="menu_slug" value="">
+                <input type="hidden" id="menu_clone" name="menu_clone" value="0">
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('name', 'Title', ''); ?>

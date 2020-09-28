@@ -69,6 +69,7 @@ $(function() {
 
     // Update ticket settings from settings tab
     $('.save_changes_settings_single_ticket').on('click', function(e) {
+
         e.preventDefault();
         var data = {};
 

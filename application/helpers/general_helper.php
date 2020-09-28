@@ -61,6 +61,49 @@ function is_rtl($client_area = false)
 }
 
 
+function get_move($wohnungen, $inventar)
+{
+    $data = array();
+    $movelds = $wohnungen->moved_items;
+    foreach ($movelds as $moveld) {
+        $allResources = unserialize($moveld['inventory']);
+        foreach ($allResources as $item) {
+            if ($item['inventory'] != $inventar)
+                continue;
+            array_push($data, $item);
+        }
+    }
+    return $data;
+}
+
+
+/**
+ * Render lead status select field with ability to create inline projekts with + sign
+ * @param array $projekts current projekts
+ * @param string $selected selected status
+ * @param string $lang_key the label of the select
+ * @param string $name the name of the select
+ * @param array $select_attrs additional select attributes
+ * @param boolean $exclude_default whether to exclude default Client status
+ * @return string
+ */
+function render_project_select($selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
+{
+
+    $CI = &get_instance();
+    $CI->load->model('Projects_model');
+    $projekts = $CI->Projects_model->get();
+    return render_select($name, $projekts, ['id', 'name'], $lang_key, $selected);
+
+}
+
+
+function render_projekt_select($projekts, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
+{
+    return render_select_with_input_group($name, $projekts, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>', $select_attrs);
+}
+
+
 /**
  * Check whether the data is intended to be shown for the customer
  * For example this function is used for custom fields, pdf language loading etc...
@@ -181,6 +224,16 @@ function get_current_date_format($php = false)
 
     return $format[0];
 }
+
+
+
+function debug_php()
+{
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
+
 
 /**
  * Is user logged in
@@ -571,6 +624,30 @@ function to_sql_datedv($date)
     if (empty($date))
         return '';
     return date('Y-m-d', strtotime($date));
+}
+
+function time_to_sql_datedv($time)
+{
+    if (empty($time))
+        return '';
+    return date('Y-m-d', $time);
+}
+
+
+function unique_multidim_array($array, $key)
+{
+    $temp_array = array();
+    $i = 0;
+    $key_array = array();
+
+    foreach ($array as $val) {
+        if (!in_array($val[$key], $key_array)) {
+            $key_array[$i] = $val[$key];
+            $temp_array[$i] = $val;
+        }
+        $i++;
+    }
+    return $temp_array;
 }
 
 /**

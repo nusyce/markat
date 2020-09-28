@@ -138,6 +138,39 @@ class Dashboard extends AdminController
         redirect(admin_url());
     }
 
+    public function m_project()
+    {
+
+        $data[] = array('id' => 'BOR');
+        $data[] = array('id' => 'FER');
+        $data[] = array('id' => 'TOPS');
+
+        $this->load->model('misc_model');
+        $this->load->model('wohnungen_model');
+        foreach ($data as $d) {
+            $this->db->where('name', $d['id']);
+            $project = $this->db->get(db_prefix() . 'tsk_project')->row();
+            if (!$project) {
+                $arrData = [];
+                $arrData['name'] = $d;
+                $this->db->insert(db_prefix() . 'tsk_project', $arrData);
+            }
+        }
+
+        $aqs = $this->wohnungen_model->get();
+        foreach ($aqs as $aq) {
+            $this->db->where('name', $aq['project']);
+            $project = $this->db->get(db_prefix() . 'tsk_project')->row();
+            if ($project) {
+                $arrData = ['project' => $project->id];
+                $this->db->where('id', $aq['id']);
+                $this->db->update(db_prefix() . 'wohnungen', $arrData);
+            }
+        }
+        redirect(admin_url());
+
+    }
+
     public function m_oc()
     {
         $this->load->model('belegungsplan_model');
@@ -153,10 +186,10 @@ class Dashboard extends AdminController
         redirect(admin_url());
     }
 
+
     public function update_menu()
     {
-
-        update_option($_POST['menu_slug'], $_POST['name']);
+        user_update_option($_POST['menu_slug'], $_POST['name']);
         if ($_POST['menu_slug'] == 'all_contacts') {
             redirect(admin_url('clients/' . $_POST['menu_slug']));
         } else if ($_POST['menu_slug'] == 'inventarlistes') {
@@ -164,14 +197,14 @@ class Dashboard extends AdminController
         } else if ($_POST['menu_slug'] == 'move_inventory') {
             redirect(admin_url('wohnungen/' . $_POST['menu_slug']));
         } else {
+            if ($_POST['menu_clone'] == '1')
+                redirect(admin_url());
             redirect(admin_url($_POST['menu_slug']));
         }
     }
 
-    public function pdf($template='')
+    public function pdf($template = '')
     {
-
-
         $pdf = template_pdf($template);
     }
 }

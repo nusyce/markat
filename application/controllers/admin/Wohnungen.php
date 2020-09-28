@@ -8,6 +8,7 @@ class Wohnungen extends AdminController
     {
         parent::__construct();
         $this->load->model('wohnungen_model');
+        $this->load->model('belegungsplan_model');
     }
 
 
@@ -21,9 +22,9 @@ class Wohnungen extends AdminController
         close_setup_menu();
         add_calendar_book_assets();
         $data['title'] = get_menu_option('wohnungen', _l('AQ'));
-        $data['wohnungens'] = $this->wohnungen_model->get();
+        $data['aqs'] = $this->wohnungen_model->get();
         $data['hausnummer'] = $this->wohnungen_model->get_grouped('hausnummer');
-        $data['project'] = $this->wohnungen_model->get_grouped('project');
+        $data['project'] = $this->wohnungen_model->get_projekte();
         $data['strabe'] = $this->wohnungen_model->get_grouped('strabe');
         $data['wohnungsnummer'] = $this->wohnungen_model->get_grouped('wohnungsnumme');
         $data['flugel'] = $this->wohnungen_model->get_grouped('flugel');
@@ -34,9 +35,9 @@ class Wohnungen extends AdminController
     }
 
 
-    public function table($clientid = '')
+    public function table($project = '')
     {
-        $this->app->get_table_data('wohnungen', []);
+        $this->app->get_table_data('wohnungen', ['project' => $project]);
     }
 
     public function render_inventory($clientid = '')
@@ -48,6 +49,7 @@ class Wohnungen extends AdminController
     /* Edit wohnungen or add new wohnungen */
     public function wohnungen($id = '')
     {
+        $this->load->model('misc_model');
 
         $data = array();
         $data['mieters'] = $this->wohnungen_model->get_mieters();
@@ -69,6 +71,7 @@ class Wohnungen extends AdminController
             }
         }
 
+
         if ($id == '') {
             $title = 'Wohnungen erstellen';
         } else {
@@ -79,10 +82,66 @@ class Wohnungen extends AdminController
         $data['title'] = $title;
         $data['bodyclass'] = 'wohnungen';
         $data['mieters'] = $this->mieter_model->get_mieters(['active' => 1]);
+        $data['projects'] = $this->misc_model->get_project();
         $data['inventarlistes'] = $this->wohnungen_model->get_inventarliste();
         $this->load->view('admin/wohnungen/wohnungen', $data);
     }
 
+// translation Inventar
+
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_inventarlistes', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('inventarlistes', 'Translation')));
+            redirect(admin_url('wohnungen/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/wohnungen/translation', $data);
+    }
+
+
+    // tanslation Inventar-Umzugsliste
+
+    public function translationU()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_inventarlistes_un', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('inventarlistes_un', 'Translation')));
+            redirect(admin_url('wohnungen/translationU'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/inventar-um/translation', $data);
+    }
+
+
+    // translation AQ
+
+    public function translationAQ()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_wohnungen', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('wohnungen', 'Translation')));
+            redirect(admin_url('wohnungen/translationAQ'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/wohnungen/translation_aq', $data);
+    }
 
     // inventarlistes
     /* Manage wohnungen inventarlistes */
@@ -121,6 +180,85 @@ class Wohnungen extends AdminController
                 }
             }
         }
+    }
+
+
+    public function table1($id)
+    {
+///            print_r($this->input->get());
+        $filters = [];
+        $demoSource = [];
+        $aq = $this->wohnungen_model->get($id);
+        if ($aq) {
+            $tmpdata['name'] = $aq->strabe;
+            $tmpdata['desc'] = $aq->hausnummer;
+            $tmpdata['etage'] = $aq->etage;
+            $tmpdata['fluge'] = $aq->flugel;
+            $belegungsplan = $this->belegungsplan_model->get_occupations(array('wohnungen' => $aq->id));
+            $tmpdata['values'] = [];
+            if (!empty($belegungsplan)) {
+                foreach ($belegungsplan as $b) {
+                    $mieter = $this->mieter_model->get($b['mieter']);
+                    $projektnv = (empty($mieter->project)) ? ' ' : ' (' . $mieter->project . ')';
+                    $values['label'] = $b['mieter_name'] . $projektnv;
+                    $values['id_mieter'] = (int)$b['mieter'];
+                    $values['id'] = (int)$b['id'];
+                    $values['from'] = time_to_sql_datedv(strtotime($b['belegt_v']));
+                    $values['to'] = time_to_sql_datedv(strtotime($b['belegt_b']));
+                    $dd = rand(1, 14);
+                    $values['customClass'] = "aze" . $dd;
+                    $tmpdata['values'][] = $values;
+
+                    //breack day set on gantt
+                    $b_mi = $b['break_days'];
+                    $enddate = $b['belegt_b'];
+
+                    $i = 0;
+                    $progress_day = $enddate;
+                    if ($b_mi > 0) {
+                        $initdate = 0;
+                        while ($i < $b_mi) {
+                            $progress_day = date('Y-m-d', strtotime($progress_day . ' +1 day'));
+                            $day_of_week_prog = date('w', strtotime($progress_day));
+
+                            if ($day_of_week_prog == 0 || $day_of_week_prog == 6) {
+                                continue;
+                            } else {
+                                if ($i == 0)
+                                    $initdate = $progress_day;
+                                $values['label'] = '';
+                                $values['id_mieter'] = 0;
+                                $values['id'] = 0;
+                                $progress_dayl = date('Y-m-d', strtotime($progress_day . ' +1 day'));
+                                $values['from'] = to_sql_datedv($progress_dayl);
+                                $values['to'] = to_sql_datedv($progress_dayl);
+                                $values['customClass'] = "ganttbreack";
+                                $tmpdata['values'][] = $values;
+
+                                $i++;
+                            }
+
+                        }
+
+                    }
+
+                }
+                $demoSource[] = $tmpdata;
+            }
+        }
+
+        echo json_encode($demoSource);
+        die();
+    }
+
+
+    public function get_inventar_ajax($id)
+    {
+        $inventar = $this->wohnungen_model->getSingleInventer($id);
+        if ($inventar) {
+            echo json_encode($inventar);
+        }
+        die();
     }
 
 
@@ -248,10 +386,23 @@ class Wohnungen extends AdminController
     {
         if (!$id)
             return;
+        $aqs = $this->wohnungen_model->get_wohnungens();
         $aq = $this->wohnungen_model->get($id, true);
         if (count($aq->inventer > 0)) {
             $inventory = $aq->inventer;
             ob_start(); ?>
+            <div class="col-md-12 bold">
+                <div class="col-md-4">
+                    Now available: <span id="availSelected">0</span>
+                </div>
+                <div class="col-md-5">
+                    Selected to Move: <span id="moveledSelected">0</span>
+                </div>
+                <div class="col-md-3">
+                    Rest: <span id="restItem">0</span>
+                </div>
+            </div>
+            <br>
             <div class="form-check">
                 <div class="col-md-12">
                     <input type="checkbox" name="selectall"
@@ -266,10 +417,10 @@ class Wohnungen extends AdminController
             foreach ($inventory as $k => $inv) {
                 $inventoryy = $this->wohnungen_model->get_inventarliste($inv['inventar_id']);
                 ?>
-                <div class="form-check col-md-6">
+                <div class="form-check dieldkf col-md-4">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="checkbox" name="move[inventory][<?= $inventoryy->id ?>][]"
+                            <input type="hidden" name="move[inventory][<?= $inventoryy->id ?>][]"
                                    class="form-check-input checkinventar"
                                    value="<?= $inv['id'] ?>"
                                    id="inventory-<?= $inv['id'] ?>">
@@ -278,10 +429,10 @@ class Wohnungen extends AdminController
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <?php echo render_input('move[qty][' . $inventoryy->id . '][]', 'Qty', '', 'number', array('min' => 1, 'max' => $inv['qty']), [], '', 'qtyfiels'); ?>
+                        <div class="col-md-8" style="padding-right: 8px !important;">
+                            <?php echo render_input('move[qty][' . $inventoryy->id . '][]', '', '', 'number', array('min' => 1, 'max' => $inv['qty']), [], '', 'qtyfiels'); ?>
                         </div>
-                        <div class="col-md-3 relative">
+                        <div class="col-md-4 relative" style="padding-left: 0 !important;">
                             <div class="max-value">
                                 /<?= $inv['qty']; ?>
                             </div>
@@ -292,10 +443,18 @@ class Wohnungen extends AdminController
             }
             $content = ob_get_clean();
             ob_end_clean();
-            echo json_encode($content);
         }
+        $options = '<option></option>';
+        foreach ($aqs as $q) {
+            if ($q['id'] == $id)
+                continue;
+            $options .= '<option value="' . $q['id'] . '">' . $q['strabe'] . ' ' . $q['hausnummer'] . ' ' . $q['etage'] . ' ' . $q['flugel'] . '</option>';
+        }
+        $adata = array('items' => $content, 'aqs' => $options);
+        echo json_encode($adata);
         die();
     }
+
 
     public function bulk_delete()
     {

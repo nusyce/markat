@@ -57,7 +57,7 @@
                         </select>
                      </div>
                      <div class="col-md-2">
-                        <button type="submit" class="btn btn-info btn-block" style="margin-top:3px;"><?php echo _l('filter'); ?></button>
+                        <button type="submit" class="btn btn-info btn-block" style="margin-top:3px;"><?php echo _l(get_transl_field('tsl_tasks', 'filter','filter')); ?></button>
                      </div>
                   </div>
                   <?php echo form_close(); ?>
@@ -73,7 +73,7 @@
                   <table class="table tasks-overview dt-table scroll-responsive">
                      <thead>
                         <tr>
-                           <th><?php echo _l('tasks_dt_name'); ?></th>
+                           <th><?php echo _l(''); ?></th>
                            <th><?php echo _l('tasks_dt_datestart'); ?></th>
                            <th><?php echo _l('task_duedate'); ?></th>
                            <th><?php echo _l('task_status'); ?></th>

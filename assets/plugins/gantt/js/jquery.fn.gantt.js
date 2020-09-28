@@ -344,7 +344,7 @@
             leftPanel: function (element) {
                 /* Left panel */
                 var ganttLeftPanel = $('<div class="leftPanel"/>')
-                    .append($('<div class="row spacer"/>')
+                    .append($('<div class="row spacer"/><div class="row spacer"/><div class="row spacer"/>')
                     .css("height", tools.getCellSize() * element.headerRows)
                     .css("width", "100%"));
 

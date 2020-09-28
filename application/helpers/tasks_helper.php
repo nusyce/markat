@@ -302,32 +302,32 @@ function init_relation_tasks_table($table_attributes = [])
     $table_data = [
         _l('the_number_sign'),
         [
-            'name' => _l('tasks_dt_name'),
+            'name' => _l(get_transl_field('tsl_tasks', 'name','Name')),
             'th_attrs' => [
                 'style' => 'min-width:200px',
             ],
         ],
-        _l('task_status'),
+        _l(get_transl_field('tsl_tasks', 'status','Status')),
         [
-            'name' => _l('tasks_dt_datestart'),
+            'name' => _l(get_transl_field('tsl_tasks', 'startdatum','Start Datum')),
             'th_attrs' => [
                 'style' => 'min-width:75px',
             ],
         ],
         [
-            'name' => _l('task_duedate'),
+            'name' => _l(get_transl_field('tsl_tasks', 'falligkeitsdatum',_l('task_duedate'))),
             'th_attrs' => [
                 'style' => 'min-width:75px',
                 'class' => 'duedate',
             ],
         ],
         [
-            'name' => _l('task_assigned'),
+            'name' => _l(get_transl_field('tsl_tasks', 'zugewiesen','Zugewiesen')),
             'th_attrs' => [
                 'style' => 'min-width:75px',
             ],
         ],
-        _l('tags'),
+        _l(get_transl_field('tsl_tasks', 'tags','Tags')),
         _l('tasks_list_priority'),
     ];
 
@@ -482,31 +482,6 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
 }
 
 
-/**
- * Render lead status select field with ability to create inline statuses with + sign
- * @param array $statuses current statuses
- * @param string $selected selected status
- * @param string $lang_key the label of the select
- * @param string $name the name of the select
- * @param array $select_attrs additional select attributes
- * @param boolean $exclude_default whether to exclude default Client status
- * @return string
- */
-function render_project_select($statuses, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
-{
-    foreach ($statuses as $key => $status) {
-        if ($status['isdefault'] == 1) {
-            if ($exclude_default == false) {
-                $statuses[$key]['option_attributes'] = ['data-subtext' => _l('Projekt')];
-            } else {
-                unset($statuses[$key]);
-            }
-
-            break;
-        }
-    }
-    return render_select_with_input_group($name, $statuses, ['id', 'name'], $lang_key, $selected, '<a href="#" onclick="new_project_status_inline();return false;" class="inline-field-new"><i class="fa fa-plus"></i></a>', $select_attrs);
-}
 
 function hisMember($member, $task_id)
 {

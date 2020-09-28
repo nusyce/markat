@@ -6,12 +6,15 @@
         <div id="company_exists_info" class="hide"></div>
         <?php echo render_input('vorname', 'Vorname', get_option('f_vorname')); ?>
         <?php echo render_input('nachname', 'Nachname', get_option('f_nachname')); ?>
-        <?php echo render_input('strabe', 'Straße', get_option('f_strabe')); ?>
+        <?php echo render_input('strabe', 'StraÃŸe', get_option('f_strabe')); ?>
         <?php echo render_input('hausnummer', 'Hausnummer', get_option('f_hausnummer')); ?>
         <?php echo render_input('zip', 'Postleitzahl', get_option('f_zip')); ?>
         <?php echo render_input('city', 'Ort', get_option('f_city')); ?>
-        <!--     <?php /*$value = (isset($firma) ? $firma->state : ''); */ ?>
-        --><?php /*echo render_input('state', 'client_state', $value);
+        <p style="font-weight: bold"> Meine Bankdaten</p>
+        <?php echo render_input('name_der_bank', 'Name der Bank', get_option('f_name_der_bank')); ?>
+        <?php echo render_input('iban', 'IBAN', get_option('f_iban')); ?>
+        <?php echo render_input('bic', 'BIC', get_option('f_bic')); ?>
+       <?php /*echo render_input('state', 'client_state', $value);
         $selected = (isset($firma) ? $firma->country : $customer_default_country);
         echo render_select('country', $countries, array('country_id', array('short_name')), 'clients_country', $selected, array('data-none-selected-text' => _l('dropdown_non_selected_tex')));
         */ ?>

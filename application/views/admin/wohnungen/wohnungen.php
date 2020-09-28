@@ -2,7 +2,6 @@
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
-
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <?php if (!isset($wohnungen)): ?>
@@ -104,9 +103,10 @@
         flugel: 'required',
         schlaplatze: 'required',
         zimmer: 'required',
-        hausnummer: 'required',
-        wohnungsnumme: 'required'
+        hausnummer: 'required'
     });
+
+
 
 </script>
 </body>

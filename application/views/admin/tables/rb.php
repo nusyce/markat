@@ -1,17 +1,17 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
-
+$this->ci->load->model('dokument_model');
 $aColumns = [
-    'id',
+    db_prefix() . 'mieters.id as id',
     'fullname',
-    'projektname',
+    db_prefix() . 'projects.name as project',
     'strabe_m as strabe',
     'hausnummer_m as hausnummer',
     'plz',
     'stadt',
-    'beraumung', 'baubeginn',
-    'ruckraumung', 'bauende',
+    'beraumung',1, 'baubeginn',
+    'ruckraumung', 1,'bauende',
+    1,
     'active'
 ];
 
@@ -20,8 +20,9 @@ $sIndexColumn = 'id';
 $sTable = db_prefix() . 'mieters';
 
 $where = ['AND (beraumung !=""  OR ruckraumung !="" )'];
-$join = [];
+$join = [];$join[] = ' LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'mieters.project';
 $filter = [];
+
 
 if ($this->ci->input->post('strabe')) {
     array_push($where, 'AND strabe_m ="' . $this->ci->db->escape_str($this->ci->input->post('strabe')) . ' " ');
@@ -43,8 +44,11 @@ if ($this->ci->input->post('stadt')) {
 
 
 if ($this->ci->input->post('project')) {
-    array_push($where, 'AND projektname ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+    array_push($where, 'AND project ="' . $this->ci->db->escape_str($this->ci->input->post('project')) . ' " ');
+}else if ($project) { // added to filter in Project View screen
+    array_push($where, 'AND project ="' . $project . ' " ');
 }
+
 
 
 if ($this->ci->input->post('beraumung')) {
@@ -88,24 +92,24 @@ foreach ($rResult as $aRow) {
     //  $row[] = $aRow['strabe'];
     $subjectOutput = $aRow['fullname'];
     $subjectOutput = '<a href="' . admin_url('mieter/mieter/' . $aRow['id']) . '">' . $aRow['fullname'] . '</a>';
-
-    /* if ($aRow['trash'] == 1) {
-         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('rb_trash') . '</span>';
-     }*/
-
     $row[] = $subjectOutput;
-    $row[] = $aRow['projektname'];
+    $row[] = $aRow['project'];
     $row[] = $aRow['strabe'];
     $row[] = $aRow['hausnummer'];
     $row[] = $aRow['plz'];
     $row[] = $aRow['stadt'];
     if (!empty($aRow['beraumung'])) {
-        $beraumung =  de_date($aRow['beraumung']);
+        $beraumung = de_date($aRow['beraumung']);
     } else {
         $beraumung = '';
     }
     $row[] = '<div class="data-act beraumung ' . is_before($aRow['beraumung']) . '" data-ucolumn="beraumung" data-id="' . $aRow['id'] . '">' . $beraumung . '</div>';
-
+    $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
+    if ($checker) {
+        $row[] = '<a data-act="BR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+    } else {
+        $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
+    }
     if (!empty($aRow['baubeginn'])) {
         $baubeginn = de_full_date($aRow['baubeginn']);
     } else {
@@ -113,8 +117,9 @@ foreach ($rResult as $aRow) {
     }
     $row[] = '<div class="data-act baubeginn" data-ucolumn="baubeginn" data-id="' . $aRow['id'] . '">' . $baubeginn . '</div>';
 
+
     if (!empty($aRow['ruckraumung'])) {
-        $ruckraumung =  de_date($aRow['ruckraumung']);
+        $ruckraumung = de_date($aRow['ruckraumung']);
     } else {
         $ruckraumung = '';
     }
@@ -123,11 +128,18 @@ foreach ($rResult as $aRow) {
     if (!empty($aRow['bauende'])) {
         $bauende = de_full_date($aRow['bauende']);
     } else {
-
         $bauende = '';
     }
 
+    $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
+    if ($checker) {
+        $row[] = '<a data-act="RR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+    } else {
+        $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
+    }
     $row[] = '<div data-ucolumn="bauende" class="data-act bauende" data-id="' . $aRow['id'] . '">' . $bauende . '</div>';
+
+
 
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip"  >
