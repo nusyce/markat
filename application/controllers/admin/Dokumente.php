@@ -2,13 +2,15 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dokumente extends AdminController
+class Dokumente extends AdminControllerm
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('dokument_model');
+        $this->load->model('staff_model');
     }
+
 
     /* List all contracts */
     public function index()
@@ -16,6 +18,7 @@ class Dokumente extends AdminController
         close_setup_menu();
 
         $data['title'] = get_menu_option('dokumente', 'Dokumente');
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
         $this->load->view('admin/dokumente/manage', $data);
     }
 

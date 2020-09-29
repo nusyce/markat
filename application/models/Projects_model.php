@@ -218,6 +218,7 @@ class Projects_model extends App_Model
         if (is_numeric($id)) {
             $this->db->where('id', $id);
             $project = $this->db->get(db_prefix() . 'projects')->row();
+            $project->mieters = $this->get_project_mieters($id);
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
                 $settings = $this->get_project_settings($id);

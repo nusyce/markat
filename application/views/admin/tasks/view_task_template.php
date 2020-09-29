@@ -1220,22 +1220,19 @@
                 </button>
                 <div id="dropbox-chooser-task"></div>
             </div>
-
             <div class="report-action">
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
-                <a href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn btn-success">Arbeitsschein</a>
+                <a target="_blank" href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn btn-success">Arbeitsschein</a>
                 <br>
-                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>"
+                <a target="_blank" href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>"
                    class="btn  btn-success">Checkliste</a>
-
-                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation
+                <br><a target="_blank" href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation
                     vorther</a><br>
 
                 <a href="#" onclick="slideToggle('.tasks-comments'); return false;" class="btn  btn-primary">Dokumentation
                     danash</a>
-
                 <br>
-                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
+                <a target="_blank" href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
                    class="btn" style="background-color: blue;color: white">Dokumentation komplett</a>
             </div>
             <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>

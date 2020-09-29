@@ -14,10 +14,13 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                    <button type="button" onclick="SetTaskMOdal(); "class="btn btn-info col-md-6 m-4" ><?php echo _l('Task'); ?></button>
-                    <button type="button" onclick=" $('#newEventModal').modal('show'); $('#chooseEventModel').modal('hide');" class="btn btn-info col-md-6 m-4"><?php echo _l('Events'); ?></button>
+                        <button type="button" onclick="SetTaskMOdal(); "class="btn btn-info col-md-6 m-4" ><?php echo _l('Task'); ?></button>
+                        <button type="button" onclick=" $('#newEventModal').modal('show'); $('#chooseEventModel').modal('hide');" class="btn btn-info col-md-6 m-4"><?php echo _l('Events'); ?></button>
                     </div>
-
+                    <div class="col-sm-12 text-center " >
+                        <br>
+                        <span class="spinner text-primary" id="taksLoader" style='display:none'> Loading... </span>
+                    </div>
                 </div>
 
             </div>
@@ -30,18 +33,40 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <?php }?>
-
+<style>
+    .spinner{
+        font-size: 18px;
+        color: #106cbf;
+    }
+</style>
 <script>
     function SetTaskMOdal(){
-        new_task();
-        setTimeout(() => {
-            $('#chooseEventModel').modal('hide');
-            $("input[name='startdate']").val(localStorage.getItem('startdate'));
 
-           var valF = JSON.parse(localStorage.getItem('taskfor'));
-            $('select[name="task_for[]"]').val(valF).trigger('change');
-            //alert((localStorage.getItem('startdate')));
+        url = admin_url + 'tasks/task';
+        // show loader
+        $('#taksLoader').show();
+        requestGet(url).done(function (response) {
 
-        }, 900);
+            $('#_task').html(response);
+            $("body").find('#_task_modal').modal({show: true, backdrop: 'static'});
+            $('#taksLoader').hide();
+            //set Cliecked Data in task modal
+            setTimeout(() => {
+                $('#chooseEventModel').modal('hide');
+                $("input[name='startdate']").val(localStorage.getItem('startdate'));
+
+            var valF = JSON.parse(localStorage.getItem('taskfor'));
+                $('select[name="task_for[]"]').val(valF).trigger('change');
+
+
+            }, 900);
+
+        }).fail(function (error) {
+            alert_float('danger', error.responseText);
+            $('#taksLoader').hide();
+        })
+
+
+
     }
 </script>

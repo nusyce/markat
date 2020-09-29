@@ -109,7 +109,6 @@ class Tasks_model extends App_Model
                 $task->mieter = $mieter->fullname;
             else
                 $task->mieter = '';
-            $task->assignees = $this->get_task_assignees($id);
             $task->assignees_ids = [];
 
             foreach ($task->assignees as $follower) {

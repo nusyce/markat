@@ -17,9 +17,11 @@
                     <div class="col-md-12">
                         <?php echo render_input('email_to', 'Email'); ?>
                         <?php echo render_input('cc', 'CC'); ?>
+                        <?php echo render_select('staff', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l(get_transl_field('tsl_tasks', 'mitarbeiter', 'Mitarbeiter')))); ?>
                     </div>
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
                 <button type="submit" data-loading-text="<?php echo _l('wait_text'); ?>"
