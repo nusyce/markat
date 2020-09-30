@@ -329,7 +329,7 @@
                                                         <?php echo staff_profile_attc($member->staffid, 'bewerbung'); ?>
                                                     </div>
                                                     <div class="col-md-3 text-right">
-                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/bewerbung'); ?>"><i
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_doc/' . $member->staffid . '/bewerbung'); ?>"><i
                                                                     class="fa fa-remove"></i></a>
                                                     </div>
                                                 </div>
@@ -352,7 +352,7 @@
                                                         <?php echo staff_profile_attc($member->staffid, 'ausweis'); ?>
                                                     </div>
                                                     <div class="col-md-3 text-right">
-                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/ausweis'); ?>"><i
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_doc/' . $member->staffid . '/ausweis'); ?>"><i
                                                                     class="fa fa-remove"></i></a>
                                                     </div>
                                                 </div>

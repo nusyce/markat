@@ -1024,7 +1024,6 @@ function _file_attachments_index_fix($index_name)
         $_FILES[$index_name]['size'] = array_values($_FILES[$index_name]['size']);
     }
 }
-
 /**
  * Check if path exists if not exists will create one
  * This is used when uploading files

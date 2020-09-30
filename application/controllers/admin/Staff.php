@@ -305,6 +305,7 @@ class Staff extends AdminController
         }
     }
 
+
     public function remove_staff_profile_doc($staff_id = '', $type)
     {
         $this->db->where('staffid', $staff_id);
@@ -312,7 +313,6 @@ class Staff extends AdminController
             $type => '',
         ]);
 
-        exit();
         redirect(admin_url('staff/member/' . $staff_id));
 
     }

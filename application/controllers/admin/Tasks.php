@@ -554,7 +554,7 @@ class Tasks extends AdminController
         $data['staff'] = $staffs;
         $data['projects'] = $this->misc_model->get_project();
         $data['cars'] = $this->cars_model->get();
-        $data['clients'] = $this->clients_model->get('',['active'=>1]);
+        $data['clients'] = $this->clients_model->get('',[db_prefix().'clients.active'=>1]);
         $this->load->view('admin/tasks/task', $data);
     }
 
