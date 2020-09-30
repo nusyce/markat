@@ -155,7 +155,6 @@
     <br><br>
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
         <tr>
-
             <td>Beauftragt durch:</td>
         </tr>
     </table>
@@ -166,8 +165,7 @@
         <tr>
             <th colspan="4">
                 <div style="border-bottom: 2px solid #000; font-size: 16px; padding-bottom: 8px; margin-bottom: 5px">
-                    Arbeitsschein
-
+                    Arbeitsschein <?= $task->id?>
                 </div>
             </th>
         </tr>
