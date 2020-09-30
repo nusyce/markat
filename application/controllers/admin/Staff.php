@@ -304,27 +304,17 @@ class Staff extends AdminController
             redirect(admin_url('staff/member/' . $staff_id));
         }
     }
-    public function remove_staff_profile_doc($id = '', $type)
+
+    public function remove_staff_profile_doc($staff_id = '', $type)
     {
-        $staff_id = get_staff_user_id();
-        if (is_numeric($id) && (has_permission('staff', '', 'create') || has_permission('staff', '', 'edit'))) {
-            $staff_id = $id;
-        }
-        //hooks()->do_action('before_remove_staff_profile_image');
-        $member = $this->staff_model->get($staff_id);
-        if (file_exists(get_upload_path_by_type('staff') . $staff_id)) {
-            delete_dir(get_upload_path_by_type('staff') . $staff_id);
-        }
         $this->db->where('staffid', $staff_id);
         $this->db->update(db_prefix() . 'staff', [
-            '$type' => null,
+            $type => '',
         ]);
 
-        if (!is_numeric($id)) {
-            redirect(admin_url('staff/edit_profile/' . $staff_id));
-        } else {
-            redirect(admin_url('staff/member/' . $staff_id));
-        }
+        exit();
+        redirect(admin_url('staff/member/' . $staff_id));
+
     }
 
     /* When staff change his password */

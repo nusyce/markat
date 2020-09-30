@@ -308,7 +308,7 @@
                                                         <?php echo staff_profile_attc($member->staffid, 'lebenslauf'); ?>
                                                     </div>
                                                     <div class="col-md-3 text-right">
-                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_doc/' . $member->staffid . '/' . $member->lebenslauf); ?>"><i
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_doc/' . $member->staffid . '/lebenslauf'); ?>"><i
                                                                     class="fa fa-remove"></i></a>
                                                     </div>
                                                 </div>
@@ -329,7 +329,7 @@
                                                         <?php echo staff_profile_attc($member->staffid, 'bewerbung'); ?>
                                                     </div>
                                                     <div class="col-md-3 text-right">
-                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/' . $member->bewerbung); ?>"><i
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/bewerbung'); ?>"><i
                                                                     class="fa fa-remove"></i></a>
                                                     </div>
                                                 </div>
@@ -352,7 +352,7 @@
                                                         <?php echo staff_profile_attc($member->staffid, 'ausweis'); ?>
                                                     </div>
                                                     <div class="col-md-3 text-right">
-                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/' . $member->ausweis); ?>"><i
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/ausweis'); ?>"><i
                                                                     class="fa fa-remove"></i></a>
                                                     </div>
                                                 </div>
@@ -578,29 +578,17 @@
                                 $selected = '';
 
                                 foreach ($roles as $role) {
-
                                     if (isset($member)) {
-
                                         if ($member->role == $role['roleid']) {
-
                                             $selected = $role['roleid'];
-
                                         }
-
                                     } else {
-
                                         $default_staff_role = get_option('default_staff_role');
-
                                         if ($default_staff_role == $role['roleid']) {
-
                                             $selected = $role['roleid'];
-
                                         }
-
                                     }
-
                                 }
-
                                 ?>
 
                                 <?php echo render_select('role', $roles, array('roleid', 'name'), get_transl_field('tsl_staff', 'rolle', 'Rolle'), $selected); ?>
@@ -610,17 +598,11 @@
                                 <h4 class="font-medium mbot15 bold"><?php echo _l(get_transl_field('tsl_staff', 'berechtigungen', 'Berechtigungen')); ?></h4>
 
                                 <?php
-
                                 $permissionsData = ['funcData' => ['staff_id' => isset($member) ? $member->staffid : null]];
-
                                 if (isset($member)) {
-
                                     $permissionsData['member'] = $member;
-
                                 }
-
                                 $this->load->view('admin/staff/permissions', $permissionsData);
-
                                 ?>
 
                             </div>
