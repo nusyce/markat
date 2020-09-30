@@ -159,6 +159,11 @@ define('COMPANY_FILES_FOLDER', FCPATH . 'uploads/company' . '/');
  */
 define('STAFF_PROFILE_IMAGES_FOLDER', FCPATH . 'uploads/staff_profile_images' . '/');
 /**
+/**
+ * Staff profile images
+ */
+define('STAFF_ATTACH_FOLDER', FCPATH . 'uploads/staffs' . '/');
+/**
  * Contact profile images
  */
 define('CONTACT_PROFILE_IMAGES_FOLDER', FCPATH . 'uploads/client_profile_images' . '/');

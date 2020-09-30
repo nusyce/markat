@@ -390,6 +390,8 @@ class Staff_model extends App_Model
 
         $data['password'] = app_hash_password($data['password']);
         $data['datecreated'] = date('Y-m-d H:i:s');
+        $data['einstellungsbeginn'] = to_sql_date($data['einstellungsbeginn']);
+        $data['geb_datum'] = to_sql_date($data['geb_datum']);
         if (isset($data['departments'])) {
             $departments = $data['departments'];
             unset($data['departments']);

@@ -81,7 +81,7 @@ foreach ($rResult as $aRow) {
     $row[] = _d($aRow['demontage']);
     $row[] = _d($aRow['e_datum']);
     $row[] = '<a  target="_blank" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning">See Pdf</a>';
-    $row[] = '<a href="#" data-id="' . $aRow['id'] . '" class="btn senddok-by-email btn-primary">Send email</a>';
+    $row[] = '<a href="#" data-id="' . $aRow['id'] . '" class="btn senddok-by-email btn-primary">Send PDF</a>';
 
     if (!empty($aRow['dateend'])) {
         $_date_end = date('Y-m-d', strtotime($aRow['dateend']));

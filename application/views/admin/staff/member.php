@@ -153,7 +153,8 @@
                                                                                 data-toggle="tooltip"
                                                                                 data-title="<?php echo _l('two_factor_authentication_info'); ?>"></i>
 
-                                            <?php echo _l(get_transl_field('tsl_staff', 'zwei_faktor_authentifizierung_aktivieren','Zwei-faktor-Authentifizierung aktivieren')); ?></label>
+                                            <?php echo _l(get_transl_field('tsl_staff', 'zwei_faktor_authentifizierung_aktivieren', 'Zwei-faktor-Authentifizierung aktivieren')); ?>
+                                        </label>
 
                                     </div>
 
@@ -184,7 +185,7 @@
                                         <input type="checkbox" value="1" name="is_not_staff"
                                                id="is_not_staff" <?php echo $checked; ?>>
 
-                                        <label for="is_not_staff"><?php echo _l(get_transl_field('tsl_staff', 'kein_mitarbeiter','kein Mitarbeiter')); ?></label>
+                                        <label for="is_not_staff"><?php echo _l(get_transl_field('tsl_staff', 'kein_mitarbeiter', 'kein Mitarbeiter')); ?></label>
 
                                     </div>
 
@@ -217,8 +218,7 @@
 
                                 <?php } ?>
                                 <div class="row">
-                                    <div class="col-md-6 col-xs-12">
-
+                                    <div class="col-md-6 col-xs-12 ">
 
                                         <?php if ((isset($member) && $member->profile_image == NULL) || !isset($member)) { ?>
 
@@ -226,7 +226,7 @@
                                                  style="border: 1px solid grey; padding: 80px 44px 80px 44px;width: 300px;">
 
                                                 <label for="profile_image"
-                                                       class="profile-image"><?php echo _l(get_transl_field('tsl_staff', 'profil_bild','Profil Bild')); ?></label>
+                                                       class="profile-image"><?php echo _l(get_transl_field('tsl_staff', 'profil_bild', 'Profil Bild')); ?></label>
 
                                                 <input type="file" name="profile_image" class="form-control"
                                                        id="profile_image">
@@ -235,37 +235,150 @@
 
                                         <?php } ?>
                                     </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-md-6 col-xs-12">
                                         <?php $value = (isset($member) ? $member->firstname : ''); ?>
 
                                         <?php $attrs = (isset($member) ? array() : array('autofocus' => true)); ?>
 
-                                        <?php echo render_input('firstname', get_transl_field('tsl_staff', 'vorname','Vorname'), $value, 'text', $attrs); ?>
+                                        <?php echo render_input('firstname', get_transl_field('tsl_staff', 'vorname', 'Vorname'), $value, 'text', $attrs); ?>
                                         <?php $value = (isset($member) ? $member->lastname : ''); ?>
 
-                                        <?php echo render_input('lastname', get_transl_field('tsl_staff', 'familienname','Familienname'), $value); ?>
+                                        <?php echo render_input('lastname', get_transl_field('tsl_staff', 'familienname', 'Familienname'), $value); ?>
                                         <?php
                                         $selected = isset($member->projects) ? unserialize($member->projects) : '';
 
-                                        echo render_select('projects[]', $projects, array('id', array('name')), get_menu_option('projects', _l(get_transl_field('tsl_staff', 'projekte','Projekte'))), $selected, array('multiple' => true), array(), '', '', false); ?>
+                                        echo render_select('projects[]', $projects, array('id', array('name')), get_menu_option('projects', _l(get_transl_field('tsl_staff', 'projekte', 'Projekte'))), $selected, array('multiple' => true), array(), '', '', false); ?>
 
-                                        <?php $value = (isset($member) ? $member->lastname : ''); ?>
+                                        <?php $value = (isset($member) ? $member->geb_datum : ''); ?>
 
-                                        <?php echo render_input('lastname', get_transl_field('tsl_staff', 'familienname','Familienname'), $value); ?>
+                                        <?php echo render_date_input('geb_datum', get_transl_field('tsl_staff', 'geb_datum', 'Geb datum'), $value); ?>
+
+                                        <?php $value = (isset($member) ? $member->strasse : ''); ?>
+
+                                        <?php echo render_input('strasse', get_transl_field('tsl_staff', 'strasse', 'Stra�e'), $value); ?>
+
+                                        <?php $value = (isset($member) ? $member->postleitzahl : ''); ?>
+
+                                        <?php echo render_input('postleitzahl', get_transl_field('tsl_staff', 'postleitzahl', 'Postleitzahl'), $value); ?>
+
+                                        <?php $value = (isset($member) ? $member->hausnummer : ''); ?>
+
+                                        <?php echo render_input('hausnummer', get_transl_field('tsl_staff', 'hausnummer', 'Hausnummer'), $value); ?>
+
+                                        <?php $value = (isset($member) ? $member->ort : ''); ?>
+
+                                        <?php echo render_input('ort', get_transl_field('tsl_staff', 'ort', 'Ort')) ?>
+                                        <?php $value = (isset($member) ? $member->steuenummer : ''); ?>
+
+                                        <?php echo render_input('steuenummer', get_transl_field('tsl_staff', 'steuenummer', 'Steuenummer'), $value); ?>
+
+                                        <?php $value = (isset($member) ? $member->steuerklasse : ''); ?>
+
+                                        <?php echo render_input('steuerklasse', get_transl_field('tsl_staff', 'steuerklasse', 'Steuerklasse'), $value); ?>
+
+
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-6 col-xs-12">
+
+                                        <?php $value = (isset($member) ? $member->urlaub_von_bis : ''); ?>
+
+                                        <?php echo render_input('urlaub_von_bis', get_transl_field('tsl_staff', 'urlaub_von_bis', 'Urlaub von bis'), $value) ?>
+
+                                        <?php $value = (isset($member) ? $member->entschuldigtes_fehlen : ''); ?>
+
+                                        <?php echo render_input('entschuldigtes_fehlen', get_transl_field('tsl_staff', 'entschuldigtes_fehlen', 'Entschuldigtes fehlenn'), $value) ?>
+
+                                        <?php $value = (isset($member) ? $member->unentschuldigtes_fehlen : ''); ?>
+
+                                        <?php echo render_input('unentschuldigtes_fehlen', get_transl_field('tsl_staff', 'unentsshuldigtes_fehlen', 'Unentsshuldigtes fehlen'), $value) ?>
 
                                         <?php $value = (isset($member) ? $member->email : ''); ?>
 
-                                        <?php echo render_input('email', get_transl_field('tsl_staff', 'emails','E-Mail'), $value, 'email', array('autocomplete' => 'off')); ?>
-                                     </div>
-                                    <div class="col-md-6 col-xs-12">
+                                        <?php echo render_input('email', get_transl_field('tsl_staff', 'emails', 'E-Mail'), $value, 'email', array('autocomplete' => 'off')); ?>
+
+                                        <?php //$value = (isset($member) ? $member->einstellungsbeginn : ''); ?>
+
+                                        <?php if (isset($member) && $member->lebenslauf != NULL) { ?>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <?php echo staff_profile_attc($member->staffid, 'lebenslauf'); ?>
+                                                    </div>
+                                                    <div class="col-md-3 text-right">
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_doc/' . $member->staffid . '/' . $member->lebenslauf); ?>"><i
+                                                                    class="fa fa-remove"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="row">
+                                            <div class="col-md-6 col-xs-12 ">
+                                                <?php if ((isset($member) && $member->lebenslauf == NULL) || !isset($member)) { ?>
+                                                    <?php echo render_input('lebenslauf', get_transl_field('tsl_staff', 'lebenslauf', 'Lebenslauf'), $value, 'file'); ?>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+
+                                        <?php if (isset($member) && $member->bewerbung != NULL) { ?>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <?php echo staff_profile_attc($member->staffid, 'bewerbung'); ?>
+                                                    </div>
+                                                    <div class="col-md-3 text-right">
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/' . $member->bewerbung); ?>"><i
+                                                                    class="fa fa-remove"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="row">
+                                            <div class="col-md-6 col-xs-12 ">
+                                                <?php if ((isset($member) && $member->bewerbung == NULL) || !isset($member)) { ?>
+                                                    <?php echo render_input('bewerbung', get_transl_field('tsl_staff', 'bewerbung', 'Bewerbung'), $value, 'file'); ?>
+
+
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+
+                                        <?php if (isset($member) && $member->ausweis != NULL) { ?>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <?php echo staff_profile_attc($member->staffid, 'ausweis'); ?>
+                                                    </div>
+                                                    <div class="col-md-3 text-right">
+                                                        <a href="<?php echo admin_url('staff/remove_staff_profile_image/' . $member->staffid . '/' . $member->ausweis); ?>"><i
+                                                                    class="fa fa-remove"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="row">
+                                            <div class="col-md-6 col-xs-12 ">
+                                                <?php if ((isset($member) && $member->ausweis == NULL) || !isset($member)) { ?>
+                                                    <?php echo render_input('ausweis', get_transl_field('tsl_staff', 'ausweis', 'Ausweis'), $value, 'file'); ?>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+
+
+                                        <?php $value = (isset($member) ? $member->einstellungsbeginn : ''); ?>
+
+                                        <?php echo render_date_input('einstellungsbeginn', get_transl_field('tsl_staff', 'einstellungsbeginn', 'Einstellungsbeginn'), $value); ?>
+
+                                        <?php $value = (isset($member) ? $member->sv_nr : ''); ?>
+
+                                        <?php echo render_input('sv_nr', get_transl_field('tsl_staff', 'sv_nr', 'SV Nr'), $value); ?>
+
+
                                         <div class="form-group">
 
-                                            <label for="hourly_rate"><?php echo _l(get_transl_field('tsl_staff', 'stundensatz','Stundensatz')); ?></label>
+                                            <label for="hourly_rate"><?php echo _l(get_transl_field('tsl_staff', 'stundensatz', 'Stundensatz')); ?></label>
 
                                             <div class="input-group">
 
@@ -294,7 +407,7 @@
 
                                         <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
 
-                                        <?php echo render_input('phonenumber', get_transl_field('tsl_staff', 'telefon','Telefon'), $value); ?>
+                                        <?php echo render_input('phonenumber', get_transl_field('tsl_staff', 'telefon', 'Telefon'), $value); ?>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         <?php if (!isset($member) || is_admin() || !is_admin() && $member->admin == 0) { ?>
@@ -310,7 +423,7 @@
                                         <div class="clearfix form-group" style="margin-top: -18px!important;">
 
                                             <label for="password"
-                                                   class="control-label"><?php echo _l(get_transl_field('tsl_staff', 'passwort','Passwort')); ?></label>
+                                                   class="control-label"><?php echo _l(get_transl_field('tsl_staff', 'passwort', 'Passwort')); ?></label>
 
                                             <div class="input-group">
 
@@ -445,7 +558,7 @@
                                             <input type="checkbox" name="send_welcome_email" id="send_welcome_email"
                                                    checked>
 
-                                            <label for="send_welcome_email"><?php echo _l(get_transl_field('tsl_staff', 'willkommens_e_mail_senden','Willkommens-E-Mail senden')); ?></label>
+                                            <label for="send_welcome_email"><?php echo _l(get_transl_field('tsl_staff', 'willkommens_e_mail_senden', 'Willkommens-E-Mail senden')); ?></label>
 
                                         </div>
 
@@ -490,11 +603,11 @@
 
                                 ?>
 
-                                <?php echo render_select('role', $roles, array('roleid', 'name'), get_transl_field('tsl_staff', 'rolle','Rolle'), $selected); ?>
+                                <?php echo render_select('role', $roles, array('roleid', 'name'), get_transl_field('tsl_staff', 'rolle', 'Rolle'), $selected); ?>
 
                                 <hr/>
 
-                                <h4 class="font-medium mbot15 bold"><?php echo _l(get_transl_field('tsl_staff', 'berechtigungen','Berechtigungen')); ?></h4>
+                                <h4 class="font-medium mbot15 bold"><?php echo _l(get_transl_field('tsl_staff', 'berechtigungen', 'Berechtigungen')); ?></h4>
 
                                 <?php
 
@@ -511,9 +624,7 @@
                                 ?>
 
                             </div>
-
                             <div role="tabpanel" class="tab-pane" id="tab_meldungen">
-
                             </div>
 
                         </div>
@@ -526,7 +637,8 @@
 
             <div class="btn-bottom-toolbar text-right btn-toolbar-container-out">
 
-                <button type="submit" class="btn btn-info"><?php echo _l(get_transl_field('tsl_staff', 'speichern','SPEICHERN')); ?></button>
+                <button type="submit"
+                        class="btn btn-info"><?php echo _l(get_transl_field('tsl_staff', 'speichern', 'SPEICHERN')); ?></button>
 
             </div>
 
@@ -997,35 +1109,20 @@
 <script>
 
     $(function () {
-
-
         $('select[name="role"]').on('change', function () {
-
             var roleid = $(this).val();
-
             init_roles_permissions(roleid, true);
-
         });
 
-
         $('input[name="administrator"]').on('change', function () {
-
             var checked = $(this).prop('checked');
-
             var isNotStaffMember = $('.is-not-staff');
-
             if (checked == true) {
-
                 isNotStaffMember.addClass('hide');
-
                 $('.roles').find('input').prop('disabled', true).prop('checked', false);
-
             } else {
-
                 isNotStaffMember.removeClass('hide');
-
                 isNotStaffMember.find('input').prop('checked', false);
-
                 $('.roles').find('.capability').not('[data-not-applicable="true"]').prop('disabled', false)
 
             }
@@ -1034,9 +1131,7 @@
 
 
         $('#is_not_staff').on('change', function () {
-
             var checked = $(this).prop('checked');
-
             var row_permission_leads = $('tr[data-name="leads"]');
 
             if (checked == true) {

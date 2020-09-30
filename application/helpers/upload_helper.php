@@ -777,6 +777,42 @@ function handle_staff_profile_image_upload($staff_id = '')
 }
 
 /**
+ * Maybe upload staff profile image
+ * @param string $staff_id staff_id or current logged in staff id will be used if not passed
+ * @return boolean
+ */
+function handle_staff_profile_tach_upload($staff_id, $type)
+{
+    if (isset($_FILES[$type]['name']) && $_FILES[$type]['name'] != '') {
+       // hooks()->do_action('before_upload_staff_profile_image');
+        $path = get_upload_path_by_type('staffs') . $staff_id . '/';
+        // Get the temp file path
+        $tmpFilePath = $_FILES[$type]['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+
+            _maybe_create_upload_path($path);
+            $filename = unique_filename($path, $_FILES[$type]['name']);
+            $newFilePath = $path . '/' . $filename;
+            // Upload the file into the company uploads dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $CI = &get_instance();
+                $CI->db->where('staffid', $staff_id);
+                $CI->db->update(db_prefix() . 'staff', [
+                    $type => $filename,
+                ]);
+                // Remove original image
+                //   unlink($newFilePath);
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+/**
  * Maybe upload contact profile image
  * @param string $contact_id contact_id or current logged in contact id will be used if not passed
  * @return boolean
@@ -998,7 +1034,7 @@ function _file_attachments_index_fix($index_name)
 function _maybe_create_upload_path($path)
 {
     if (!file_exists($path)) {
-        mkdir($path, 0755);
+        mkdir($path, 0755,true);
         fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
     }
 }

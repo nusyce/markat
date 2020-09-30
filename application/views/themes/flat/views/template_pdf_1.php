@@ -159,8 +159,7 @@
             <td>Beauftragt durch:</td>
         </tr>
     </table>
-    <br><br>
-
+    <br><br> 
 
     <table cellspacing="0%" style="width: 100%; text-align: left;font-size: 10pt; border-top-color: black;">
         <thead>

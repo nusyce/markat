@@ -34,8 +34,8 @@ class Template_pdf
                 $encoding = 'UTF-8',
                 $margins = array(5, 5, 5, 4));
             $html2pdf->setDefaultFont('Arial');
-            // $html2pdf->setModeDebug();
-            $html2pdf->writeHTML($content);
+
+             $html2pdf->writeHTML($content);
             $html2pdf->output('dokumente.pdf');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
