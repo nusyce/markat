@@ -13,6 +13,8 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-home',
     ]);
 
+
+
     $CI->app_menu->add_sidebar_children_item('hauptinfo', [
         'slug' => 'hauptinfo',
         'name' => _l('als_dashboard'),
@@ -46,6 +48,12 @@ function app_init_admin_sidebar_menu_items()
         'collapse' => true,
         'position' => 10,
         'icon' => 'fa fa-file',
+    ]);
+    $CI->app_menu->add_sidebar_menu_item('activity-log', [
+        'name' => _l('activity log'),
+        'href' => admin_url('utilities/activity_log'),
+        'icon' => 'fa fa-history',
+        'position' => 180,
     ]);
 
     if (has_permission('staff', '', 'view')
@@ -552,12 +560,7 @@ function app_init_admin_sidebar_menu_items()
             'position' => 20,
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('utilities', [
-            'slug' => 'activity-log',
-            'name' => _l('als_activity_log_submenu'),
-            'href' => admin_url('utilities/activity_log'),
-            'position' => 25,
-        ]);
+
 
         $CI->app_menu->add_sidebar_children_item('utilities', [
             'slug' => 'ticket-pipe-log',

@@ -16,9 +16,9 @@ class Utilities extends AdminController
     public function activity_log()
     {
         // Only full admin have permission to activity log
-        if (!is_admin()) {
+        /*if (!is_admin()) {
             access_denied('Activity Log');
-        }
+        }*/
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('activity_log');
         }
