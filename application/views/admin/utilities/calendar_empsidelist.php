@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-<div class="col-md-12 ">
-    <div class="fc-toolbar fc-header-toolbar">
+<div class="col-md-12 no-padding">
+    <!--div class="fc-toolbar fc-header-toolbar">
         <label class="switch" id="check">
             <input type="checkbox" id="select-mf" checked>
             <span class="slider round"></span>
@@ -9,9 +9,16 @@
         </br>
         <div class="fc-center" id='mh-1'><h2>Mitarbeiter</h2></div>
         <div class="fc-center" id='fh-1' style="display: none;"><h2>Fahrzeugliste</h2></div>
-    </div>
+        <div class="fc-center" id='fh-1' style="display: none;"><h2>Fremdfirmen</h2></div>
+    </div-->
+    <select class="form-control switchS mb-2" style="margin-bottom:10px">
+            <option value='employee_list'> Mitarbeiter </option>
+            <option value='vehicle_list'> Fahrzeugliste </option>
+            <option value='lieferanten_list'> Fremdfirmen </option>
+    </select>
 
-    <div class="fc-view-container" id='employee_list' >
+    <div class="fc-view-container listc" id='employee_list' >
+
         <?php
 
             foreach($staffs as $employee){
@@ -26,7 +33,7 @@
 
         ?>
     </div>
-    <div class="fc-view-container" id='vehicle_list' style="display: none;">
+    <div class="fc-view-container listc" id='vehicle_list' style="display: none;">
         <?php
 
             foreach($cars as $car){
@@ -39,7 +46,21 @@
             }
 
         ?>
-    </div-->
+    </div>
+    <div class="fc-view-container listc" id='lieferanten_list' style="display: none;">
+        <?php
+            // print_r($lieferanten);
+            foreach($lieferanten as $car){
+                echo "<div class=' fc-event-container fc-content fc-tile fc-toolbar buttonlike menu-text width:80%' id='company_".$car['id']."' data-set='".$car['id']."' data-type='company' draggable='true' ondragstart='dragStart(event)' > 
+                    <span> ".$car['company']."</span>
+                    <span class='closebox' onclick='closebox(event)'>x</span>
+                    
+                    </div>";
+                //print_r($employes);
+            }
+
+        ?>
+    </div>
 
 </div>
 

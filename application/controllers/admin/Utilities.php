@@ -10,6 +10,8 @@ class Utilities extends AdminController
         $this->load->model('utilities_model');
         $this->load->model('staff_model');
         $this->load->model('cars_model');
+        $this->load->model('lieferanten_model');
+
     }
 
     /* All perfex activity log */
@@ -83,6 +85,7 @@ class Utilities extends AdminController
         $data['google_calendar_api']  = get_option('google_calendar_api_key');
         $data['title']                = _l('Personalplan');
         $data['cars'] = $this->cars_model->get();
+        $data['lieferanten'] = $this->lieferanten_model->get();
         add_calendar_assets();
 
         $this->load->view('admin/utilities/calendar', $data);
