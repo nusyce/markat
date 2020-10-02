@@ -156,13 +156,13 @@
                 <h3>Datien/Anh&auml;nge hochladen <?php if(isset($mieter)) { ?><span><a href="<?php echo site_url('admin/mieter/makePdf/'.$mieter->id); ?>" class="btn btn-default">Generate Pdf</a></span><?php } ?></h3>
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="#" class="btn btn-default add-post-attachments">
+                        <a href="#" class="btn btn-default add-post-images">
                             <i data-toggle="tooltip" title="<?php echo _l('newsfeed_upload_tooltip'); ?>"
                                class="fa fa-files-o"></i></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12" id="mieter-form-drop-zone">
+                    <div class="col-md-12" id="mieter-form-images-drop-zone">
                         <div class="dz-message" data-dz-message><span></span></div>
                         <div class="dropzone-previews mtop25"></div>
                     </div>
@@ -264,7 +264,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Attachments</h3>
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-md-12">
                         <a href="#" class="btn btn-default add-post-attachments">
                             <i data-toggle="tooltip" title="<?php echo _l('newsfeed_upload_tooltip'); ?>"
@@ -276,95 +276,40 @@
                         <div class="dz-message" data-dz-message><span></span></div>
                         <div class="dropzone-previews mtop25"></div>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <?php
-                    foreach ($mieter->attachments as $k => $attachment) { ?>
+                    if($mieter->dokuments)
+                    foreach ($mieter->dokuments as $k => $dokument) {
+                        $href_url=admin_url('dokumente/pdf/') . $dokument['id'] ?>
                         <?php ob_start(); ?>
                         <div data-num="<?php echo $k; ?>"
-                             data-mieter-attachment-id="<?php echo $attachment['id']; ?>"
+                             data-mieter-attachment-id="<?php echo $dokument['id']; ?>"
                              class="task-attachment-col col-md-4">
                             <ul class="list-unstyled task-attachment-wrapper" data-placement="right"
-                                data-toggle="tooltip" data-title="<?php echo $attachment['file_name']; ?>">
-                                <li class="mbot10 task-attachment<?php if (strtotime($attachment['dateadded']) >= strtotime('-16 hours')) {
-                                    echo ' highlight-bg';
-                                } ?>">
-                                    <div class="mbot10 pull-right task-attachment-user">
-                                        <a href="#" class="pull-right"
-                                           onclick="remove_mieter_attachment(this,<?php echo $attachment['id']; ?>); return false;">
-                                            <i class="fa fa fa-times"></i>
-                                        </a>
-                                        <?php
-                                        $externalPreview = false;
-                                        $is_image = false;
-                                        $path = get_upload_path_by_type('mieter') . $mieter->id . '/' . $attachment['file_name'];
-                                        $href_url = site_url('download/file/mieterattachment/' . $attachment['attachment_key']);
-                                        $isHtml5Video = is_html5_video($path);
-                                        if (empty($attachment['external'])) {
-                                            $is_image = is_image($path);
-                                            $img_url = site_url('download/preview_image?path=' . protected_file_url_by_path($path, true) . '&type=' . $attachment['filetype']);
-                                        } else if ((!empty($attachment['thumbnail_link']) || !empty($attachment['external']))
-                                            && !empty($attachment['thumbnail_link'])) {
-                                            $is_image = true;
-                                            $img_url = optimize_dropbox_thumbnail($attachment['thumbnail_link']);
-                                            $externalPreview = $img_url;
-                                            $href_url = $attachment['external_link'];
-                                        } else if (!empty($attachment['external']) && empty($attachment['thumbnail_link'])) {
-                                            $href_url = $attachment['external_link'];
-                                        }
-                                        if (!empty($attachment['external']) && $attachment['external'] == 'dropbox' && $is_image) { ?>
-                                            <a href="<?php echo $href_url; ?>" target="_blank" class=""
-                                               data-toggle="tooltip"
-                                               data-title="<?php echo _l('open_in_dropbox'); ?>"><i
-                                                        class="fa fa-dropbox" aria-hidden="true"></i></a>
-                                        <?php } else if (!empty($attachment['external']) && $attachment['external'] == 'gdrive') { ?>
-                                            <a href="<?php echo $href_url; ?>" target="_blank" class=""
-                                               data-toggle="tooltip"
-                                               data-title="<?php echo _l('open_in_google'); ?>"><i
-                                                        class="fa fa-google" aria-hidden="true"></i></a>
-                                        <?php }
-                                        echo $attachment['file_name'];
-                                        ?>
-                                    </div>
+                                data-toggle="tooltip" data-title="<?php echo $mieter->fullname; ?>.pdf">
+                                <li class="mbot10 task-attachment">
                                     <div class="clearfix"></div>
-                                    <div class="<?php if ($is_image) {
-                                        echo 'preview-image';
-                                    } else if (!$isHtml5Video) {
-                                        echo 'mieter-attachment-no-preview';
-                                    } ?>">
-                                        <?php
-                                        // Not link on video previews because on click on the video is opening new tab
-                                        if (!$isHtml5Video){ ?>
-                                        <a href="<?php echo(!$externalPreview ? $href_url : $externalPreview); ?>"
-                                           target="_blank"<?php if ($is_image) { ?> data-lightbox="mieter-attachment"<?php } ?>
-                                           class="<?php if ($isHtml5Video) {
-                                               echo 'video-preview';
-                                           } ?>">
-                                            <?php } ?>
-                                            <?php if ($is_image) { ?>
-                                                <img src="<?php echo $img_url; ?>" class="img img-responsive">
-                                            <?php } else if ($isHtml5Video) { ?>
-                                                <video width="100%" height="100%"
-                                                       src="<?php echo site_url('download/preview_video?path=' . protected_file_url_by_path($path) . '&type=' . $attachment['filetype']); ?>"
-                                                       controls>
-                                                 </video>
-                                            <?php } else { ?>
-                                                <i class="<?php echo get_mime_class($attachment['filetype']); ?>"></i>
-                                                <?php echo $attachment['file_name']; ?>
-                                            <?php } ?>
-                                            <?php if (!$isHtml5Video){ ?>
-                                        </a>
-                                    <?php } ?>
+                                    <div class="mieter-attachment-no-preview">
+
+
+                                        <a href="<?php echo $href_url; ?>"
+                                           target="_blank">
+
+                                                <i class="mime mime-pdf"></i>
+                                                <?php echo $mieter->fullname; ?>.pdf
+
+                                         </a>
                                     </div>
                                     <div class="clearfix"></div>
                                 </li>
                             </ul>
                         </div>
                         <?php
-                        $attachments_data[$attachment['id']] = ob_get_contents();
+                        $attachments_data[$dokument['id']] = ob_get_contents();
                         ob_end_clean();
-                        echo $attachments_data[$attachment['id']];
+                        echo $attachments_data[$dokument['id']];
                     } ?>
                 </div>
             </div>

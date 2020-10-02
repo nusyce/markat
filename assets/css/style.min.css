@@ -2524,7 +2524,13 @@ body.rtl .no-padding-left {
     .hidden-xs {
         display: none !important
     }
-
+    .col-xs-10 {
+        width: 100% !important;
+    }
+    .hide-block
+    {
+        display: none !important
+    }
     .view-all-timesheets {
         height: 45px;
         margin-top: 0

@@ -13,8 +13,8 @@ class Task_pdf
 {
     protected $task;
     protected $tags;
-
-    public function __construct($task, $tag = '')
+    protected $signature;
+    public function __construct($task, $tag = '', $signature)
     {
 
         if (!class_exists('Tasks_model', false)) {
@@ -24,11 +24,11 @@ class Task_pdf
         $this->task = $task;
 
         $GLOBALS['task_pdf'] = $task;
-            $this->shpww($task,$tag);
+            $this->shpww($task,$tag,$signature);
     }
 
 
-    protected function shpww($task,$task_tag)
+    protected function shpww($task,$task_tag,$signature)
     {
         try {
             ob_start();

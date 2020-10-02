@@ -14,6 +14,19 @@
   </div>
 </div>
 
+<!-- Task modal view -->
+<div class="modal fade task-modal-single" id="task-modal-signature tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog <?php echo get_option('task_modal_class'); ?>">
+        <div class="modal-content data">
+            <canvas id="myCanvas" width="600" height="300">
+                <p>This is fallback content
+                    for users of assistive technologies
+                    or of browsers that don't have
+                    full support for the Canvas API.</p>
+            </canvas>
+        </div>
+    </div>
+</div>
 <!--Add/edit task modal-->
 <div id="_task"></div>
 

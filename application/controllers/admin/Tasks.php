@@ -352,10 +352,17 @@ class Tasks extends AdminController
         if (!$id) {
             redirect(admin_url('tasks'));
         }
+
         $task = $this->tasks_model->get($id);
+        $task = $this->tasks_model->get($id);
+        $signature="";
+
+        if (isset($_POST['imageData']) && !empty($_POST['imageData'])) {
+            $signature = str_replace('[removed]', '', $_POST['imageData']);
+        }
         try {
             $tag = isset($_GET['full']) ? 'full' : '';
-            $pdf = task_pdf($task, $tag);
+            $pdf = task_pdf($task, $tag,$signature);
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
@@ -385,8 +392,14 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
         $task = $this->tasks_model->get($id);
+        $signature="";
+
+        if (isset($_POST['imageData']) && !empty($_POST['imageData'])) {
+            $signature = str_replace('[removed]', '', $_POST['imageData']);
+        }
+
         try {
-            task_pdf($task, 'checklist');
+            task_pdf($task, 'checklist',$signature);
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;

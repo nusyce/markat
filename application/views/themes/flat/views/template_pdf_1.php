@@ -273,7 +273,14 @@
         <br>
         <br>
         Martin Katzky
+
     </p>
+<?php
+if(!empty($signature) && isset($signature))
+{
+    echo '<img style="" src="'.$signature.'" alt="Image Markat">';
+}?>
+
 
 
 </page>

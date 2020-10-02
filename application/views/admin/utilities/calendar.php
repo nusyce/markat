@@ -33,7 +33,7 @@
 
 			<?php
 				if(has_permission('personalplan', get_staff_user_id(), 'edit') || is_admin()){
-					echo'<div class="col-xs-2 col-md-2">
+					echo'<div class="col-xs-2 col-md-2 hide-block">
 							<div class="panel_s">
 								<div class="panel-body" style="overflow-x: auto;">
 						';

@@ -33,7 +33,7 @@ class Belegungsplan extends AdminController
 
     public function table($project = '')
     {
-        $this->app->get_table_data('belegungsplan', ['project' => $project]);
+        $this->app->get_table_data('clients/belegungsplan', ['project' => $project]);
     }
 
     public function translation()

@@ -1,7 +1,16 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<style>
+    .modal:nth-of-type(even) {
+        z-index: 1052 !important;
+    }
+    .modal-backdrop.show:nth-of-type(even) {
+        z-index: 1051 !important;
+    }
 
+</style>
 <div class="modal" id="choose" role="dialog" style="margin: 25% 0 0 30%;">
     <div class="modal-content modal-sm">
+
         <div class="modal-header" style="max-height: 60px;">
             <button type="button" class="close" id="close" onclick="closechoose()" aria-label="Close"><span
                         aria-hidden="true">&times;</span>
@@ -207,6 +216,7 @@
                     <p class="no-margin pull-left">
                         <a href="#" data-toggle="popover"
                            data-placement="<?php /*echo is_mobile() ? 'bottom' : 'right'; */ ?>" data-html="true"
+
                            data-trigger="manual" data-title="<?php /*echo _l('note'); */ ?>"
                            data-content='<?php /*echo render_textarea('timesheet_note'); */ ?><button type="button" onclick="timer_action(this, <?php /*echo $task->id; */ ?>, <?php /*echo $this->tasks_model->get_last_timer($task->id)->id; */ ?>);" class="btn btn-info btn-xs"><?php /*echo _l('save'); */ ?></button>'
                            class="btn mbot10 btn-danger<?php /*if (!$is_assigned) {
@@ -760,6 +770,33 @@
                     ?>
                 </div>
             </div>
+
+            <div class="modal" id="signature-modal" data-backdrop="static">
+                <div class="modal-dialog modal-lx" role="document" style="width: 400px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button id="modal-signature-btn-up" type="button" class="close"  aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Signatur</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <canvas id="canvass" style="    text-align: center;
+                                    height: 202px;
+                                    border: 1px solid rgb(0, 0, 0);
+                                    margin: 0px 15;
+                                    width: 260px"></canvas>
+                            <br>
+                            <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'signature-form','target' => '_blank')) ?>
+                            <button type="button" id="clear" onclick="clear_canvas()">Clear Signature</button>
+                            <button type="button" class="btn btn-danger" id="modal-signature-btn-down">Close</button>
+                            <input type="hidden" name="imageData" id="imageData-input" value="">
+                            <button  type="submit" id="checklist-btn"
+                                     class="btn btn-success"><?php echo _l('Sprint'); ?></button><?php echo form_close() ?>
+
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
         </div>
         <div class="col-md-4 task-single-col-right">
             <div class="pull-right mbot10 task-single-menu task-menu-options">
@@ -1222,20 +1259,28 @@
             </div>
             <div class="report-action">
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
-                <a target="_blank" href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn btn-success">Arbeitsschein</a>
+                <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'checklist-form','target' => '_blank')) ?>
+                <input type="hidden" name="imageData" id="imageData-checklist" value="">
+                <button style="width: 100% " type="submit" id="checklist-btn"
+                        class="btn btn-success"><?php echo _l('Arbeitsschein'); ?></button><?php echo form_close() ?>
+
                 <br>
-                <a target="_blank" href="<?= admin_url('tasks/pdf/') . $task->id . '?print=1'; ?>"
-                   class="btn  btn-success">Checkliste</a>
+                <?php echo form_open(admin_url('tasks/pdf/') . $task->id . '?print=1', array('id' => 'checklistt-form','target' => '_blank')) ?>
+                <input type="hidden" name="imageData" id="imageData-checklistt" value="">
+                <button style="width: 100% " type="submit" id="checklist-btn"
+                        class="btn btn-success"><?php echo _l('Checkliste'); ?></button><?php echo form_close() ?>
+
                 <br><a target="_blank" href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation
                     vorther</a><br>
 
                 <a href="#" onclick="slideToggle('.tasks-comments'); return false;" class="btn  btn-primary">Dokumentation
                     danash</a>
                 <br>
+
                 <a target="_blank" href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
                    class="btn" style="background-color: blue;color: white">Dokumentation komplett</a>
             </div>
-            <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
+           <!-- <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
             <div id="printSing" style="display:none;margin-top: 30px">
                 <h4 class="text-center">Sign here</h4>
                 <div class="col-md-12">
@@ -1258,7 +1303,7 @@
                     </div>
                 </div>
             </div>
-            <?php echo form_close() ?>
+            <?php echo form_close() ?>-->
         </div>
     </div>
 </div>
@@ -1320,7 +1365,32 @@
         e.preventDefault();
         fun_submit();
     })
+    $('#checklist-form').on('submit', function(e){
+        $("#signature-form").attr('action', $('#checklist-form').attr('action'));
+        $('#signature-modal').modal('show');
+        e.preventDefault();
+    });
 
+    $('#signature-form').on('submit', function(e){
+        if($('#imageData-input').val()==null || $('#imageData-input').val()=='')
+        {
+            alert('Signature is required')
+            e.preventDefault();
+        }
+
+    })
+    $('#modal-signature-btn-down').click(function(){
+    $('#signature-modal').modal('hide');
+    });
+
+    $('#modal-signature-btn-up').click(function(){
+    $('#signature-modal').modal('hide');
+    });
+    $('#checklistt-form').on('submit', function(e){
+        $("#signature-form").attr('action', $('#checklistt-form').attr('action'));
+        $('#signature-modal').modal('show');
+        e.preventDefault();
+    })
     function fun_submit() {
         if (isSign) {
             var canvas = $("#canvass").get(0);
@@ -1348,7 +1418,15 @@
         e.preventDefault();
         init_Sign_Canvas();
     })
+    function clear_canvas() {
 
+       var  canvas= document.getElementById('canvass');
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.beginPath();
+        $('#imageData-input').val('');
+
+    }
 
     function init_Sign_Canvas() {
         isSign = false;
@@ -1403,6 +1481,10 @@
             if (leftMButtonDown && e.which === 1) {
                 leftMButtonDown = false;
                 isSign = true;
+                var canvas = $("#canvass").get(0);
+                var imgData = canvas.toDataURL();
+                $('#imageData-input').val(imgData);
+
             }
             e.preventDefault();
             return false;

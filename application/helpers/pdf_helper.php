@@ -166,9 +166,9 @@ function template_pdf($template='', $tag = '')
      return app_pdf('template', LIBSPATH . 'pdf/Template_pdf', $template, $tag);
 }
 
-function task_pdf($tasks, $tag = '')
+function task_pdf($tasks, $tag = '',$signature='')
 {
-    return app_pdf('task', LIBSPATH . 'pdf/Task_pdf', $tasks, $tag);
+    return app_pdf('task', LIBSPATH . 'pdf/Task_pdf', $tasks, $tag,$signature);
 }
 
 /**

@@ -109,7 +109,7 @@
             $(this).html('<input type="text" placeholder="Search ' + title + '" />');
         });
 
-        //  initDataTable('.table-mieter', admin_url + 'mieter/table', undefined, undefined, ContractsServerParams,<?php echo hooks()->apply_filters('contracts_table_default_order', json_encode(array(0, 'desc'))); ?>);
+        initDataTable('.table-mieter', admin_url + 'mieter/table', undefined, undefined, ContractsServerParams,<?php echo hooks()->apply_filters('contracts_table_default_order', json_encode(array(0, 'desc'))); ?>);
         // Setup - add a text input to each footer cell
 
         /*        var otable = $('.table-mieter').DataTable();

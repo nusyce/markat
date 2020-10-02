@@ -13,6 +13,7 @@ class Mieter_model extends App_Model
 
 
     /**
+     *
      * Get mieters/s
      * @param array $where perform where
      * @param boolean $for_editor if for editor is false will replace the field if not will not replace
@@ -50,6 +51,7 @@ class Mieter_model extends App_Model
             $mieter = $this->db->get(db_prefix() . 'mieters')->row();
             if ($mieter){
                 $mieter->inventer = $this->wohnungen_inventar_model->getInventer($mieter->id, false, 1);
+                $mieter->dokuments = $this->get_documents($id);
                 return $mieter;
             }
         } else {
@@ -63,7 +65,11 @@ class Mieter_model extends App_Model
         $this->db->where(['rel_id' => $id, 'rel_type' => 'mieter']);
         return $this->db->get(db_prefix() . 'files')->result_array();
     }
-
+    public function get_documents($id)
+    {
+        $this->db->where(['mieter_id' => $id]);
+        return $this->db->get(db_prefix() . 'dokumente')->result_array();
+    }
 
     public function get_projekte()
     {
