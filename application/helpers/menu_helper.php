@@ -14,7 +14,6 @@ function app_init_admin_sidebar_menu_items()
     ]);
 
 
-
     $CI->app_menu->add_sidebar_children_item('hauptinfo', [
         'slug' => 'hauptinfo',
         'name' => _l('als_dashboard'),
@@ -49,12 +48,16 @@ function app_init_admin_sidebar_menu_items()
         'position' => 10,
         'icon' => 'fa fa-file',
     ]);
-    $CI->app_menu->add_sidebar_menu_item('activity-log', [
-        'name' => _l('activity log'),
-        'href' => admin_url('utilities/activity_log'),
-        'icon' => 'fa fa-history',
-        'position' => 180,
-    ]);
+
+
+    if (has_permission('firma', '', 'edite')) {
+        $CI->app_menu->add_sidebar_menu_item('activity-log', [
+            'name' => _l('activity log'),
+            'href' => admin_url('utilities/activity_log'),
+            'icon' => 'fa fa-history',
+            'position' => 180,
+        ]);
+    }
 
     if (has_permission('staff', '', 'view')
         || has_permission('staff', '', 'create')) {
@@ -367,9 +370,6 @@ function app_init_admin_sidebar_menu_items()
     ]);
 
 
-
-
-
     /*    if (has_permission('staff', '', 'view')
             || has_permission('staff', '', 'create')) {
             $CI->app_menu->add_sidebar_menu_item('staff', [
@@ -486,12 +486,12 @@ function app_init_admin_sidebar_menu_items()
 
     if (has_permission('projects', '', 'view')) {
 
-    /*    $CI->app_menu->add_sidebar_menu_item('projects', [
-            'name' => 'Project-Original',
-            'href' => admin_url('projects'),
-            'icon' => 'fa fa-bars',
-            'position' => 85,
-        ]);*/
+        /*    $CI->app_menu->add_sidebar_menu_item('projects', [
+                'name' => 'Project-Original',
+                'href' => admin_url('projects'),
+                'icon' => 'fa fa-bars',
+                'position' => 85,
+            ]);*/
 
         /*
                 $CI->app_menu->add_sidebar_menu_item('tasks', [
@@ -559,7 +559,6 @@ function app_init_admin_sidebar_menu_items()
             'href' => admin_url('announcements'),
             'position' => 20,
         ]);
-
 
 
         $CI->app_menu->add_sidebar_children_item('utilities', [
