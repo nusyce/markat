@@ -14,7 +14,7 @@
             <div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title="">
                 <input type="checkbox" <?php if ($list['finished'] == 1 && $list['finished_from'] != get_staff_user_id() && !is_admin()) {
                     echo 'disabled';
-                } ?> name="checklist-box" <?php if ($list['finished'] == 1) {
+                } ?> name="checklist-box" class="checklist-box-checkbox" <?php if ($list['finished'] == 1) {
                     echo 'checked';
                 }; ?>>
                 <label for=""><span class="hide"><?php echo $list['description']; ?></span></label>

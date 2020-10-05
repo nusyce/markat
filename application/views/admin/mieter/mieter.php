@@ -68,50 +68,6 @@
         }
     }));
 
-
-    mieterDropzone_images = new Dropzone("#mieter-form-images-drop-zone", appCreateDropzoneOptions({
-        clickable: '.add-post-images',
-        url: admin_url + "mieter/ajax_save", paramName: "images",
-        autoProcessQueue: false,
-        addRemoveLinks: true,
-        uploadMultiple: true,
-        parallelUploads: 50,
-        maxFiles: 50,
-        init: function () {
-            mieterDropzone_images = this;
-
-            this.on('sending', function (file, xhr, formData) {
-                // Append all form inputs to the formData Dropzone will POST
-                var data = $('#mieter-form').serializeArray();
-                $.each(data, function (key, el) {
-                    formData.append(el.name, el.value);
-                });
-            });
-
-            this.on("success", function (file) {
-            });
-        },
-        removedfile: function (file) {
-
-            x = confirm('Do you want to delete?');
-            if (!x) return false;
-            if (mieter_id != 0) {
-                file.previewElement.remove();
-            }
-        },
-        dragover: function (file) {
-            $('#mieter-form-images-drop-zone').addClass('dropzone-active');
-        },
-        complete: function (file) {
-            ///  console.log(file);
-            $(this).prop('disabled', false);
-            //    window.location.href = file.xhr.responseText;
-        },
-        drop: function (file) {
-            $('#mieter-form-images-drop-zone').removeClass('dropzone-active');
-        }
-    }));
-
     appValidateForm('#mieter-form', {
     }, heandler_form);
 
@@ -123,44 +79,25 @@
 
     function heandler_form() {
         $('#mieter-form #submit').prop('disabled', true);
-
         if (mieterDropzone.getQueuedFiles().length > 0) {
-
             mieterDropzone.processQueue();
-
         } else {
-
             $.ajax({
-
                 url: admin_url + "mieter/ajax_save",
-
                 data: $("#mieter-form").serialize(),
-
                 type: "POST",
-
                 dataType: 'json',
-
                 success: function (e) {
-
-                    window.location.href = e;
-
+                 window.location.href = e;
                     $(this).prop('disabled', false);
-
                 },
-
                 error: function (e) {
-
-                    window.location.href = e.responseText;
-
+                   window.location.href = e.responseText;
                     $(this).prop('disabled', false);
-
                 }
-
             });
-
-
-
         }
+    }
 
 
     // Get file extension

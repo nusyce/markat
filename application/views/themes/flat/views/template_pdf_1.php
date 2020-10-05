@@ -272,7 +272,7 @@
         Mit freundlichen Grüßen
         <br>
         <br>
-        Martin Katzky
+       <?= get_staff_full_name()?>
 
     </p>
 <?php
