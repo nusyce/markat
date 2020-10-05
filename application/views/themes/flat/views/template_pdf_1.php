@@ -278,7 +278,7 @@
 <?php
 if(!empty($signature) && isset($signature))
 {
-    echo '<img style="" src="'.$signature.'" alt="Image Markat">';
+    echo '<img style="height:50px" src="'.$signature.'" alt="Image Markat">';
 }?>
 
 

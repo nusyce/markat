@@ -1423,6 +1423,7 @@
     function fun_submit() {
         if (isSign) {
             var canvas = $("#canvass").get(0);
+
             var imgData = canvas.toDataURL();
             $('#imageData').val(imgData);
             $("#refresh-form").trigger('submit');
