@@ -171,7 +171,10 @@
 
                 <div class="row">
                     <?php
-                    foreach ($mieter->attachments as $k => $attachment) { ?>
+                    foreach ($mieter->attachments as $k => $attachment) {
+                        if (get_mime_class($attachment['filetype']) != 'mime mime-pdf')
+                            continue;
+                        ?>
                         <?php ob_start(); ?>
                         <div data-num="<?php echo $k; ?>"
                              data-mieter-attachment-id="<?php echo $attachment['id']; ?>"
