@@ -84,6 +84,7 @@ class Projects extends AdminController
                 if (!has_permission('projects', '', 'create')) {
                     access_denied('Projects');
                 }
+
                 $id = $this->projects_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project')));

@@ -132,7 +132,7 @@
         <tr>
 
             <td>Bauvorhaben:</td>
-            <td></td>
+            <td><?= isset($task->project_data) ? $task->project_data->bauvorhaben : '' ?></td>
         </tr>
         <tr>
 
@@ -149,13 +149,18 @@
         </tr>
         <tr>
             <td>Auftragsort:</td>
-            <td></td>
+            <td><?= isset($task->project_data) ? $task->project_data->auftragsort : '' ?></td>
         </tr>
     </table>
     <br><br>
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
         <tr>
-            <td>Beauftragt durch:</td>
+            <td>Beauftragt :</td>
+            <td><?php echo $task->name; ?></td>
+        </tr>
+        <tr>
+            <td>Durchgeführt :</td>
+            <td><?php echo $task->duedate; ?></td>
         </tr>
     </table>
     <br><br> 
@@ -273,13 +278,14 @@
         <br>
         <br>
        <?= get_staff_full_name()?>
-
+        <br>
+        <?php
+        if(!empty($signature) && isset($signature))
+        {
+            echo '<img style="height:80px" src="'.$signature.'" alt="Image Markat">';
+        }?>
     </p>
-<?php
-if(!empty($signature) && isset($signature))
-{
-    echo '<img style="height:50px" src="'.$signature.'" alt="Image Markat">';
-}?>
+
 
 
 

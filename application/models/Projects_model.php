@@ -1046,7 +1046,9 @@ class Projects_model extends App_Model
             $tags = $data['tags'];
             unset($data['tags']);
         }
-
+        if (empty($data['projekte'])) {
+            $data['projekte']=0;
+        }
         $this->db->insert(db_prefix() . 'projects', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -1282,7 +1284,9 @@ class Projects_model extends App_Model
             unset($data['cancel_recurring_tasks']);
             $this->cancel_recurring_tasks($id);
         }
-
+        if (empty($data['projekte'])) {
+            $data['projekte']=0;
+        }
         $data = hooks()->apply_filters('before_update_project', $data, $id);
 
         $this->db->where('id', $id);
