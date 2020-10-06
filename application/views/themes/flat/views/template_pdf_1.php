@@ -158,6 +158,14 @@
             <td>Beauftragt :</td>
             <td><?php echo $task->name; ?></td>
         </tr>
+
+        <?php if(!empty($task->mieter))
+        {
+            echo '<tr>
+            <td>Mieter:</td>
+            <td>'.$task->mieter.'</td>
+        </tr>';
+        } ?>
         <tr>
             <td>Durchgeführt :</td>
             <td><?php echo $task->duedate; ?></td>
