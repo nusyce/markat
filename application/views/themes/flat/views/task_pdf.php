@@ -199,14 +199,14 @@
     }
     $staff = get_staff();
 
-    if (!empty($staff->signature)) {
+    /*if (!empty($staff->signature)) {
         $data = base64_decode($staff->signature);
         $file = STAFF_PROFILE_IMAGES_FOLDER . uniqid() . '.png';
         $success = file_put_contents($file, $data);
 
         $tblhtml .= '<p style="text-align: right"><img src="' . $file . '"></p>';
     }
-
+*/
     $tblhtml .= '
     </table><style>
         table {
@@ -217,11 +217,12 @@
     </style>';
     echo $tblhtml;
     ?>
-    <?php
-    if(!empty($signature) && isset($signature))
-    {
-        echo '<img style="" src="'.$signature.'" alt="Image Markat">';
-    }?>
+    <p> <?php
+        if(!empty($signature) && isset($signature))
+        {
+            echo '<img style="height:80px" src="'.$signature.'" alt="Image Markat">';
+        }?></p>
+
 
 </page>
 <?php

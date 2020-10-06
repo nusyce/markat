@@ -45,7 +45,16 @@
                                 <?php echo render_input('auftrag', get_transl_field('tsl_projects', 'auftrag','Auftrag'), $value); ?>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php $value = (isset($project) ? $project->bauvorhaben : ''); ?>
+                                <?php echo render_input('bauvorhaben', get_transl_field('tsl_projects', 'bauvorhaben','Bauvorhaben'), $value); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php $value = (isset($project) ? $project->auftragsort : ''); ?>
+                                <?php echo render_input('Auftragsort', get_transl_field('tsl_projects', 'auftragsort','Auftragsort'), $value); ?>
+                            </div>
+                        </div>
                         <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l(get_transl_field('tsl_projects', 'kunde','Kunde')); ?></label>
                             <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
@@ -164,7 +173,7 @@
                         }
                         ?>
                         <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
-                            <?php $value = (isset($project) ? $project->project_cost : ''); ?>
+                            <?php $value = (isset($project) ? $project->project_cost : '0'); ?>
                             <?php echo render_input('project_cost', 'project_total_cost', $value, 'number'); ?>
                         </div>
                         <?php
@@ -189,7 +198,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('estimated_hours', get_transl_field('tsl_projects', ' geschatztestunden','Gesch�tzte Stunden'), isset($project) ? $project->estimated_hours : '', 'number'); ?>
+                                <?php echo render_input('estimated_hours', get_transl_field('tsl_projects', ' geschatztestunden','Gesch�tzte Stunden'), isset($project) ? $project->estimated_hours : '0', 'number'); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php
