@@ -784,13 +784,12 @@ function handle_staff_profile_image_upload($staff_id = '')
 function handle_staff_profile_tach_upload($staff_id, $type)
 {
     if (isset($_FILES[$type]['name']) && $_FILES[$type]['name'] != '') {
-       // hooks()->do_action('before_upload_staff_profile_image');
-        $path = get_upload_path_by_type('staffs') . $staff_id . '/';
+        // hooks()->do_action('before_upload_staff_profile_image');
+        $path = get_upload_path_by_type('staff') . $staff_id . '/';
         // Get the temp file path
         $tmpFilePath = $_FILES[$type]['tmp_name'];
         // Make sure we have a filepath
         if (!empty($tmpFilePath) && $tmpFilePath != '') {
-
             _maybe_create_upload_path($path);
             $filename = unique_filename($path, $_FILES[$type]['name']);
             $newFilePath = $path . '/' . $filename;
@@ -1024,6 +1023,7 @@ function _file_attachments_index_fix($index_name)
         $_FILES[$index_name]['size'] = array_values($_FILES[$index_name]['size']);
     }
 }
+
 /**
  * Check if path exists if not exists will create one
  * This is used when uploading files
@@ -1033,7 +1033,7 @@ function _file_attachments_index_fix($index_name)
 function _maybe_create_upload_path($path)
 {
     if (!file_exists($path)) {
-        mkdir($path, 0755,true);
+        mkdir($path, 0755, true);
         fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
     }
 }
@@ -1095,6 +1095,9 @@ function get_upload_path_by_type($type)
             break;
         case 'staff':
             $path = STAFF_PROFILE_IMAGES_FOLDER;
+            break;
+        case 'staffs':
+            $path = STAFF_ATTACH_FOLDER;
 
             break;
         case 'company':

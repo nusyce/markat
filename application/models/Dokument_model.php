@@ -26,7 +26,7 @@ class Dokument_model extends App_Model
             return $this->db->get(db_prefix() . 'dokumente')->result_array();
         }
     }
-    
+
     public function has_dok($mieter, $type)
     {
         $this->db->where(db_prefix() . 'dokumente.mieter_id', $mieter);
@@ -124,14 +124,24 @@ class Dokument_model extends App_Model
      * @param string $cc
      * @return boolean
      */
-    public function send_dok_to_client($id, $sent_to = '', $cc = '')
+    public function send_dok_to_client($id, $sent_to = '', $cc = '', $staff)
     {
         $document = $this->get($id);
         $emails_sent = [];
         $statement = '';
-        $attachStatementPdf = template_pdf($document, 'e');
         $statementPdfFileName = slug_it(_l('Dokument') . '-' . $document->mieter);
-
+        $staff_id = get_staff_user_id();
+        $patch = get_upload_path_by_type('staffs') . $staff_id ;
+        _maybe_create_upload_path($patch);
+        $attachStatementPdf = template_pdf($document, 'e');
+        $patch = $patch . $statementPdfFileName . '_' . $id . '.pdf';
+        $attachSPdf = template_pdf($document, 'd', $patch);
+        if ($patch && $staff) {
+            $data = [];
+            $data['file_name'] = $statementPdfFileName . '_' . $id . '.pdf';
+            $data['file_type'] = 'application/pdf';
+            $this->add_attachment($staff, $data);
+        }
         $template_name = 'dokument_send_to_email';
         $template = mail_template($template_name, $document, $sent_to, $cc);
 
@@ -146,6 +156,35 @@ class Dokument_model extends App_Model
         if ($template->send()) {
         }
         return true;
+    }
+
+    public function delete_attachment($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'files');
+    }
+
+    public function add_attachment($insert_id, $data)
+    {
+
+        $this->db->insert(db_prefix() . 'files', [
+            'rel_id' => $insert_id,
+            'rel_type' => 'staff',
+            'file_name' => $data['file_name'],
+            'filetype' => $data['file_type'],
+            'staffid' => $insert_id,
+            'dateadded' => date('Y-m-d H:i:s'),
+            'attachment_key' => app_generate_hash(),
+        ]);
+
+    }
+
+    public function get_attachments($id)
+
+    {
+        $this->db->where(['rel_id' => $id, 'rel_type' => 'staff']);
+        return $this->db->get(db_prefix() . 'files')->result_array();
+
     }
 
 

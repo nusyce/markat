@@ -41,7 +41,7 @@ function widget_status_stats($table, $title = '')
     $staff = get_staff();
     if (isset($staff->projects) && !empty($staff->projects) && in_array($table, ['mieters', 'tasks', 'wohnungen'])) {
         $stf_project = unserialize($staff->projects);
-        if (is_array($stf_project)&&count($stf_project) > 0) {
+        if (is_array($stf_project) && count($stf_project) > 0) {
             $stf_project = implode(",", $stf_project);
             $tt = $table;
             $where = db_prefix() . $tt . '.project IN  (' . $stf_project . ')  AND ';
@@ -372,6 +372,8 @@ function has_role_permission($role_id, $capability, $feature)
 
     return false;
 }
+
+
 
 /**
  * @param string $permission permission shortname

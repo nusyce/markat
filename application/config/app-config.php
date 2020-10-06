@@ -50,7 +50,7 @@ define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'markat');
+define('APP_DB_NAME', 'itfreakz_markat');
 
 /**
  * @since  2.3.0
