@@ -1,13 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<style>
-    .modal:nth-of-type(even) {
-        z-index: 1052 !important;
-    }
-    .modal-backdrop.show:nth-of-type(even) {
-        z-index: 1051 !important;
-    }
 
-</style>
 <div class="modal" id="choose" role="dialog" style="margin: 25% 0 0 30%;">
     <div class="modal-content modal-sm">
 
@@ -771,14 +763,14 @@
                 </div>
             </div>
 
-            <div class="modal" id="signature-modal" data-backdrop="static">
+            <div class="modal fade task-modal-single in" style="z-index: 10031;" id="signature-modal" data-backdrop="static">
                 <div class="modal-dialog modal-lx" role="document" style="width: 400px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button id="modal-signature-btn-up" type="button" class="close"  aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+                            <button id="modal-signature-btn-up" type="button" class="close" ><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Signatur</h4>
                         </div>
-                        <div class="modal-body" style="text-align: center; padding: 20px 0">
+                        <div class="modal-body" style="text-align: center">
                             <canvas id="canvass" style="    text-align: center;
                                     height: 202px;
                                     border: 1px solid rgb(0, 0, 0);
@@ -786,12 +778,31 @@
                                     width: 260px"></canvas>
                             <br>
                             <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'signature-form','target' => '_blank')) ?>
-                            <button type="button" id="clear" onclick="clear_canvas()">Clear Signature</button>
+                            <button type="button" class="btn btn-light" id="clear" onclick="clear_canvas()">Clear Signature</button>
                             <button type="button" class="btn btn-danger" id="modal-signature-btn-down">Close</button>
                             <input type="hidden" name="imageData" id="imageData-input" value="">
                             <button  type="submit" id="checklist-btn"
                                      class="btn btn-success"><?php echo _l('Sprint'); ?></button><?php echo form_close() ?>
 
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+            <div class="modal fade task-modal-single in" style="z-index: 10021;" id="modal-before-sign" data-backdrop="static">
+                <div class="modal-dialog modal-lx" role="document" style="width: 500px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button id="modal-before-sign-close" type="button" class="close"><span aria-hidden="true">&times;</span></button>
+
+                        </div>
+                        <div class="modal-body" style="background: white;">
+                            <br>
+                            <b >Checklistpoints</b>
+
+                            <p style="margin-top: 10px" id="my-checklist-points"></p>
+                            <p style="text-align: center;"><button onclick="signatur_check()" style="text-align: center;">weiter zur Signture</button></p>
+                       <br>
                         </div>
 
                     </div><!-- /.modal-content -->
@@ -1337,7 +1348,7 @@
     $('body').on('click', '#btnCreatetask', function (e) {
         e.preventDefault();
         $('#footer-templatechecklist button').prop('disabled', true);
-        $('#nomoi_ij').removeClass('hide');
+        $('#nomoi_ij').removeClass('toggle');
     });
 
     $('body').on('click', '#btnaddNewCheckpoints', function (e) {
@@ -1351,7 +1362,7 @@
             dataType: 'json',
             success: function (e) {
                 $('#footer-templatechecklist button').prop('disabled', false);
-                $('#nomoi_ij').addClass('hide');
+                $('#nomoi_ij').addClass('toggle');
             },
             error: function (e) {
 
@@ -1366,10 +1377,25 @@
         fun_submit();
     })
     $('#checklist-form').on('submit', function(e){
-        $("#signature-form").attr('action', $('#checklist-form').attr('action'));
-        $('#signature-modal').modal('show');
+
+        $('#modal-before-sign').modal('toggle')
+        var checklist='';
+        $('.checklist-box-checkbox').each(function(i, obj) {
+
+            if (this.checked)
+            {
+                checklist=checklist+'<div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title="" data-original-title=""><input type="checkbox" name="checklist-box" class="checklist-box-checkbox" checked=""> <label for=""></label><textarea data-taskid="19" name="checklist-description" rows="1">'+$(this).parent().find("textarea").val()+'</textarea></div>';
+
+            }
+        });
+        document.getElementById("my-checklist-points").innerHTML=checklist;
         e.preventDefault();
     });
+   function signatur_check()
+    {
+        $("#signature-form").attr('action', $('#checklist-form').attr('action'));
+        $('#signature-modal').modal('toggle');
+    }
 
     $('#signature-form').on('submit', function(e){
         if($('#imageData-input').val()==null || $('#imageData-input').val()=='')
@@ -1380,21 +1406,23 @@
 
     })
     $('#modal-signature-btn-down').click(function(){
-    $('#signature-modal').modal('hide');
+    $('#signature-modal').modal('toggle');
     });
 
+    $('#modal-before-sign-close').click(function(){
+        $('#modal-before-sign').modal('toggle');
+    });
     $('#modal-signature-btn-up').click(function(){
-    $('#signature-modal').modal('hide');
+    $('#signature-modal').modal('toggle');
     });
     $('#checklistt-form').on('submit', function(e){
         $("#signature-form").attr('action', $('#checklistt-form').attr('action'));
-        $('#signature-modal').modal('show');
+        $('#signature-modal').modal('toggle');
         e.preventDefault();
     })
     function fun_submit() {
         if (isSign) {
             var canvas = $("#canvass").get(0);
-
             var imgData = canvas.toDataURL();
             $('#imageData').val(imgData);
             $("#refresh-form").trigger('submit');
@@ -1443,19 +1471,19 @@
             sizedWindowWidth = sizedWindowWidth - 50;
 
         sizedWindowWidth = 246;
-        $("#canvass").width(sizedWindowWidth);
-        $("#canvass").height(200);
+        $("#canvass").width(150);
+        $("#canvass").height(100);
         $("#canvass").css("border", "1px solid #000");
 
         var canvas = $("#canvass").get(0);
         canvasContext = canvas.getContext('2d');
 
         if (canvasContext) {
-            canvasContext.canvas.width = sizedWindowWidth;
-            canvasContext.canvas.height = 200;
+            canvasContext.canvas.width = 150;
+            canvasContext.canvas.height = 100;
 
             canvasContext.fillStyle = "#fff";
-            canvasContext.fillRect(0, 0, sizedWindowWidth, 200);
+            canvasContext.fillRect(0, 0, sizedWindowWidth, 100);
             /*
                         canvasContext.moveTo(50, 150);
                         canvasContext.lineTo(sizedWindowWidth - 50, 150);
