@@ -92,8 +92,9 @@ class Dokumente extends AdminController
             $id = $_POST['id'];
             $sent_to = $_POST['email_to'];
             $cc = $_POST['cc'];
-            $wohnungen = $this->dokument_model->send_dok_to_client($id, $sent_to, $cc);
-            set_alert('success',  'E-Mail mit Erfolg gesendet');
+            $staff = $_POST['staff'];
+            $this->dokument_model->send_dok_to_client($id, $sent_to, $cc, $staff);
+            set_alert('success', 'E-Mail mit Erfolg gesendet');
             redirect(admin_url('dokumente'));
         }
     }
@@ -103,7 +104,7 @@ class Dokumente extends AdminController
         $wohnungen = $this->dokument_model->get($id);
 
         if (!$wohnungen) {
-            set_alert('warning',  'Dokument nicht vorhanden');
+            set_alert('warning', 'Dokument nicht vorhanden');
             redirect(admin_url('dokumente'));
         }
         try {

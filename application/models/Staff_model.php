@@ -296,6 +296,12 @@ class Staff_model extends App_Model
         return true;
     }
 
+
+    public function delete_attachment($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'files');
+    }
     /**
      * Get staff member/s
      * @param mixed $id Optional - staff id

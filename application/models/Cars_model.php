@@ -120,21 +120,13 @@ class Cars_model extends App_Model
     {
 
         $this->db->insert(db_prefix() . 'files', [
-
             'rel_id' => $insert_id,
-
             'rel_type' => 'cars',
-
             'file_name' => $data['file_name'],
-
             'filetype' => $data['file_type'],
-
             'staffid' => get_staff_user_id(),
-
             'dateadded' => date('Y-m-d H:i:s'),
-
             'attachment_key' => app_generate_hash(),
-
         ]);
 
     }

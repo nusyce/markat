@@ -13,12 +13,46 @@ class Template_pdf
     protected $templates;
     protected $table;
     protected $tag;
+    protected $target;
 
-    public function __construct($template, $tag = '')
+    public function __construct($template, $tag = '', $target)
     {
 
         $this->templates = $template;
         $this->tag = $tag;
+        $this->target = $target;
+    }
+
+    public function prepare()
+    {
+        if ($this->tag == 'e')
+            return $this->email();
+        else
+            $this->prepared();
+    }
+
+    public function prepared_save()
+    {
+        $template = $this->templates;
+        $this->preparetable($template->json_data);
+        try {
+            ob_start();
+            include $this->file_path();
+            $content = ob_get_clean();
+            $html2pdf = new Html2Pdf('P', 'A4', 'de',
+                $unicode = true,
+                $encoding = 'UTF-8',
+                $margins = array(5, 5, 5, 4));
+            $html2pdf->setDefaultFont('Arial');
+
+            $html2pdf->writeHTML($content);
+            $html2pdf->output('dokumente.pdf');
+        } catch (Html2PdfException $e) {
+            $html2pdf->clean();
+
+            $formatter = new ExceptionFormatter($e);
+            echo $formatter->getHtmlMessage();
+        }
     }
 
     public function prepared()
@@ -35,8 +69,13 @@ class Template_pdf
                 $margins = array(5, 5, 5, 4));
             $html2pdf->setDefaultFont('Arial');
 
-             $html2pdf->writeHTML($content);
-            $html2pdf->output('dokumente.pdf');
+            $html2pdf->writeHTML($content);
+            if ($this->tag == 'd') {
+                $html2pdf->output($this->target, 'F');
+
+            } else {
+                $html2pdf->output('dokumente.pdf');
+            }
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
 
@@ -86,13 +125,6 @@ class Template_pdf
         return $x;
     }
 
-    public function prepare()
-    {
-        if ($this->tag == 'e')
-            return $this->email();
-        else
-            $this->prepared();
-    }
 
     protected function type()
     {

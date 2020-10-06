@@ -791,6 +791,45 @@ function app_init_admin_sidebar_menu_items()
                           ]);*/
     }
 
+     // for db backup options
+     $CI->app_menu->add_sidebar_menu_item('backup', [
+        'name' => get_menu_option('backup', _l('Backup')),
+        'collapse' => true,
+        'position' => 181,
+        'icon' => 'fa fa-database',
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'backup',
+        'name' => get_menu_option('backup', _l('Backup')),
+        'href' => admin_url('backup_menu'),
+        'icon' => '',
+        'position' => 10,
+    ]);
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'restore',
+        'name' => get_menu_option('restore', _l('Restore')),
+        'href' => admin_url('backup_menu/restore'),
+        'icon' => '',
+        'position' => 11,
+    ]);
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'module_table_add',
+        'name' => get_menu_option('module_table_add', _l('Module Tables')),
+        'href' => admin_url('backup_menu/add_module_tables'),
+        'icon' => '',
+        'position' => 12,
+    ]);
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'module_add',
+        'name' => get_menu_option('module_add', _l('Module Entry')),
+        'href' => admin_url('backup_menu/addmenu'),
+        'icon' => '',
+        'position' => 13,
+    ]);
+
+
+
     if (has_permission('settings', '', 'view')) {
         $CI->app_menu->add_setup_menu_item('settings', [
             'href' => admin_url('settings'),

@@ -106,6 +106,8 @@ class Staff extends AdminController
             }
             $data['member'] = $member;
             $title = $member->firstname . ' ' . $member->lastname;
+            $this->load->model('dokument_model');
+            $member->attachments = $this->dokument_model->get_attachments($id);
             $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
 
             $ts_filter_data = [];
@@ -143,6 +145,13 @@ class Staff extends AdminController
 
         echo json_encode($this->roles_model->get($id)->permissions);
     }
+
+    public function delete_attach($id)
+    {
+        $this->staff_model->delete_attachment($id);
+        echo 1;
+    }
+
 
     public function save_dashboard_widgets_order()
     {

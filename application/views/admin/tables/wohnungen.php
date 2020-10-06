@@ -24,6 +24,7 @@ $sTable = db_prefix() . 'wohnungen';
 $where = [];
 $join = [];
 $filter = [];
+
 $join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'wohnungen.project';
 
 if ($this->ci->input->post('belegt')) {
