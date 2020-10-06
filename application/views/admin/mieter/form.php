@@ -156,13 +156,13 @@
                 <h3>Datien/Anh&auml;nge hochladen <?php if(isset($mieter)) { ?><span><a href="<?php echo site_url('admin/mieter/makePdf/'.$mieter->id); ?>" class="btn btn-default">Generate Pdf</a></span><?php } ?></h3>
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="#" class="btn btn-default add-post-images">
+                        <a href="#" class="btn btn-default add-post-attachments">
                             <i data-toggle="tooltip" title="<?php echo _l('newsfeed_upload_tooltip'); ?>"
                                class="fa fa-files-o"></i></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12" id="mieter-form-images-drop-zone">
+                    <div class="col-md-12" id="mieter-form-drop-zone">
                         <div class="dz-message" data-dz-message><span></span></div>
                         <div class="dropzone-previews mtop25"></div>
                     </div>
@@ -171,7 +171,10 @@
 
                 <div class="row">
                     <?php
-                    foreach ($mieter->attachments as $k => $attachment) { ?>
+                    foreach ($mieter->attachments as $k => $attachment) {
+                        if (get_mime_class($attachment['filetype']) != 'mime mime-pdf')
+                            continue;
+                        ?>
                         <?php ob_start(); ?>
                         <div data-num="<?php echo $k; ?>"
                              data-mieter-attachment-id="<?php echo $attachment['id']; ?>"
