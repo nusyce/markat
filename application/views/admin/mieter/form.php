@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <h3><?php echo(get_transl_field('tsl_mieter', 'privateinformationen', 'Private Informationen')); ?>
+        <h3><?php echo ( get_transl_field('tsl_mieter', 'privateinformationen', 'Private Informationen')); ?>
         </h3>
         <!--  --><?php /*if (is_admin()): */ ?>
         <!--            <div class="row">
@@ -267,19 +267,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Attachments</h3>
-                <!--<div class="row">
-                    <div class="col-md-12">
-                        <a href="#" class="btn btn-default add-post-attachments">
-                            <i data-toggle="tooltip" title="<?php echo _l('newsfeed_upload_tooltip'); ?>"
-                               class="fa fa-files-o"></i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" id="mieter-form-drop-zone">
-                        <div class="dz-message" data-dz-message><span></span></div>
-                        <div class="dropzone-previews mtop25"></div>
-                    </div>
-                </div>-->
+
 
                 <div class="row">
                     <?php
