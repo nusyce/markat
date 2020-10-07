@@ -1,81 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<style>
-    .modal:nth-of-type(even) {
-        z-index: 1052 !important;
-    }
-    .modal-backdrop.show:nth-of-type(even) {
-        z-index: 1051 !important;
-    }
-
-</style>
-<div class="modal" id="choose" role="dialog" style="margin: 25% 0 0 30%;">
-    <div class="modal-content modal-sm">
-
-        <div class="modal-header" style="max-height: 60px;">
-            <button type="button" class="close" id="close" onclick="closechoose()" aria-label="Close"><span
-                        aria-hidden="true">&times;</span>
-            </button>
-            <h4>Choose the tasks</h4>
-        </div>
-        <div class="modal-body">
-            <div class="panel_s row">
-                <div class="panel-body">
-                    <form id="templateform">
-                        <input type="hidden" id="task_id" value="<?php echo $task->id; ?>">
-                        <div id="templatelist">
-                            <div>
-                                <label>Möbel reinigen</label>
-                                <input type="checkbox" value="Möbel reinigen" class="pull-right choosetasks"
-                                       id="tasks1">
-                            </div>
-                            <div>
-                                <label>Bettenshoner?</label>
-                                <input type="checkbox" value="Bettenshoner?" class="pull-right choosetasks" id="tasks2">
-                            </div>
-                            <div>
-                                <label>NSchreinigung nach Möbelaufbau</label>
-                                <input type="checkbox" value="NSchreinigung nach Möbelaufbau"
-                                       class="pull-right choosetasks"
-                                       id="tasks3">
-                            </div>
-                        </div>
-                        <div id="nomoi_ij" class="kjsdjs hide">
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <?= render_input('name', 'Name of template', ''); ?>
-                                    <button type="submit" class="btn btn-primary pull-right" id="btnaddNewCheckpoints"
-                                            name="chtasks">
-                                        Erstellen
-                                    </button>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                        <div class="row" id="footer-templatechecklist">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary pull-right" id="btnCreatetask"
-                                        name="chtasks">
-                                    New template
-                                </button>
-                            </div>
-
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary pull-right" id="btnaddCheckpoints"
-                                        name="chtasks">
-                                    Erstellen
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>"
+<div class="modal-header task-single-header"  data-task-single-id="<?php echo $task->id; ?>" data-focus-on="input:first"
      data-status="<?php echo $task->status; ?>">
     <?php if ($this->input->get('opened_from_lead_id')) { ?>
         <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;"
@@ -770,34 +694,7 @@
                     ?>
                 </div>
             </div>
-
-            <div class="modal" id="signature-modal" data-backdrop="static">
-                <div class="modal-dialog modal-lx" role="document" style="width: 400px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button id="modal-signature-btn-up" type="button" class="close"  aria-label="Close" ><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Signatur</h4>
-                        </div>
-                        <div class="modal-body" style="text-align: center; padding: 20px 0">
-                            <canvas id="canvass" style="    text-align: center;
-                                    height: 202px;
-                                    border: 1px solid rgb(0, 0, 0);
-                                    margin: 0px 15;
-                                    width: 260px"></canvas>
-                            <br>
-                            <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'signature-form','target' => '_blank')) ?>
-                            <button type="button" id="clear" onclick="clear_canvas()">Clear Signature</button>
-                            <button type="button" class="btn btn-danger" id="modal-signature-btn-down">Close</button>
-                            <input type="hidden" name="imageData" id="imageData-input" value="">
-                            <button  type="submit" id="checklist-btn"
-                                     class="btn btn-success"><?php echo _l('Sprint'); ?></button><?php echo form_close() ?>
-
-                        </div>
-
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div>
-        </div>
+      </div>
         <div class="col-md-4 task-single-col-right">
             <div class="pull-right mbot10 task-single-menu task-menu-options">
                 <div class="content-menu hide">
@@ -1259,18 +1156,19 @@
             </div>
             <div class="report-action">
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
-                <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'checklist-form','target' => '_blank')) ?>
+                <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'checklist-form', 'target' => '_blank')) ?>
                 <input type="hidden" name="imageData" id="imageData-checklist" value="">
                 <button style="width: 100% " type="submit" id="checklist-btn"
                         class="btn btn-success"><?php echo _l('Arbeitsschein'); ?></button><?php echo form_close() ?>
 
                 <br>
-                <?php echo form_open(admin_url('tasks/pdf/') . $task->id . '?print=1', array('id' => 'checklistt-form','target' => '_blank')) ?>
+                <?php echo form_open(admin_url('tasks/pdf/') . $task->id . '?print=1', array('id' => 'checklistt-form', 'target' => '_blank')) ?>
                 <input type="hidden" name="imageData" id="imageData-checklistt" value="">
                 <button style="width: 100% " type="submit" id="checklist-btn"
                         class="btn btn-success"><?php echo _l('Checkliste'); ?></button><?php echo form_close() ?>
 
-                <br><a target="_blank" href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation
+                <br><a target="_blank" href="#" onclick="slideToggle('.tasks-comments-2'); return false;"
+                       class="btn  btn-primary">Dokumentation
                     vorther</a><br>
 
                 <a href="#" onclick="slideToggle('.tasks-comments'); return false;" class="btn  btn-primary">Dokumentation
@@ -1280,7 +1178,7 @@
                 <a target="_blank" href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
                    class="btn" style="background-color: blue;color: white">Dokumentation komplett</a>
             </div>
-           <!-- <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
+            <!-- <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
             <div id="printSing" style="display:none;margin-top: 30px">
                 <h4 class="text-center">Sign here</h4>
                 <div class="col-md-12">
@@ -1337,7 +1235,7 @@
     $('body').on('click', '#btnCreatetask', function (e) {
         e.preventDefault();
         $('#footer-templatechecklist button').prop('disabled', true);
-        $('#nomoi_ij').removeClass('hide');
+        $('#nomoi_ij').removeClass('toggle');
     });
 
     $('body').on('click', '#btnaddNewCheckpoints', function (e) {
@@ -1351,7 +1249,7 @@
             dataType: 'json',
             success: function (e) {
                 $('#footer-templatechecklist button').prop('disabled', false);
-                $('#nomoi_ij').addClass('hide');
+                $('#nomoi_ij').addClass('toggle');
             },
             error: function (e) {
 
@@ -1365,36 +1263,50 @@
         e.preventDefault();
         fun_submit();
     })
-    $('#checklist-form').on('submit', function(e){
-        $("#signature-form").attr('action', $('#checklist-form').attr('action'));
-        $('#signature-modal').modal('show');
+    $('#checklist-form').on('submit', function (e) {
         e.preventDefault();
+        $('#modal-before-sign').modal('toggle')
+        var checklist = '';
+        $("#my-checklist-points").html('');
+        $('.checklist-box-checkbox').each(function (i, obj) {
+
+            if (this.checked) {
+                checklist += '<div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title="" data-original-title=""><input type="checkbox" name="checklist-box" class="checklist-box-checkbox" checked=""> <label for=""></label><textarea data-taskid="19" name="checklist-description" rows="1">' + $(this).parent().find("textarea").val() + '</textarea></div>';
+
+            }
+        });
+        $("#my-checklist-points").html(checklist);
+
     });
 
-    $('#signature-form').on('submit', function(e){
-        if($('#imageData-input').val()==null || $('#imageData-input').val()=='')
-        {
+    function signatur_check() {
+        $("#signature-form").attr('action', $('#checklist-form').attr('action'));
+        $('#signature-modal').modal('toggle');
+    }
+
+    $('#signature-form').on('submit', function (e) {
+        if ($('#imageData-input').val() == null || $('#imageData-input').val() == '') {
             alert('Signature is required')
             e.preventDefault();
         }
 
     })
-    $('#modal-signature-btn-down').click(function(){
-    $('#signature-modal').modal('hide');
+    $('#modal-signature-btn-down').click(function () {
+        $('#signature-modal').modal('toggle');
     });
 
-    $('#modal-signature-btn-up').click(function(){
-    $('#signature-modal').modal('hide');
+    $('body').on('click','#modal-before-sign-close', '#modal-signature-btn-up').click(function () {
+        $('#signature-modal').modal('hide');
     });
-    $('#checklistt-form').on('submit', function(e){
+    $('#checklistt-form').on('submit', function (e) {
         $("#signature-form").attr('action', $('#checklistt-form').attr('action'));
-        $('#signature-modal').modal('show');
+        $('#signature-modal').modal('toggle');
         e.preventDefault();
     })
+
     function fun_submit() {
         if (isSign) {
             var canvas = $("#canvass").get(0);
-
             var imgData = canvas.toDataURL();
             $('#imageData').val(imgData);
             $("#refresh-form").trigger('submit');
@@ -1419,9 +1331,10 @@
         e.preventDefault();
         init_Sign_Canvas();
     })
+
     function clear_canvas() {
 
-       var  canvas= document.getElementById('canvass');
+        var canvas = document.getElementById('canvass');
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.beginPath();
@@ -1443,19 +1356,19 @@
             sizedWindowWidth = sizedWindowWidth - 50;
 
         sizedWindowWidth = 246;
-        $("#canvass").width(sizedWindowWidth);
-        $("#canvass").height(200);
+        $("#canvass").width(150);
+        $("#canvass").height(100);
         $("#canvass").css("border", "1px solid #000");
 
         var canvas = $("#canvass").get(0);
         canvasContext = canvas.getContext('2d');
 
         if (canvasContext) {
-            canvasContext.canvas.width = sizedWindowWidth;
-            canvasContext.canvas.height = 200;
+            canvasContext.canvas.width = 150;
+            canvasContext.canvas.height = 100;
 
             canvasContext.fillStyle = "#fff";
-            canvasContext.fillRect(0, 0, sizedWindowWidth, 200);
+            canvasContext.fillRect(0, 0, sizedWindowWidth, 100);
             /*
                         canvasContext.moveTo(50, 150);
                         canvasContext.lineTo(sizedWindowWidth - 50, 150);

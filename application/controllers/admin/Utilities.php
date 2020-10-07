@@ -81,7 +81,7 @@ class Utilities extends AdminController
            die();
         }
         $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
-        $data['staffs'] = $this->staff_model->get();
+        $data['staffs'] = $this->staff_model->get('',['active'=>1]);
         $data['google_calendar_api']  = get_option('google_calendar_api_key');
         $data['title']                = _l('Personalplan');
         $data['cars'] = $this->cars_model->get();
@@ -115,6 +115,7 @@ class Utilities extends AdminController
             || $data['event']->public == 0 && $data['event']->userid != get_staff_user_id()) {
 
 
+                $even_relation = $this->utilities_model->get_event_user($id);
                 if($even_relation->event_id == $id){
                     $this->load->view('admin/utilities/event', $data);
                 }

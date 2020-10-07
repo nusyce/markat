@@ -147,6 +147,39 @@ class Tasks extends AdminController
         }
     }
 
+    /* Add or update leads sources */
+    public function project()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if (!$this->input->post('id')) {
+                $inline = isset($data['inline']);
+                if (isset($data['inline'])) {
+                    unset($data['inline']);
+                }
+
+                $id = $this->tasks_model->add_project($data);
+
+                if (!$inline) {
+                    if ($id) {
+                        set_alert('success', _l('added_successfully', _l('lead_source')));
+                    }
+                } else {
+                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                }
+            } else {
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->tasks_model->update_project($data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('lead_source')));
+                }
+            }
+        }
+    }
+
+
+
 
     // Used in invoice add/edit
     public function get_billable_tasks_by_customer_id($customer_id)
@@ -353,7 +386,6 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
 
-        $task = $this->tasks_model->get($id);
         $task = $this->tasks_model->get($id);
         $signature="";
 
