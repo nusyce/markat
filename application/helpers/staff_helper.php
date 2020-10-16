@@ -406,6 +406,23 @@ function staff_profile_image($id, $classes = ['staff-profile-image'], $type = 's
 }
 
 /**
+ * Staff profile image with href
+ * @param $staff_id
+ * @param string $type
+ * @return string
+ */
+function staff_profile_attc($staff_id, $type)
+{
+    $path = site_url() . 'uploads/staffs/' . $staff_id . '/';
+    $CI = &get_instance();
+    $CI->db->select($type);
+    $CI->db->where('staffid', $staff_id);
+    $result = $CI->db->get(db_prefix() . 'staff')->result_array()[0][$type];
+    $staff_doc = '<a  href="' .$path .$result . '" target="_blank" >' . $result .'</a>';
+    return $staff_doc;
+}
+
+/**
  * Get staff full name
  * @param string $userid Optional
  * @return string Firstname and Lastname

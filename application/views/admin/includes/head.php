@@ -19,7 +19,7 @@
         contractsTemplates = <?php echo json_encode(get_contract_templates()); ?>,
         billingAndShippingFields = ['billing_street','billing_city','billing_state','billing_zip','billing_country','shipping_street','shipping_city','shipping_state','shipping_zip','shipping_country'],
         isRTL = '<?php echo $isRTL; ?>',
-        taskid,taskTrackingStatsData,taskAttachmentDropzone,taskCommentAttachmentDropzone_2,taskCommentAttachmentDropzone,mieterDropzone,newsFeedDropzone,expensePreviewDropzone,taskTrackingChart,cfh_popover_templates = {},_table_api;
+        taskid,taskTrackingStatsData,taskAttachmentDropzone,taskCommentAttachmentDropzone_2,taskCommentAttachmentDropzone,mieterDropzone,mieterDropzone_images,newsFeedDropzone,expensePreviewDropzone,taskTrackingChart,cfh_popover_templates = {},_table_api;
     </script>
     <?php app_admin_head(); ?>
 </head>

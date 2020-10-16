@@ -24,6 +24,7 @@ $sTable = db_prefix() . 'wohnungen';
 $where = [];
 $join = [];
 $filter = [];
+
 $join[] = 'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'wohnungen.project';
 
 if ($this->ci->input->post('belegt')) {
@@ -70,8 +71,8 @@ $staff = get_staff();
 if (isset($staff->projects) && !empty($staff->projects)) {
     $stf_project = unserialize($staff->projects);
     if (is_array($stf_project)&&count($stf_project) > 0) {
-        $stf_project = implode("','", $stf_project);
-        array_push($where, ' AND ' . db_prefix() . 'wohnungen.project IN  ("' . $stf_project . ' ") ');
+        $stf_project = implode(",", $stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'wohnungen.project IN  (' . $stf_project . ') ');
     }
 }
 

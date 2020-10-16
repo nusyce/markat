@@ -8,7 +8,7 @@
         <!-- <?php /*$value = (isset($lieferanten) ? $lieferanten->address : ''); */ ?>
                         --><?php /*echo render_textarea('address', 'client_address', $value); */ ?>
         <?php $value = (isset($lieferanten) ? $lieferanten->strabe : ''); ?>
-        <?php echo render_input('strabe', get_transl_field('tsl_lieferanten', 'strabe','Straße'), $value); ?>
+        <?php echo render_input('strabe', get_transl_field('tsl_lieferanten', 'strabe','StraÃŸe'), $value); ?>
         <?php $value = (isset($lieferanten) ? $lieferanten->hausnummer : ''); ?>
         <?php echo render_input('hausnummer', get_transl_field('tsl_lieferanten', 'hausnummer','Hausnummer'), $value); ?>
         <?php $value = (isset($lieferanten) ? $lieferanten->zip : ''); ?>

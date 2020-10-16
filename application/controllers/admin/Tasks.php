@@ -96,6 +96,22 @@ class Tasks extends AdminController
         }
     }
 
+    public function update_mieter_user($proejct_id = '')
+    {
+        $_users = '<option></option>';
+        $_mieters = '<option></option>';
+        $mieters = $this->projects_model->get_project_mieters($proejct_id);
+        foreach ($mieters as $mieter)
+            $_mieters .= '<option id="' . $mieter['id'] . '">' . $mieter['fullname'] . '</option>';
+
+        $users = $this->projects_model->get_project_users($proejct_id);
+        foreach ($users as $user)
+            $_users .= '<option id="' . $user['staff_id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
+
+        echo json_encode(['mieters' => $_mieters, 'members' => $_users]);
+        die();
+    }
+
     public function update_order()
     {
         $this->tasks_model->update_order($this->input->post());
@@ -108,7 +124,7 @@ class Tasks extends AdminController
         } else {
             $set = 'true';
         }
-
+        $set = 'false';
         $this->session->set_userdata([
             'tasks_kanban_view' => $set,
         ]);
@@ -130,6 +146,39 @@ class Tasks extends AdminController
             echo json_encode($this->tasks_model->get_billable_tasks($customer_id, $project_id));
         }
     }
+
+    /* Add or update leads sources */
+    public function project()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if (!$this->input->post('id')) {
+                $inline = isset($data['inline']);
+                if (isset($data['inline'])) {
+                    unset($data['inline']);
+                }
+
+                $id = $this->tasks_model->add_project($data);
+
+                if (!$inline) {
+                    if ($id) {
+                        set_alert('success', _l('added_successfully', _l('lead_source')));
+                    }
+                } else {
+                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                }
+            } else {
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->tasks_model->update_project($data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('lead_source')));
+                }
+            }
+        }
+    }
+
+
 
 
     // Used in invoice add/edit
@@ -336,10 +385,16 @@ class Tasks extends AdminController
         if (!$id) {
             redirect(admin_url('tasks'));
         }
+
         $task = $this->tasks_model->get($id);
+        $signature="";
+
+        if (isset($_POST['imageData']) && !empty($_POST['imageData'])) {
+            $signature = str_replace('[removed]', '', $_POST['imageData']);
+        }
         try {
             $tag = isset($_GET['full']) ? 'full' : '';
-            $pdf = task_pdf($task, $tag);
+            $pdf = task_pdf($task, $tag,$signature);
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
@@ -369,8 +424,14 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
         $task = $this->tasks_model->get($id);
+        $signature="";
+
+        if (isset($_POST['imageData']) && !empty($_POST['imageData'])) {
+            $signature = str_replace('[removed]', '', $_POST['imageData']);
+        }
+
         try {
-         task_pdf($task, 'checklist');
+            task_pdf($task, 'checklist',$signature);
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
@@ -522,10 +583,12 @@ class Tasks extends AdminController
                 ];
             }
         }
-        $this->load->model(['lieferanten_model', 'misc_model', 'mieter_model']);
+
+        $this->load->model(['lieferanten_model', 'lieferanten_model', 'misc_model', 'mieter_model']);
         $data['id'] = $id;
         $data['title'] = $title;
         $data['mieters'] = $this->mieter_model->get();
+        $data['lieferantens'] = $this->lieferanten_model->get();
         $dStaff = $this->staff_model->get('', ['active' => 1], true);
         $staffs = array();
         foreach ($dStaff as $d) {
@@ -534,10 +597,11 @@ class Tasks extends AdminController
             }
             array_push($staffs, $d);
         }
+
         $data['staff'] = $staffs;
         $data['projects'] = $this->misc_model->get_project();
         $data['cars'] = $this->cars_model->get();
-        $data['clients'] = $this->clients_model->get();
+        $data['clients'] = $this->clients_model->get('',[db_prefix().'clients.active'=>1]);
         $this->load->view('admin/tasks/task', $data);
     }
 
@@ -815,18 +879,18 @@ class Tasks extends AdminController
 
     public function save_checklist_item_template()
     {
-        if (has_permission('checklist_templates', '', 'create')) {
-            $id = $this->tasks_model->add_checklist_template($this->input->post('description'));
-            echo json_encode(['id' => $id]);
-        }
+        // if (has_permission('checklist_templates', '', 'create')) {
+        $id = $this->tasks_model->add_checklist_template($this->input->post('description'));
+        echo json_encode(['id' => $id]);
+        //     }
     }
 
     public function remove_checklist_item_template($id)
     {
-        if (has_permission('checklist_templates', '', 'delete')) {
-            $success = $this->tasks_model->remove_checklist_item_template($id);
-            echo json_encode(['success' => $success]);
-        }
+        // if (has_permission('checklist_templates', '', 'delete')) {
+        $success = $this->tasks_model->remove_checklist_item_template($id);
+        echo json_encode(['success' => $success]);
+        // }
     }
 
     public function init_checklist_items()
@@ -1443,5 +1507,21 @@ class Tasks extends AdminController
                 set_alert('success', _l('total_tasks_deleted', $total_deleted));
             }
         }
+    }
+
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_tasks', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('tasks', 'Translation')));
+            redirect(admin_url('tasks/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/tasks/translation', $data);
     }
 }

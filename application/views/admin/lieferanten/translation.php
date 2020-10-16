@@ -70,7 +70,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('strabe', get_transl_field('tsl_lieferanten', 'strabe','Straße'),get_transl_field('tsl_lieferanten', 'strabe','Straße'));?>
+                                        <?php echo render_input('strabe', get_transl_field('tsl_lieferanten', 'strabe','Straï¿½e'),get_transl_field('tsl_lieferanten', 'strabe','Straï¿½e'));?>
                                     </div>
                                 </div>
 

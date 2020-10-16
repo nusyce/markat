@@ -142,7 +142,14 @@ define('CARS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cars' . '/');
 /**
  * All tickets attachments
  */
+
 define('TICKET_ATTACHMENTS_FOLDER', FCPATH . 'uploads/ticket_attachments' . '/');
+
+/**
+ * Cars attachments
+ */
+//define('CARS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cars' . '/');
+
 /**
  * Company attachments, favicon, logo etc..
  */
@@ -151,6 +158,11 @@ define('COMPANY_FILES_FOLDER', FCPATH . 'uploads/company' . '/');
  * Staff profile images
  */
 define('STAFF_PROFILE_IMAGES_FOLDER', FCPATH . 'uploads/staff_profile_images' . '/');
+/**
+/**
+ * Staff profile images
+ */
+define('STAFF_ATTACH_FOLDER', FCPATH . 'uploads/staffs' . '/');
 /**
  * Contact profile images
  */

@@ -193,7 +193,6 @@ class App
         foreach ($params as $key => $val) {
             $$key = $val;
         }
-
         $customFieldsColumns = [];
 
         $path = VIEWPATH . 'admin/tables/' . $table . EXT;
@@ -223,6 +222,7 @@ class App
     {
         return $this->available_reminders;
     }
+
 
     /**
      * Get all db options

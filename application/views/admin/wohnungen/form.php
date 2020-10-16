@@ -5,7 +5,7 @@
         if (isset($wohnungen) && $wohnungen->project) {
             $selected = $wohnungen->project;
         }
-        echo render_project_select($projects, $selected,get_transl_field('tsl_wohnungen', 'projekt','Projekt'));
+        echo render_project_select($selected,get_transl_field('tsl_wohnungen', 'projekt','Projekt'));
         ?>
 
     </div>

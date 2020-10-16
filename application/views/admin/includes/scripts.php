@@ -38,4 +38,7 @@ if(get_option('pusher_realtime_notifications') == 1){ ?>
    });
    </script>
 <?php } ?>
+
+
+<!--<script src="<?= base_url()?>/assets/js/jcanvas.min.js"></script>-->
 <?php app_admin_footer(); ?>

@@ -28,6 +28,9 @@ class Firma extends AdminController
             update_option('f_mobil', $_POST['mobil']);
             update_option('f_website', $_POST['website']);
             update_option('f_firm_id', $_POST['firm_id']);
+            update_option('name_der_bank', $_POST['name_der_bank']);
+            update_option('iban', $_POST['iban']);
+            update_option('bic', $_POST['bic']);
             set_alert('success', _l('updated_successfully', 'Lieferanten'));
             redirect(admin_url('firma'));
         }

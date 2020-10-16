@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>"
+<div class="modal-header task-single-header"  data-task-single-id="<?php echo $task->id; ?>" data-focus-on="input:first"
      data-status="<?php echo $task->status; ?>">
     <?php if ($this->input->get('opened_from_lead_id')) { ?>
         <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;"
@@ -140,6 +140,7 @@
                     <p class="no-margin pull-left">
                         <a href="#" data-toggle="popover"
                            data-placement="<?php /*echo is_mobile() ? 'bottom' : 'right'; */ ?>" data-html="true"
+
                            data-trigger="manual" data-title="<?php /*echo _l('note'); */ ?>"
                            data-content='<?php /*echo render_textarea('timesheet_note'); */ ?><button type="button" onclick="timer_action(this, <?php /*echo $task->id; */ ?>, <?php /*echo $this->tasks_model->get_last_timer($task->id)->id; */ ?>);" class="btn btn-info btn-xs"><?php /*echo _l('save'); */ ?></button>'
                            class="btn mbot10 btn-danger<?php /*if (!$is_assigned) {
@@ -347,6 +348,9 @@
                     <?php } ?>
                 </select>
             </div>
+            <!--     <span style="margin-left: 10px;">
+                     <button class="btn btn-success" id="btnchoose" onclick="viewchoose()">Choose</button></span>
+     -->
             <div class="clearfix"></div>
             <p class="hide text-muted no-margin"
                id="task-no-checklist-items"><?php echo _l('task_no_checklist_items_found'); ?></p>
@@ -362,11 +366,11 @@
                 <div class="clearfix"></div>
             </div>
 
-            <?php if (count($task->attachments) > 0 ) { ?>
+            <?php if (count($task->attachments) > 0) { ?>
                 <!--  <div class="row task_attachments_wrapper">
                     <div class="col-md-12" id="attachments">
                         <hr/>
-                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */?></h4>
+                        <h4 class="th font-medium mbot15"><?php /*echo _l('task_view_attachments'); */ ?></h4>
                         <div class="row">-->
                 <?php
                 $i = 1;
@@ -479,7 +483,7 @@
                 } ?>
                 <!--</div>
             </div>-->
-                <?php if (($i - 1) > $show_more_link_task_attachments  && 1==3) { ?>
+                <?php if (($i - 1) > $show_more_link_task_attachments && 1 == 3) { ?>
                     <div class="clearfix"></div>
                     <div class="col-md-12" id="show-more-less-task-attachments-col">
                         <a href="#" class="task-attachments-more"
@@ -1150,20 +1154,31 @@
                 </button>
                 <div id="dropbox-chooser-task"></div>
             </div>
-
             <div class="report-action">
                 <h3 style="text-decoration: underline;">PDF Dokumente</h3>
-                <a href="<?= admin_url('tasks/checklist/') . $task->id . '?print=1'; ?>" class="btn  btn-success">Checkliste</a>
-
-                <br><a href="#" onclick="slideToggle('.tasks-comments-2'); return false;" class="btn  btn-primary">Dokumentation vorther</a><br>
-
-                <a href="#" onclick="slideToggle('.tasks-comments'); return false;"  class="btn  btn-primary">Dokumentation danash</a>
+                <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'checklist-form', 'target' => '_blank')) ?>
+                <input type="hidden" name="imageData" id="imageData-checklist" value="">
+                <button style="width: 100% " type="submit" id="checklist-btn"
+                        class="btn btn-success"><?php echo _l('Arbeitsschein'); ?></button><?php echo form_close() ?>
 
                 <br>
-                <a href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
+                <?php echo form_open(admin_url('tasks/pdf/') . $task->id . '?print=1', array('id' => 'checklistt-form', 'target' => '_blank')) ?>
+                <input type="hidden" name="imageData" id="imageData-checklistt" value="">
+                <button style="width: 100% " type="submit" id="checklist-btn"
+                        class="btn btn-success"><?php echo _l('Checkliste'); ?></button><?php echo form_close() ?>
+
+                <br><a target="_blank" href="#" onclick="slideToggle('.tasks-comments-2'); return false;"
+                       class="btn  btn-primary">Dokumentation
+                    vorther</a><br>
+
+                <a href="#" onclick="slideToggle('.tasks-comments'); return false;" class="btn  btn-primary">Dokumentation
+                    danash</a>
+                <br>
+
+                <a target="_blank" href="<?= admin_url('tasks/pdf/') . $task->id . '?full=1&print=1'; ?>"
                    class="btn" style="background-color: blue;color: white">Dokumentation komplett</a>
             </div>
-            <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
+            <!-- <?php echo form_open(admin_url('tasks/print_pdf'), array('id' => 'refresh-form')) ?>
             <div id="printSing" style="display:none;margin-top: 30px">
                 <h4 class="text-center">Sign here</h4>
                 <div class="col-md-12">
@@ -1186,7 +1201,7 @@
                     </div>
                 </div>
             </div>
-            <?php echo form_close() ?>
+            <?php echo form_close() ?>-->
         </div>
     </div>
 </div>
@@ -1217,9 +1232,76 @@
         init_Sign_Canvas();
     });
 
+    $('body').on('click', '#btnCreatetask', function (e) {
+        e.preventDefault();
+        $('#footer-templatechecklist button').prop('disabled', true);
+        $('#nomoi_ij').removeClass('toggle');
+    });
+
+    $('body').on('click', '#btnaddNewCheckpoints', function (e) {
+        e.preventDefault();
+        var name = $('#nomoi_ij #name').val()
+
+        $.ajax({
+            url: admin_url + "cars/ajax_save",
+            data: {name: name},
+            type: "POST",
+            dataType: 'json',
+            success: function (e) {
+                $('#footer-templatechecklist button').prop('disabled', false);
+                $('#nomoi_ij').addClass('toggle');
+            },
+            error: function (e) {
+
+            }
+
+        });
+
+    });
+
     $('#sendSign').click(function (e) {
         e.preventDefault();
         fun_submit();
+    })
+    $('#checklist-form').on('submit', function (e) {
+        e.preventDefault();
+        $('#modal-before-sign').modal('toggle')
+        var checklist = '';
+        $("#my-checklist-points").html('');
+        $('.checklist-box-checkbox').each(function (i, obj) {
+
+            if (this.checked) {
+                checklist += '<div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title="" data-original-title=""><input type="checkbox" name="checklist-box" class="checklist-box-checkbox" checked=""> <label for=""></label><textarea data-taskid="19" name="checklist-description" rows="1">' + $(this).parent().find("textarea").val() + '</textarea></div>';
+
+            }
+        });
+        $("#my-checklist-points").html(checklist);
+
+    });
+
+    function signatur_check() {
+        $("#signature-form").attr('action', $('#checklist-form').attr('action'));
+        $('#signature-modal').modal('toggle');
+    }
+
+    $('#signature-form').on('submit', function (e) {
+        if ($('#imageData-input').val() == null || $('#imageData-input').val() == '') {
+            alert('Signature is required')
+            e.preventDefault();
+        }
+
+    })
+    $('#modal-signature-btn-down').click(function () {
+        $('#signature-modal').modal('toggle');
+    });
+
+    $('body').on('click','#modal-before-sign-close', '#modal-signature-btn-up').click(function () {
+        $('#signature-modal').modal('hide');
+    });
+    $('#checklistt-form').on('submit', function (e) {
+        $("#signature-form").attr('action', $('#checklistt-form').attr('action'));
+        $('#signature-modal').modal('toggle');
+        e.preventDefault();
     })
 
     function fun_submit() {
@@ -1250,6 +1332,15 @@
         init_Sign_Canvas();
     })
 
+    function clear_canvas() {
+
+        var canvas = document.getElementById('canvass');
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.beginPath();
+        $('#imageData-input').val('');
+
+    }
 
     function init_Sign_Canvas() {
         isSign = false;
@@ -1265,19 +1356,19 @@
             sizedWindowWidth = sizedWindowWidth - 50;
 
         sizedWindowWidth = 246;
-        $("#canvass").width(sizedWindowWidth);
-        $("#canvass").height(200);
+        $("#canvass").width(150);
+        $("#canvass").height(100);
         $("#canvass").css("border", "1px solid #000");
 
         var canvas = $("#canvass").get(0);
         canvasContext = canvas.getContext('2d');
 
         if (canvasContext) {
-            canvasContext.canvas.width = sizedWindowWidth;
-            canvasContext.canvas.height = 200;
+            canvasContext.canvas.width = 150;
+            canvasContext.canvas.height = 100;
 
             canvasContext.fillStyle = "#fff";
-            canvasContext.fillRect(0, 0, sizedWindowWidth, 200);
+            canvasContext.fillRect(0, 0, sizedWindowWidth, 100);
             /*
                         canvasContext.moveTo(50, 150);
                         canvasContext.lineTo(sizedWindowWidth - 50, 150);
@@ -1288,7 +1379,7 @@
                         canvasContext.fillText("x", 40, 155);*/
         }
         // Bind Mouse events
-        $(canvas).on('mousedown', function (e) {
+        $(canvas).on('mousedown, pointerup, pointerdown', function (e) {
             if (e.which === 1) {
                 leftMButtonDown = true;
                 canvasContext.fillStyle = "#000";
@@ -1300,10 +1391,14 @@
             return false;
         });
 
-        $(canvas).on('mouseup', function (e) {
+        $(canvas).on('mouseup, pointerup, pointerdown', function (e) {
             if (leftMButtonDown && e.which === 1) {
                 leftMButtonDown = false;
                 isSign = true;
+                var canvas = $("#canvass").get(0);
+                var imgData = canvas.toDataURL();
+                $('#imageData-input').val(imgData);
+
             }
             e.preventDefault();
             return false;

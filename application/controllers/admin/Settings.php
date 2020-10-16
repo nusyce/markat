@@ -19,7 +19,6 @@ class Settings extends AdminController
         }
 
         $tab = $this->input->get('group');
-
         if ($this->input->post()) {
             /*  if (!has_permission('settings', '', 'edit')) {
                   access_denied('settings');
@@ -70,7 +69,69 @@ class Settings extends AdminController
                 redirect($redUrl);
             }
         }
+
+        $this->load->model('taxes_model');
+        $this->load->model('tickets_model');
+        $this->load->model('leads_model');
+        $this->load->model('currencies_model');
+        $data['taxes']                                   = $this->taxes_model->get();
+        $data['ticket_priorities']                       = $this->tickets_model->get_priority();
+        $data['ticket_priorities']['callback_translate'] = 'ticket_priority_translate';
+        $data['roles']                                   = $this->roles_model->get();
+        $data['leads_sources']                           = $this->leads_model->get_source();
+        $data['leads_statuses']                          = $this->leads_model->get_status();
+        $data['title']                                   = _l('options');
+
+        $data['admin_tabs'] = ['update', 'info'];
+
+        if (!$tab || (in_array($tab, $data['admin_tabs']) && !is_admin())) {
+            $tab = 'general';
+        }
+
+        $data['tabs'] = $this->app_tabs->get_settings_tabs();
+        if (!in_array($tab, $data['admin_tabs'])) {
+            $data['tab'] = $this->app_tabs->filter_tab($data['tabs'], $tab);
+        } else {
+            // Core tabs are not registered
+            $data['tab']['slug'] = $tab;
+            $data['tab']['view'] = 'admin/settings/includes/' . $tab;
+        }
+
+        if (!$data['tab']) {
+            show_404();
+        }
+
+        if ($data['tab']['slug'] == 'update') {
+            if (!extension_loaded('curl')) {
+                $data['update_errors'][] = 'CURL Extension not enabled';
+                $data['latest_version']  = 0;
+                $data['update_info']     = json_decode('');
+            } else {
+                $data['update_info'] = $this->app->get_update_info();
+                if (strpos($data['update_info'], 'Curl Error -') !== false) {
+                    $data['update_errors'][] = $data['update_info'];
+                    $data['latest_version']  = 0;
+                    $data['update_info']     = json_decode('');
+                } else {
+                    $data['update_info']    = json_decode($data['update_info']);
+                    $data['latest_version'] = $data['update_info']->latest_version;
+                    $data['update_errors']  = [];
+                }
+            }
+
+            if (!extension_loaded('zip')) {
+                $data['update_errors'][] = 'ZIP Extension not enabled';
+            }
+
+            $data['current_version'] = $this->current_db_version;
+        }
+
+        $data['contacts_permissions'] = get_contact_permissions();
+        $data['payment_gateways']     = $this->payment_modes_model->get_payment_gateways(true);
+
+        $this->load->view('admin/settings/all', $data);
     }
+
 
     /* View all settings */
     public function save()

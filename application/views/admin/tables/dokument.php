@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     '1',
     'id',
+    'act',
     'client',
     'mieter',
     'strabe',
@@ -12,7 +13,7 @@ $aColumns = [
     'ort',
     'etage',
     'datum',
-    'fo_arbeit',
+    //'fo_arbeit',
     'demontage',
     'e_datum',
 ];
@@ -64,7 +65,7 @@ foreach ($rResult as $aRow) {
     $row = [];
     $row[] = '<div class="checkbox multiple_action"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
     $row[] = $aRow['id'];
-    $row[] = 'RR';
+    $row[] = $aRow['act'];
     $subjectOutput = $aRow['client'];
     $subjectOutput .= '<div class="row-options">';
     $subjectOutput .= '<a href="' . admin_url('dokumente/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
@@ -77,10 +78,10 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['ort'];
     $row[] = $aRow['etage'];
     $row[] = _d($aRow['datum']);
-    $row[] = $aRow['fo_arbeit'];
     $row[] = _d($aRow['demontage']);
     $row[] = _d($aRow['e_datum']);
-    $row[] = '<a href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning">See Pdf</a>';
+    $row[] = '<a  target="_blank" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning">See Pdf</a>';
+    $row[] = '<a href="#" data-id="' . $aRow['id'] . '" class="btn senddok-by-email btn-primary">Send PDF</a>';
 
     if (!empty($aRow['dateend'])) {
         $_date_end = date('Y-m-d', strtotime($aRow['dateend']));

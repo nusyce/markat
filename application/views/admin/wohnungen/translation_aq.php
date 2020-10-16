@@ -26,7 +26,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('strabe', get_transl_field('tsl_wohnungen', 'strabe','Straße'),get_transl_field('tsl_wohnungen', 'strabe','Straße'));?>
+                                        <?php echo render_input('strabe', get_transl_field('tsl_wohnungen', 'strabe','StraÃŸe'),get_transl_field('tsl_wohnungen', 'strabe','Straï¿½e'));?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -44,7 +44,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('flugel', get_transl_field('tsl_wohnungen', 'flugel','Flügel'), get_transl_field('tsl_wohnungen', 'flugel','Flügel'));?>
+                                        <?php echo render_input('flugel', get_transl_field('tsl_wohnungen', 'flugel','FlÃ¼gel'), get_transl_field('tsl_wohnungen', 'flugel','Flï¿½gel'));?>
                                     </div>
                                 </div>
 
@@ -119,14 +119,14 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('schlafplatze', get_transl_field('tsl_wohnungen', 'schlafplatze','Schlafplätze'), get_transl_field('tsl_wohnungen', 'schlafplatze','Schlafplätze'));?>
+                                        <?php echo render_input('schlafplatze', get_transl_field('tsl_wohnungen', 'schlafplatze','SchlafplÃ¤tze'), get_transl_field('tsl_wohnungen', 'schlafplatze','Schlafplï¿½tze'));?>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('mobliert', get_transl_field('tsl_wohnungen', 'mobliert','Möbliert'), get_transl_field('tsl_wohnungen', 'mobliert','Möbliert'));?>
+                                        <?php echo render_input('mobliert', get_transl_field('tsl_wohnungen', 'mobliert','MÃ¶bliert'), get_transl_field('tsl_wohnungen', 'mobliert','Mï¿½bliert'));?>
                                     </div>
                                 </div>
                                 <div class="row">

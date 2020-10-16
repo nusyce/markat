@@ -10,7 +10,7 @@
                         <div class="style-menu" >  <h3><span><?php echo get_menu_option(c_menu(), 'Räumung/Beräumung') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
-                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a>
+                                <a id="edit-menu" class="redopencil" href="#"><i class="fa fa-pencil"></i></a>
                             <?php endif; ?></h3>
                             <a href="<?php echo admin_url('rb/translation'); ?>" class="btn btn-info btntrans pull-left display-block"><?php echo 'Translate'; ?></a></div>
 
@@ -109,6 +109,7 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
             <div class="modal-body">
                 <?php echo form_open('', array('id' => 'createpdf-form')); ?>
                 <input type="hidden" value="0" name="mieter" id="mieter">
+                <input type="hidden" name="act" id="act">
                 <div class="row field">
                     <div class="col-md-12">
                         <?php echo render_textarea('fo_arbeit', 'Folgende Arbeit') ?>
@@ -229,10 +230,13 @@ $datas[] = array('id' => 11, 'value' => 'Kreppband');
                 }
             });
         })
+
         $('.table').on('click', '.createpdf-action', function (e) {
             e.preventDefault();
             const target = $(this).data('id');
+            const act = $(this).data('act');
             $("#createdocument #mieter").val(target);
+            $("#createdocument #act").val(act);
             $('#createdocument').modal({
                 backdrop: 'static',
                 keyboard: false

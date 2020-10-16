@@ -12,26 +12,39 @@ class Template_pdf
 {
     protected $templates;
     protected $table;
+    protected $tag;
+    protected $target;
 
-    public function __construct($template, $tag = '')
+    public function __construct($template, $tag = '', $target)
     {
+
         $this->templates = $template;
+        $this->tag = $tag;
+        $this->target = $target;
+    }
+
+    public function prepare()
+    {
+        if ($this->tag == 'e')
+            return $this->email();
+        else
+            $this->prepared();
+    }
+
+    public function prepared_save()
+    {
+        $template = $this->templates;
         $this->preparetable($template->json_data);
         try {
             ob_start();
             include $this->file_path();
             $content = ob_get_clean();
-            /*
-                        $html2pdf = new Html2Pdf('P', 'A4', 'de',
-                            $unicode = true,
-                            $encoding = 'UTF-8',
-                          $margins = array(20, 10, 20, 14));*/
             $html2pdf = new Html2Pdf('P', 'A4', 'de',
                 $unicode = true,
                 $encoding = 'UTF-8',
                 $margins = array(5, 5, 5, 4));
             $html2pdf->setDefaultFont('Arial');
-            // $html2pdf->setModeDebug();
+
             $html2pdf->writeHTML($content);
             $html2pdf->output('dokumente.pdf');
         } catch (Html2PdfException $e) {
@@ -40,6 +53,62 @@ class Template_pdf
             $formatter = new ExceptionFormatter($e);
             echo $formatter->getHtmlMessage();
         }
+    }
+
+    public function prepared()
+    {
+        $template = $this->templates;
+        $this->preparetable($template->json_data);
+        try {
+            ob_start();
+            include $this->file_path();
+            $content = ob_get_clean();
+            $html2pdf = new Html2Pdf('P', 'A4', 'de',
+                $unicode = true,
+                $encoding = 'UTF-8',
+                $margins = array(5, 5, 5, 4));
+            $html2pdf->setDefaultFont('Arial');
+
+            $html2pdf->writeHTML($content);
+            if ($this->tag == 'd') {
+                $html2pdf->output($this->target, 'F');
+
+            } else {
+                $html2pdf->output('dokumente.pdf');
+            }
+        } catch (Html2PdfException $e) {
+            $html2pdf->clean();
+
+            $formatter = new ExceptionFormatter($e);
+            echo $formatter->getHtmlMessage();
+        }
+    }
+
+    public function email()
+    {
+        $template = $this->templates;
+        $this->preparetable($template->json_data);
+
+        try {
+            ob_start();
+            include $this->file_path();
+            $content = ob_get_clean();
+            $html2pdf = new Html2Pdf('P', 'A4', 'de',
+                $unicode = true,
+                $encoding = 'UTF-8',
+                $margins = array(5, 5, 5, 4));
+            $html2pdf->setDefaultFont('Arial');
+            $html2pdf->writeHTML($content);
+            $statementPdfFileName = slug_it(_l('Dokument') . '-' . $this->templates->mieter);
+            $data = $html2pdf->Output($statementPdfFileName . '.pdf', 'S');
+            return $data;
+        } catch (Html2PdfException $e) {
+            $html2pdf->clean();
+
+            $formatter = new ExceptionFormatter($e);
+            echo $formatter->getHtmlMessage();
+        }
+        return false;
     }
 
     function preparetable($jsqon)
@@ -56,9 +125,6 @@ class Template_pdf
         return $x;
     }
 
-    public function prepare()
-    {
-    }
 
     protected function type()
     {

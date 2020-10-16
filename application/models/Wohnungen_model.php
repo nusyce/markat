@@ -24,8 +24,8 @@ class Wohnungen_model extends App_Model
         if (isset($staff->projects) && !empty($staff->projects)) {
             $stf_project = unserialize($staff->projects);
             if (is_array($stf_project)&&count($stf_project) > 0) {
-                $stf_project = implode("','", $stf_project);
-                $this->db->where(db_prefix() . 'wohnungen.project IN  ("' . $stf_project . ' ") ');
+                $stf_project = implode(",", $stf_project);
+                $this->db->where(db_prefix() . 'wohnungen.project IN  (' . $stf_project . ') ');
 
             }
         }
@@ -54,8 +54,8 @@ class Wohnungen_model extends App_Model
         if (isset($staff->projects) && !empty($staff->projects)) {
             $stf_project = unserialize($staff->projects);
             if (is_array($stf_project)&&count($stf_project) > 0) {
-                $stf_project = implode("','", $stf_project);
-                $this->db->where(db_prefix() . 'projects.id IN  ("' . $stf_project . ' ") ');
+                $stf_project = implode(",", $stf_project);
+                $this->db->where(db_prefix() . 'projects.id IN  (' . $stf_project . ') ');
 
             }
         } else {

@@ -53,7 +53,7 @@
                                     if (isset($wohnungen) && $wohnungen->project) {
                                         $selected = $wohnungen->project;
                                     }
-                                    echo render_project_select($projects, $selected, 'Projekt');
+                                    echo render_project_select( $selected, 'Projekt');
                                     ?>
                                 </div>
                                 <div class="col-md-6">

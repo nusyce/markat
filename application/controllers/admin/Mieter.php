@@ -118,33 +118,35 @@ class Mieter extends AdminController
                 set_alert('success', _l('updated_successfully', get_menu_option('mieter', 'Mieter')));
             }
         }
-        // Count total files
-        $countfiles = count($_FILES['files']['name']);
-        for ($i = 0; $i < $countfiles; $i++) {
+        if (isset($_FILES['files'])){
+            // Count total files
+            $countfiles = count($_FILES['files']['name']);
+            for ($i = 0; $i < $countfiles; $i++) {
 
-            if (!empty($_FILES['files']['name'][$i])) {
-                // Define new $_FILES array - $_FILES['file']
-                $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-                $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-                $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-                $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-                $_FILES['file']['size'] = $_FILES['files']['size'][$i];
-                // Set preference
-                if (!file_exists('uploads/mieter/' . $id)) {
-                    mkdir('uploads/mieter/' . $id, 0777, true);
-                }
-                $config['upload_path'] = 'uploads/mieter/' . $id;
-                $config['allowed_types'] = '*';
-                $config['max_size'] = '500000'; // max_size in kb
-                $config['file_name'] = $_FILES['files']['name'][$i];
+                if (!empty($_FILES['files']['name'][$i])) {
+                    // Define new $_FILES array - $_FILES['file']
+                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+                    // Set preference
+                    if (!file_exists('uploads/mieter/' . $id)) {
+                        mkdir('uploads/mieter/' . $id, 0777, true);
+                    }
+                    $config['upload_path'] = 'uploads/mieter/' . $id;
+                    $config['allowed_types'] = '*';
+                    $config['max_size'] = '500000'; // max_size in kb
+                    $config['file_name'] = $_FILES['files']['name'][$i];
 
-                //Load upload library
-                $this->load->library('upload', $config);
-                // File upload
-                if ($this->upload->do_upload('file')) {
-                    // Get data about the file
-                    $uploadData = $this->upload->data();
-                    $this->mieter_model->add_attachment($id, $uploadData);
+                    //Load upload library
+                    $this->load->library('upload', $config);
+                    // File upload
+                    if ($this->upload->do_upload('file')) {
+                        // Get data about the file
+                        $uploadData = $this->upload->data();
+                        $this->mieter_model->add_attachment($id, $uploadData);
+                    }
                 }
             }
         }

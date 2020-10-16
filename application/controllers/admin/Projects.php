@@ -13,7 +13,7 @@ class Projects extends AdminController
         $this->load->model('staff_model');
         $this->load->model('misc_model');
         $this->load->helper('date');
-
+        $this->load->model('belegungsplan_model');
         add_calendar_assets();
     }
 
@@ -29,6 +29,12 @@ class Projects extends AdminController
     {
         $this->app->get_table_data('projects', [
             'clientid' => $clientid,
+        ]);
+    }
+    public function table_staff($project = '')
+    {
+        $this->app->get_table_data('projects_staff', [
+            'project' => $project,
         ]);
     }
 
@@ -78,6 +84,7 @@ class Projects extends AdminController
                 if (!has_permission('projects', '', 'create')) {
                     access_denied('Projects');
                 }
+
                 $id = $this->projects_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project')));
@@ -1107,5 +1114,20 @@ class Projects extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_projects', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('projects', 'Translation')));
+            redirect(admin_url('projects/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/projects/translation', $data);
     }
 }

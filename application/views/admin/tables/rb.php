@@ -103,12 +103,15 @@ foreach ($rResult as $aRow) {
     } else {
         $beraumung = '';
     }
+
+    $hasdok = $this->ci->dokument_model->has_dok($aRow['id'],'BR');
     $row[] = '<div class="data-act beraumung ' . is_before($aRow['beraumung']) . '" data-ucolumn="beraumung" data-id="' . $aRow['id'] . '">' . $beraumung . '</div>';
     $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
-    if ($checker) {
-        $row[] = '<a data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+    $classhastock =$hasdok>0?' btn-success':' btn-warning';
+    if ($hasdok>0) {
+        $row[] = '<a data-act="BR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn createpdf-action '.$classhastock.'">Erstellen (×'.$hasdok.')</a>';
     } else {
-        $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
+        $row[] = '<a data-act="BR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn createpdf-action '.$classhastock.'">Erstellen</a>';
     }
     if (!empty($aRow['baubeginn'])) {
         $baubeginn = de_full_date($aRow['baubeginn']);
@@ -131,11 +134,15 @@ foreach ($rResult as $aRow) {
         $bauende = '';
     }
 
+    $hasdok = $this->ci->dokument_model->has_dok($aRow['id'],'RR');
     $checker = $this->ci->dokument_model->can_make_dok($aRow['id']);
-    if ($checker) {
-        $row[] = '<a data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn btn-warning createpdf-action">Create PDF</a>';
+    $classhastock =$hasdok>0?' btn-success':' btn-warning';
+
+    if ($hasdok>0) {
+        $row[] = '<a data-act="RR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn createpdf-action '.$classhastock.'">Erstellen (×'.$hasdok.')</a>';
     } else {
-        $row[] = '<a href="#" disabled="" class="btn btn-warning createpdf-action">Create PDF</a>';
+        $row[] = '<a data-act="RR" data-id="' . $aRow['id'] . '" href="' . admin_url('dokumente/pdf/') . $aRow['id'] . '" class="btn createpdf-action '.$classhastock.'">Erstellen</a>';
+
     }
     $row[] = '<div data-ucolumn="bauende" class="data-act bauende" data-id="' . $aRow['id'] . '">' . $bauende . '</div>';
 

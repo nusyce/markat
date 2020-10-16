@@ -87,7 +87,7 @@ function get_move($wohnungen, $inventar)
  * @param boolean $exclude_default whether to exclude default Client status
  * @return string
  */
-function render_project_select($projekts, $selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
+function render_project_select($selected = '', $lang_key = '', $name = 'project', $select_attrs = [], $exclude_default = false)
 {
 
     $CI = &get_instance();

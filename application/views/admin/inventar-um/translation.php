@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('strabe', get_transl_field('tsl_inventarlistes_un', 'strabe','Straße'),get_transl_field('tsl_inventarlistes_un', 'strabe','Straße'));?>
+                                        <?php echo render_input('strabe', get_transl_field('tsl_inventarlistes_un', 'strabe','Straï¿½e'),get_transl_field('tsl_inventarlistes_un', 'strabe','Straï¿½e'));?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -52,7 +52,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('flugel', get_transl_field('tsl_inventarlistes_un', 'flugel','Flügel'), get_transl_field('tsl_inventarlistes_un', 'flugel','Flügel'));?>
+                                        <?php echo render_input('flugel', get_transl_field('tsl_inventarlistes_un', 'flugel','Flï¿½gel'), get_transl_field('tsl_inventarlistes_un', 'flugel','Flï¿½gel'));?>
                                     </div>
                                 </div>
                                 <div class="row">

@@ -27,8 +27,8 @@
 
 .style-menu .btntrans {
     padding: 8px;
+    margin-left: 5px;
 }
-
 
 .fc-calendarFilter-button {
     display: none !important
@@ -803,7 +803,6 @@ h5 {
         transform: translate3d(100%, 0, 0)
     }
 }
-
 @keyframes fadeOutRight {
     from {
         opacity: 1
@@ -2524,7 +2523,13 @@ body.rtl .no-padding-left {
     .hidden-xs {
         display: none !important
     }
-
+    .col-xs-10 {
+        width: 100% !important;
+    }
+    .hide-block
+    {
+        display: none !important
+    }
     .view-all-timesheets {
         height: 45px;
         margin-top: 0
@@ -3120,7 +3125,23 @@ body.rtl.hide-sidebar #wrapper {
         display: block;
         color: #fff;
         margin-right: 0;
-        line-height: 25px
+        margin-top: -22px;
+        line-height: 25px;
+    }
+
+    .date-cont {
+        font-size: 13px;
+        position: relative;
+        color: white;
+        /* left: 0; */
+        text-align: center;
+        /* right:0; */
+        padding-top: 13px;
+        width: 63%;
+        /* padding-right: 33px; */
+        top: 10px;
+        margin: 0 auto;
+        /* margin-top: 1px; */
     }
 
     .mobile-menu {
@@ -3131,7 +3152,9 @@ body.rtl.hide-sidebar #wrapper {
         position: relative;
         display: inline-block;
         float: right;
-        margin-bottom: 0
+        margin-right: -4px;
+        margin-top: -32px;
+        margin-bottom: 0;
     }
 
     ul.mobile-icon-menu > li {
@@ -3384,7 +3407,8 @@ table.dataTable thead .sorting:after {
 }
 
 .table thead tr th:first-child {
-    border-left: 1px solid #dcdcdc
+    border-left: 1px solid #dcdcdc;
+    max-width: 30px !important;
 }
 
 .table thead tr th:last-child {
@@ -5340,7 +5364,7 @@ textarea[name=checklist-description]:disabled {
 }
 
 .dd3-handle:before {
-    content: 'â‰¡';
+    content: 'Ã¢â€°Â¡';
     display: block;
     position: absolute;
     left: 0;
@@ -6667,11 +6691,50 @@ li.task.overdue-task .panel-body {
 
 @media (max-width: 768px) {
     .dataTables_filter input, .dataTables_filter input:focus {
-        width: 100% !important
+        width: calc(100% - 52px) !important;
+        /* width: 100% !important; */
+    }
+
+    .dataTables_filter input, .dataTables_filter input:focus input[type=search] {
+        position: absolute;
+        left: 50px;
     }
 
     .fn-gantt .fn-content {
         overflow-x: scroll
+    }
+
+
+    .hidegantprintbtn {
+        display: none !important;
+    }
+
+
+    .redopencil {
+        position: absolute;
+        top: 2px;
+        right: auto;
+    }
+
+    .style-menu h3 {
+        font-size: 18px;
+        padding-left: 0;
+    }
+
+
+    .btntrans {
+        font-size: 12px;
+        max-width: 97px;
+        display: block;
+        text-align: center !important;
+        max-height: 35px;
+    }
+
+    #clock2 {
+        width: 87%;
+        text-align: left !important;
+        margin-left: 38px;
+        font-size: 15px;
     }
 }
 
@@ -7273,7 +7336,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     display: none
 }
 
-â€‹.stage-wrap .form-field input[type=date] {
+Ã¢â‚¬â€¹.stage-wrap .form-field input[type=date] {
     color: #eee
 }
 
@@ -8825,4 +8888,3 @@ Char list random
 .aze16 {
     background-color: #FFFF00 !important;
 }
-

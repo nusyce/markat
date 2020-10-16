@@ -8,7 +8,9 @@ class Dokumente extends AdminController
     {
         parent::__construct();
         $this->load->model('dokument_model');
+        $this->load->model('staff_model');
     }
+
 
     /* List all contracts */
     public function index()
@@ -16,6 +18,7 @@ class Dokumente extends AdminController
         close_setup_menu();
 
         $data['title'] = get_menu_option('dokumente', 'Dokumente');
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
         $this->load->view('admin/dokumente/manage', $data);
     }
 
@@ -46,13 +49,10 @@ class Dokumente extends AdminController
     {
         if (isset($_POST)) {
             $result = $this->dokument_model->add($_POST);
-            if (!$result) {
-
-            } else {
-                set_alert('success', _l('added_successfully', 'Fahrzeugliste'));
-            }
+            set_alert('success', 'PDF erfolgreich erstellt');
         }
     }
+
 
     /* Delete contract from database */
     public function delete($id)
@@ -86,13 +86,27 @@ class Dokumente extends AdminController
         }
     }
 
-    public function pdf($id)
+    public function send_to_email()
     {
-        if (!$id) {
+        if (isset($_POST)) {
+            $id = $_POST['id'];
+            $sent_to = $_POST['email_to'];
+            $cc = $_POST['cc'];
+            $staff = $_POST['staff'];
+            $this->dokument_model->send_dok_to_client($id, $sent_to, $cc, $staff);
+            set_alert('success', 'E-Mail mit Erfolg gesendet');
             redirect(admin_url('dokumente'));
         }
+    }
 
+    public function pdf($id)
+    {
         $wohnungen = $this->dokument_model->get($id);
+
+        if (!$wohnungen) {
+            set_alert('warning', 'Dokument nicht vorhanden');
+            redirect(admin_url('dokumente'));
+        }
         try {
             $pdf = template_pdf($wohnungen);
         } catch (Exception $e) {

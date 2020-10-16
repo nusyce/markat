@@ -51,13 +51,13 @@
          <table class="table no-margin project-overview-table">
             <tbody>
               <tr class="project-overview-id">
-                  <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
+                  <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'projekt','Projekt')); ?> <?php echo _l('the_number_sign'); ?></td>
                   <td>
                       <?php echo $project->projekte_code->name; ?>
                   </td>
               </tr>
               <tr class="project-overview-customer">
-                  <td class="bold"><?php echo _l('project_customer'); ?></td>
+                  <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'kunden','Kunden')); ?></td>
                   <td>
                       <a href="<?php echo admin_url(); ?>clients/client/<?php echo $project->clientid; ?>">
                         <?php echo $project->client_data->company; ?>
@@ -66,7 +66,7 @@
               </tr>
                <?php if(has_permission('projects','','edit')){ ?>
                <tr class="project-overview-billing">
-                  <td class="bold"><?php echo _l('project_billing_type'); ?></td>
+                  <td class="bold"><?php echo _l(get_transl_field('tsl_projects', ' abrechnungsart','Abrechnungsart')); ?></td>
                   <td>
                      <?php
                      if($project->billing_type == 1){
@@ -82,7 +82,7 @@
                  <?php if($project->billing_type == 1 || $project->billing_type == 2){
                   echo '<tr class="project-overview-amount">';
                   if($project->billing_type == 1){
-                    echo '<td class="bold">'._l('project_total_cost').'</td>';
+                    echo '<td class="bold">'._l(get_transl_field('tsl_projects', ' kostengesamt','Kosten gesamt')).'</td>';
                     echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';
                  } else {
                     echo '<td class="bold">'._l('project_rate_per_hour').'</td>';
@@ -93,26 +93,26 @@
            }
            ?>
            <tr class="project-overview-status">
-            <td class="bold"><?php echo _l('project_status'); ?></td>
+            <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'status','Status')); ?></td>
             <td><?php echo $project_status['name']; ?></td>
          </tr>
          <tr class="project-overview-date-created">
-            <td class="bold"><?php echo _l('project_datecreated'); ?></td>
+            <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'erstelltam','Erstellt am')); ?></td>
             <td><?php echo _d($project->project_created); ?></td>
          </tr>
          <tr class="project-overview-start-date">
-            <td class="bold"><?php echo _l('project_start_date'); ?></td>
+            <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'startdatum','Start Datum')); ?></td>
             <td><?php echo _d($project->start_date); ?></td>
          </tr>
          <?php if($project->deadline){ ?>
          <tr class="project-overview-deadline">
-            <td class="bold"><?php echo _l('project_deadline'); ?></td>
+            <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'deadline','Deadline')); ?></td>
             <td><?php echo _d($project->deadline); ?></td>
          </tr>
          <?php } ?>
          <?php if($project->date_finished){ ?>
          <tr class="project-overview-date-finished">
-            <td class="bold"><?php echo _l('project_completed_date'); ?></td>
+            <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'geschatztestunden','Gesch�tzte Stunden')); ?></td>
             <td class="text-success"><?php echo _dt($project->date_finished); ?></td>
          </tr>
          <?php } ?>
@@ -124,7 +124,7 @@
          <?php } ?>
          <?php if(has_permission('projects','','create')){ ?>
          <tr class="project-overview-total-logged-hours">
-            <td class="bold"><?php echo _l('project_overview_total_logged_hours'); ?></td>
+            <td class="bold"><?php echo _l(get_transl_field('tsl_projects', 'gesamtaufgezeichnetestunden','Gesamt aufgezeichnete Stunden')); ?></td>
             <td><?php echo seconds_to_time_format($project_total_logged_time); ?></td>
          </tr>
          <?php } ?>
@@ -143,7 +143,7 @@
    </table>
 </div>
 <div class="col-md-5 text-center project-percent-col mtop10">
-   <p class="bold"><?php echo _l('project_progress_text'); ?></p>
+   <p class="bold"><?php echo _l(get_transl_field('tsl_projects', ' projektfortschritt','Projektfortschritt')); ?></p>
    <div class="project-progress relative mtop15" data-value="<?php echo $percent_circle; ?>" data-size="150" data-thickness="22" data-reverse="true">
       <strong class="project-percent"></strong>
    </div>
@@ -161,7 +161,7 @@
 <?php } ?>
 <div class="tc-content project-overview-description">
    <hr class="hr-panel-heading project-area-separation" />
-   <p class="bold font-size-14 project-info"><?php echo _l('project_description'); ?></p>
+   <p class="bold font-size-14 project-info"><?php echo _l(get_transl_field('tsl_projects', ' projrektbeschreibung','PROJEKT BESCHREIBUNG')); ?></p>
    <?php if(empty($project->description)){
       echo '<p class="text-muted no-mbot mtop15">' . _l('no_description_project') . '</p>';
    }
@@ -175,7 +175,7 @@
    </div>
    <?php } ?>
    <p class="bold font-size-14 project-info">
-      <?php echo _l('project_members'); ?>
+      <?php echo _l(get_transl_field('tsl_projects', ' project_members',' PROJEKT MITGLIEDER')); ?>
    </p>
    <div class="clearfix"></div>
    <?php

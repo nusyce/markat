@@ -41,11 +41,11 @@ function widget_status_stats($table, $title = '')
     $staff = get_staff();
     if (isset($staff->projects) && !empty($staff->projects) && in_array($table, ['mieters', 'tasks', 'wohnungen'])) {
         $stf_project = unserialize($staff->projects);
-        if (is_array($stf_project)&&count($stf_project) > 0) {
-            $stf_project = implode("','", $stf_project);
+        if (is_array($stf_project) && count($stf_project) > 0) {
+            $stf_project = implode(",", $stf_project);
             $tt = $table;
-            $where = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")  AND ';
-            $wherett = db_prefix() . $tt . '.project IN  ("' . $stf_project . ' ")';
+            $where = db_prefix() . $tt . '.project IN  (' . $stf_project . ')  AND ';
+            $wherett = db_prefix() . $tt . '.project IN  (' . $stf_project . ')';
         }
     }
     $total = total_rows(db_prefix() . $table, $wherett);
@@ -373,6 +373,8 @@ function has_role_permission($role_id, $capability, $feature)
     return false;
 }
 
+
+
 /**
  * @param string $permission permission shortname
  * @param mixed $staffid if you want to check for particular staff
@@ -538,7 +540,7 @@ function render_admin_js_variables()
         'allowed_files' => get_option('allowed_files'),
         'desktop_notifications' => get_option('desktop_notifications'),
         'show_table_export_button' => get_option('show_table_export_button'),
-        'has_permission_tasks_checklist_items_delete' => has_permission('checklist_templates', '', 'delete'),
+        'has_permission_tasks_checklist_items_delete' => has_permission('firma', '', 'edite'),
         'show_setup_menu_item_only_on_hover' => get_option('show_setup_menu_item_only_on_hover'),
         'newsfeed_maximum_files_upload' => get_option('newsfeed_maximum_files_upload'),
         'dismiss_desktop_not_after' => get_option('auto_dismiss_desktop_notifications_after'),
@@ -665,9 +667,9 @@ function render_admin_js_variables()
         'max_php_ini_upload_size_bytes' => $maxUploadSize, // done, dont do nothing
         'app_show_table_export_button' => get_option('show_table_export_button'), // done, dont to nothing
         'calendarIDs' => '', // done, dont do nothing
-        'is_admin' => is_admin(), // done, dont do nothing
+        'is_admin' => is_admin(), // done, dont do nothingdataTables_filter
         'is_staff_member' => is_staff_member(), // done, dont do nothing
-        'has_permission_tasks_checklist_items_delete' => has_permission('checklist_templates', '', 'delete'), // done, dont do nothing
+        'has_permission_tasks_checklist_items_delete' => has_permission('firma', '', 'edite'), // done, dont do nothing
         'app_show_setup_menu_item_only_on_hover' => get_option('show_setup_menu_item_only_on_hover'), // done, dont to nothing
         'app_newsfeed_maximum_files_upload' => get_option('newsfeed_maximum_files_upload'), // done, dont to nothing
         'app_dismiss_desktop_not_after' => get_option('auto_dismiss_desktop_notifications_after'), // done, dont to nothing

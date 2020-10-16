@@ -13,19 +13,12 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-home',
     ]);
 
+
     $CI->app_menu->add_sidebar_children_item('hauptinfo', [
         'slug' => 'hauptinfo',
         'name' => _l('als_dashboard'),
         'href' => admin_url(),
         'position' => 1
-    ]);
-
-
-    $CI->app_menu->add_sidebar_menu_item('projects', [
-        'name' => 'Project-Original',
-        'href' => admin_url('projects'),
-        'icon' => 'fa fa-bars',
-        'position' => 99,
     ]);
 
 
@@ -56,6 +49,16 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-file',
     ]);
 
+
+    if (has_permission('firma', '', 'edite')) {
+        $CI->app_menu->add_sidebar_menu_item('activity-log', [
+            'name' => _l('activity log'),
+            'href' => admin_url('utilities/activity_log'),
+            'icon' => 'fa fa-history',
+            'position' => 180,
+        ]);
+    }
+
     if (has_permission('staff', '', 'view')
         || has_permission('staff', '', 'create')) {
         $CI->app_menu->add_sidebar_children_item('personal', [
@@ -74,12 +77,12 @@ function app_init_admin_sidebar_menu_items()
             'name' => _l('acs_roles'),
             'position' => 20]);
     }
-    $CI->app_menu->add_sidebar_children_item('personal', [
-        'slug' => 'personal',
-        'name' => _l('Personalplan'),
-        'href' => admin_url('utilities/calendar'),
-        'position' => 15,
-    ]);
+    /*  $CI->app_menu->add_sidebar_children_item('personal', [
+          'slug' => 'personal',
+          'name' => _l('Personalplan'),
+          'href' => admin_url('utilities/calendar'),
+          'position' => 15,
+      ]);*/
 
 
     $CI->app_menu->add_sidebar_menu_item('mieterbetreuung', [
@@ -98,13 +101,6 @@ function app_init_admin_sidebar_menu_items()
             'position' => 1,
         ]);
     }
-    /*    $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
-            'slug' => 'mieterbetreuung',
-            'name' => get_menu_option('visualisierung', _l('Visualisierung')),
-            'href' => admin_url('visualisierung'),
-            'position' => 9,
-        ]);*/
-
     if (has_permission('belegungsplan', '', 'view')
         || has_permission('belegungsplan', '', 'create')) {
 
@@ -116,6 +112,16 @@ function app_init_admin_sidebar_menu_items()
             'icon' => '',
         ]);
     }
+    /*    if (has_permission('visualisierung', '', 'view')
+            || has_permission('visualisierung', '', 'create')) {
+            $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
+                'slug' => 'mieterbetreuung',
+                'name' => get_menu_option('visualisierung', _l('Visualisierung')),
+                'href' => admin_url('visualisierung'),
+                'position' => 9,
+            ]);
+        }*/
+
     if (has_permission('mieter', '', 'view')
         || has_permission('mieter', '', 'create')) {
         $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
@@ -154,18 +160,6 @@ function app_init_admin_sidebar_menu_items()
         'position' => 25,
         'icon' => '',
     ]);
-    if (has_permission('belegungsplan', '', 'view')
-        || has_permission('belegungsplan', '', 'create')) {
-
-        $CI->app_menu->add_sidebar_children_item('mieterbetreuung', [
-            'slug' => 'mieterbetreuung',
-            'name' => get_menu_option('reinigung', _l('Reinigung')),
-            'href' => admin_url('reinigung'),
-            'position' => 30,
-            'icon' => '',
-        ]);
-    }
-
 
     if ($GLOBALS['current_user']->role == 2) {
         /*        $CI->app_menu->add_sidebar_menu_item('staff', [
@@ -191,8 +185,8 @@ function app_init_admin_sidebar_menu_items()
                 'icon' => 'fa fa-archive'
             ]);
 
-            $CI->app_menu->add_sidebar_menu_item('buchhaltung', [
-                'name' => get_menu_option('buchhaltung', _l('Buchhaltung')),
+            $CI->app_menu->add_sidebar_menu_item('_buchhaltung', [
+                'name' => get_menu_option('_buchhaltung', _l('_buchhaltung')),
                 'href' => '#',
                 'position' => 84,
                 'icon' => 'fa fa-calculator',
@@ -213,12 +207,7 @@ function app_init_admin_sidebar_menu_items()
         }
     }
 
-    $CI->app_menu->add_sidebar_menu_item('stock_manager', [
-        'name' => get_menu_option('stock_manager', _l('stock_manager')),
-        'href' => admin_url('stock_manager'),
-        'position' => 88,
-        'icon' => 'fa fa-linode',
-    ]);
+
     /*
 
         if (has_permission('wohnungen', '', 'view')
@@ -273,6 +262,19 @@ function app_init_admin_sidebar_menu_items()
         'icon' => '',
     ]);
 
+    if (has_permission('belegungsplan', '', 'view')
+        || has_permission('belegungsplan', '', 'create')) {
+
+        $CI->app_menu->add_sidebar_children_item('workstation', [
+            'slug' => 'workstation',
+            'name' => get_menu_option('reinigung', _l('Reinigung')),
+            'href' => admin_url('reinigung'),
+            'position' => 30,
+            'icon' => '',
+        ]);
+    }
+
+
     if (has_permission('lieferanten', '', 'view')
         || has_permission('lieferanten', '', 'create')) {
         $CI->app_menu->add_sidebar_children_item('workstation', [
@@ -283,13 +285,6 @@ function app_init_admin_sidebar_menu_items()
             'icon' => '',
         ]);
     }
-    $CI->app_menu->add_sidebar_children_item('workstation', [
-        'slug' => 'workstation',
-        'name' => get_menu_option('projekte', _l('Projekte')),
-        'href' => admin_url('projekte'),
-        'position' => 25,
-        'icon' => '',
-    ]);
 
 
     $CI->app_menu->add_sidebar_children_item('workstation', [
@@ -299,6 +294,48 @@ function app_init_admin_sidebar_menu_items()
         'position' => 30,
         'icon' => '',
     ]);
+
+    $CI->app_menu->add_sidebar_children_item('workstation', [
+        'slug' => 'workstation',
+        'name' => get_menu_option('projects', _l('Projekte')),
+        'href' => admin_url('projects'),
+        'position' => 25,
+        'icon' => '',
+    ]);
+
+
+    $CI->app_menu->add_sidebar_children_item('personal', [
+        'slug' => 'personal',
+        'name' => _l('Personalplan'),
+        'href' => admin_url('utilities/calendar'),
+        'position' => 15,
+    ]);
+
+
+    $CI->app_menu->add_sidebar_menu_item('_buchhaltung', [
+        'name' => get_menu_option('_buchhaltung', _l('Buchhaltung ')),
+        'collapse' => true,
+        'position' => 99,
+        'icon' => 'fa fa-info',
+    ]);
+    $CI->app_menu->add_sidebar_children_item('_buchhaltung', [
+        'slug' => '_buchhaltung',
+        'name' => get_menu_option('factoring', _l('Factoring')),
+        'href' => 'https://fundflow.de/?ref=martinkatzky',
+        'position' => 20,
+        'icon' => '',
+    ]);
+
+    if ((has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own'))
+        || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)) {
+
+        $CI->app_menu->add_sidebar_children_item('_buchhaltung', [
+            'slug' => '_buchhaltung',
+            'name' => get_menu_option('invoices', _l('Rechnungen')),
+            'href' => admin_url('invoices'),
+            'position' => 10
+        ]);
+    }
 
 
     $CI->app_menu->add_sidebar_menu_item('kommunikation', [
@@ -325,36 +362,13 @@ function app_init_admin_sidebar_menu_items()
         'icon' => '',
     ]);
 
-
-    $CI->app_menu->add_sidebar_menu_item('buchhaltung', [
-        'name' => get_menu_option('buchhaltung', _l('Buchhaltung ')),
-        'collapse' => true,
-        'position' => 90,
-        'icon' => 'fa fa-info',
+    $CI->app_menu->add_sidebar_menu_item('support', [
+        'name' => _l('support'),
+        'href' => admin_url('tickets'),
+        'icon' => 'fa fa-ticket',
+        'position' => 40,
     ]);
 
-    if (has_permission('factoring', '', 'view')
-        || has_permission('factoring', '', 'create')) {
-        $CI->app_menu->add_sidebar_children_item('buchhaltung', [
-            'slug' => 'buchhaltung',
-            'name' => get_menu_option('factoring', _l('Factoring')),
-            'href' => 'https://fundflow.de/?ref=martinkatzky',
-            'position' => 10,
-            'icon' => '',
-        ]);
-    }
-
-    if ((has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own'))
-        || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)) {
-
-        $CI->app_menu->add_sidebar_children_item('buchhaltung', [
-            'slug' => 'buchhaltung',
-            'name' => get_menu_option('invoices', _l('Rechnungen')),
-            'href' => admin_url('invoices'),
-            'position' => 20,
-            'icon' => 'fa fa-linode',
-        ]);
-    }
 
     /*    if (has_permission('staff', '', 'view')
             || has_permission('staff', '', 'create')) {
@@ -472,6 +486,13 @@ function app_init_admin_sidebar_menu_items()
 
     if (has_permission('projects', '', 'view')) {
 
+        /*    $CI->app_menu->add_sidebar_menu_item('projects', [
+                'name' => 'Project-Original',
+                'href' => admin_url('projects'),
+                'icon' => 'fa fa-bars',
+                'position' => 85,
+            ]);*/
+
         /*
                 $CI->app_menu->add_sidebar_menu_item('tasks', [
                     'name' => _l('als_tasks'),
@@ -480,14 +501,6 @@ function app_init_admin_sidebar_menu_items()
                     'position' => 35,
                 ]);*/
     }
-
-
-    $CI->app_menu->add_sidebar_menu_item('support', [
-        'name' => _l('support'),
-        'href' => admin_url('tickets'),
-        'icon' => 'fa fa-ticket',
-        'position' => 40,
-    ]);
 
     if (is_admin()) {
         $CI->app_menu->add_sidebar_menu_item('leads', [
@@ -547,12 +560,6 @@ function app_init_admin_sidebar_menu_items()
             'position' => 20,
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('utilities', [
-            'slug' => 'activity-log',
-            'name' => _l('als_activity_log_submenu'),
-            'href' => admin_url('utilities/activity_log'),
-            'position' => 25,
-        ]);
 
         $CI->app_menu->add_sidebar_children_item('utilities', [
             'slug' => 'ticket-pipe-log',
@@ -783,6 +790,45 @@ function app_init_admin_sidebar_menu_items()
                                   'position' => 65,
                           ]);*/
     }
+
+     // for db backup options
+     $CI->app_menu->add_sidebar_menu_item('backup', [
+        'name' => get_menu_option('backup', _l('Backup')),
+        'collapse' => true,
+        'position' => 181,
+        'icon' => 'fa fa-database',
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'backup',
+        'name' => get_menu_option('backup', _l('Backup')),
+        'href' => admin_url('backup_menu'),
+        'icon' => '',
+        'position' => 10,
+    ]);
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'restore',
+        'name' => get_menu_option('restore', _l('Restore')),
+        'href' => admin_url('backup_menu/restore'),
+        'icon' => '',
+        'position' => 11,
+    ]);
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'module_table_add',
+        'name' => get_menu_option('module_table_add', _l('Module Tables')),
+        'href' => admin_url('backup_menu/add_module_tables'),
+        'icon' => '',
+        'position' => 12,
+    ]);
+    $CI->app_menu->add_sidebar_children_item('backup', [
+        'slug' => 'module_add',
+        'name' => get_menu_option('module_add', _l('Module Entry')),
+        'href' => admin_url('backup_menu/addmenu'),
+        'icon' => '',
+        'position' => 13,
+    ]);
+
+
 
     if (has_permission('settings', '', 'view')) {
         $CI->app_menu->add_setup_menu_item('settings', [

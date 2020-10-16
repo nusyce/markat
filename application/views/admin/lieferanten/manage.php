@@ -17,7 +17,7 @@
                     </div>
 
                         <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                           data-table=".table-lieferanten"><?php echo _l('Alle löschen'); ?></a>
+                           data-table=".table-lieferanten"><?php echo _l('Alle lï¿½schen'); ?></a>
 
                     <div class="panel-body">
                         <?php

@@ -42,17 +42,17 @@ ob_end_clean();
                     <li class="dropdown notifications-wrapper header-notifications">
                         <?php $this->load->view('admin/includes/notifications'); ?>
                     </li>
-                    <li class="header-timers">
+                   <!-- <li class="header-timers">
                         <a href="#" id="top-timers" class="dropdown-toggle top-timers" data-toggle="dropdown"><i
                                     class="fa fa-clock-o fa-fw fa-lg"></i>
-                            <span class="label bg-success icon-total-indicator icon-started-timers<?php if ($totalTimers = count($startedTimers) == 0) {
+                            <span class="label bg-success icon-total-indicator icon-started-timers<?php /*if ($totalTimers = count($startedTimers) == 0) {
                                 echo ' hide';
-                            } ?>"><?php echo count($startedTimers); ?></span>
+                            } */?>"><?php /*echo count($startedTimers); */?></span>
                         </a>
                         <ul class="dropdown-menu animated fadeIn started-timers-top width300" id="started-timers-top">
-                            <?php $this->load->view('admin/tasks/started_timers', array('startedTimers' => $startedTimers)); ?>
+                            <?php /*$this->load->view('admin/tasks/started_timers', array('startedTimers' => $startedTimers)); */?>
                         </ul>
-                    </li>
+                    </li>-->
                 <?php } ?>
             </ul>
             <div class="mobile-navbar collapse" id="mobile-collapse" aria-expanded="false" style="height: 0px;"
@@ -155,11 +155,11 @@ ob_end_clean();
                         <?php $this->load->view('admin/tasks/started_timers', array('startedTimers' => $startedTimers)); ?>
                     </ul>
                 </li>
-                <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip"
-                    title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
-                    <?php $this->load->view('admin/includes/notifications'); ?>
-                </li>
             <?php endif; ?>
+            <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip"
+                title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
+                <?php $this->load->view('admin/includes/notifications'); ?>
+            </li>
         </ul>
     </nav>
 </div>

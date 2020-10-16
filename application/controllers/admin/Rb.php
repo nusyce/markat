@@ -23,7 +23,7 @@ class Rb extends AdminController
         $data['etage'] = $this->mieter_model->get_grouped('etage', true);
         $data['plz'] = $this->mieter_model->get_grouped('plz', true);
         $data['stadt'] = $this->mieter_model->get_grouped('stadt', true);
-        $data['title'] = get_menu_option('rb', 'Räumung/Beräumung');
+        $data['title'] = get_menu_option('rb', _l('Räumung/Beräumung'));
         $mieters = $this->mieter_model->get();
         foreach ($mieters as $mieter) {
             $arrData = [];
@@ -57,8 +57,7 @@ class Rb extends AdminController
         $this->load->view('admin/rb/translation', $data);
     }
 
-
-    public function table($project="")
+    public function table($project='')
     {
         // var_dump($_POST);
         $this->app->get_table_data('rb', ['project' => $project]);

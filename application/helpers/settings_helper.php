@@ -66,13 +66,15 @@ function user_add_option($name, $value = '', $autoload = 1)
 
 function get_menu_option($name, $default)
 {
-    $option = user_add_option($name);
+    $option = user_get_option($name);
     if (empty($option)) {
         user_update_option($name, $default);
         return $default;
+    }else{
+        return $option;
     }
-    return $option;
 }
+
 
 /**
  * Get option value

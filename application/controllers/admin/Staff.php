@@ -70,6 +70,9 @@ class Staff extends AdminController
                 $id = $this->staff_model->add($data);
                 if ($id) {
                     handle_staff_profile_image_upload($id);
+                    handle_staff_profile_tach_upload($id, 'lebenslauf');
+                    handle_staff_profile_tach_upload($id, 'bewerbung');
+                    handle_staff_profile_tach_upload($id, 'ausweis');
                     set_alert('success', _l('added_successfully', _l('staff_member')));
                     redirect(admin_url('staff/member/' . $id));
                 }
@@ -78,6 +81,9 @@ class Staff extends AdminController
                     access_denied('staff');
                 }
                 handle_staff_profile_image_upload($id);
+                handle_staff_profile_tach_upload($id, 'lebenslauf');
+                handle_staff_profile_tach_upload($id, 'bewerbung');
+                handle_staff_profile_tach_upload($id, 'ausweis');
                 $response = $this->staff_model->update($data, $id);
                 if (is_array($response)) {
                     if (isset($response['cant_remove_main_admin'])) {
@@ -100,6 +106,8 @@ class Staff extends AdminController
             }
             $data['member'] = $member;
             $title = $member->firstname . ' ' . $member->lastname;
+            $this->load->model('dokument_model');
+            $member->attachments = $this->dokument_model->get_attachments($id);
             $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
 
             $ts_filter_data = [];
@@ -137,6 +145,13 @@ class Staff extends AdminController
 
         echo json_encode($this->roles_model->get($id)->permissions);
     }
+
+    public function delete_attach($id)
+    {
+        $this->staff_model->delete_attachment($id);
+        echo 1;
+    }
+
 
     public function save_dashboard_widgets_order()
     {
@@ -297,6 +312,18 @@ class Staff extends AdminController
         } else {
             redirect(admin_url('staff/member/' . $staff_id));
         }
+    }
+
+
+    public function remove_staff_profile_doc($staff_id = '', $type)
+    {
+        $this->db->where('staffid', $staff_id);
+        $this->db->update(db_prefix() . 'staff', [
+            $type => '',
+        ]);
+
+        redirect(admin_url('staff/member/' . $staff_id));
+
     }
 
     /* When staff change his password */

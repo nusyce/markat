@@ -36,8 +36,8 @@ $staff = get_staff();
 if (isset($staff->projects) && !empty($staff->projects)) {
     $stf_project = unserialize($staff->projects);
     if (is_array($stf_project)&&count($stf_project) > 0) {
-        $stf_project = implode("','", $stf_project);
-        array_push($where, ' AND ' . db_prefix() . 'tasks.project IN  ("' . $stf_project . ' ") ');
+        $stf_project = implode(",", $stf_project);
+        array_push($where, ' AND ' . db_prefix() . 'tasks.project IN  (' . $stf_project . ') ');
     }
 }
 
@@ -61,7 +61,7 @@ if (count($custom_fields) > 4) {
 }
 
 if ($this->ci->input->post('status')) {
-    array_push($where, 'AND status ="' . $this->ci->db->escape_str($this->ci->input->post('status')) . ' " ');
+    array_push($where, 'AND '.db_prefix() . 'tasks.status ="' . $this->ci->db->escape_str($this->ci->input->post('status')) . ' " ');
 }
 
 if ($this->ci->input->post('start_date')) {

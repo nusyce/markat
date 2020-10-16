@@ -23,31 +23,40 @@
                         ?>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('name', 'Projekt erstellen', $project->name); ?>
+                                <?php echo render_input('name', get_transl_field('tsl_projects', 'projekterstellen','Projekt erstellen'), $project->name); ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_projekt_select($projectList, $project->projekte, 'Projekt mit Mieter erstellen','projekte' ); ?>
+                                <?php echo render_projekt_select($projectList, $project->projekte, get_transl_field('tsl_projects', 'projektmitmietererstellen','Projekt mit Mieter erstellen'),'projekte' ); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $value = (isset($project) ? $project->nummer : ''); ?>
-                                <?php echo render_input('nummer', 'projektnummer', $value); ?>
+                                <?php echo render_input('nummer', get_transl_field('tsl_projects', 'projektnummer','projektnummer'), $value); ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php $value = (isset($project) ? $project->wie : ''); ?>
-                                <?php echo render_input('wie', 'WIE', $value); ?>
+                                <?php echo render_input('wie', get_transl_field('tsl_projects', 'wie','WIE'), $value); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $value = (isset($project) ? $project->auftrag : ''); ?>
-                                <?php echo render_input('auftrag', 'Auftrag', $value); ?>
+                                <?php echo render_input('auftrag', get_transl_field('tsl_projects', 'auftrag','Auftrag'), $value); ?>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php $value = (isset($project) ? $project->bauvorhaben : ''); ?>
+                                <?php echo render_input('bauvorhaben', get_transl_field('tsl_projects', 'bauvorhaben','Bauvorhaben'), $value); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php $value = (isset($project) ? $project->auftragsort : ''); ?>
+                                <?php echo render_input('Auftragsort', get_transl_field('tsl_projects', 'auftragsort','Auftragsort'), $value); ?>
+                            </div>
+                        </div>
                         <div class="form-group select-placeholder">
-                            <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
+                            <label for="clientid" class="control-label"><?php echo _l(get_transl_field('tsl_projects', 'kunde','Kunde')); ?></label>
                             <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
                                     class="ajax-search"
                                     data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -67,7 +76,7 @@
                                 <input type="checkbox" <?php if ((isset($project) && $project->progress_from_tasks == 1) || !isset($project)) {
                                     echo 'checked';
                                 } ?> name="progress_from_tasks" id="progress_from_tasks">
-                                <label for="progress_from_tasks"><?php echo _l('calculate_progress_through_tasks'); ?></label>
+                                <label for="progress_from_tasks"><?php echo _l(get_transl_field('tsl_projects', 'fortschrittberechnen','Fortschritt durch Aufgaben berechnen')); ?></label>
                             </div>
                         </div>
                         <?php
@@ -79,14 +88,14 @@
                             $value = 0;
                         }
                         ?>
-                        <label for=""><?php echo _l('project_progress'); ?> <span
+                        <label for=""><?php echo _l(get_transl_field('tsl_projects', 'fortschritt ','Fortschritt ')); ?> <span
                                     class="label_progress"><?php echo $value; ?>%</span></label>
                         <?php echo form_hidden('progress', $value); ?>
                         <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
-                                    <label for="billing_type"><?php echo _l('project_billing_type'); ?></label>
+                                    <label for="billing_type"><?php echo _l(get_transl_field('tsl_projects', ' abrechnungsart',' Abrechnungsart')); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="billing_type" class="selectpicker" id="billing_type"
                                             data-width="100%" <?php echo $disable_type_edit; ?>
@@ -111,7 +120,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
-                                    <label for="status"><?php echo _l('project_status'); ?></label>
+                                    <label for="status"><?php echo _l(get_transl_field('tsl_projects', 'status','Status')); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -164,7 +173,7 @@
                         }
                         ?>
                         <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
-                            <?php $value = (isset($project) ? $project->project_cost : ''); ?>
+                            <?php $value = (isset($project) ? $project->project_cost : '0'); ?>
                             <?php echo render_input('project_cost', 'project_total_cost', $value, 'number'); ?>
                         </div>
                         <?php
@@ -185,11 +194,11 @@
                                 $input_disable['disabled'] = true;
                             }
                             ?>
-                            <?php echo render_input('project_rate_per_hour', 'project_rate_per_hour', $value, 'number', $input_disable); ?>
+                            <?php echo render_input('project_rate_per_hour', get_transl_field('tsl_projects', ' kostengesamt',' Kosten gesamt'), $value, 'number', $input_disable); ?>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('estimated_hours', 'estimated_hours', isset($project) ? $project->estimated_hours : '', 'number'); ?>
+                                <?php echo render_input('estimated_hours', get_transl_field('tsl_projects', ' geschatztestunden','Gesch�tzte Stunden'), isset($project) ? $project->estimated_hours : '0', 'number'); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php
@@ -201,18 +210,18 @@
                                 } else {
                                     array_push($selected, get_staff_user_id());
                                 }
-                                echo render_select('project_members[]', $staff, array('staffid', array('firstname', 'lastname')), 'project_members', $selected, array('multiple' => true, 'data-actions-box' => true), array(), '', '', false);
+                                echo render_select('project_members[]', $staff, array('staffid', array('firstname', 'lastname')), get_transl_field('tsl_projects', 'projektmitglieder','Projekt Mitglieder'), $selected, array('multiple' => true, 'data-actions-box' => true), array(), '', '', false);
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php $value = (isset($project) ? _d($project->start_date) : _d(date('Y-m-d'))); ?>
-                                <?php echo render_date_input('start_date', 'project_start_date', $value); ?>
+                                <?php echo render_date_input('start_date', get_transl_field('tsl_projects', 'startdatum','Start Datum'), $value); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $value = (isset($project) ? _d($project->deadline) : ''); ?>
-                                <?php echo render_date_input('deadline', 'project_deadline', $value); ?>
+                                <?php echo render_date_input('deadline', get_transl_field('tsl_projects', 'deadline','Deadline'), $value); ?>
                             </div>
                         </div>
 
@@ -221,7 +230,7 @@
                         <?php } ?>
                         <div class="form-group">
                             <label for="tags" class="control-label"><i class="fa fa-tag"
-                                                                       aria-hidden="true"></i> <?php echo _l('tags'); ?>
+                                                                       aria-hidden="true"></i> <?php echo _l(get_transl_field('tsl_projects', 'tags','Tags')); ?>
                             </label>
                             <input type="text" class="tagsinput" id="tags" name="tags"
                                    value="<?php echo(isset($project) ? prep_tags_input(get_tags_in($project->id, 'project')) : ''); ?>"
@@ -229,7 +238,7 @@
                         </div>
                         <?php $rel_id_custom_field = (isset($project) ? $project->id : false); ?>
                         <?php echo render_custom_fields('projects', $rel_id_custom_field); ?>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p class="bold"><?php echo _l(get_transl_field('tsl_projects', 'projektbeschreibung','Projekt Beschreibung')); ?></p>
                         <?php $contents = '';
                         if (isset($project)) {
                             $contents = $project->description;
@@ -238,7 +247,7 @@
                         <?php if (total_rows(db_prefix() . 'emailtemplates', array('slug' => 'assigned-to-project', 'active' => 0)) == 0) { ?>
                             <div class="checkbox checkbox-primary">
                                 <input type="checkbox" name="send_created_email" id="send_created_email">
-                                <label for="send_created_email"><?php echo _l('project_send_created_email'); ?></label>
+                                <label for="send_created_email"><?php echo _l(get_transl_field('tsl_projects', 'emailzursenden','E-Mail zur Projekterstellung senden')); ?></label>
                             </div>
                         <?php } ?>
                         <div class="btn-bottom-toolbar text-right">

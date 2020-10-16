@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <?php echo render_input('beladestelle_stabe', get_transl_field('tsl_dokumente', 'beladestelle_stabe','Beladestelle Straße'), get_transl_field('tsl_dokumente', 'beladestelle_stabe','Beladestelle Straße'));?>
+                                        <?php echo render_input('beladestelle_stabe', get_transl_field('tsl_dokumente', 'beladestelle_stabe','Beladestelle Straï¿½e'), get_transl_field('tsl_dokumente', 'beladestelle_stabe','Beladestelle Straï¿½e'));?>
                                     </div>
                                 </div>
                                 <div class="row">
