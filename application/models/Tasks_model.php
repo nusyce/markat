@@ -22,7 +22,6 @@ class Tasks_model extends App_Model
         parent::__construct();
         $this->load->model('projects_model');
         $this->load->model('staff_model');
-        $this->load->model('mieter_model');
     }
 
     // Not used?
@@ -328,17 +327,6 @@ class Tasks_model extends App_Model
         }
     }
 
-    public function copy_task_mietarbeiter($from_task, $to_task)
-    {
-        $followers = $this->get_task_followers($from_task);
-        foreach ($followers as $follower) {
-            $this->db->insert(db_prefix() . 'task_followers', [
-                'taskid' => $to_task,
-                'staffid' => $follower['followerid'],
-            ]);
-        }
-    }
-
     public function copy_task_assignees($from_task, $to_task)
     {
         $assignees = $this->get_task_assignees($from_task);
@@ -505,6 +493,7 @@ class Tasks_model extends App_Model
      */
     public function add($data, $clientRequest = false)
     {
+
         $ticket_to_task = false;
 
         if (isset($data['ticket_to_task'])) {
@@ -515,11 +504,12 @@ class Tasks_model extends App_Model
             $taskFor = $data['task_for'];
             unset($data['task_for']);
         }
+
+
         if (isset($data['project'])) {
             $data['rel_type'] = 'project';
             $data['rel_id'] = $data['project'];
         }
-
         $data['startdate'] = to_sql_date($data['startdate'], true);
         $data['duedate'] = to_sql_date($data['duedate'], true);
         $data['dateadded'] = date('Y-m-d H:i:s');
@@ -535,7 +525,7 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $defaultStatus = get_option('default_task_status');
             if ($defaultStatus == 'auto') {
-                if (date('Y-m-d H:i:s') >= $data['startdate']) {
+                if (date('Y-m-d') >= $data['startdate']) {
                     $data['status'] = 4;
                 } else {
                     $data['status'] = 1;
@@ -642,6 +632,7 @@ class Tasks_model extends App_Model
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
 
+
             if (isset($data['rel_type']) && $data['rel_type'] == 'lead') {
                 $this->load->model('leads_model');
                 $this->leads_model->log_lead_activity($data['rel_id'], 'not_activity_new_task_created', false, serialize([
@@ -655,14 +646,14 @@ class Tasks_model extends App_Model
                 if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
                     $new_task_auto_assign_creator = false;
                 }
-                if ($new_task_auto_assign_creator == true) {
+                if (is_array($taskFor))
                     foreach ($taskFor as $tF)
                         $this->db->insert(db_prefix() . 'task_assigned', [
                             'taskid' => $insert_id,
                             'staffid' => $tF,
                             'assigned_from' => get_staff_user_id(),
                         ]);
-                }
+
                 if (get_option('new_task_auto_follower_current_member') == '1') {
                     $this->db->insert(db_prefix() . 'task_followers', [
                         'taskid' => $insert_id,
@@ -747,7 +738,7 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $defaultStatus = get_option('default_task_status');
             if ($defaultStatus == 'auto') {
-                if (date('Y-m-d H:i:s') >= $data['startdate']) {
+                if (date('Y-m-d') >= $data['startdate']) {
                     $data['status'] = 4;
                 } else {
                     $data['status'] = 1;
@@ -946,19 +937,14 @@ class Tasks_model extends App_Model
         }
 
 
-        if (isset($data['project'])){
-            $data['rel_type']='project';
-            $data['rel_id']=$data['project'];
+        if (isset($data['project'])) {
+            $data['rel_type'] = 'project';
+            $data['rel_id'] = $data['project'];
         }
 
         if (isset($data['task_for'])) {
             $taskFor = $data['task_for'];
             unset($data['task_for']);
-        }
-
-        if (isset($data['project'])) {
-            $data['rel_type'] = 'project';
-            $data['rel_id'] = $data['project'];
         }
         if (isset($data['datefinished'])) {
             $data['datefinished'] = to_sql_date($data['datefinished'], true);
@@ -973,13 +959,18 @@ class Tasks_model extends App_Model
         }
 
         if (isset($taskFor)) {
-            $this->db->truncate(db_prefix() . 'task_assigned');
-            foreach ($taskFor as $tF)
+            // $this->db->truncate(db_prefix() . 'task_assigned');
+            foreach ($taskFor as $tF) {
+
+                $this->db->where('taskid', $id);
+                $this->db->delete(db_prefix() . 'task_assigned');
+
                 $this->db->insert(db_prefix() . 'task_assigned', [
                     'taskid' => $id,
                     'staffid' => $tF,
                     'assigned_from' => get_staff_user_id(),
                 ]);
+            }
         }
 
 
@@ -1062,15 +1053,6 @@ class Tasks_model extends App_Model
             unset($data['tags']);
         }
 
-        if (isset($taskFor)) {
-            $this->db->truncate(db_prefix() . 'task_assigned');
-            foreach ($taskFor as $tF)
-                $this->db->insert(db_prefix() . 'task_assigned', [
-                    'taskid' => $id,
-                    'staffid' => $tF,
-                    'assigned_from' => get_staff_user_id(),
-                ]);
-        }
 
         foreach ($checklistItems as $key => $chkID) {
             $itemTemplate = $this->get_checklist_template($chkID);
@@ -1090,16 +1072,13 @@ class Tasks_model extends App_Model
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);
             log_activity('Task Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
-
         }
-
 
         if ($affectedRows > 0) {
             return true;
         }
 
         return false;
-
     }
 
     public function get_checklist_item($id)
@@ -1263,7 +1242,7 @@ class Tasks_model extends App_Model
         $this->db->insert(db_prefix() . 'task_comments', [
             'taskid' => $data['taskid'],
             'content' => is_client_logged_in() ? _strip_tags($data['content']) : $data['content'],
-            'moment' => $data['moment'],
+            'moment' => (int)trim($data['moment']),
             'staffid' => $data['staffid'],
             'contact_id' => $data['contact_id'],
             'dateadded' => date('Y-m-d H:i:s'),

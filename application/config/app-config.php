@@ -17,7 +17,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-define('APP_BASE_URL', 'http://localhost/markat/');
+
+define('APP_BASE_URL', 'https://itfreakz.bplaced.net/');
 
 /*
 * --------------------------------------------------------------------------
@@ -42,15 +43,17 @@ define('APP_DB_HOSTNAME', 'localhost');
 /**
  * The username used to connect to the database
  */
-define('APP_DB_USERNAME', 'root');
+define('APP_DB_USERNAME', 'itfreakz_markat');
+
+
 /**
  * The password used to connect to the database
  */
-define('APP_DB_PASSWORD', '');
+define('APP_DB_PASSWORD', 'RznZHthptYdkKukL');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'markat');
+define('APP_DB_NAME', 'itfreakz_markat');
 
 /**
  * @since  2.3.0

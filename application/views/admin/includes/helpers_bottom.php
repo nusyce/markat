@@ -3,21 +3,25 @@
 <?php include_once(APPPATH . 'views/admin/includes/modals/post_likes.php'); ?>
 <?php include_once(APPPATH . 'views/admin/includes/modals/post_comment_likes.php'); ?>
 <div id="event"></div>
-<div id="newsfeed" class="animated fadeIn hide" <?php if($this->session->flashdata('newsfeed_auto')){echo 'data-newsfeed-auto';} ?>>
+<div id="newsfeed" class="animated fadeIn hide" <?php if ($this->session->flashdata('newsfeed_auto')) {
+    echo 'data-newsfeed-auto';
+} ?>>
 </div>
 <!-- Task modal view -->
-<div class="modal fade task-modal-single" id="task-modal" tabindex="-1" role="dialog"  data-focus-on="input:first" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog <?php echo get_option('task_modal_class'); ?>">
-    <div class="modal-content data">
+<div class="modal fade task-modal-single" id="task-modal" tabindex="-1" role="dialog" data-focus-on="input:first"
+     aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog <?php echo get_option('task_modal_class'); ?>">
+        <div class="modal-content data">
 
+        </div>
     </div>
-  </div>
 </div>
-<div class="modal fade task-modal-single in" tabindex="-1" style="z-index: 10031;"  data-focus-on="input:first" id="signature-modal">
-    <div class="modal-dialog modal-lx" role="document" style="width: 400px;">
+<div class="modal fade task-modal-single in" tabindex="-1" style="z-index: 10031;" data-focus-on="input:first"
+     id="signature-modal">
+    <div class="modal-dialog modal-lx" role="document" style="max-width: 400px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" data-dismiss="modal"  class="close"><span aria-hidden="true">&times;</span>
+                <button type="button" data-dismiss="modal" class="close"><span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title">Signatur</h4>
             </div>
@@ -25,7 +29,7 @@
                 <canvas id="canvass" style="    text-align: center;
                                     height: 202px;
                                     border: 1px solid rgb(0, 0, 0);
-                                    margin: 0px 15;
+                                    margin: 0px 15px;
                                     width: 260px"></canvas>
                 <br>
                 <?php echo form_open(admin_url('tasks/checklist/') . $task->id . '?print=1', array('id' => 'signature-form', 'target' => '_blank')) ?>
@@ -42,11 +46,12 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<div class="modal fade task-modal-single in" tabindex="-1" data-focus-on="input:first" style="z-index: 10021;" id="modal-before-sign">
-    <div class="modal-dialog modal-lx" role="document" style="width: 500px;">
+<div class="modal fade task-modal-single in" tabindex="-1" data-focus-on="input:first" style="z-index: 10021;"
+     id="modal-before-sign">
+    <div class="modal-dialog modal-lx" role="document" style="max-width: 500px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button  type="button" data-dismiss="modal" class="close" ><span aria-hidden="true">&times;</span>
+                <button type="button" data-dismiss="modal" class="close"><span aria-hidden="true">&times;</span>
                 </button>
 
             </div>
@@ -68,7 +73,8 @@
 
 
 <!-- Task modal view -->
-<div class="modal fade task-modal-single" id="task-modal-signature tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade task-modal-single" id="task-modal-signature" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog <?php echo get_option('task_modal_class'); ?>">
         <div class="modal-content data">
             <canvas id="myCanvas" width="600" height="300">
@@ -85,17 +91,18 @@
 
 <!-- Lead Data Add/Edit-->
 <div class="modal fade lead-modal" id="lead-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog <?php echo get_option('lead_modal_class'); ?>">
-    <div class="modal-content data">
+    <div class="modal-dialog <?php echo get_option('lead_modal_class'); ?>">
+        <div class="modal-content data">
 
+        </div>
     </div>
-  </div>
 </div>
 
 <div id="timers-logout-template-warning" class="hide">
-  <h2 class="bold"><?php echo _l('timers_started_confirm_logout'); ?></h2>
-  <hr />
-  <a href="<?php echo admin_url('authentication/logout'); ?>" class="btn btn-danger"><?php echo _l('confirm_logout'); ?></a>
+    <h2 class="bold"><?php echo _l('timers_started_confirm_logout'); ?></h2>
+    <hr/>
+    <a href="<?php echo admin_url('authentication/logout'); ?>"
+       class="btn btn-danger"><?php echo _l('confirm_logout'); ?></a>
 </div>
 
 <!--Lead convert to customer modal-->
@@ -103,3 +110,12 @@
 
 <!--Lead reminder modal-->
 <div id="lead_reminder_modal"></div>
+
+<style>
+    @media (max-width: 768px) {
+        #canvass {
+            width: 238px !important;
+            height: 144px !important;
+        }
+    }
+</style>

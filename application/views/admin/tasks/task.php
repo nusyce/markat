@@ -174,18 +174,22 @@
                                         array_push($selected, $assignee['assigneeid']);
                                     }
                                 ?>
-
                                 <?php echo render_select('task_for[]', $staff, array('staffid', array('firstname', 'lastname')), get_menu_option('staff', _l(get_transl_field('tsl_tasks', 'mitarbeiter', 'Mitarbeiter'))), $selected, array('multiple' => true), array(), '', 'members', false); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $mieter = isset($task) ? $task->mieters : '' ?>
-                                <?php echo render_select('mieters', $mieters, array('id', array('fullname', 'vorname', 'nachname')), get_menu_option('mieter', _l(get_transl_field('tsl_tasks', 'mieter', 'Mieter'))), $mieter); ?>
+                                <?php echo render_select('mieters', $mieters, array('id', 'fullname'), get_menu_option('mieter', _l(get_transl_field('tsl_tasks', 'mieter', 'Mieter'))), $mieter); ?>
                             </div>
 
                             <div class="col-md-6">
                                 <?php
                                 $selected = isset($task) ? $task->car : '';
                                 echo render_select('car', $cars, array('id', array('marke', 'modell', 'kennzeichen')), get_menu_option('cars', _l(get_transl_field('tsl_tasks', 'fahrzeugliste', 'Fahrzeugliste'))), $selected); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php
+                                $selected = isset($task) ? $task->lieferanten : '';
+                                echo render_select('lieferanten', $lieferantens, array('id', array('company')), get_menu_option('lieferanten', _l(get_transl_field('tsl_tasks', 'lieferanten', 'Lieferanten'))), $selected); ?>
                             </div>
 
                             <!--    <div class="col-md-6 hide">

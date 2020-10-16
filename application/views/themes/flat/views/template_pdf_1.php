@@ -50,13 +50,12 @@
         <tr>
             <td style="width: 65%; font-weight: bold">
                 <?php
-                if (isset($task->project_data) && $task->project_data) {
 
                 if (isset($task->project_data->client_data) && $task->project_data->client_data) {
                     $client_data = $task->project_data->client_data;
                 } elseif (isset($task->client_data) && $task->client_data) {
                     $client_data = $task->client_data;
-                        } else {
+                } else {
                     $client_data = null;
                 }
 
@@ -134,7 +133,6 @@
             <td><?= isset($task->project_data) ? $task->project_data->bauvorhaben : '' ?></td>
         </tr>
         <tr>
-
             <td>Auftragsnummer:</td>
             <td><?= isset($task->project_data) ? $task->project_data->auftrag : '' ?></td>
         </tr>
@@ -187,14 +185,14 @@
             <th style="width:10%; padding-bottom: 5px">Menge</th>
         </tr>
         </thead>
-        <?php foreach ($task->checklist_items as $k => $ac): ?>
+        <?php foreach ($task->checklist_items as $k => $ac):
+            ?>
             <tr>
                 <td><?= $k + 1; ?></td>
                 <td></td>
-                <td>
-                    <span>
-                        <?= $ac['description'] ?>
-                     </span>
+                <td> <span>
+                  <?= $ac['description'] ?>
+                </span>
                 </td>
                 <td></td>
             </tr>

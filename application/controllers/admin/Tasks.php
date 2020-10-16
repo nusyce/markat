@@ -583,10 +583,12 @@ class Tasks extends AdminController
                 ];
             }
         }
-        $this->load->model(['lieferanten_model', 'misc_model', 'mieter_model']);
+
+        $this->load->model(['lieferanten_model', 'lieferanten_model', 'misc_model', 'mieter_model']);
         $data['id'] = $id;
         $data['title'] = $title;
         $data['mieters'] = $this->mieter_model->get();
+        $data['lieferantens'] = $this->lieferanten_model->get();
         $dStaff = $this->staff_model->get('', ['active' => 1], true);
         $staffs = array();
         foreach ($dStaff as $d) {

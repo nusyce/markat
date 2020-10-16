@@ -694,7 +694,7 @@
                     ?>
                 </div>
             </div>
-      </div>
+        </div>
         <div class="col-md-4 task-single-col-right">
             <div class="pull-right mbot10 task-single-menu task-menu-options">
                 <div class="content-menu hide">
@@ -1379,7 +1379,7 @@
                         canvasContext.fillText("x", 40, 155);*/
         }
         // Bind Mouse events
-        $(canvas).on('mousedown', function (e) {
+        $(canvas).on('mousedown, pointerup, pointerdown', function (e) {
             if (e.which === 1) {
                 leftMButtonDown = true;
                 canvasContext.fillStyle = "#000";
@@ -1391,7 +1391,7 @@
             return false;
         });
 
-        $(canvas).on('mouseup', function (e) {
+        $(canvas).on('mouseup, pointerup, pointerdown', function (e) {
             if (leftMButtonDown && e.which === 1) {
                 leftMButtonDown = false;
                 isSign = true;
