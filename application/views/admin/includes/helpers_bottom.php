@@ -26,7 +26,7 @@
                 <h4 class="modal-title">Signatur</h4>
             </div>
             <div class="modal-body" style="text-align: center; padding: 15px ">
-                <canvas id="canvass" style="    text-align: center;
+                <canvas id="canvas" style="    text-align: center;
                                     height: 202px;
                                     border: 1px solid rgb(0, 0, 0);
                                     margin: 0px 15px;

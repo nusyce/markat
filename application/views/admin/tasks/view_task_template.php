@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal-header task-single-header"  data-task-single-id="<?php echo $task->id; ?>" data-focus-on="input:first"
+<div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>" data-focus-on="input:first"
      data-status="<?php echo $task->status; ?>">
     <?php if ($this->input->get('opened_from_lead_id')) { ?>
         <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;"
@@ -1237,6 +1237,9 @@
         $('#footer-templatechecklist button').prop('disabled', true);
         $('#nomoi_ij').removeClass('toggle');
     });
+    $(document).ready(function () {
+        $("#signature").jSignature()
+    })
 
     $('body').on('click', '#btnaddNewCheckpoints', function (e) {
         e.preventDefault();
@@ -1259,10 +1262,7 @@
 
     });
 
-    $('#sendSign').click(function (e) {
-        e.preventDefault();
-        fun_submit();
-    })
+
     $('#checklist-form').on('submit', function (e) {
         e.preventDefault();
         $('#modal-before-sign').modal('toggle')
@@ -1285,17 +1285,20 @@
     }
 
     $('#signature-form').on('submit', function (e) {
-        if ($('#imageData-input').val() == null || $('#imageData-input').val() == '') {
-            alert('Signature is required')
-            e.preventDefault();
-        }
+        if (isSign) {
+            var canvas = $("#canvas").get(0);
+            var imgData = canvas.toDataURL();
+            $('#imageData-input').val(imgData);
 
+        } else {
+            alert('Signature is required')
+        }
     })
     $('#modal-signature-btn-down').click(function () {
         $('#signature-modal').modal('toggle');
     });
 
-    $('body').on('click','#modal-before-sign-close', '#modal-signature-btn-up').click(function () {
+    $('body').on('click', '#modal-before-sign-close', '#modal-signature-btn-up').click(function () {
         $('#signature-modal').modal('hide');
     });
     $('#checklistt-form').on('submit', function (e) {
@@ -1304,17 +1307,6 @@
         e.preventDefault();
     })
 
-    function fun_submit() {
-        if (isSign) {
-            var canvas = $("#canvass").get(0);
-            var imgData = canvas.toDataURL();
-            $('#imageData').val(imgData);
-            $("#refresh-form").trigger('submit');
-
-        } else {
-            alert('Please sign');
-        }
-    }
 
     function downloadPDF(pdf) {
         const linkSource = `data:application/pdf;base64,${pdf}`;
@@ -1334,13 +1326,14 @@
 
     function clear_canvas() {
 
-        var canvas = document.getElementById('canvass');
+        var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.beginPath();
         $('#imageData-input').val('');
 
     }
+
 
     function init_Sign_Canvas() {
         isSign = false;
@@ -1349,37 +1342,39 @@
         //Set Canvas width
         var sizedWindowWidth = $(window).width();
         if (sizedWindowWidth > 700)
-            sizedWindowWidth = $(window).width() / 2;
+            sizedWindowWidth = 340;
         else if (sizedWindowWidth > 400)
-            sizedWindowWidth = sizedWindowWidth - 100;
+            sizedWindowWidth = 340;
         else
-            sizedWindowWidth = sizedWindowWidth - 50;
+            sizedWindowWidth = sizedWindowWidth - 100;
 
-        sizedWindowWidth = 246;
-        $("#canvass").width(150);
-        $("#canvass").height(100);
-        $("#canvass").css("border", "1px solid #000");
+        $("#canvas").width(sizedWindowWidth);
+        $("#canvas").height(200);
+        $("#canvas").css("border", "1px solid #000");
 
-        var canvas = $("#canvass").get(0);
+        var canvas = $("#canvas").get(0);
+
         canvasContext = canvas.getContext('2d');
 
         if (canvasContext) {
-            canvasContext.canvas.width = 150;
-            canvasContext.canvas.height = 100;
+            canvasContext.canvas.width = sizedWindowWidth;
+            canvasContext.canvas.height = 200;
 
             canvasContext.fillStyle = "#fff";
-            canvasContext.fillRect(0, 0, sizedWindowWidth, 100);
-            /*
-                        canvasContext.moveTo(50, 150);
-                        canvasContext.lineTo(sizedWindowWidth - 50, 150);
-                      canvasContext.stroke();
-            /*
-                        canvasContext.fillStyle = "#000";
-                        canvasContext.font = "20px Arial";
-                        canvasContext.fillText("x", 40, 155);*/
+            canvasContext.fillRect(0, 0, sizedWindowWidth, 200);
+
+            canvasContext.moveTo(50, 150);
+/*
+            canvasContext.lineTo(sizedWindowWidth - 50, 150);
+*/
+            canvasContext.stroke();
+
+            /*canvasContext.fillStyle = "#000";
+            canvasContext.font = "20px Arial";
+            canvasContext.fillText("x", 40, 155);*/
         }
         // Bind Mouse events
-        $(canvas).on('mousedown, pointerup, pointerdown', function (e) {
+        $(canvas).on('mousedown', function (e) {
             if (e.which === 1) {
                 leftMButtonDown = true;
                 canvasContext.fillStyle = "#000";
@@ -1391,18 +1386,16 @@
             return false;
         });
 
-        $(canvas).on('mouseup, pointerup, pointerdown', function (e) {
+        $(canvas).on('mouseup', function (e) {
             if (leftMButtonDown && e.which === 1) {
                 leftMButtonDown = false;
                 isSign = true;
-                var canvas = $("#canvass").get(0);
-                var imgData = canvas.toDataURL();
-                $('#imageData-input').val(imgData);
 
             }
             e.preventDefault();
             return false;
         });
+
 
         // draw a line from the last point to this one
         $(canvas).on('mousemove', function (e) {
@@ -1447,6 +1440,7 @@
                 leftMButtonDown = false;
                 isSign = true;
             }
+
         });
     }
 
