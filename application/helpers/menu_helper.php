@@ -235,7 +235,14 @@ function app_init_admin_sidebar_menu_items()
 
         }*/
 
-    $CI->app_menu->add_sidebar_menu_item('workstation', [
+    $CI->app_menu->add_sidebar_menu_item('leistung-verz', [
+        'name' => get_menu_option('leistung-verz', _l('Leistung-verz')),
+        'href' => admin_url('leistung_verz'),
+        'position' => 20,
+        'icon' => 'fa fa-file',
+    ])
+
+    ; $CI->app_menu->add_sidebar_menu_item('workstation', [
         'name' => get_menu_option('workstation', _l('Workstation ')),
         'collapse' => true,
         'position' => 30,
