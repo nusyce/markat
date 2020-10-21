@@ -52,7 +52,7 @@ function app_init_admin_sidebar_menu_items()
 
     if (has_permission('firma', '', 'edite')) {
         $CI->app_menu->add_sidebar_menu_item('activity-log', [
-            'name' => _l('activity log'),
+            'name' => get_menu_option('activity_log',  _l('activity log')),
             'href' => admin_url('utilities/activity_log'),
             'icon' => 'fa fa-history',
             'position' => 180,

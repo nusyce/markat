@@ -6,82 +6,108 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <div class="style-menu" > <h3><span><?php echo get_menu_option('leistung-verz', _l('Leistung-verz')) ?></span>
-                           <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>
-                            <!-- <a href="<?php /*echo admin_url('leistung_verz/translation'); */?>" class="btn btn-info btntrans pull-left display-block"><?php /*echo 'Translate'; */?></a>--></div>
-
-
-                       <!-- <a href="<?php /*echo admin_url('leistung_verz/leistung_verz'); */?>"
-                           class="btn btn-info mright5 test pull-left display-block">
-                            <?php /*echo _l(get_transl_field('tsl_leistung_verz', 'erstellen','ERSTELLEN')); */?> </a>-->
+                        <div class="style-menu"><h3>
+                                <span><?php echo get_menu_option('leistung-verz', _l('Leistung-verz')) ?></span>
+                                <a id="edit-menu" href="#"><i class="fa fa-pencil"></i></a></h3>
+                            <div style="display: flex">
+                                <div><a href="#" id="add_leistung"
+                                        class="btn btn-info mright5 pull-left display-block"><?php echo 'Erstellen'; ?></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                        <!--<a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
-                           data-table=".table-leistung_verz"><?php /*echo _l('Alle l�schen'); */?></a>-->
-
-                   <!-- <div class="panel-body">
+                    <a href="#" class="bulk-actions-btn table-btn delete-all hide" id="sqdsqd"
+                       data-table=".table-leistung_verz"><?php echo _l('Alle löschen'); ?></a>
+                    <div class="panel-body">
                         <?php
-/*                        $table_data = array(
+                        $table_data = array(
                             '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="leistung_verz"><label></label></div>',
                             '#',
-                            array(
-                                'name' => _l(get_transl_field('tsl_leistung_verz', 'firma','Firma')),
-                                'th_attrs' => array('class' => 'toggleable', 'id' => 'th-company')
-                            ),
-                            array(
-                                'name' => get_transl_field('tsl_leistung_verz', 'email','Email'),
-                                'th_attrs' => array('class' => 'toggleable', 'id' => 'th-primary-contact-email')
-                            ),
-                            array(
-                                'name' => _l(get_transl_field('tsl_leistung_verz', 'hausnummer','Hausnummer')),
-                                'th_attrs' => array('class' => 'toggleable')
-                            ),
-                            array(
-                                'name' => _l(get_transl_field('tsl_leistung_verz', 'telefon','Telefon')),
-                                'th_attrs' => array('class' => 'toggleable', 'id' => 'th-phone')
-                            ),
-                            array(
-                                'name' => _l(get_transl_field('tsl_leistung_verz', 'aktiviert','Aktiviert')),
-                                'th_attrs' => array('class' => 'toggleable', 'id' => 'th-active')
-                            )
+                            'name' => 'Name',
+                            'checlpoint' => 'Checkpoint'
                         );
                         render_datatable($table_data, 'leistung_verz', [], [
-                            'data-last-order-identifier' => 'customers',
+                            'data-last-order-identifier' => 'leistung_verz',
                             'data-default-order' => get_table_last_order('leistung_verz'),
                         ]);
-                        */?>                 </div> -->
+                        ?>
+                    </div>
                 </div>
             </div>
+            <?php $this->load->view('admin/leistung_verz/leistung_verz'); ?>
         </div>
     </div>
 </div>
 
 <?php init_tail(); ?>
-<!--<script>
+<style>
+
+    .display-flex {
+        display: flex;
+    }
+
+    .no-mbutton .form-group {
+        margin-bottom: 0 !important;
+        width: 100%;
+    }
+
+    .item_leist {
+        margin-bottom: 20px;
+    }
+
+</style>
+<script>
     $(function () {
-        var LeadsServerParams = {
-            "kunde": "[name='kunde']",
-            "mieter": "[name='mieter']",
-            "aq": "[name='aq']",
-            "user": "[name='user']",
-            "cars": "[name='cars']"
-        };
-        $('.table-mieter tfoot th').each(function () {
+        var ServerParams = {};
+        $('.table-leistung_verz tfoot th').each(function () {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="Search ' + title + '" />');
         });
-        var table_mieter = $('.table-leistung_verz');
-         initDataTable('.table-leistung_verz', admin_url + 'leistung_verz/table', [0], [0], LeadsServerParams, [1, 'desc'], []);
-        $.each(LeadsServerParams, function (i, obj) {
+        var table_leistung_verz = $('.table-leistung_verz');
+        initDataTable('.table-leistung_verz', admin_url + 'leistung_verz/table', [0], [0], ServerParams, [1, 'desc'], []);
+        $.each(ServerParams, function (i, obj) {
             $('#' + i).on('change', function () {
-                table_mieter.DataTable().ajax.reload()
+                table_leistung_verz.DataTable().ajax.reload()
                     .columns.adjust()
                     .responsive.recalc();
             });
         });
+
+        $('body').on('click', '#add_leistung', function (e) {
+            e.preventDefault();
+            $('#action-checpoint').modal('show')
+        })
+
+        $('body').on('click', '#add_item', function (e) {
+            e.preventDefault();
+            var v_nam = $('#v_name').val();
+            if(v_nam==''){return false}
+            var item_template = "\n" +
+                "                    <div class=\"row item_leist\">\n" +
+                "                        <div class=\"col-md-8\">\n" +
+                "                            <a id=\"edit-menu\" href=\"#\"><i class=\"fa fa-pencil\"></i></a>\n" +
+                "                            <span>" + v_nam + "</span>\n" +
+                "                        </div>\n" +
+                "                        <div class=\"col-md-4 display-flex no-mbutton\">\n" +
+                "                            <a href=\"#\" class=\"btn btn-danger remove_item\">delete</a>\n" +
+                "                            <div class=\"form-group\" app-field-wrapper=\"hour_1\">\n" +
+                "                                <input type=\"text\" id=\"hour_1\"  name=\"hour_1\" class=\"form-control\" value=\"\"></div>\n" +
+                "\n" +
+                "                            <div class=\"form-group\" app-field-wrapper=\"hour_2\">\n" +
+                "                                <input type=\"text\" id=\"hour_2\" name=\"hour_2\" class=\"form-control\" value=\"\"></div>\n" +
+                "                        </div>\n" +
+                "                    </div>";
+
+            $('#bulderarrear').append(item_template);
+            $('#v_name').val('');
+        })
+
+        $('body').on('click', '.remove_item', function (e) {
+            $(this).parents('.item_leist').remove()
+        });
     });
 
 
-</script>-->
+</script>
 </body>
 </html>
