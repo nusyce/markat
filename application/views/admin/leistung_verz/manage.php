@@ -81,20 +81,25 @@
         $('body').on('click', '#add_item', function (e) {
             e.preventDefault();
             var v_nam = $('#v_name').val();
-            if(v_nam==''){return false}
+
+            if (v_nam == '') {
+                return false
+            }
             var item_template = "\n" +
                 "                    <div class=\"row item_leist\">\n" +
                 "                        <div class=\"col-md-8\">\n" +
-                "                            <a id=\"edit-menu\" href=\"#\"><i class=\"fa fa-pencil\"></i></a>\n" +
+                "                            <a id=\"edit_menu\" href=\"#\"><i class=\"fa fa-pencil\"></i></a>\n" +
                 "                            <span>" + v_nam + "</span>\n" +
+                "                            <input type=\"hidden\"   name=\"item_name[]\" class='form-control' value='" + v_nam + "'>\n" +
+
                 "                        </div>\n" +
                 "                        <div class=\"col-md-4 display-flex no-mbutton\">\n" +
                 "                            <a href=\"#\" class=\"btn btn-danger remove_item\">delete</a>\n" +
                 "                            <div class=\"form-group\" app-field-wrapper=\"hour_1\">\n" +
-                "                                <input type=\"text\" id=\"hour_1\"  name=\"hour_1\" class=\"form-control\" value=\"\"></div>\n" +
+                "                                <input type=\"text\"   name=\"hour_1[]\" class=\"form-control\" value=\"\"></div>\n" +
                 "\n" +
                 "                            <div class=\"form-group\" app-field-wrapper=\"hour_2\">\n" +
-                "                                <input type=\"text\" id=\"hour_2\" name=\"hour_2\" class=\"form-control\" value=\"\"></div>\n" +
+                "                                <input type=\"text\"  name=\"hour_2[]\" class=\"form-control\" value=\"\"></div>\n" +
                 "                        </div>\n" +
                 "                    </div>";
 
@@ -103,8 +108,49 @@
         })
 
         $('body').on('click', '.remove_item', function (e) {
-            $(this).parents('.item_leist').remove()
+            $(this).parents('.item_leist').remove();
         });
+
+
+        $('table').on('click', '.edit_leistung', function (e) {
+            e.preventDefault();
+            $('#bulderarrear').html('');
+            $id = $(this).data('id');
+            requestGet(admin_url+'leistung_verz/get/'+$id).done(function (response) {
+                response = JSON.parse(response);
+                $('#leistung_verz').val(response.id);
+                $('#action-checpoint #name').val(response.name);
+                $.each(response.item_leist, function (i, item) {
+                    var item_template = "\n" +
+                        "                    <div class=\"row item_leist\">\n" +
+                        "                        <div class=\"col-md-8\">\n" +
+                        "                            <a id=\"edit_menu\" href=\"#\"><i class=\"fa fa-pencil\"></i></a>\n" +
+                        "                            <span>" + item.name + "</span>\n" +
+                        "                            <input type=\"hidden\"   name=\"item_name[]\" class='form-control' value='" + item.name + "'>\n" +
+
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-4 display-flex no-mbutton\">\n" +
+                        "                            <a href=\"#\" class=\"btn btn-danger remove_item\">delete</a>\n" +
+                        "                            <div class=\"form-group\" app-field-wrapper=\"hour_1\">\n" +
+                        "                                <input type=\"text\"   name=\"hour_1[]\" class=\"form-control\" value='" + item.hours_1 + "'></div>\n" +
+                        "\n" +
+                        "                            <div class=\"form-group\" app-field-wrapper=\"hour_2\">\n" +
+                        "                                <input type=\"text\"  name=\"hour_2[]\" class=\"form-control\" value='" + item.hours_2 + "'></div>\n" +
+                        "                        </div>\n" +
+                        "                    </div>";
+
+                    $('#bulderarrear').append(item_template);
+
+                });
+                $('#action-checpoint').modal('show')
+            });
+
+        });
+        // $('body').on('click', '#edit_menu', function (e) {
+        //     .v_name.val() =
+        //     $(this).parents('.item_leist').remove();
+        // });
+
     });
 
 
