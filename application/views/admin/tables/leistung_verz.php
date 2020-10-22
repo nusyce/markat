@@ -33,10 +33,10 @@ foreach ($rResult as $aRow) {
     $subjectOutput = '<a href="' . admin_url('leistung/leistung/' . $aRow['id']) . '">' . $aRow['name'] . '</a>';
 
     $subjectOutput .= '<div class="row-options">';
-    $subjectOutput .= '  <a href="' . admin_url('leistung/leistung/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    $subjectOutput .= '  <a href="' . admin_url('leistung_verz/update/' . $aRow['id']) . '" class="edit_leistung"   data-id="' . $aRow['id'] . '">' . _l('edit') . '</a>';
 
     /*    if (has_permission('leistung', '', 'delete')) {*/
-    $subjectOutput .= ' | <a href="' . admin_url('leistung/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    $subjectOutput .= ' | <a href="' . admin_url('leistung_verz/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     /* }*/
 
     $subjectOutput .= '</div>';
