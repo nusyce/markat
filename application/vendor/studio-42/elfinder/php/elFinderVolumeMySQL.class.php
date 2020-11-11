@@ -101,7 +101,7 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
 
         if (!($this->options['host'] || $this->options['socket'])
             || !$this->options['user']
-            || !$this->options['pass']
+            // || !$this->options['pass']
             || !$this->options['db']
             || !$this->options['path']
             || !$this->options['files_table']) {
@@ -231,7 +231,13 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
         $sql = 'INSERT INTO %s (`parent_id`, `name`, `size`, `mtime`, `mime`, `content`, `read`, `write`, `locked`, `hidden`, `width`, `height`) VALUES (\'%s\', \'%s\', 0, %d, \'%s\', \'\', \'%d\', \'%d\', \'%d\', \'%d\', 0, 0)';
         $sql = sprintf($sql, $this->tbf, $path, $this->db->real_escape_string($name), time(), $mime, $this->defaults['read'], $this->defaults['write'], $this->defaults['locked'], $this->defaults['hidden']);
         // echo $sql;
-        return $this->query($sql) && $this->db->affected_rows > 0;
+        $res = $this->query($sql) && $this->db->affected_rows > 0;
+        if($mime == 'directory' && !empty($res)){
+                $sql1 = 'INSERT INTO %s (`elfinder_id`, `user_id`, `created_by`) VALUES (\'%d\', \'%d\', \'%d\')';
+                $sql1 = sprintf($sql1, 'tblfolder_mapping', $this->db->insert_id, get_staff_user_id(),get_staff_user_id());
+                $res1 = $this->query($sql1) && $this->db->affected_rows > 0;
+        }
+        return $res;
     }
 
     /*********************************************************************/
@@ -249,6 +255,11 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
     protected function cacheDir($path)
     {
         $this->dirsCache[$path] = array();
+         $sql1 = 'DELETE FROM `tblfolder_mapping` WHERE elfinder_id NOT IN (SELECT id FROM elfinder_file)';
+    
+       
+    //  exit;
+        $res1 = $this->query($sql1);
 
         $sql = 'SELECT f.id, f.parent_id, f.name, f.size, f.mtime AS ts, f.mime, f.read, f.write, f.locked, f.hidden, f.width, f.height, IF(ch.id, 1, 0) AS dirs 
 				FROM ' . $this->tbf . ' AS f 
@@ -258,6 +269,8 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
 
         $res = $this->query($sql);
         if ($res) {
+            $i = 0;
+
             while ($row = $res->fetch_assoc()) {
                 $id = $row['id'];
                 if ($row['parent_id'] && $id != $this->root) {
@@ -268,6 +281,7 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
                     unset($row['width']);
                     unset($row['height']);
                     $row['size'] = 0;
+
                 } else {
                     unset($row['dirs']);
                 }
@@ -275,10 +289,21 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
                 unset($row['id']);
                 unset($row['parent_id']);
 
-
-                if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
-                    $this->dirsCache[$path][] = $id;
+                if ($row['mime'] == 'directory') {
+                    $resData = $this->check_folder_permission($id);
+                    if(!$resData){
+                        unset($row);
+                    }else{
+                        if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
+                            $this->dirsCache[$path][] = $id;
+                        } 
+                    }
+                }else{
+                    if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
+                        $this->dirsCache[$path][] = $id;
+                    }
                 }
+                $i++;
             }
         }
 
@@ -384,6 +409,13 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
             $whr = '(' . $whr . ') AND (`parent_id` IN (' . join(',', $dirs) . '))';
         }
 
+        $sql1 = 'DELETE FROM `tblfolder_mapping` WHERE elfinder_id NOT IN (SELECT id FROM elfinder_file)';
+    
+       
+    //  exit;
+        $res1 = $this->query($sql1);
+
+
         $sql = 'SELECT f.id, f.parent_id, f.name, f.size, f.mtime AS ts, f.mime, f.read, f.write, f.locked, f.hidden, f.width, f.height, 0 AS dirs 
 				FROM %s AS f 
 				WHERE %s';
@@ -391,6 +423,7 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
         $sql = sprintf($sql, $this->tbf, $whr);
 
         if (($res = $this->query($sql))) {
+            $i =0 ;
             while ($row = $res->fetch_assoc()) {
                 if ($timeout && $timeout < time()) {
                     $this->setError(elFinder::ERROR_SEARCH_TIMEOUT, $this->path($this->encode($path)));
@@ -419,9 +452,24 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
                 unset($row['id']);
                 unset($row['parent_id']);
 
-                if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
-                    $result[] = $stat;
+                if ($row['mime'] == 'directory') {
+                    $resData = $this->check_folder_permission($id);
+                    if(!$resData){
+                        unset($row);
+                    }else{
+                        if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
+                            $result[] = $stat;
+                        } 
+                    }
+                }else{
+                    if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
+                       $result[] = $stat;
+                    }
                 }
+                $i++;
+                // if (($stat = $this->updateCache($id, $row)) && empty($stat['hidden'])) {
+                //     $result[] = $stat;
+                // }
             }
         }
         return $result;
@@ -605,6 +653,7 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
             }
             unset($stat['id']);
             unset($stat['parent_id']);
+
             return $stat;
 
         }
@@ -998,6 +1047,22 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver
     protected function _archive($dir, $files, $name, $arc)
     {
         return false;
+    }
+
+    function check_folder_permission($id)
+    {
+        $sql = 'SELECT id FROM `tblfolder_mapping`  WHERE elfinder_id = "' . $id . '" AND `user_id` = "'. get_staff_user_id() .'"';
+             
+        $res = $this->query($sql);
+        //echo $res->num_rows;
+        if(!empty($res) && $res->num_rows != 0){
+           // print_r($res);
+            //echo 'hhhh';
+           // exit;
+            return true;
+        }else{
+             return false;
+        }       
     }
 
 } // END class 

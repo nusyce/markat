@@ -511,6 +511,9 @@ class Tasks_model extends App_Model
             $ticket_to_task = true;
             unset($data['ticket_to_task']);
         }
+        if (empty($data['mieters'])) {
+            $data['mieters']=0;
+        }
         if (isset($data['task_for'])) {
             $taskFor = $data['task_for'];
             unset($data['task_for']);
@@ -655,13 +658,28 @@ class Tasks_model extends App_Model
                 if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
                     $new_task_auto_assign_creator = false;
                 }
-                if ($new_task_auto_assign_creator == true) {
+                if ($new_task_auto_assign_creator == true || 1==1) {
+                 $description = 'not_task_assigned_to_you';
+                    $not_data = [
+                        $data->name,
+                    ];
+
                     foreach ($taskFor as $tF)
+                    {
                         $this->db->insert(db_prefix() . 'task_assigned', [
                             'taskid' => $insert_id,
                             'staffid' => $tF,
                             'assigned_from' => get_staff_user_id(),
                         ]);
+                      add_notification([
+                            'description' => $description,
+                            'touserid' =>  $tF,
+                            'link' => '',
+                            'additional_data' => serialize($not_data)
+                        ]);
+                    }
+                    pusher_trigger_notification($taskFor);
+                    //$this->_send_task_responsible_users_notification($description, $insert_id, false, 'task_status_changed_to_staff', serialize($not_data));
                 }
                 if (get_option('new_task_auto_follower_current_member') == '1') {
                     $this->db->insert(db_prefix() . 'task_followers', [
@@ -867,7 +885,7 @@ class Tasks_model extends App_Model
                 if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
                     $new_task_auto_assign_creator = false;
                 }
-                if ($new_task_auto_assign_creator == true) {
+                if ($new_task_auto_assign_creator == true || 1==1) {
                     foreach ($taskFor as $tF)
                         $this->db->insert(db_prefix() . 'task_assigned', [
                             'taskid' => $insert_id,
@@ -955,7 +973,9 @@ class Tasks_model extends App_Model
             $taskFor = $data['task_for'];
             unset($data['task_for']);
         }
-
+        if (!isset($data['mieters'])) {
+            $data['mieters']=0;
+        }
         if (isset($data['project'])) {
             $data['rel_type'] = 'project';
             $data['rel_id'] = $data['project'];
@@ -972,15 +992,7 @@ class Tasks_model extends App_Model
             unset($data['custom_fields']);
         }
 
-        if (isset($taskFor)) {
-            $this->db->truncate(db_prefix() . 'task_assigned');
-            foreach ($taskFor as $tF)
-                $this->db->insert(db_prefix() . 'task_assigned', [
-                    'taskid' => $id,
-                    'staffid' => $tF,
-                    'assigned_from' => get_staff_user_id(),
-                ]);
-        }
+
 
 
         if ($clientRequest == false) {
@@ -1063,7 +1075,9 @@ class Tasks_model extends App_Model
         }
 
         if (isset($taskFor)) {
-            $this->db->truncate(db_prefix() . 'task_assigned');
+            $this->db->where('taskid', $id);
+            $this->db->delete(db_prefix() . 'task_assigned');
+            //$this->db->truncate(db_prefix() . 'task_assigned');
             foreach ($taskFor as $tF)
                 $this->db->insert(db_prefix() . 'task_assigned', [
                     'taskid' => $id,
@@ -1113,7 +1127,6 @@ class Tasks_model extends App_Model
     {
         $this->db->where('taskid', $taskid);
         $this->db->order_by('list_order', 'asc');
-
         return $this->db->get(db_prefix() . 'task_checklist_items')->result_array();
     }
 
@@ -1157,6 +1170,22 @@ class Tasks_model extends App_Model
      */
     public function add_checklist_item($data)
     {
+        if(is_array($data['description']))
+        {
+
+            foreach($data['description'] as $value) {
+
+                $this->db->insert(db_prefix() . 'task_checklist_items', [
+                    'taskid' => $data['taskid'],
+                    'description' => $value["description"],
+                    'bereich' => $value["bereich"],
+                    'dateadded' => date('Y-m-d H:i:s'),
+                    'addedfrom' => get_staff_user_id(),
+                    'list_order' => 0,
+                ]);
+            }
+            return true;
+        }
         $this->db->insert(db_prefix() . 'task_checklist_items', [
             'taskid' => $data['taskid'],
             'description' => $data['description'],

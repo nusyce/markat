@@ -7,7 +7,8 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <div class="style-menu" >  <h3><span><?php echo get_menu_option(c_menu(), 'Räumung/Beräumung') ?></span>
+                        <div class="style-menu" >
+                            <h3><span><?php echo get_menu_option(c_menu(), 'Räumung/Beräumung') ?></span>
                             <?php if (has_permission('menu', '', 'edit')):
                                 ?>
                                 <a id="edit-menu" class="redopencil" href="#"><i class="fa fa-pencil"></i></a>

@@ -49,10 +49,15 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-file',
     ]);
 
-
+    $CI->app_menu->add_sidebar_menu_item('mobile_apps', [
+        'name' => get_menu_option('mobile_apps', _l('Mobile APPs ')),
+        'href' => admin_url('mobile_apps'),
+        'position' => 182,
+        'icon' => 'fa fa-file',
+    ]);
     if (has_permission('firma', '', 'edite')) {
         $CI->app_menu->add_sidebar_menu_item('activity-log', [
-            'name' => _l('activity log'),
+            'name' => get_menu_option('activity_log',  _l('activity log')),
             'href' => admin_url('utilities/activity_log'),
             'icon' => 'fa fa-history',
             'position' => 180,
@@ -235,7 +240,14 @@ function app_init_admin_sidebar_menu_items()
 
         }*/
 
-    $CI->app_menu->add_sidebar_menu_item('workstation', [
+    $CI->app_menu->add_sidebar_menu_item('leistung-verz', [
+        'name' => get_menu_option('leistung-verz', _l('Leistung-verz')),
+        'href' => admin_url('leistung_verz'),
+        'position' => 20,
+        'icon' => 'fa fa-file',
+    ])
+
+    ; $CI->app_menu->add_sidebar_menu_item('workstation', [
         'name' => get_menu_option('workstation', _l('Workstation ')),
         'collapse' => true,
         'position' => 30,

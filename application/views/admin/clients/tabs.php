@@ -9,7 +9,7 @@
         <?php if(!empty($tab['icon'])){ ?>
             <i class="<?php echo $tab['icon']; ?> menu-icon" aria-hidden="true"></i>
         <?php } ?>
-        <?php echo $tab['name']; ?>
+        <?php  echo $tab['name']; ?>
       </a>
     </li>
   <?php }

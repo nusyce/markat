@@ -147,6 +147,39 @@ class Tasks extends AdminController
         }
     }
 
+    /* Add or update leads sources */
+    public function project()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if (!$this->input->post('id')) {
+                $inline = isset($data['inline']);
+                if (isset($data['inline'])) {
+                    unset($data['inline']);
+                }
+
+                $id = $this->tasks_model->add_project($data);
+
+                if (!$inline) {
+                    if ($id) {
+                        set_alert('success', _l('added_successfully', _l('lead_source')));
+                    }
+                } else {
+                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                }
+            } else {
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->tasks_model->update_project($data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('lead_source')));
+                }
+            }
+        }
+    }
+
+
+
 
     // Used in invoice add/edit
     public function get_billable_tasks_by_customer_id($customer_id)
@@ -354,7 +387,6 @@ class Tasks extends AdminController
         }
 
         $task = $this->tasks_model->get($id);
-        $task = $this->tasks_model->get($id);
         $signature="";
 
         if (isset($_POST['imageData']) && !empty($_POST['imageData'])) {
@@ -476,6 +508,7 @@ class Tasks extends AdminController
             $data = $this->input->post();
             $data['description'] = html_purify($this->input->post('description', false));
             if ($id == '') {
+
                 if (!has_permission('tasks', '', 'create')) {
                     header('HTTP/1.0 400 Bad error');
                     echo json_encode([
@@ -484,11 +517,15 @@ class Tasks extends AdminController
                     ]);
                     die;
                 }
-                $id = $this->tasks_model->add($data);
+
+
                 $_id = false;
                 $success = false;
                 $message = '';
+                $id = $this->tasks_model->add($data);
+
                 if ($id) {
+
                     $success = true;
                     $_id = $id;
                     $message = _l('added_successfully', _l('task'));
@@ -551,10 +588,12 @@ class Tasks extends AdminController
                 ];
             }
         }
-        $this->load->model(['lieferanten_model', 'misc_model', 'mieter_model']);
+
+        $this->load->model(['lieferanten_model', 'lieferanten_model', 'misc_model', 'mieter_model']);
         $data['id'] = $id;
         $data['title'] = $title;
         $data['mieters'] = $this->mieter_model->get();
+        $data['lieferantens'] = $this->lieferanten_model->get();
         $dStaff = $this->staff_model->get('', ['active' => 1], true);
         $staffs = array();
         foreach ($dStaff as $d) {

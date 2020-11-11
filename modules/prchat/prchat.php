@@ -3,8 +3,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Markat CRM Powerful Chat
-Description: Chat Module for Markat CRM
+Module Name: Perfex CRM Powerful Chat
+Description: Chat Module for Perfex CRM
 Version: 1.3.6
 Author: Aleksandar Stojanov
 Author URI: https://idevalex.com

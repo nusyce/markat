@@ -67,6 +67,7 @@ $autoload['libraries'] = [
     'app',
     'gateways/app_gateway',
     'email', // As last because it's using get_option via $this->app library
+    'authorization_token'
 ];
 
 $CI = &get_instance();

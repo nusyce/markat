@@ -27,7 +27,7 @@
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
         <tr>
             <td style="width: 65%; font-weight: bold">
-             <div><strong>Deutsche Wohnen Construction an </strong></div>
+                <div><strong>Deutsche Wohnen Construction an </strong></div>
                 <div>Facilities GmbH</div>
                 <div>Herrn Stefan Kornows</div>
                 <div>Mecklenburgische Str. 5</div>
@@ -91,12 +91,14 @@
 
 
     }
-    $tblhtml .= '<table cellspacing="2px" style="width: 100%">
-        <tr>
-            <th style="width: 100%"><strong>Mieter :</strong> ' . $task->mieter . '</th>
-             
-        </tr>
-    </table>';
+        if (isset($task->mieter)&&!empty($task->mieter)):
+            $tblhtml .= '<table cellspacing="2px" style="width: 100%">
+            <tr>
+                <th style="width: 100%"><strong>Mieter :</strong> ' . $task->mieter . '</th>
+                 
+            </tr>
+        </table>';
+        endif;
     $tblhtml .= '<table cellspacing="2px" style="width: 100%">
         <tr><th style="width: 100%;" colspan="3"><strong>Betreff</strong></th> </tr>
         <tr><td colspan="3">' . $task->name . '</td></tr>
@@ -218,10 +220,9 @@
     echo $tblhtml;
     ?>
     <p> <?php
-        if(!empty($signature) && isset($signature))
-        {
-            echo '<img style="height:80px" src="'.$signature.'" alt="Image Markat">';
-        }?></p>
+        if (!empty($signature) && isset($signature)) {
+            echo '<img style="height:80px" src="' . $signature . '" alt="Image Markat">';
+        } ?></p>
 
 
 </page>

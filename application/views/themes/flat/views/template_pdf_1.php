@@ -50,13 +50,11 @@
         <tr>
             <td style="width: 65%; font-weight: bold">
                 <?php
-                if (isset($task->project_data) && $task->project_data) {
 
-                }
-                if (isset($task->client_data) && $task->client_data) {
-                    $client_data = $task->client_data;
-                } elseif (isset($task->project_data->client_data) && $task->project_data->client_data) {
+                if (isset($task->project_data->client_data) && $task->project_data->client_data) {
                     $client_data = $task->project_data->client_data;
+                } elseif (isset($task->client_data) && $task->client_data) {
+                    $client_data = $task->client_data;
                 } else {
                     $client_data = null;
                 }
@@ -127,43 +125,43 @@
             </td>
         </tr>
     </table>
-    <br>
-    <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
-        <tr>
+    <?php if (isset($task->project_data)&&!$task->project_data): ?>
+        <br>
+        <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
+            <tr>
 
-            <td>Bauvorhaben:</td>
-            <td><?= isset($task->project_data) ? $task->project_data->bauvorhaben : '' ?></td>
-        </tr>
-        <tr>
+                <td>Bauvorhaben:</td>
+                <td><?= isset($task->project_data) ? $task->project_data->bauvorhaben : '' ?></td>
+            </tr>
+            <tr>
+                <td>Auftragsnummer:</td>
+                <td><?= isset($task->project_data) ? $task->project_data->auftrag : '' ?></td>
+            </tr>
 
-            <td>Auftragsnummer:</td>
-            <td><?= isset($task->project_data) ? $task->project_data->auftrag : '' ?></td>
-        </tr>
-        <tr>
-            <td>Projektnummer:</td>
-            <td><?= isset($task->project_data) ? $task->project_data->nummer : '' ?></td>
-        </tr>
-        <tr>
-            <td>WIE:</td>
-            <td><?= isset($task->project_data) ? $task->project_data->wie : '' ?></td>
-        </tr>
-        <tr>
-            <td>Auftragsort:</td>
-            <td><?= isset($task->project_data) ? $task->project_data->auftragsort : '' ?></td>
-        </tr>
-    </table>
+            <tr>
+                <td>Projektnummer:</td>
+                <td><?= isset($task->project_data) ? $task->project_data->nummer : '' ?></td>
+            </tr>
+            <tr>
+                <td>WIE:</td>
+                <td><?= isset($task->project_data) ? $task->project_data->wie : '' ?></td>
+            </tr>
+            <tr>
+                <td>Auftragsort:</td>
+                <td><?= isset($task->project_data) ? $task->project_data->auftragsort : '' ?></td>
+            </tr>
+        </table>
+    <?php endif; ?>
     <br><br>
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
         <tr>
             <td>Beauftragt :</td>
             <td><?php echo $task->name; ?></td>
         </tr>
-
-        <?php if(!empty($task->mieter))
-        {
+        <?php if (!empty($task->mieter)) {
             echo '<tr>
             <td>Mieter:</td>
-            <td>'.$task->mieter.'</td>
+            <td>' . $task->mieter . '</td>
         </tr>';
         } ?>
         <tr>
@@ -171,14 +169,14 @@
             <td><?php echo $task->duedate; ?></td>
         </tr>
     </table>
-    <br><br> 
-
+    <br>
+    <br>
     <table cellspacing="0%" style="width: 100%; text-align: left;font-size: 10pt; border-top-color: black;">
         <thead>
         <tr>
             <th colspan="4">
                 <div style="border-bottom: 2px solid #000; font-size: 16px; padding-bottom: 8px; margin-bottom: 5px">
-                    Arbeitsschein <?= $task->id?>
+                    Arbeitsschein <?= $task->id ?>
                 </div>
             </th>
         </tr>
@@ -274,7 +272,7 @@
               </tr>-->
 
     </table>
-    <p style="font-size: 13px;">
+    <div style="font-size: 13px;">
         <br>
         Vielen Dank für den Auftrag
         <br>
@@ -285,18 +283,13 @@
         Mit freundlichen Grüßen
         <br>
         <br>
-       <?= get_staff_full_name()?>
+        <?= get_staff_full_name() ?>
         <br>
         <?php
-        if(!empty($signature) && isset($signature))
-        {
-            echo '<img style="height:80px" src="'.$signature.'" alt="Image Markat">';
-        }?>
-    </p>
-
-
-
-
+        if (!empty($signature) && isset($signature)) {
+            echo '<img style="height:80px" src="' . $signature . '" alt="Image Markat">';
+        } ?>
+    </div>
 </page>
 
 

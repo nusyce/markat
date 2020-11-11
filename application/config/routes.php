@@ -184,3 +184,11 @@ $route['authentication/set_password/(:num)/(:num)/(:any)'] = 'admin/authenticati
 if (file_exists(APPPATH . 'config/my_routes.php')) {
     include_once(APPPATH . 'config/my_routes.php');
 }
+$route['api/delete/(:any)/(:num)'] = '$1/data/$2';
+$route['api/(:any)/search/(:any)'] = '$1/data_search/$2';
+$route['api/(:any)/search'] = '$1/data_search';
+$route['api/login/auth'] = 'login/login_api';
+$route['api/login/view'] = 'login/view';
+$route['api/login/key'] = 'login/api_key';
+$route['api/(:any)/(:num)'] = '$1/data/$2';
+$route['api/(:any)'] = '$1/data';

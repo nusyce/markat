@@ -8888,3 +8888,84 @@ Char list random
 .aze16 {
     background-color: #FFFF00 !important;
 }
+#bulderarrear .item_leist #edit_hour{
+    margin-left: 10px;
+}
+#bulderarrear .hour{
+    margin-left: 7px;
+
+}
+#bulderarrear .remove_item {
+
+}
+#bulderarrear #bereich{
+    text-decoration: underline;
+    margin-right: 20px;
+    font-weight: bold;
+
+}
+/*#bulderarrear .hourlabel{*/
+/*    margin-right: 15px;*/
+
+/*}*/
+/* .add_item{*/
+/*    margin-left: 20px ;*/
+
+/*}*/
+/* #add-bereich {*/
+/*    text-decoration: underline;*/
+/*     padding-top: 20px;*/
+/*     color: black;*/
+/*}*/
+/* .disabledbtn{*/
+/*      position: relative; left: 185px*/
+/* }*/
+/* #edit_item{*/
+/*     margin-top: 7px;*/
+/* }*/
+/*#bulderarrear #line{*/
+/*     margin-top: 10px;*/
+
+/* }*/
+/*#bulderarrear #thour{*/
+/*     background-color: white;*/
+/*    border: solid white;*/
+/*    font-weight: bold;*/
+/*    text-decoration: none;*/
+
+/* }*/
+/*#totalhour{*/
+
+/*}*/
+
+/*#blu_save{*/
+/*    margin-bottom: 10px;*/
+/*    margin-right: 30px;*/
+/*}*/
+#edit_branch
+{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.checkleistung{
+    margin-left: 45px!important;
+}
+.leislabel{
+        margin-left: 20px;
+}
+.leislabel1{
+        margin-left: 10px;
+        margin-right: 20px;
+}
+#hourblock{
+    margin-left: 15px;
+}
+/*#hourblock1{*/
+/*    widht:200px !important;*/
+/*}*/
+#hourblock12{
+    margin-right: 30px;
+}
+#hourblockdelete{
+    margin-left: 50px !important;
+}
