@@ -1066,6 +1066,7 @@
                             class="text-muted task-action-select" name="select-assignees"
                             data-live-search="true" title='<?php echo _l('task_single_assignees_select_title'); ?>'
                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                        <option value=""></option>
                         <?php
                         $options = '';
                         foreach ($staff as $assignee) {
