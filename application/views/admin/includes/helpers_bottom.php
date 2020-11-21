@@ -61,9 +61,9 @@
 
                 <p style="margin-top: 10px" id="my-checklist-points"></p>
                 <p style="text-align: center;">
-                    <button onclick="signatur_check()" style="text-align: center;">weiter zur Signture
+                    <button class="btn btn-primary" onclick="signatur_check()" style="text-align: center;">weiter zur Signture
                     </button>
-                    <button onclick="without_sign()" style="text-align: center;">
+                    <button class="btn btn-primary" onclick="without_sign()" style="text-align: center;">
                         Fahren Sie OHNE Signatur fort
                     </button>
                 </p>

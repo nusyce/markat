@@ -1063,7 +1063,7 @@
                 <div class="simple-bootstrap-select">
                     <select data-width="100%" <?php if ($task->rel_type == 'project') { ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?>
                             data-task-id="<?php echo $task->id; ?>" id="add_task_assignees"
-                            class="text-muted task-action-select" name="select-assignees"
+                            class="text-muted task-action-select selectpicker" name="select-assignees"
                             data-live-search="true" title='<?php echo _l('task_single_assignees_select_title'); ?>'
                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                         <option value=""></option>
