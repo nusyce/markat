@@ -27,7 +27,51 @@ class Authentication extends App_Controller
     {
         $this->admin();
     }
+public function change_password()
+{
+    if(is_staff_need_change_password()==true)
+    {
+        $this->form_validation->set_rules('password', _l('admin_auth_reset_password'), 'required');
+        $this->form_validation->set_rules('passwordr', _l('admin_auth_reset_password_repeat'), 'required|matches[password]');
+        if ($this->input->post()) {
+            if ($this->form_validation->run() !== false) {
 
+                $result = (preg_match('/[A-Z]+/', $_POST['password']) && preg_match('/[a-z]+/', $_POST['password']) && preg_match('/[\d!$%^&]+/', $_POST['password']) && strlen($_POST['password'])>11);
+                if(!$result)
+                {
+                    set_alert("danger","Das eingegebene Passwort ist nicht sicher.");
+                    redirect(admin_url('authentication/change_password'));
+                }else{
+                    $staff=true;
+                    $userid=get_staff_user_id();
+                    $new_pass_key=$this->Authentication_model->generate_pass_key(true);
+
+                    $success = $this->Authentication_model->set_password($staff, $userid, $new_pass_key, $this->input->post('passwordr', false));
+
+                    if (is_array($success) && $success['expired'] == true) {
+                        set_alert('danger', _l('password_reset_key_expired'));
+                    } elseif ($success == true) {
+
+                        hooks()->do_action('after_user_reset_password', [
+                            'staff' => $staff,
+                            'userid' => $userid,
+                        ]);
+                        $this->session->unset_userdata('need_change_password');
+                        set_alert('success', _l('password_reset_message'));
+                    } else {
+                        set_alert('danger', _l('password_reset_message_fail'));
+                    }
+
+                    redirect(admin_url('authentication'));
+                }
+            }else{
+                set_alert("danger","Falsches Passwort");
+                redirect(admin_url('authentication/change_password'));
+            }
+        }
+        $this->load->view('authentication/change_password');
+    }
+}
     public function admin()
     {
         if (is_staff_logged_in()) {
@@ -66,7 +110,12 @@ class Authentication extends App_Controller
                     set_alert('danger', _l('admin_auth_invalid_email_or_password'));
                     redirect(admin_url('authentication'));
                 }
+                $result = (preg_match('/[A-Z]+/', $_POST['password']) && preg_match('/[a-z]+/', $_POST['password']) && preg_match('/[\d!$%^&]+/', $_POST['password']));
+                if(!$result)
+                {
 
+                    $this->session->set_userdata('need_change_password', true);
+                }
                 $this->load->model('announcements_model');
                 $this->announcements_model->set_announcements_as_read_except_last_one(get_staff_user_id(), true);
 

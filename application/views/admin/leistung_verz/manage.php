@@ -250,12 +250,43 @@
             var item_template = "\n" +
                 "                    <div class=\"row item_leist\">\n" +
                 "                        <div class=\"col-md-4\">\n" +
-                "                            n" +
-                "                            <span>" + v_nam + "</span><br><select class='mes_int' style=\"font-size: 13px;\" name=\"mes_intervalles["+num+"][item]["+rang+"][interval]\" id=\"intervalles\">\n" +
+                "                        </div>\n" +
+                "                        <div class=\"col-md-1 display-flex no-mbutton\">\n" +
+                "                         </div>\n" +
+                    "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Einheit</div>\n" +
+                "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Menge</div>\n" +
+                "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Material</div>\n" +
+                "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Auto</div>\n" +
+                "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Geräte</div>\n" +
+                "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Preis</div>\n" +
+                "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">G-Preis</div>\n" +
+                "<div class=\"col-md-5\" style=\"text-align: center;\"> </div>\n" +
+                    "<div class=\"col-md-1\" style=\"text-align: center;\"> <h5 ><b style=\"text-decoration: underline\">Berechnung</b></h5>\n" +
+                "                            </div>\n" +
+                    "<div class=\"col-md-1\" style=\"    margin-top: 8px;\">\n" +
+                "                                <p >Pauschat<br><font>Prozentual</font></p>\n" +
+                "                            </div>\n" +
+                    " <div class=\"col-md-1\" style=\"margin-top: 5px;text-align: center;\">\n" +
+                "                                <input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\"><br><input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\">\n" +
+                "                            </div>\n" +
+                    "<div class=\"col-md-1\" style=\"margin-top: 5px;text-align: center;\">\n" +
+                "                                <input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\"><br><input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\">\n" +
+                "                            </div>\n" +
+                    "<div class=\"col-md-1\" style=\"    margin-top: 5px;text-align: center;\">\n" +
+                "                                <input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\"><br><input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\">\n" +
+                "                            </div>\n" +
+                    " <div class=\"col-md-1\" style=\"    margin-top: 5px;text-align: center;\">\n" +
+                "                                <input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\"><br><input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\">\n" +
+                "                            </div>\n" +
+                    "<div class=\"col-md-1\" style=\"    margin-top: 5px;text-align: center;\">\n" +
+                "                                <input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\"><br><input class=\"mes_scales\" type=\"checkbox\" id=\"scales\" name=\"mes_intervalles["+num+"][item]["+rang+"][scales][]\">\n" +
+                "                            </div>\n" +
+                "                       <div class=\"row\"></div> <div class=\"col-md-4\">\n" +
+                "                            <span>" + v_nam + "</span><br><select class='mes_int mes_ints' style=\"font-size: 13px;\" name=\"mes_intervalles["+num+"][item]["+rang+"][interval]\" id=\"intervalles\">\n" +
                 "                                      \n" +
                 "\n" +
                 "                                    </select>\n" +
-                "                            <input type=\"hidden\"   name=\"mes_intervalles["+num+"][item]["+rang+"][name]\" class='form-control' value='" + v_nam + "'>\n" +
+                "                            <input type=\"hidden\"   name=\"mes_intervalles["+num+"][item]["+rang+"][name]\" class='form-control mes_names' value='" + v_nam + "'>\n" +
 
                 "                        </div>\n" +
                 "                        <div class=\"col-md-1 display-flex no-mbutton\">\n" +
@@ -288,7 +319,7 @@
                 "\n" +
                 "                            <div class=\"col-md-1\"><div class=\"form-group\" app-field-wrapper=\"hour_2\">\n" +
                 "                                <input type=\"text\"  name=\"mes_intervalles["+num+"][item]["+rang+"][hour][]\" class=\"form-control hour_2\" value=\"\"></div>\n" +
-                "                        </div>\n" +
+                "                        </div> \n" +
                 "                    </div>";
 
             $('.containerlist .leistend').eq(num).append(item_template);
@@ -318,17 +349,37 @@
                 if (summ)
                     $(obj).find('.summ').html(summ);
             });
+            $('.containerlist').each(function (i, obj) {
+
+                $(obj).find('.mes_int').attr('name','mes_intervalles['+i+'][interval]');
+                $(obj).find('.bacpu').attr('name','mes_intervalles['+i+'][bereich]');
+                $(obj).find('.item_leist').each(function (j, objt) {
+
+                    $(objt).find('.mes_ints').attr('name','mes_intervalles['+i+'][item]['+j+'][interval]');
+                    $(objt).find('.mes_names').attr('name','mes_intervalles['+i+'][item]['+j+'][name]');
+                    $(objt).find('.mes_ein').attr('name','mes_intervalles['+i+'][item]['+j+'][hour][]');
+                    $(objt).find('.mes_scales').each(function (k, objtt) {
+                        $(objtt).attr('name','mes_intervalles['+i+'][item]['+j+'][scales][]');
+                    });
+                    $(objt).find('.hour_2').each(function (p, objtp) {
+                        $(objtp).attr('name','mes_intervalles['+i+'][item]['+j+'][hour][]');
+                    });
+
+                });
+
+            });
 
         }
 
 
         $('body').on('click', '.remove_bereich', function (e) {
             $(this).parents('.containerlist').remove();
-
             calculateAll();
+
+
         });
         $('body').on('click', '.remove_item', function (e) {
-            $(this).parents('.item_leist').remove();
+            var item_leist= $(this).parents('.item_leist').remove();
             calculateAll();
         });
 
@@ -356,6 +407,8 @@
             }
             $cloned.find('.mes_int').attr('name','mes_intervalles['+num+'][interval]');
             $cloned.find('.bacpu').attr('name','mes_intervalles['+num+'][bereich]');
+            var numm=num+1;
+            $cloned.find('.bacpu').val('Bereich '+numm);
             $cloned.find('.delete_bereich_zone').html('<a href="#" class="btn btn-danger remove_bereich" ><i class="fa fa-times" aria-hidden="true"></i>\n' +
                 '</a>');
             var c=$('.containerlist').length + 1;

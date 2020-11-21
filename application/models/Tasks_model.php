@@ -106,9 +106,15 @@ class Tasks_model extends App_Model
             $task->assignees = $this->get_task_assignees($id);
             $mieter = $this->mieter_model->get($task->mieters);
             if ($mieter)
+            {
                 $task->mieter = $mieter->fullname;
+                $task->mieter_strabe_m = $mieter->strabe_m;
+            }
             else
+            {
                 $task->mieter = '';
+            }
+
             $task->assignees_ids = [];
 
             foreach ($task->assignees as $follower) {
@@ -514,6 +520,13 @@ class Tasks_model extends App_Model
         if (empty($data['mieters'])) {
             $data['mieters']=0;
         }
+        if (empty($data['clients'])) {
+            $data['clients']=0;
+        }
+        if (empty($data['car'])) {
+            $data['car']=0;
+        }
+
         if (isset($data['task_for'])) {
             $taskFor = $data['task_for'];
             unset($data['task_for']);
@@ -953,6 +966,7 @@ class Tasks_model extends App_Model
      */
     public function update($data, $id, $clientRequest = false)
     {
+
         $affectedRows = 0;
         $data['startdate'] = to_sql_date($data['startdate'], true);
         $data['duedate'] = to_sql_date($data['duedate'], true);
@@ -973,9 +987,16 @@ class Tasks_model extends App_Model
             $taskFor = $data['task_for'];
             unset($data['task_for']);
         }
-        if (!isset($data['mieters'])) {
+        if (empty($data['mieters'])) {
             $data['mieters']=0;
         }
+        if (empty($data['clients'])) {
+            $data['clients']=0;
+        }
+        if (empty($data['car'])) {
+            $data['car']=0;
+        }
+
         if (isset($data['project'])) {
             $data['rel_type'] = 'project';
             $data['rel_id'] = $data['project'];
@@ -1100,6 +1121,7 @@ class Tasks_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);
+
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);

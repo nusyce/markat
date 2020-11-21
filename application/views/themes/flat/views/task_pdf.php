@@ -97,6 +97,10 @@
                 <th style="width: 100%"><strong>Mieter :</strong> ' . $task->mieter . '</th>
                  
             </tr>
+             <tr>
+                <th style="width: 100%"><strong>Straße :</strong> ' . $task->mieter_strabe_m  . '</th>
+                 
+            </tr>
         </table>';
         endif;
     $tblhtml .= '<table cellspacing="2px" style="width: 100%">

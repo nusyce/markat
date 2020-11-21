@@ -257,11 +257,15 @@ function is_client_logged_in()
  * Is staff logged in
  * @return boolean
  */
+
 function is_staff_logged_in()
 {
     return get_instance()->session->has_userdata('staff_logged_in');
 }
-
+function is_staff_need_change_password()
+{
+    return get_instance()->session->has_userdata('need_change_password');
+}
 /**
  * Return logged staff User ID from session
  * @return mixed

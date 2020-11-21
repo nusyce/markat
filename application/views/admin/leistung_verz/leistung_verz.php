@@ -43,40 +43,20 @@
                             <div class="col-md-1 delete_bereich_zone" id="">
 
                             </div>
-                            <div class="col-md-1" style="text-align: center;">
-                                <h5 ><b style="text-decoration: underline">Berechnung</b><br><p style="margin-top: 37px;">Einheit</p></h5>
-                            </div>
-                            <div class="col-md-1" style="    margin-top: 8px;">
-                                <p >Pauschat<br><font>Prozentual</font><br><p style="margin-top: 15px;">Menge</p></p>
-                            </div>
-                            <div class="col-md-1" style="margin-top: 5px;text-align: center;">
-                                <input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><p style="margin-top: 10px;">Material</p>
-                            </div>
-                            <div class="col-md-1" style="margin-top: 5px;text-align: center;">
-                                <input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><p style="margin-top: 10px;">Auto</p>
-                            </div>
-                            <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
-                                <input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><p style="margin-top: 10px;">Geräte</p>
-                            </div>
-                            <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
-                                <input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><p style="margin-top: 10px;">Preis</p>
-                            </div>
-                            <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
-                                <input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><input type="checkbox" id="scales" name="mes_intervalles[0][scales][]"><br><p style="margin-top: 10px;">G-Preis</p>
-                            </div>
+
                             </div>
                         </div>
                         <div class="leistend">
 
                         </div>
-                        <div class="row footer">
+                       <!-- <div class="row footer">
                             <div class="col-md-9">
                                 <h4>Gesamt:</h4>
                             </div>
                             <div class="col-md-3 text-center">
                                 <h3 class="summ">0</h3>
                             </div>
-                        </div>
+                        </div>-->
                         <hr style="border-top: 1px solid #eae1e1;">
                     </div>
 

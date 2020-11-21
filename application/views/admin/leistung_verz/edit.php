@@ -47,41 +47,57 @@
                                             <a href="#" class="btn btn-danger remove_bereich" ><i class="fa fa-times" aria-hidden="true"></i></a>
                                         <?php }?>
                                     </div>
-                                    <div class="col-md-1" style="text-align: center;">
-                                        <h5><b style="text-decoration: underline">Berechnung</b><br><p style="margin-top: 37px;">Einheit</p></h5>
-                                    </div>
-                                    <div class="col-md-1" style="    margin-top: 8px;">
-                                        <p>Pauschat<br><font>Prozentual</font><br></p><p style="margin-top: 15px;">Menge</p><p></p>
-                                    </div>
-                                    <div class="col-md-1" style="margin-top: 5px;text-align: center;">
-                                        <input type="checkbox" id="scales" <?php if ($my_item['scales'][0] == 'on') echo 'checked'; ?> name="mes_intervalles[<?php echo $i;?>][scales][]"><br><input <?php if ($my_item['scales'][1] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?php echo $i;?>][scales][]"><br><p style="margin-top: 10px;">Material</p>
-                                    </div>
-                                    <div class="col-md-1" style="margin-top: 5px;text-align: center;">
-                                        <input type="checkbox" id="scales" <?php if ($my_item['scales'][2] == 'on') echo 'checked'; ?> name="mes_intervalles[<?php echo $i;?>][scales][]"><br><input <?php if ($my_item['scales'][3] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?php echo $i;?>][scales][]"><br><p style="margin-top: 10px;">Auto</p>
-                                    </div>
-                                    <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
-                                        <input type="checkbox" id="scales" <?php if ($my_item['scales'][4] == 'on') echo 'checked'; ?> name="mes_intervalles[<?php echo $i;?>][scales][]"><br><input <?php if ($my_item['scales'][5] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?php echo $i;?>][scales][]"><br><p style="margin-top: 10px;">Geräte</p>
-                                    </div>
-                                    <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
-                                        <input type="checkbox" id="scales" <?php if ($my_item['scales'][6] == 'on') echo 'checked'; ?> name="mes_intervalles[<?php echo $i;?>][scales][]"><br><input <?php if ($my_item['scales'][7] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?php echo $i;?>][scales][]"><br><p style="margin-top: 10px;">Preis</p>
-                                    </div>
-                                    <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
-                                        <input type="checkbox" id="scales" <?php if ($my_item['scales'][8] == 'on') echo 'checked'; ?> name="mes_intervalles[<?php echo $i;?>][scales][]"><br><input <?php if ($my_item['scales'][9] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?php echo $i;?>][scales][]"><br><p style="margin-top: 10px;">G-Preis</p>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="leistend">
                                 <?php $k=0; foreach ($my_item['item'] as $my_item_item){ ?>
                                     <div class="row item_leist">
                                         <div class="col-md-4">
-                                            <a id="edit_menu" href="#"><i class="fa fa-pencil"></i></a>
-                                            <span><?= $my_item_item['name'];?></span><br><select class="mes_int" style="font-size: 13px;" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][interval]" id="intervalles">
+                                        </div>
+                                        <div class="col-md-1 display-flex no-mbutton">
+                                        </div>
+                                        <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Einheit</b></h5></div><b style="text-decoration: underline">
+                                            <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Menge</b></h5></div><b style="text-decoration: underline">
+                                                <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Material</b></h5></div><b style="text-decoration: underline">
+                                                    <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Auto</b></h5></div><b style="text-decoration: underline">
+                                                        <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Geräte</b></h5></div><b style="text-decoration: underline">
+                                                            <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Preis</b></h5></div><b style="text-decoration: underline">
+                                                                <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">G-Preis</b></h5></div><b style="text-decoration: underline">
+                                                                    <div class="col-md-5" style="text-align: center;"> </div>
+                                                                    <div class="col-md-1" style="text-align: center;"> <h5><b style="text-decoration: underline">Berechnung</b></h5>
+                                                                    </div>
+                                                                    <div class="col-md-1" style="    margin-top: 8px;">
+                                                                        <p>Pauschat<br><font>Prozentual</font></p>
+                                                                    </div>
+
+                                                                    <div class="col-md-1" style="margin-top: 5px;text-align: center;">
+                                                                        <input class="mes_scales" type="checkbox" id="scales" <?php if ($my_item_item['scales'][0] == 'on') echo 'checked'; ?> name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]"><br><input class="mes_scales" <?php if ($my_item_item['scales'][1] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]">
+                                                                    </div>
+                                                                    <div class="col-md-1" style="margin-top: 5px;text-align: center;">
+                                                                        <input class="mes_scales" type="checkbox" <?php if ($my_item_item['scales'][2] == 'on') echo 'checked'; ?> id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]"><br><input class="mes_scales" <?php if ($my_item_item['scales'][3] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]">
+                                                                    </div>
+                                                                    <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
+                                                                        <input class="mes_scales" type="checkbox" <?php if ($my_item_item['scales'][4] == 'on') echo 'checked'; ?> id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]"><br><input class="mes_scales" <?php if ($my_item_item['scales'][5] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]">
+                                                                    </div>
+                                                                    <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
+                                                                        <input class="mes_scales" type="checkbox" id="scales" <?php if ($my_item_item['scales'][6] == 'on') echo 'checked'; ?> name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]"><br><input class="mes_scales" <?php if ($my_item_item['scales'][7] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]">
+                                                                    </div>
+                                                                    <div class="col-md-1" style="    margin-top: 5px;text-align: center;">
+                                                                        <input class="mes_scales" type="checkbox" <?php if ($my_item_item['scales'][8] == 'on') echo 'checked'; ?> id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]"><br><input class="mes_scales" <?php if ($my_item_item['scales'][9] == 'on') echo 'checked'; ?> type="checkbox" id="scales" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][scales][]">
+                                                                    </div>
+
+
+                                                                    <div class="row"></div>
+                                        <div class="col-md-4">
+
+                                            <span><?= $my_item_item['name'];?></span><br><select class="mes_int mes_ints" style="font-size: 13px;" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][interval]" id="intervalles">
                                                 <?php foreach ($unit as $unity){ ;?>
                                                     <option <?php if ($my_item_item['interval'] == $unity['id']) echo 'selected'; ?> value="<?=$unity['id'] ?>"><?=$unity['name'] ?></option>
                                                 <?php }?>
 
                                             </select>
-                                            <input type="hidden" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][name]" class="form-control" value="<?= $my_item_item['name'];?>">
+                                            <input type="hidden" name="mes_intervalles[<?= $i;?>][item][<?= $k;?>][name]" class="form-control mes_names" value="<?= $my_item_item['name'];?>">
                                         </div>
                                         <div class="col-md-1 display-flex no-mbutton">
                                             <a href="#" class="btn btn-danger remove_item"><i class="fa fa-times" aria-hidden="true"></i>
@@ -121,14 +137,14 @@
                                     </div>
                                     <?php $k++; }?>
                             </div>
-                            <div class="row footer">
+                            <!--<div class="row footer">
                                 <div class="col-md-9">
                                     <h4>Gesamt:</h4>
                                 </div>
                                 <div class="col-md-3 text-center">
                                     <h3 class="summ">0</h3>
                                 </div>
-                            </div>
+                            </div>-->
                             <hr style="border-top: 1px solid #eae1e1;">
                         </div>
                         <?php $i++; }?>

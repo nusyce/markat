@@ -1209,6 +1209,7 @@
                 </div>
             </div>
             <?php echo form_close() ?>-->
+
         </div>
     </div>
 </div>
@@ -1290,7 +1291,11 @@
         $("#signature-form").attr('action', $('#checklist-form').attr('action'));
         $('#signature-modal').modal('toggle');
     }
-
+    function without_sign()
+    {
+       var url= "<?php echo admin_url('tasks/checklist/') . $task->id . '?print=1'?>";
+        window.open(url, '_blank');
+    }
     function open_modal_select_leistung(e,id)
     {
         e.preventDefault()
@@ -1310,12 +1315,67 @@
     $( document ).ready(function() {
         charge_select_leistung_verz()
     });
-    function import_leistung() {
+    function select_bereich() {
+
+
         if($('#select_leistung_verz').val()==null || $('#select_leistung_verz').val()=="")
         {
             alert_float("danger","null not allowed");
             return false;
         }
+
+
+        $.get('<?php echo admin_url('leistung_verz/get_item_leist/'); ?>'+$('#select_leistung_verz').val()).done(function (responses) {
+            respons = JSON.parse(responses);
+            $('#select_bereich_input').empty();
+            bereichs= respons.response.item;
+
+            html="";
+            for (var i = 0; i < bereichs.length; i++) {
+            html=html+'<div class="checklist relative"> <div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title=""><input name="bereich[]"  class="beich" type="checkbox" > <label for="">'+bereichs[i]['bereich']+'</label></div></div>';
+
+
+            }
+            $('#zone_to_select_bereich').html(html);
+            $('#select_bereich').modal('show');
+        }).fail(function (data) {
+
+        });
+
+    }
+    function import_leistung() {
+
+        trouver=false;
+        $('.beich').each( function () {
+            var checkbox_this = $(this);
+            if( checkbox_this.is(":checked") == true ) {
+                trouver=true;
+            }
+
+        })
+
+
+        if(trouver==false)
+        {
+            alert_float("danger","null not allowed");
+            return false;
+        }
+        $('.beich').each(function () {
+            var checkbox_this = $(this);;
+            if( checkbox_this.is(":checked") == true ) {
+                checkbox_this.attr('value','on');
+
+            } else {
+                checkbox_this.attr('value','off');
+            }
+        })
+       var input= $('input[name$="bereich[]"]');
+        beich=[];
+        for (var j = 0; j < input.length; j++) {
+            var a = input[j];
+            beich.push(a.value);
+        }
+
 
 
         $.get('<?php echo admin_url('leistung_verz/get_item_leist/'); ?>'+$('#select_leistung_verz').val()).done(function (responses) {
@@ -1330,14 +1390,18 @@
             for (var i = 0; i < bereichs.length; i++) {
                console.log(bereichs[i]);
                 var item=bereichs[i]['item'];
-                if(item != null && item != undefined)
+                if(beich[i]=="on")
                 {
-                    for (var j = 0; j < item.length; j++) {
-                        var my_item = {"description" : item[j]['name'], "bereich" : bereichs[i]['bereich']};
+                    if(item != null && item != undefined)
+                    {
+                        for (var j = 0; j < item.length; j++) {
+                            var my_item = {"description" : item[j]['name'], "bereich" : bereichs[i]['bereich']};
 
-                        description.push(my_item);
+                            description.push(my_item);
+                        }
                     }
                 }
+
 
             }
             console.log(description);
@@ -1350,8 +1414,10 @@
 
             })
             init_tasks_checklist_items(true, $('#id_task_import_leistung').val());
+            $('#select_bereich').modal('hide');
             $('#modal-select-leistung_verz').modal('hide');
             alert_float("success", "successfully imported");
+
         }).fail(function (data) {
 
         });

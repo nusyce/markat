@@ -63,6 +63,9 @@
                 <p style="text-align: center;">
                     <button onclick="signatur_check()" style="text-align: center;">weiter zur Signture
                     </button>
+                    <button onclick="without_sign()" style="text-align: center;">
+                        Fahren Sie OHNE Signatur fort
+                    </button>
                 </p>
                 <br>
             </div>
@@ -86,7 +89,8 @@
                 <select class="form-control" style="" name="select_leistung_verz"  id="select_leistung_verz">
                     <input type="hidden" id="id_task_import_leistung">
                 </select><br>
-                    <button onclick="import_leistung()" style="text-align: center;">import
+                <!--import_leistung()-->
+                    <button onclick="select_bereich()" style="text-align: center;">Aufgabe auswählen
                     </button>
 
             </div>
@@ -94,7 +98,32 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+<div class="modal fade" id="select_bereich" data-focus-on="input:first" tabindex="-1" role="dialog" style="z-index: 10022;">
+    <div class="modal-dialog modal-md" role="document" style="    width: 500px;
+   ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    Aufgabe auswählen
+                </h4>
+            </div>
+            <div class="modal-body">
 
+                <!--<select class="form-control" style="" name="select_bereich_input"  id="select_bereich_input">
+
+                </select>--><br>
+                <div id="zone_to_select_bereich"></div>
+                <div class="text-right">
+                    <button onclick="import_leistung()" type="submit" class="btn btn-info">Import</button>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Task modal view -->
 <div class="modal fade task-modal-single" id="task-modal-signature" tabindex="-1" role="dialog"
      aria-labelledby="myLargeModalLabel">

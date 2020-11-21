@@ -287,7 +287,7 @@ function render_textarea($name, $label = '', $value = '', $textarea_attrs = [], 
  * @param boolean $include_blank do you want to include the first <option> to be empty
  * @return string
  */
-function render_select($name, $options, $option_attrs = [], $label = '', $selected = '', $select_attrs = [], $form_group_attr = [], $form_group_class = '', $select_class = '', $include_blank = true)
+function render_select($name, $options, $option_attrs = [], $label = '', $selected = '', $select_attrs = [], $form_group_attr = [], $form_group_class = '', $select_class = '', $include_blank = true,$id = '')
 {
     $callback_translate = '';
     if (isset($options['callback_translate'])) {
@@ -332,7 +332,13 @@ function render_select($name, $options, $option_attrs = [], $label = '', $select
     if ($label != '') {
         $select .= '<label for="' . $name . '" class="control-label">' . _l($label, '', false) . '</label>';
     }
-    $select .= '<select id="' . $name . '" name="' . $name . '" class="selectpicker' . $select_class . '" ' . $_select_attrs . ' data-live-search="true">';
+    if($id=='')
+    {
+        $select .= '<select id="' . $name . '" name="' . $name . '" class="selectpicker' . $select_class . '" ' . $_select_attrs . ' data-live-search="true">';
+    }else{
+        $select .= '<select id="' . $id . '" name="' . $name . '" class="selectpicker' . $select_class . '" ' . $_select_attrs . ' data-live-search="true">';
+    }
+
     if ($include_blank == true) {
         $select .= '<option value=""></option>';
     }

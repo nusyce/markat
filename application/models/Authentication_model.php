@@ -299,6 +299,23 @@ class Authentication_model extends App_Model
      * @return boolean
      * Generate new password key for the user to reset the password.
      */
+    public function generate_pass_key( $staff = false)
+    {
+
+        $table = db_prefix() . 'contacts';
+        $_id = 'id';
+        if ($staff == true) {
+            $table = db_prefix() . 'staff';
+            $_id = 'staffid';
+        }
+        $new_pass_key = app_generate_hash();
+        $this->db->where($_id, get_staff_user_id());
+        $this->db->update($table, [
+            'new_pass_key'           => $new_pass_key,
+            'new_pass_key_requested' => date('Y-m-d H:i:s'),
+        ]);
+        return $new_pass_key;
+    }
     public function forgot_password($email, $staff = false)
     {
         $table = db_prefix() . 'contacts';

@@ -424,6 +424,7 @@ class Tasks extends AdminController
             redirect(admin_url('tasks'));
         }
         $task = $this->tasks_model->get($id);
+
         $signature="";
 
         if (isset($_POST['imageData']) && !empty($_POST['imageData'])) {
@@ -551,7 +552,9 @@ class Tasks extends AdminController
                     ]);
                     die;
                 }
+
                 $success = $this->tasks_model->update($data, $id);
+
                 $message = '';
                 if ($success) {
                     $message = _l('updated_successfully', _l('task'));

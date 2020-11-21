@@ -11,7 +11,7 @@
 <?php
 $my_bereich=[];
 foreach ($checklists as $list) {
-    if ($list['bereich']!="")
+    if ($list['bereich']!="" && !in_array($list['bereich'],$my_bereich))
     {
         array_push($my_bereich,$list['bereich']);
     }

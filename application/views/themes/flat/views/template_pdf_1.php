@@ -162,6 +162,12 @@
             echo '<tr>
             <td>Mieter:</td>
             <td>' . $task->mieter . '</td>
+            
+        </tr>';
+            echo '<tr>
+            <td>Straße:</td>
+            <td>' . $task->mieter_strabe_m . '</td>
+            
         </tr>';
         } ?>
         <tr>

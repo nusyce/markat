@@ -67,6 +67,12 @@ class Staff extends AdminController
                 if (!has_permission('staff', '', 'create')) {
                     access_denied('staff');
                 }
+                $result = (preg_match('/[A-Z]+/', $_POST['password']) && preg_match('/[a-z]+/', $_POST['password']) && preg_match('/[\d!$%^&]+/', $_POST['password']) && strlen($_POST['password'])>11);
+                if(!$result)
+                {
+                    set_alert("danger","Das eingegebene Passwort ist nicht sicher.");
+                    redirect(admin_url('staff/member/'));
+                }
                 $id = $this->staff_model->add($data);
                 if ($id) {
                     handle_staff_profile_image_upload($id);
