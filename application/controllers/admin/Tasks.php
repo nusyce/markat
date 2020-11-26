@@ -1186,6 +1186,29 @@ class Tasks extends AdminController
         if ($this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
             || $this->tasks_model->is_task_creator(get_staff_user_id(), $id)
             || has_permission('tasks', '', 'edit')) {
+            if($status==6)
+            {
+                $all=true;
+                $checklists = $this->tasks_model->get_checklist_items($id);
+                foreach ($checklists as $checklist)
+                {
+                    if ($checklist['finished']!=1)
+                    {
+                        $all=false;
+                    }
+                }
+                if ($all==false)
+                {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => "All Checkpoint are'nt done",
+                        'data' =>'',
+                        'taskHtml' => '',
+                    ]);
+                    exit();
+                }
+
+            }
             $success = $this->tasks_model->mark_as($status, $id);
 
             // Don't do this query if the action is not performed via task single

@@ -257,6 +257,7 @@ init_head();
 <?php require('modules/prchat/assets/module_includes/mutual_and_helper_functions.php'); ?>
     <!-- Groups Settings and initializing -->
     <script>
+
         if (localStorage.chat_theme_name) {
             $('body').addClass('chat_' + localStorage.chat_theme_name);
         }
