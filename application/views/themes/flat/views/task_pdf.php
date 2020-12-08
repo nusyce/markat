@@ -83,7 +83,7 @@
     </table>
 
 
-    <?php if ($task_tag == 'full') {
+    <?php if ($task_tag == 'full' || $task_tag == 'save_dokument_mieter') {
         $tblhtml = '<br><br><h1 >Dokumentation</h1><br>';
 
     } else {
@@ -110,7 +110,7 @@
         <tr><th colspan="3">' . $task->description . '</th> </tr>
         <tr><th style="width: 33%"><strong>Startdatum</strong></th> <th style="width: 33%"></th> <th style="width: 33%"><strong>Enddatum </strong></th> </tr>
         <tr><td  style="width: 33%">' . date('d.m.Y', strtotime($task->startdate)) . '</td> <td style="width: 33%"></td><td style="width: 33%">' . date('d.m.Y', strtotime($task->duedate)) . '</td> </tr>';
-    if ($task_tag !== 'full') {
+    if ($task_tag !== 'full' && $task_tag !== 'save_dokument_mieter') {
         $tblhtml .= '<tr><td colspan="3"><strong>Checklistpoints</strong></td></tr>';
         foreach ($task->checklist_items as $k => $ac):
             $check = $ac['finished'] ? 'check-cp.png' : 'no-check-cp.png';

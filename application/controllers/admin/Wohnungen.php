@@ -33,7 +33,59 @@ class Wohnungen extends AdminController
         $data['etage'] = $this->wohnungen_model->get_grouped('etage');
         $this->load->view('admin/wohnungen/manage', $data);
     }
+    public function reload_filter()
+    {/*
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);*/
+        $where=[];
 
+        if(!empty($_POST['hausnummer']))
+        {
+            $where['hausnummer']=$_POST['hausnummer'];
+
+        }
+        if(!empty($_POST['strabe']))
+        {
+            $where['strabe']=$_POST['strabe'];
+
+        }
+        if(!empty($_POST['wohnungsnummer']))
+        {
+            $where['wohnungsnummer']=$_POST['wohnungsnummer'];
+
+        }
+        if(!empty($_POST['flugel']))
+        {
+            $where['flugel']=$_POST['flugel'];
+
+        }
+        if(!empty($_POST['schlaplatze']))
+        {
+            $where['schlaplatze']=$_POST['schlaplatze'];
+
+        }
+        if(!empty($_POST['mobiliert']))
+        {
+            $where['mobiliert']=$_POST['mobiliert'];
+
+        }
+        if(!empty($_POST['etage']))
+        {
+            $where['etage']=$_POST['etage'];
+
+        }
+        $data['hausnummer'] = $this->wohnungen_model->get_grouped('hausnummer',$where);
+
+        $data['strabe'] = $this->wohnungen_model->get_grouped('strabe',$where);
+        $data['wohnungsnummer'] = $this->wohnungen_model->get_grouped('wohnungsnumme',$where);
+        $data['flugel'] = $this->wohnungen_model->get_grouped('flugel',$where);
+        $data['schlaplatze'] = $this->wohnungen_model->get_grouped('schlaplatze',$where);
+        $data['mobiliert'] = $this->wohnungen_model->get_grouped('mobiliert',$where);
+        $data['etage'] = $this->wohnungen_model->get_grouped('etage',$where);
+        echo json_encode($data);
+
+    }
 
     public function table($project = '')
     {

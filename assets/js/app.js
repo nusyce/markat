@@ -1026,6 +1026,7 @@ function slideToggle(selector, callback) {
 function appDatepicker(options) {
 
     if (typeof(app._date_picker_locale_configured) === 'undefined') {
+        alert(app.locale);
         jQuery.datetimepicker.setLocale(app.locale);
         app._date_picker_locale_configured = true;
     }

@@ -4,6 +4,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Staff_model extends App_Model
 {
+    public function add_urlaub($data)
+    {
+        $this->db->insert(db_prefix() . 'urlaub', $data);
+        return $this->db->insert_id();
+    }
+    public function add_fehltage($data)
+    {
+        $this->db->insert(db_prefix() . 'fehltage', $data);
+        return $this->db->insert_id();
+    }
+
     public function delete($id, $transfer_data_to)
     {
         if (!is_numeric($transfer_data_to)) {
@@ -296,12 +307,6 @@ class Staff_model extends App_Model
         return true;
     }
 
-
-    public function delete_attachment($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'files');
-    }
     /**
      * Get staff member/s
      * @param mixed $id Optional - staff id
@@ -311,6 +316,7 @@ class Staff_model extends App_Model
     public function get($id = '', $where = [], $withHidden = false)
     {
         $select_str = '*,CONCAT(firstname," ",lastname) as full_name';
+
         // Used to prevent multiple queries on logged in staff to check the total unread notifications in core/AdminController.php
         if (is_staff_logged_in() && $id != '' && $id == get_staff_user_id()) {
             $select_str .= ',(SELECT COUNT(*) FROM ' . db_prefix() . 'notifications WHERE touserid=' . get_staff_user_id() . ' and isread=0) as total_unread_notifications,role, (SELECT COUNT(*) FROM ' . db_prefix() . 'todos WHERE finished=0 AND staffid=' . get_staff_user_id() . ') as total_unfinished_todos';
@@ -396,8 +402,6 @@ class Staff_model extends App_Model
 
         $data['password'] = app_hash_password($data['password']);
         $data['datecreated'] = date('Y-m-d H:i:s');
-        $data['einstellungsbeginn'] = to_sql_date($data['einstellungsbeginn']);
-        $data['geb_datum'] = to_sql_date($data['geb_datum']);
         if (isset($data['departments'])) {
             $departments = $data['departments'];
             unset($data['departments']);

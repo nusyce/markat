@@ -99,8 +99,9 @@ class Wohnungen_model extends App_Model
 
 
     }
-    public function get_grouped($column)
+    public function get_grouped($column,$where = [])
     {
+        $this->db->where($where);
         $this->db->where($column . ' !=', '');
         $this->db->select($column);
         $this->db->group_by($column);

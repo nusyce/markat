@@ -432,7 +432,10 @@ class Tasks extends AdminController
         }
 
         try {
+
             task_pdf($task, 'checklist',$signature);
+
+
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;

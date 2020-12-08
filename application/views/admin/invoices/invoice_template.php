@@ -842,6 +842,272 @@
         <?php echo form_hidden('task_id'); ?>
         <?php echo form_hidden('expense_id'); ?>
     </div>
+    <div class="panel-body mtop10" style='background-color:#F5F5F5;'>
+        <h4 class="bold"> Zahlungskonditionen / Währung / Umsatzsteueroptionen<u><a href="#">  Verstecken</a></u>      </h4>
+
+        <div class='row'>
+            <div class='col-md-6'>
+                <div >
+                    <table class="table text-left" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr >
+                            <td>
+                                <label class='control-label'>Skonto </label>
+                            </td>
+                            <td >
+                                <div class="">
+                                    <div class="input-group" id="discount-total">
+
+                                        <input type="number"
+                                               value="<?php echo(isset($invoice) ? $invoice->discount_percent : 0); ?>"
+                                               class="form-control pull-left input-discount-percent<?php if (isset($invoice) && !is_sale_discount($invoice, 'percent') && is_sale_discount_applied($invoice)) {
+                                                   echo ' hide';
+                                               } ?>" min="0" max="100" name="discount_percent">
+
+
+                                        <div class="input-group-addon">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                      <span class="discount-total-type-selected">
+                                         %
+                                      </span>
+
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td >
+                                <div class="">
+                                    <div class="input-group" id="discount-total">
+
+                                        <input type="number"
+                                               value=""
+                                               class="form-control pull-left input-discount-percent<?php if (isset($invoice) && !is_sale_discount($invoice, 'percent') && is_sale_discount_applied($invoice)) {
+                                                   echo ' hide';
+                                               } ?>" min="0" max="100" name="discount_percent">
+
+
+                                        <div class="input-group-addon">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                      <span class="discount-total-type-selected">
+                                       Tage
+                                      </span>
+
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td >
+                            </td>
+
+
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <label class='control-label'>Rabatt</label>
+                            </td>
+                            <td colspan="3">
+                                <input type="text" name="name" class="form-control" />
+                            </td>
+
+
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Falligkeit</label>
+                            </td>
+                            <td >
+                                <div class="">
+                                    <div class="input-group" id="discount-total">
+
+                                        <input type="number"
+                                               value=""
+                                               class="form-control pull-left input-discount-percent<?php if (isset($invoice) && !is_sale_discount($invoice, 'percent') && is_sale_discount_applied($invoice)) {
+                                                   echo ' hide';
+                                               } ?>" min="0" max="100" name="discount_percent">
+
+
+                                        <div class="input-group-addon">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                      <span class="discount-total-type-selected">
+                                       Tage
+                                      </span>
+
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                <?php echo render_date_input('date', ''); ?>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                Währung
+                            </td>
+                            <td colspan="3" >
+                                <select name="select2" class="form-control">
+                                    <option value="">EUR(Euro)</option>
+                                </select>
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Umsatzsteueroption
+                            </td>
+
+                            <td colspan="3">
+                                <select name="select" class="form-control">
+                                    <option value="">Umsatzsteuerpflichtig</option>
+                                </select>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <div >
+                <table class="table text-left" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td style="width: 50px;">Versandland</td>
+                        <td colspan="3">
+                            <select name="select" class="form-control">
+
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">Versandzielland</td>
+                        <td colspan="3">
+                            <select name="select" class="form-control">
+
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">Steuerland</td>
+                        <td colspan="3">
+                            <select name="select" class="form-control">
+
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">Bestellnummer</td>
+                        <td colspan="3">
+                            <select name="select" class="form-control">
+
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">Referendz des Kaufers</td>
+                        <td colspan="3">
+                            <select name="select" class="form-control">
+
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">Externe ID</td>
+                        <td colspan="3">
+                            <select name="select" class="form-control">
+
+                            </select>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body mtop10" style="border-style: dotted;">
+        <h4><i class="fa fa-paperclip" aria-hidden="true"></i>AGB und sonstige Anhange</h4>
+        <h4>
+            <br/>
+            <div style="display: inline-block;">
+                <div style="width: 30px;display: inline-block;"> <div  class="mieter-form-drop-zone2">
+                        <div class="dz-message" data-dz-message><span> <label for="file-upload1" class="custom-file-upload">
+      <i class="fa fa-paperclip" aria-hidden="true"></i>
+</label></span></div>
+                        <div class="dropzone-previews mtop25"></div>
+                    </div></div>
+
+                <div style="width: 30px;display: inline-block;"> <div  class="">
+                        <div class="dz-message" data-dz-message><span> <label for="file-upload2" class="custom-file-upload">
+      <i class="fa fa-upload" aria-hidden="true"></i>
+</label></span></div></div>
+            </div>
+            <!-- <form action="/file-upload" class="dropzone" id="my-awesome-dropzone"> -->
+
+
+
+
+
+
+
+            <!-- </form> -->
+
+
+            <a href="#"> Standard Anhange fur Rechnung festlegen</a></h4>
+        <?php
+                        echo form_open($this->uri->uri_string(), array('class' => 'dropzone zone-dsd', 'id' => 'mieter-form'));?>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#" class="btn btn-default add-post-attachments">
+                    <i data-toggle="tooltip" title="<?php echo _l('newsfeed_upload_tooltip'); ?>"
+                       class="fa fa-files-o"></i></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="mieter-form-drop-zone">
+                <div class="dz-message" data-dz-message><span></span></div>
+                <div class="dropzone-previews mtop25"></div>
+            </div>
+        </div>
+
+        <?php
+        echo form_close(); ?>
+
+    </div>
 
     <div class="row">
         <div class="col-md-12 mtop15">
@@ -888,3 +1154,7 @@
         </div>
     </div>
 </div>
+<?php init_tail(); ?>
+<script>
+
+</script>

@@ -40,24 +40,7 @@
                                         <?php echo render_input('email', get_transl_field('tsl_staff', 'email','Email'),  get_transl_field('tsl_staff', 'email','Email'));?>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
 
-                                        <?php echo render_input('postleitzahl', get_transl_field('tsl_staff', 'postleitzahl','Postleitzahl'),  get_transl_field('tsl_staff', 'postleitzahl','Postleitzahl'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('urlaub_von_bis', get_transl_field('tsl_staff', 'urlaub_von_bis','Urlaub von bis'), get_transl_field('tsl_staff', 'urlaub_von_bis','Urlaub von bis'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('unentsshuldigtes_fehlen', get_transl_field('tsl_staff', 'unentsshuldigtes_fehlen','Unentsshuldigtes fehlen'), get_transl_field('tsl_staff', 'unentsshuldigtes_fehlen','Unentsshuldigtes fehlen'));?>
-                                    </div>
-                                </div>
 
 
                             </div>
@@ -88,24 +71,6 @@
                                     <div class="col-md-12">
 
                                         <?php echo render_input('aktiv', get_transl_field('tsl_staff', 'aktiv','Aktiv'), get_transl_field('tsl_staff', 'aktiv','Aktiv'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('geb_datum', get_transl_field('tsl_staff', 'geb_datum','Geb datum'), get_transl_field('tsl_staff', 'geb_datum','Geb datum'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('steuenummer', get_transl_field('tsl_staff', 'steuenummer','Steuenummer'), get_transl_field('tsl_staff', 'steuenummer','Steuenummer'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('sv_nr', get_transl_field('tsl_staff', 'sv_nr','SV Nr'), get_transl_field('tsl_staff', 'sv_nr','SV Nr'));?>
                                     </div>
                                 </div>
 
@@ -141,18 +106,6 @@
                                         <?php echo render_input('projekte',get_transl_field('tsl_staff', 'projekte','Projekte'), get_transl_field('tsl_staff', 'projekte','Projekte'));?>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('strasse',get_transl_field('tsl_staff', 'strasse','Stra�e'), get_transl_field('tsl_staff', 'strasse','Stra�e'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('steuerklasse',get_transl_field('tsl_staff', 'steuerklasse','Steuerklasse'), get_transl_field('tsl_staff', 'steuerklasse','Steuerklasse'));?>
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -183,18 +136,6 @@
                                     <div class="col-md-12">
 
                                         <?php echo render_input('passwort',get_transl_field('tsl_staff', 'passwort','Passwort'), get_transl_field('tsl_staff', 'passwort','Passwort'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('bewerbung',get_transl_field('tsl_staff', 'bewerbung','Bewerbung'), get_transl_field('tsl_staff', 'bewerbung','Bewerbung'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('ausweis',get_transl_field('tsl_staff', 'ausweis','Ausweis'), get_transl_field('tsl_staff', 'ausweis','Ausweis'));?>
                                     </div>
                                 </div>
 
@@ -230,18 +171,6 @@
                                         <?php echo render_input('willkommens_e_mail_senden',get_transl_field('tsl_staff', 'willkommens_e_mail_senden','Willkommens-E-Mail senden'), get_transl_field('tsl_staff', 'willkommens_e_mail_senden','Willkommens-E-Mail senden'));?>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('einstellungsbeginn',get_transl_field('tsl_staff', 'einstellungsbeginn','Einstellungsbeginn'), get_transl_field('tsl_staff', 'einstellungsbeginn','Einstellungsbeginn'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('entschuldigtes_fehlenn',get_transl_field('tsl_staff', 'entschuldigtes_fehlenn','Entschuldigtes fehlenn'), get_transl_field('tsl_staff', 'entschuldigtes_fehlenn','Entschuldigtes fehlenn'));?>
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -274,18 +203,6 @@
                                     <div class="col-md-12">
 
                                         <?php echo render_input('willkommens_e_mail_senden',get_transl_field('tsl_staff', 'willkommens_e_mail_senden','Willkommens-E-Mail senden'), get_transl_field('tsl_staff', 'willkommens_e_mail_senden','Willkommens-E-Mail senden'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('hausnummer',get_transl_field('tsl_staff', 'hausnummer','Hausnummer'), get_transl_field('tsl_staff', 'hausnummer','Hausnummer'));?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <?php echo render_input('ort',get_transl_field('tsl_staff', 'ort','Ort'), get_transl_field('tsl_staff', 'ort','Ort'));?>
                                     </div>
                                 </div>
 

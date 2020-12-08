@@ -111,6 +111,7 @@ foreach ($rResult as $aRow) {
     $row[] = $_data;
     $row[] = $aRow['phonenumber'];
     $row[] = $aRow['last_login'];
+    $checked = '';
     if ($aRow['active'] == 1) {
         $checked = 'checked';
     }

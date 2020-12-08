@@ -17,24 +17,67 @@ class Staff extends AdminController
         $data['title'] = _l('staff_members');
         $this->load->view('admin/staff/manage', $data);
     }
-
-    public function translation()
+    public function addurlaub()
     {
+
         if ($this->input->post()) {
-            $success = save_transl('tsl_staff', $this->input->post());
-            if ($success)
-                set_alert('success', _l('updated_successfully', get_menu_option('staff', 'Translation')));
-            redirect(admin_url('staff/translation'));
+
+            $data=[];
+            $data['datestart']=to_sql_date($this->input->post('datestart'));
+            $data['dateend']=to_sql_date($this->input->post('dateend'));
+            $data['text']=$this->input->post('text');
+            $success = false;
+            $message='';
+            $id = $this->staff_model->add_urlaub($data);
+
+            if ($id)
+            {
+                $success = true;
+                $message = _l('added_successfully', _l('urlaub'));
+            }
+            echo json_encode([
+                'success' => $success,
+                'message' => $message,
+            ]);
+            die;
 
         }
+    }
+    public function addfehltage()
+    {
 
+        if ($this->input->post()) {
 
-        $data['title'] = _l('Translate');
-        $data['bodyclass'] = '';
-        $this->load->view('admin/staff/translation', $data);
+            $data=[];
+            $data['datestart']=to_sql_date($this->input->post('datestart'));
+            $data['dateend']=to_sql_date($this->input->post('dateend'));
+            $data['text']=$this->input->post('text');
+            $success = false;
+            $message='';
+            $id = $this->staff_model->add_fehltage($data);
+
+            if ($id)
+            {
+                $success = true;
+                $message = _l('added_successfully', _l('fehltage'));
+            }
+            echo json_encode([
+                'success' => $success,
+                'message' => $message,
+            ]);
+            die;
+
+        }
     }
 
-
+    public function table_urlaub()
+    {
+        $this->app->get_table_data('urlaub', []);
+    }
+    public function table_fehltage()
+    {
+        $this->app->get_table_data('fehltage', []);
+    }
     public function table($project)
     {
         $this->app->get_table_data('staff', ['project' => $project]);
@@ -66,12 +109,6 @@ class Staff extends AdminController
             if ($id == '') {
                 if (!has_permission('staff', '', 'create')) {
                     access_denied('staff');
-                }
-                $result = (preg_match('/[A-Z]+/', $_POST['password']) && preg_match('/[a-z]+/', $_POST['password']) && preg_match('/[\d!$%^&]+/', $_POST['password']) && strlen($_POST['password'])>11);
-                if(!$result)
-                {
-                    set_alert("danger","Das eingegebene Passwort ist nicht sicher.");
-                    redirect(admin_url('staff/member/'));
                 }
                 $id = $this->staff_model->add($data);
                 if ($id) {
@@ -112,8 +149,6 @@ class Staff extends AdminController
             }
             $data['member'] = $member;
             $title = $member->firstname . ' ' . $member->lastname;
-            $this->load->model('dokument_model');
-            $member->attachments = $this->dokument_model->get_attachments($id);
             $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
 
             $ts_filter_data = [];
@@ -142,6 +177,23 @@ class Staff extends AdminController
         $this->load->view('admin/staff/member', $data);
     }
 
+    public function translation()
+    {
+        if ($this->input->post()) {
+            $success = save_transl('tsl_staff', $this->input->post());
+            if ($success)
+                set_alert('success', _l('updated_successfully', get_menu_option('staff', 'Translation')));
+            redirect(admin_url('staff/translation'));
+
+        }
+
+
+        $data['title'] = _l('Translate');
+        $data['bodyclass'] = '';
+        $this->load->view('admin/staff/translation', $data);
+    }
+
+
     /* Get role permission for specific role id */
     public function role_changed($id)
     {
@@ -151,13 +203,6 @@ class Staff extends AdminController
 
         echo json_encode($this->roles_model->get($id)->permissions);
     }
-
-    public function delete_attach($id)
-    {
-        $this->staff_model->delete_attachment($id);
-        echo 1;
-    }
-
 
     public function save_dashboard_widgets_order()
     {
@@ -319,8 +364,6 @@ class Staff extends AdminController
             redirect(admin_url('staff/member/' . $staff_id));
         }
     }
-
-
     public function remove_staff_profile_doc($staff_id = '', $type)
     {
         $this->db->where('staffid', $staff_id);
@@ -331,6 +374,7 @@ class Staff extends AdminController
         redirect(admin_url('staff/member/' . $staff_id));
 
     }
+
 
     /* When staff change his password */
     public function change_password_profile()
@@ -381,9 +425,11 @@ class Staff extends AdminController
     /* Change status to staff active or inactive / ajax */
     public function change_staff_status($id, $status)
     {
+
         if (has_permission('staff', '', 'edit')) {
             if ($this->input->is_ajax_request()) {
-                $this->staff_model->change_staff_status($id, $status);
+               $this->staff_model->change_staff_status($id, $status);
+
             }
         }
     }

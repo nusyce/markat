@@ -257,7 +257,98 @@ foreach ($aqs as $aq):
 endforeach;
 ?>
 <script>
+
     $(function () {
+        $('.leads-filter-column select').change(function (e) {
+            var formData = new FormData();
+            var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>',
+                csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+            formData.append('csrf_token_name', csrfHash);
+            $( ".leads-filter-column select" ).each(function( index ) {
+
+                formData.append($( this ).attr('name'), $( this ).val());
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: admin_url+'wohnungen/reload_filter',
+               data: formData,
+                processData: false,
+                contentType: false
+            }).done(function(response){
+                var values=JSON.parse(response);
+                $( ".leads-filter-column select" ).each(function( index ) {
+                    select_value = $( this ).val();
+                    $( this ).empty();
+                    $( this ).append(new Option('', ''));
+                    if($( this ).attr('name')=="hausnummer")
+                    {
+                        vals=values.hausnummer;
+                        for (i = 0; i < vals.length; i++) {
+                            $( this ).append(new Option(vals[i].hausnummer, vals[i].hausnummer));
+                        }
+                    }
+                    if($( this ).attr('name')=="strabe")
+                    {
+                        vals=values.strabe;
+                        for (i = 0; i < vals.length; i++) {
+                            $( this ).append(new Option(vals[i].strabe, vals[i].strabe));
+                        }
+                    }
+                    if($( this ).attr('name')=="etage")
+                    {
+                        vals=values.etage;
+                        for (i = 0; i < vals.length; i++) {
+                            $( this ).append(new Option(vals[i].etage, vals[i].etage));
+                        }
+                    }
+                    if($( this ).attr('name')=="flugel")
+                    {
+                        vals=values.flugel;
+                        for (i = 0; i < vals.length; i++) {
+                            $( this ).append(new Option(vals[i].flugel, vals[i].flugel));
+                        }
+                    }
+                    if($( this ).attr('name')=="mobiliert")
+                    {
+                        vals=values.mobiliert;
+                        for (i = 0; i < vals.length; i++) {
+                            if(vals[i].mobiliert==-1)
+                            {
+                                $( this ).append(new Option('Nein', vals[i].mobiliert));
+                            }else
+                            {
+                                $( this ).append(new Option('Ja', vals[i].mobiliert));
+                            }
+
+                        }
+                    }
+                    if($( this ).attr('name')=="schlaplatze")
+                    {
+                        vals=values.schlaplatze;
+                        for (i = 0; i < vals.length; i++) {
+                            $( this ).append(new Option(vals[i].schlaplatze, vals[i].schlaplatze));
+                        }
+                    }
+                    if($( this ).attr('name')=="wohnungsnummer")
+                    {
+                        vals=values.wohnungsnummer;
+                        for (i = 0; i < vals.length; i++) {
+                            $( this ).append(new Option(vals[i].wohnungsnummer, vals[i].wohnungsnummer));
+                        }
+                    }
+                    $( this ).val(select_value)
+                    $( this ).selectpicker('refresh');
+                });
+
+
+
+            }).fail(function(error){
+
+            });
+
+
+        })
         $('#switchbtn').click(function (e) {
             e.preventDefault();
             if ($(this).hasClass('list')) {
